@@ -1,0 +1,75 @@
+{
+  "name": "Create Booking From Chat",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "bookings-create-from-chat",
+        "httpMethod": "POST",
+        "responseMode": "onReceived"
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 220]
+    },
+    {
+      "parameters": {
+        "functionCode": "const payload = $json;\nif(!payload.customer_id || !payload.service_id || !payload.start_at) throw new Error('missing required');\nreturn [{ json: payload }];"
+      },
+      "name": "Validate",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [520, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/bookings",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"clinic_id\": \"00000000-0000-0000-0000-000000000001\",\n  \"branch_id\": $json.branch_id || null,\n  \"customer_id\": $json.customer_id,\n  \"service_id\": $json.service_id,\n  \"doctor_id\": $json.doctor_id || null,\n  \"start_at\": $json.start_at,\n  \"end_at\": $json.end_at || null,\n  \"status\": $json.status || 'confirmed'\n}"
+      },
+      "name": "Create Booking",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [820, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/reminders",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "=[ \n  { \n    \"clinic_id\": \"00000000-0000-0000-0000-000000000001\",\n    \"booking_id\": $node['Create Booking'].json[0].id,\n    \"customer_id\": $json.customer_id,\n    \"template_key\": \"appointment_24h\",\n    \"template_message\": \"تذكير: لديك موعد غداً الساعة {{time}}\",\n    \"send_at\": (new Date(Date.parse($json.start_at) - 24*60*60*1000)).toISOString()\n  },\n  { \n    \"clinic_id\": \"00000000-0000-0000-0000-000000000001\",\n    \"booking_id\": $node['Create Booking'].json[0].id,\n    \"customer_id\": $json.customer_id,\n    \"template_key\": \"appointment_2h\",\n    \"template_message\": \"تذكير: موعدك بعد ساعتين الساعة {{time}}\",\n    \"send_at\": (new Date(Date.parse($json.start_at) - 2*60*60*1000)).toISOString()\n  } ]"
+      },
+      "name": "Create Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1120, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.APP_URL}}/api/whatsapp/send-message",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"to\": $json.phone || null,\n  \"message\": \"تم تأكيد حجزك بتاريخ {{date}} الساعة {{time}}.\"\n}"
+      },
+      "name": "Send Confirmation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1400, 220]
+    },
+    {
+      "parameters": {
+        "responseData": "={{ { ok: true, booking: $node['Create Booking'].json[0] } }}"
+      },
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1680, 220]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[ { "node": "Validate" } ]] },
+    "Validate": { "main": [[ { "node": "Create Booking" } ]] },
+    "Create Booking": { "main": [[ { "node": "Create Reminders" }, { "node": "Send Confirmation" }, { "node": "Respond" } ]] }
+  }
+}

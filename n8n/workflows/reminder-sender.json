@@ -1,0 +1,72 @@
+{
+  "name": "Reminder Sender",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": [
+          {
+            "mode": "every",
+            "hour": "*",
+            "minute": "*/5"
+          }
+        ]
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [200, 240]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/reminders?status=eq.pending&send_at=lte.now",
+        "method": "GET",
+        "options": {},
+        "responseFormat": "json",
+        "headerParametersJson": "={ \n  \"apikey\": \"{{$env.SUPABASE_SERVICE_ROLE_KEY}}\",\n  \"Authorization\": \"Bearer {{$env.SUPABASE_SERVICE_ROLE_KEY}}\"\n}"
+      },
+      "name": "Query Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [480, 240]
+    },
+    {
+      "parameters": {
+        "batchSize": 10
+      },
+      "name": "Split",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [760, 240]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.APP_URL}}/api/whatsapp/send-message",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"to\": $json.customer_phone,\n  \"message\": $json.template_message\n}"
+      },
+      "name": "Send WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1040, 240]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/reminders?id=eq.{{$json.id}}",
+        "method": "PATCH",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"status\": \"sent\",\n  \"updated_at\": (new Date()).toISOString()\n}"
+      },
+      "name": "Mark Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1320, 240]
+    }
+  ],
+  "connections": {
+    "Cron": { "main": [[ { "node": "Query Reminders" } ]] },
+    "Query Reminders": { "main": [[ { "node": "Split" } ]] },
+    "Split": { "main": [[ { "node": "Send WhatsApp" } ]] },
+    "Send WhatsApp": { "main": [[ { "node": "Mark Sent" } ]] }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "name": "WhatsApp Ingest & CRM Upsert",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "whatsapp",
+        "httpMethod": "POST",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "const body = $json;\n// Normalize common Whatsapp payload shapes\nconst from = body?.contacts?.[0]?.wa_id || body?.messages?.[0]?.from || body?.from || body?.sender;\nconst text = body?.messages?.[0]?.text?.body || body?.text?.body || body?.message || body?.body || '';\nconst name = body?.contacts?.[0]?.profile?.name || body?.contacts?.[0]?.name || null;\nreturn [{ json: { raw: body, phone: from, text, name } }];"
+      },
+      "name": "Normalize",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/rpc/upsert_customer_by_phone",
+        "options": {},
+        "responseFormat": "json",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"clinic_id\": \"00000000-0000-0000-0000-000000000001\",\n  \"phone\": $json.phone,\n  \"name\": $json.name\n}"
+      },
+      "name": "Upsert Customer (RPC)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [820, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/conversations",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"clinic_id\": \"00000000-0000-0000-0000-000000000001\",\n  \"customer_id\": $node['Upsert Customer (RPC)'].json[0].id,\n  \"channel\": \"whatsapp\",\n  \"external_id\": $json.raw?.messages?.[0]?.id || md5($json.phone),\n  \"last_message\": $json.text\n}"
+      },
+      "name": "Create/Update Conversation",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1100, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/messages",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"conversation_id\": $node['Create/Update Conversation'].json[0].id,\n  \"customer_id\": $node['Upsert Customer (RPC)'].json[0].id,\n  \"direction\": \"inbound\",\n  \"body\": $json.text\n}"
+      },
+      "name": "Insert Message",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1350, 220]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "temperature": 0.0,
+        "top_p": 1,
+        "max_tokens": 500,
+        "systemPrompt": "You are Clinic AI assistant for Saudi clinics. Language: Arabic-first. Behavior rules: Be polite and concise; never give medical advice or treatment; escalate emergencies; detect intent: booking, cancel, angry, faq, cold_lead. Output JSON: {\\\"intent\\\":\\\"booking|cancel|angry|faq|cold_lead|other\\\",\\\"confidence\\\":0.0,\\\"action\\\":\\\"suggest_booking|escalate|ask_question|none\\\"}"
+      },
+      "name": "OpenAI Intent",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [1600, 220]
+    },
+    {
+      "parameters": {
+        "functionCode": "// map ai output to conversation update payload\nconst ai = $node['OpenAI Intent'].json;\nlet parsed = {}\ntry { parsed = typeof ai === 'string' ? JSON.parse(ai) : ai; } catch(e){ parsed = ai; }\nconst tags = parsed.intent ? [parsed.intent] : [];\nreturn [{ json: { conversation_id: $node['Create/Update Conversation'].json[0].id, ai: parsed, tags } }];"
+      },
+      "name": "Map AI",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1860, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/conversations?id=eq.{{$json.conversation_id}}",
+        "method": "PATCH",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"tags\": array_cat(tags, $json.tags)\n}"
+      },
+      "name": "Update Conversation Tags",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [2120, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/ai_logs",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"clinic_id\": \"00000000-0000-0000-0000-000000000001\",\n  \"conversation_id\": $json.conversation_id,\n  \"user_input\": $json.raw?.messages?.[0]?.text?.body || $json.raw?.text?.body || $json.text,\n  \"ai_response\": $node['OpenAI Intent'].json,\n  \"action\": $node['Map AI'].json.0.ai.action || null,\n  \"confidence\": $node['Map AI'].json.0.ai.confidence || null\n}"
+      },
+      "name": "Save AI Log",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [2400, 220]
+    },
+    {
+      "parameters": {
+        "functionCode": "// decide if human needed\nconst ai = $node['Map AI'].json[0].ai || {};\nconst humanNeeded = ai.intent === 'angry' || ai.action === 'escalate' || (ai.intent === 'booking' && ai.confidence < 0.6);\nreturn [{ json: { conversation_id: $node['Create/Update Conversation'].json[0].id, humanNeeded } }];"
+      },
+      "name": "Decide Human Needed",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2640, 220]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/conversations?id=eq.{{$json.conversation_id}}",
+        "method": "PATCH",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"human_needed\": $json.humanNeeded\n}"
+      },
+      "name": "Set Human Needed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [2880, 220]
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[ { "node": "Normalize", "type": "main", "index": 0 } ]] },
+    "Normalize": { "main": [[ { "node": "Upsert Customer (RPC)", "type": "main", "index": 0 } ]] },
+    "Upsert Customer (RPC)": { "main": [[ { "node": "Create/Update Conversation", "type": "main", "index": 0 } ]] },
+    "Create/Update Conversation": { "main": [[ { "node": "Insert Message", "type": "main", "index": 0 } ]] },
+    "Insert Message": { "main": [[ { "node": "OpenAI Intent", "type": "main", "index": 0 } ]] },
+    "OpenAI Intent": { "main": [[ { "node": "Map AI", "type": "main", "index": 0 } ]] },
+    "Map AI": { "main": [[ { "node": "Update Conversation Tags", "type": "main", "index": 0 } ], [ { "node": "Save AI Log", "type": "main", "index": 0 } ], [ { "node": "Decide Human Needed", "type": "main", "index": 0 } ]] },
+    "Decide Human Needed": { "main": [[ { "node": "Set Human Needed", "type": "main", "index": 0 } ]] }
+  }
+}

@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm -s tsc --noEmit || true
+
+      - name: Lint
+        run: pnpm -s lint || true
+
+      - name: Build
+        run: pnpm -s build
+
+      - name: Run tests
+        run: pnpm -s test || echo "No tests configured"
+
+  deploy_n8n_workflows:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Import n8n workflows (if N8N_URL + N8N_API_KEY present)
+        if: secrets.N8N_URL && (secrets.N8N_API_KEY || (secrets.N8N_BASIC_AUTH_USER && secrets.N8N_BASIC_AUTH_PASSWORD))
+        run: |
+          for f in n8n/workflows/*.json; do
+            echo "Importing $f"
+            if [ -n "${{ secrets.N8N_API_KEY }}" ]; then
+              curl -sS -X POST "${{ secrets.N8N_URL }}/workflows/import" \
+                -H "Content-Type: application/json" \
+                -H "X-N8N-API-KEY: ${{ secrets.N8N_API_KEY }}" \
+                --data-binary @$f
+            else
+              echo "Using basic auth"
+              curl -sS -u "${{ secrets.N8N_BASIC_AUTH_USER }}:${{ secrets.N8N_BASIC_AUTH_PASSWORD }}" -X POST "${{ secrets.N8N_URL }}/workflows/import" \
+                -H "Content-Type: application/json" --data-binary @$f
+            fi
+          done

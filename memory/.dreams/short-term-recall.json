@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-16T03:46:38.563Z",
+  "entries": {
+    "memory:memory/2026-04-25.md:11:15": {
+      "key": "memory:memory/2026-04-25.md:11:15",
+      "path": "memory/2026-04-25.md",
+      "startLine": 11,
+      "endLine": 15,
+      "source": "memory",
+      "snippet": "* GitHub paused all new Copilot Subscriptions (Pro, Pro+, Student) on April 20, 2026, due to compute throttling, and removed Claude Opus models from the Pro tier. Existing individual plans face tighter usage limits. * Google released a massive update to Jules at Cloud Next 2026 (April), turning it into a proactive AI partner with \"Suggested Tasks\" (auto-fixes `// TODO:` comments), \"Scheduled Tasks\" (auto-dependency updates), and \"Render Integration\" (self-healing failed deployments by reading logs and opening fix PRs). * Finalized a new Multi-Agent Build Pipeline combining local OpenClaw sub-agents for scaffolding (to bypass GitHub limits) and reserving GitHub Copil",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.4987086435831813,
+      "maxScore": 0.4987086435831813,
+      "firstRecalledAt": "2026-05-03T10:17:08.838Z",
+      "lastRecalledAt": "2026-05-03T10:17:08.838Z",
+      "queryHashes": [
+        "8f99e21dfc56"
+      ],
+      "recallDays": [
+        "2026-05-03"
+      ],
+      "conceptTags": [
+        "auto-fixes",
+        "auto-dependency",
+        "self-healing",
+        "multi-agent",
+        "sub-agents",
+        "github",
+        "paused",
+        "all"
+      ]
+    },
+    "memory:memory/2026-05-09.md:1:19": {
+      "key": "memory:memory/2026-05-09.md:1:19",
+      "path": "memory/2026-05-09.md",
+      "startLine": 1,
+      "endLine": 19,
+      "source": "memory",
+      "snippet": "# 2026-05-09 - Continued work in `projects/dating-ai` on branch `feat/tinder-ai-task-3-ai-adapter` for the Tinder-first AI browser extension. - Completed and verified the active-chat estimation slice for AutoPilot: - added lightweight `estimateActiveChats(...)` - wired estimate into the sniper path before `runSniper(...)` - fixed settings-key stability so optional fields do not leak literal `\"undefined\"` - Added a lightweight integration-style AutoPilot handoff test by extracting async scheduling logic into `apps/extension/src/app/content/scheduler.ts`. - Verified the extension after the new slices: - focused extension tests passed: `19/19` - root monorepo tests passed - focused",
+      "recallCount": 4,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 1.5125628978886776,
+      "maxScore": 0.4531781375408172,
+      "firstRecalledAt": "2026-05-09T18:56:33.268Z",
+      "lastRecalledAt": "2026-05-16T03:46:38.563Z",
+      "queryHashes": [
+        "fca06f481fb5",
+        "b37b5674e3d0",
+        "7b1cd2e32b27",
+        "310d0b025595"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-13",
+        "2026-05-16"
+      ],
+      "conceptTags": [
+        "projects/dating-ai",
+        "feat/tinder-ai-task-3-ai-adapter",
+        "tinder-first",
+        "active-chat",
+        "settings-key",
+        "integration-style",
+        "19/19",
+        "continued"
+      ]
+    },
+    "memory:memory/2026-05-09.md:113:128": {
+      "key": "memory:memory/2026-05-09.md:113:128",
+      "path": "memory/2026-05-09.md",
+      "startLine": 113,
+      "endLine": 128,
+      "source": "memory",
+      "snippet": "6. Outgoing Like Analytics — patterns: age, distance, conversion rate 7. Profile Enrichment for Match Prediction — parse detail pane sections ### Build commands (working) ```bash # Full Chrome extension build cd /home/beso/.openclaw/workspace/projects/dating-ai SKIP_ENV_VALIDATION=1 corepack pnpm --filter @dating-ai/extension build:chrome # Run focused extension tests PATH=\"/home/beso/.nvm/versions/node/v24.15.0/bin:$PATH\" /home/beso/.nvm/versions/node/v24.15.0/bin/pnpm --filter @dating-ai/extension test # Run all monorepo tests PATH=\"/home/beso/.nvm/versions/node/v24.15.0/bin:$PATH\" /home/beso/.nvm/versions/node/v24.15.0/bin/pnpm test ```",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.7033949141205527,
+      "maxScore": 0.3623825013637543,
+      "firstRecalledAt": "2026-05-09T19:47:21.757Z",
+      "lastRecalledAt": "2026-05-16T03:46:38.563Z",
+      "queryHashes": [
+        "b37b5674e3d0",
+        "310d0b025595"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-16"
+      ],
+      "conceptTags": [
+        "home/beso",
+        "skip-env-validation",
+        "dating-ai/extension",
+        "nvm/versions/node/v24.15.0/bin",
+        "outgoing",
+        "like",
+        "analytics",
+        "patterns"
+      ]
+    },
+    "memory:memory/2026-05-09.md:17:43": {
+      "key": "memory:memory/2026-05-09.md:17:43",
+      "path": "memory/2026-05-09.md",
+      "startLine": 17,
+      "endLine": 43,
+      "source": "memory",
+      "snippet": "- Build artifact confirmed at `apps/extension/build/dating-aiextension-1.2.2-chrome.zip`. - Recommended next practical step: run the real Tinder manual smoke test using `docs/tinder-extension-smoke-test.md`, then prepare PR if clean. - Live Tinder DOM research completed and documented in `projects/dating-ai/docs/tinder-dom-research-2026-05-09.md`. - Important product note to keep in mind: the `Likes Sent` page (`/app/my-likes`) is a strong source for future features such as Expiry Radar, Super Like Optimizer, Sent-Like Triage, and outgoing-like analytics; the key selectors there include `button[aria-label^=\"Open \"][aria-label$=\"'s profile\"]`, `button[aria-label^=\"Super Like \"]`, and `div[dat",
+      "recallCount": 2,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.6778761232187007,
+      "maxScore": 0.35108657777309416,
+      "firstRecalledAt": "2026-05-09T19:47:21.757Z",
+      "lastRecalledAt": "2026-05-13T19:59:23.262Z",
+      "queryHashes": [
+        "b37b5674e3d0",
+        "7b1cd2e32b27"
+      ],
+      "recallDays": [
+        "2026-05-09",
+        "2026-05-13"
+      ],
+      "conceptTags": [
+        "app/my-likes",
+        "sent-like",
+        "outgoing-like",
+        "aria-label",
+        "artifact",
+        "confirmed",
+        "apps",
+        "extension"
+      ]
+    },
+    "memory:memory/2026-05-09.md:95:122": {
+      "key": "memory:memory/2026-05-09.md:95:122",
+      "path": "memory/2026-05-09.md",
+      "startLine": 95,
+      "endLine": 122,
+      "source": "memory",
+      "snippet": "| Swipe actions | `button` text NOPE/LIKE/SUPER LIKE | autopilot actions | | Sidebar tabs | `[role=\"tab\"]` text \"Matches\"/\"Messages\" | tab detection | | Sidebar panels | `[role=\"tabpanel\"]` | scoped content | | Match links | `a[href^=\"/app/messages/\"]` | conversation threads | | Match cards | `.matchListItem` | fallback for match cards | | Chat composer | `textarea[placeholder=\"Type a message\"]` | coach banner anchor, auto-type target | | Conversation log | `log[aria-label=\"Conversation history\"]` | chat text extraction | | Likes Sent page | `h1` text \"Likes Sent\" | page detection | | Likes Sent cards | `button[aria-label^=\"Open \"][aria-label$=\"'s profile\"]` | sent-like card buttons | | Like",
+      "recallCount": 1,
+      "dailyCount": 0,
+      "groundedCount": 0,
+      "totalScore": 0.31289601101739783,
+      "maxScore": 0.31289601101739783,
+      "firstRecalledAt": "2026-05-09T19:47:21.757Z",
+      "lastRecalledAt": "2026-05-09T19:47:21.757Z",
+      "queryHashes": [
+        "b37b5674e3d0"
+      ],
+      "recallDays": [
+        "2026-05-09"
+      ],
+      "conceptTags": [
+        "nope/like/super",
+        "app/messages",
+        "auto-type",
+        "aria-label",
+        "sent-like",
+        "swipe",
+        "actions",
+        "button"
+      ]
+    }
+  }
+}
