@@ -1,171 +1,167 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Bot, Calendar, MessageCircle, BarChart3, CheckCircle2 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Check, Star, MessageCircle, Calendar, BarChart3, Bell, Users, Bot, Zap } from "lucide-react";
+
+const FEATURES = [
+  { icon: MessageCircle, title: "واتساب ذكي", desc: "يرد على العملاء تلقائياً بالعربية على مدار الساعة" },
+  { icon: Calendar, title: "حجوزات آلية", desc: "يحجز المواعيد مباشرة من المحادثة بدون تدخل بشري" },
+  { icon: Bell, title: "تذكيرات تلقائية", desc: "يرسل تذكيرات قبل الموعد ومتابعة بعد الزيارة" },
+  { icon: BarChart3, title: "تقارير لحظية", desc: "إيرادات، تحويل، لا تحضر — كل شيء في لوحة واحدة" },
+  { icon: Users, title: "CRM متكامل", desc: "سجل كامل لكل عميل: مواعيد، فواتير، محادثات" },
+  { icon: Bot, title: "AI متخصص للعيادات", desc: "مدرّب على لغة وأسلوب عيادات الرياض" },
+];
+
+const PRICING = [
+  { name: "أساسي", setup: "7,000 ر.س", monthly: "1,500 ر.س/شهر", features: ["ردود واتساب AI", "لوحة الحجوزات", "CRM أساسي", "التذكيرات"], highlight: false },
+  { name: "احترافي", setup: "12,000 ر.س", monthly: "3,000 ر.س/شهر", features: ["كل ما في الأساسي", "التقارير التفصيلية", "أتمتة المتابعة", "تعدد الموظفين", "تحويل بشري"], highlight: true },
+  { name: "متميز", setup: "20,000 ر.س", monthly: "5,000 ر.س/شهر", features: ["كل ما في الاحترافي", "تعدد الفروع", "سير عمل مخصصة", "تحليلات متقدمة", "دعم أولوي"], highlight: false },
+];
+
+const FAQS = [
+  { q: "كيف يتصل النظام بواتساب؟", a: "نستخدم WhatsApp Business Cloud API الرسمي من Meta. الإعداد يستغرق أقل من يوم." },
+  { q: "هل الذكاء الاصطناعي يفهم العربية؟", a: "نعم، النظام مدرّب على اللغة العربية السعودية ويتعامل مع العامية بكفاءة." },
+  { q: "هل يمكن للموظف التدخل في أي وقت؟", a: "بالطبع. يمكن للموظف الاستيلاء على أي محادثة بنقرة واحدة." },
+  { q: "ما مدة إعداد النظام؟", a: "خلال 7 أيام من توقيع العقد يكون النظام جاهزاً بالكامل." },
+];
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white" dir="rtl">
-      {/* Navbar */}
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center border-b">
-        <div className="text-2xl font-bold text-blue-600">Clinic AI OS</div>
-        <div className="hidden md:flex space-x-6 space-x-reverse text-gray-600">
-          <Link href="#features" className="hover:text-blue-600 transition">المميزات</Link>
-          <Link href="#pricing" className="hover:text-blue-600 transition">الأسعار</Link>
-          <Link href="#faq" className="hover:text-blue-600 transition">الأسئلة الشائعة</Link>
-        </div>
-        <div className="flex gap-4">
-          <Link href="/dashboard" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-            تسجيل الدخول
-          </Link>
-          <Link href="#demo" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors h-10 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white">
-            احجز ديمو
-          </Link>
+    <div className="min-h-screen bg-background font-sans" dir="rtl">
+      {/* Nav */}
+      <nav className="border-b sticky top-0 bg-background/95 backdrop-blur z-50">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="font-bold text-lg">🏥 Clinic AI OS</div>
+          <div className="flex gap-3">
+            <Link href="/dashboard"><Button variant="outline">لوحة التحكم</Button></Link>
+            <Button>احجز ديمو مجاني</Button>
+          </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-6 py-20 text-center">
-        <div className="inline-block px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-semibold mb-6">
-          الجيل الجديد من إدارة العيادات
+      {/* Hero */}
+      <section className="max-w-6xl mx-auto px-6 py-24 text-center space-y-8">
+        <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
+          <Zap className="w-4 h-4" /> نظام ذكاء اصطناعي مخصص للعيادات السعودية
         </div>
-        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-          نظام AI للعيادات <br className="hidden md:block" /> 
-          يرد على الواتساب، يحجز المواعيد، <br className="hidden md:block" /> 
-          ويقلل ضغط الاستقبال
+        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
+          نظام AI للعيادات يرد على الواتساب،<br />
+          <span className="text-primary">يحجز المواعيد</span>، ويقلل ضغط الاستقبال
         </h1>
-        <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-          خلال 7 أيام نجهز لك نظام ذكي يدير العملاء، الحجوزات، التذكيرات، والتقارير من لوحة واحدة. نظام مصمم خصيصاً للعيادات في المملكة العربية السعودية.
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          خلال 7 أيام نجهز لك نظام ذكي يدير العملاء، الحجوزات، التذكيرات، والتقارير من لوحة واحدة.
         </p>
-        <div className="flex justify-center gap-4">
-          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 rounded-full">
-            احجز ديمو مجاني
-          </Button>
-          <Button size="lg" variant="outline" className="text-lg px-8 py-6 rounded-full border-2">
-            شاهد طريقة العمل
-          </Button>
+        <div className="flex gap-4 justify-center flex-wrap">
+          <Button size="lg" className="px-8 py-6 text-lg">احجز ديمو مجاني</Button>
+          <Link href="/dashboard"><Button size="lg" variant="outline" className="px-8 py-6 text-lg">جرب النظام الآن</Button></Link>
+        </div>
+        <div className="flex gap-6 justify-center text-sm text-muted-foreground flex-wrap">
+          <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />إعداد خلال 7 أيام</span>
+          <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />بدون تقنيين</span>
+          <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />دعم باللغة العربية</span>
+        </div>
+      </section>
+
+      {/* Problem */}
+      <section className="bg-muted/30 py-20">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
+          <h2 className="text-3xl font-bold">مشكلة كل عيادة في الرياض</h2>
+          <div className="grid md:grid-cols-3 gap-6 text-right">
+            {[
+              { title: "🌊 غرق في واتساب", desc: "موظف الاستقبال يقضي 70% من وقته يجاوب نفس الأسئلة مراراً" },
+              { title: "📅 حجوزات فائتة", desc: "عملاء يسألون عن الأسعار والمواعيد ثم يختفون لعدم متابعتهم" },
+              { title: "📊 لا رؤية واضحة", desc: "بدون بيانات يصعب معرفة ما يعمل وما لا يعمل في العيادة" },
+            ].map(p => (
+              <Card key={p.title} className="text-right">
+                <CardContent className="p-6 space-y-2">
+                  <div className="text-2xl">{p.title.split(" ")[0]}</div>
+                  <div className="font-semibold">{p.title.slice(2)}</div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Features */}
-      <section id="features" className="bg-gray-50 py-20">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-16">كل ما تحتاجه عيادتك في مكان واحد</h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-              <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
-                <MessageCircle className="w-7 h-7" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">واتساب ذكي (Meta Cloud API)</h3>
-              <p className="text-gray-600 leading-relaxed">
-                ردود آلية ذكية على استفسارات المرضى، واقتراح مواعيد بناءً على توفر الأطباء، مع إمكانية التدخل البشري في أي وقت.
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-              <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
-                <Calendar className="w-7 h-7" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">إدارة حجوزات متكاملة</h3>
-              <p className="text-gray-600 leading-relaxed">
-                جدول مواعيد مرن، ربط تلقائي مع المواعيد القادمة من الواتساب، وتذكيرات آلية لتقليل نسبة التغيب (No-shows).
-              </p>
-            </div>
-
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
-              <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
-                <BarChart3 className="w-7 h-7" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">تقارير وإيرادات</h3>
-              <p className="text-gray-600 leading-relaxed">
-                لوحة قيادة توضح الإيرادات، أداء الأطباء، ومعدل تحويل المحادثات إلى حجوزات لاتخاذ قرارات تعتمد على البيانات.
-              </p>
-            </div>
-          </div>
+      <section className="py-20 max-w-6xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold">كل ما تحتاجه في مكان واحد</h2>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {FEATURES.map(f => (
+            <Card key={f.title}>
+              <CardContent className="p-6 space-y-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <f.icon className="w-5 h-5 text-primary" />
+                </div>
+                <div className="font-semibold">{f.title}</div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-20">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-16">باقات تناسب حجم عيادتك</h2>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Basic */}
-            <div className="border rounded-3xl p-8 flex flex-col">
-              <h3 className="text-2xl font-bold mb-2">الأساسية</h3>
-              <div className="text-gray-500 mb-6">للاطباء المستقلين والعيادات الصغيرة</div>
-              <div className="mb-6">
-                <span className="text-4xl font-bold">1,500</span>
-                <span className="text-gray-500"> ر.س / شهرياً</span>
-              </div>
-              <div className="text-sm font-semibold text-gray-500 mb-8">+ 7,000 ر.س لمرة واحدة (رسوم التأسيس)</div>
-              
-              <ul className="space-y-4 mb-8 flex-1">
-                {["واتساب ذكي بحدود المحادثات", "لوحة الحجوزات", "إدارة العملاء CRM الأساسية", "تذكيرات المواعيد"].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-blue-600" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button variant="outline" className="w-full">اختر الباقة</Button>
-            </div>
-
-            {/* Pro */}
-            <div className="border-2 border-blue-600 rounded-3xl p-8 flex flex-col relative bg-blue-50/30 shadow-lg">
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold">
-                الأكثر طلباً
-              </div>
-              <h3 className="text-2xl font-bold mb-2">المتقدمة</h3>
-              <div className="text-gray-500 mb-6">للعيادات المتنامية والمراكز الطبية</div>
-              <div className="mb-6">
-                <span className="text-4xl font-bold">3,000</span>
-                <span className="text-gray-500"> ر.س / شهرياً</span>
-              </div>
-              <div className="text-sm font-semibold text-gray-500 mb-8">+ 12,000 ر.س لمرة واحدة (رسوم التأسيس)</div>
-              
-              <ul className="space-y-4 mb-8 flex-1">
-                {["كل مميزات الأساسية", "تقارير متقدمة", "أتمتة المتابعة (Follow-ups)", "تعدد الموظفين والأطباء", "تحويل المحادثات للموظف (Handoff)"].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-blue-600" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">اختر الباقة</Button>
-            </div>
-
-            {/* Premium */}
-            <div className="border rounded-3xl p-8 flex flex-col">
-              <h3 className="text-2xl font-bold mb-2">الاحترافية</h3>
-              <div className="text-gray-500 mb-6">للمجمعات الطبية متعددة الفروع</div>
-              <div className="mb-6">
-                <span className="text-4xl font-bold">5,000</span>
-                <span className="text-gray-500"> ر.س / شهرياً</span>
-              </div>
-              <div className="text-sm font-semibold text-gray-500 mb-8">+ 20,000 ر.س لمرة واحدة (رسوم التأسيس)</div>
-              
-              <ul className="space-y-4 mb-8 flex-1">
-                {["كل مميزات المتقدمة", "تعدد الفروع", "تدفقات عمل (Workflows) مخصصة", "تحليلات متقدمة", "دعم فني كونسيرج"].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-blue-600" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-              <Button variant="outline" className="w-full">تواصل معنا</Button>
-            </div>
+      <section className="bg-muted/30 py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold">الأسعار</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {PRICING.map(p => (
+              <Card key={p.name} className={p.highlight ? "border-primary shadow-lg" : ""}>
+                <CardContent className="p-8 space-y-6">
+                  {p.highlight && <div className="bg-primary text-primary-foreground text-xs px-3 py-1 rounded-full w-fit">الأكثر شيوعاً</div>}
+                  <div>
+                    <div className="text-xl font-bold">{p.name}</div>
+                    <div className="text-3xl font-extrabold mt-2">{p.setup}</div>
+                    <div className="text-muted-foreground text-sm">إعداد + {p.monthly}</div>
+                  </div>
+                  <ul className="space-y-3">
+                    {p.features.map(f => (
+                      <li key={f} className="flex items-center gap-2 text-sm">
+                        <Check className="w-4 h-4 text-green-500 shrink-0" />{f}
+                      </li>
+                    ))}
+                  </ul>
+                  <Button className="w-full" variant={p.highlight ? "default" : "outline"}>احجز ديمو</Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-6 text-center text-gray-400">
-          <p>جميع الحقوق محفوظة &copy; {new Date().getFullYear()} Clinic AI OS</p>
-          <p className="mt-2 text-sm">صنع للعيادات في المملكة العربية السعودية 🇸🇦</p>
+      {/* FAQ */}
+      <section className="py-20 max-w-3xl mx-auto px-6">
+        <div className="text-center mb-12"><h2 className="text-3xl font-bold">أسئلة شائعة</h2></div>
+        <div className="space-y-4">
+          {FAQS.map(faq => (
+            <Card key={faq.q}>
+              <CardContent className="p-6">
+                <div className="font-semibold mb-2">{faq.q}</div>
+                <p className="text-muted-foreground text-sm leading-relaxed">{faq.a}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-primary text-primary-foreground py-20 text-center">
+        <div className="max-w-3xl mx-auto px-6 space-y-6">
+          <h2 className="text-3xl font-bold">ابدأ الآن وجرب النظام مجاناً</h2>
+          <p className="text-primary-foreground/80 text-lg">لا تحتاج بطاقة ائتمانية. ديمو مباشر في أقل من 5 دقائق.</p>
+          <Button size="lg" variant="secondary" className="px-10 py-6 text-lg">احجز ديمو مجاني الآن</Button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t py-8 text-center text-sm text-muted-foreground">
+        <div className="max-w-6xl mx-auto px-6">© 2026 Clinic AI OS — جميع الحقوق محفوظة</div>
       </footer>
     </div>
   );
