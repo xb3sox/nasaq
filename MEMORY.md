@@ -17,12 +17,14 @@
 - **n8n:** `http://127.0.0.1:5678` (Docker) | 4 workflows
 - **n8n-MCP:** `http://127.0.0.1:3000` (Docker, healthy)
 - **Browser:** OpenClaw native (`openclaw` profile)
-- **agent-browser:** v0.27.0 | reinstalled 2026-05-21
+- **agent-browser:** v0.27.0 | installed for on-demand use
 - **Cron jobs:** none active
 
 ## 🧠 Key Decisions
 - OpenClaw native browser = default | agent-browser = on-demand
-- Git: workspace on `master` @ e180687
+- OpenClaw browser config: `browser.enabled=true`, `defaultProfile="openclaw"`, no custom profile overrides
+- OpenClaw-managed browser profile was reset fresh on 2026-05-21; real Chrome `~/.config/google-chrome/Default` untouched
+- Git: workspace on `master`
 - Business: brngt LLC (Delaware) | expenses: Stripe Atlas $100/yr + LLC tax $300/yr
 
 ## 📅 Basem's Pillar Goals
