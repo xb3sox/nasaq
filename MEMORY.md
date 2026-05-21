@@ -17,11 +17,11 @@
 - **n8n:** `http://127.0.0.1:5678` (Docker) | 4 workflows
 - **n8n-MCP:** `http://127.0.0.1:3000` (Docker, healthy)
 - **Browser:** OpenClaw native (`openclaw` profile)
-- **agent-browser:** v0.27.0 | installed for on-demand use
+- **agent-browser:** disabled/archived; use OpenClaw native browser by default
 - **Cron jobs:** none active
 
 ## 🧠 Key Decisions
-- OpenClaw native browser = default | agent-browser = on-demand
+- OpenClaw native browser = default | agent-browser disabled unless explicitly restored
 - OpenClaw browser config: `browser.enabled=true`, `defaultProfile="openclaw"`, no custom profile overrides
 - OpenClaw-managed browser profile was reset fresh on 2026-05-21; real Chrome `~/.config/google-chrome/Default` untouched
 - Git: workspace on `master`
