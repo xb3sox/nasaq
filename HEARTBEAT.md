@@ -20,6 +20,10 @@ Use `tasks:` block with due-only interval checks. HEARTBEAT_OK if nothing due.
   interval: 1d
   prompt: "Quick scan of .openclaw/openclaw.json and workspace git status. Flag any drift. HEARTBEAT_OK if clean."
 
+- name: context-hygiene-review
+  interval: 7d
+  prompt: "Run /context list or equivalent if available. Review injected workspace files for oversized sections, duplicate concepts, stale facts, and avoidable token overhead. Report suggested edits only; do not auto-edit."
+
 - name: compaction-audit
   interval: 3d
   prompt: "Check /status for compaction count. If >2 compactions in last 7 days, flag in next reply. HEARTBEAT_OK if fine."
