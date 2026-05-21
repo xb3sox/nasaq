@@ -1,7 +1,10 @@
-# HEARTBEAT.md Template
+# HEARTBEAT.md
 
-```markdown
-# Keep this file empty (or with only comments) to skip heartbeat API calls.
+Keep proactive checks low-noise. Stay quiet unless something matters.
 
-# Add tasks below when you want the agent to check something periodically.
-```
+## Routine Checks
+
+- Check urgent unread email and calendar only during waking hours.
+- Check weather only when travel/outdoor context exists.
+- Review recent memory every few days and distill durable items into `MEMORY.md`.
+- If nothing changed or the last check was recent, reply `HEARTBEAT_OK`.

@@ -35,7 +35,12 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - **Management:** GitHub Projects, Microsoft Loop, Microsoft To Do, Google Keep
 - **Learning:** LinkedIn Learning, YouTube
 
-## Browser Profiles
-- **Real Chrome profile:** `~/.config/google-chrome/default` (lowercase) — has logged-in sessions
-- **CDP port:** 18800 (OpenClaw managed)
-- **Launch cmd:** `setsid /tmp/launch-chrome.sh` (uses real profile + CDP)
+## Browser
+- **OpenClaw browser:** enabled, default isolated `openclaw` profile per current docs.
+- **Profile rule:** use OpenClaw native browser/tooling by default. `agent-browser` is disabled and archived under `~/.agent-browser/disabled/`.
+- **Real Chrome profile:** `~/.config/google-chrome/Default` stays untouched. Use profile `user` only when Basem explicitly wants existing signed-in browser sessions.
+- **Config:** `~/.openclaw/openclaw.json` has `browser.enabled=true` and `browser.defaultProfile="openclaw"`; no custom headless/CDP/profile override.
+
+## OpenClaw
+- **CLI path:** `~/.nvm/versions/node/v24.15.0/bin/openclaw` (shell PATH may not expose `openclaw` in non-interactive commands)
+- **Gateway:** loopback `127.0.0.1:18789`, token auth, Tailscale Serve enabled for tailnet access
