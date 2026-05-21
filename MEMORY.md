@@ -17,13 +17,14 @@
 - **n8n:** `http://127.0.0.1:5678` (Docker) | 4 workflows
 - **n8n-MCP:** `http://127.0.0.1:3000` (Docker, healthy)
 - **Browser:** OpenClaw native (`openclaw` profile)
-- **agent-browser:** disabled/archived; use OpenClaw native browser by default
+- **agent-browser:** use only when explicitly needed
 - **Cron jobs:** none active
 
 ## 🧠 Key Decisions
-- OpenClaw native browser = default | agent-browser disabled unless explicitly restored
+- OpenClaw native browser = default | agent-browser = use only when explicitly needed
 - OpenClaw browser config: `browser.enabled=true`, `defaultProfile="openclaw"`, no custom profile overrides
 - OpenClaw-managed browser profile was reset fresh on 2026-05-21; real Chrome `~/.config/google-chrome/Default` untouched
+- Workspace context hygiene: keep one source of truth per topic; trim duplicate generic prompt text before trimming useful personal/project context.
 - Git: workspace on `master`
 - Business: brngt LLC (Delaware) | expenses: Stripe Atlas $100/yr + LLC tax $300/yr
 

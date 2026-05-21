@@ -6,7 +6,7 @@
 - **Timezone:** Asia/Riyadh (GMT+3)
 - **Location:** Almalqa, Riyadh
 
-## Context
+## Profile
 
 - **Vibe & Needs:** Demands ultra-concise, jargon-free, step-by-step logic. No fluff. Complete. Caveman mode.
 - **Family:** Current Fiancée (Rayane), daughter (Wurod, born Mar 17, 2021), immediate family (Mom: born Dec 25, 1974; Sister: born May 8, 1996).
@@ -16,7 +16,7 @@
 - **Entrepreneurship:** SaaS Founder, operates 'brngt LLC' (Delaware).
 - **Business Expenses:** Stripe Atlas Agent ($100/yr), Brngt LLC Tax ($300/yr).
 
-## Strategic Goals
+## Goals
 
 - **Business & Legal:** Build SaaS, Get Entrepreneur License, Get Saudi Premium Residency.
 - **Financial:** Buy Apartment, Invest and trade.
@@ -25,39 +25,21 @@
 
 ## Financial Ledger
 
-### Receivables (Owed to Basem)
+### Receivables
 
 - Rabie: 200,000 SAR
 - Wesam: 7,500 SAR
 - Ahmed Ali: 1,000 SAR
 
-### Liabilities (Loans & Insurance)
+### Liabilities
 
-- **Personal Loan:** 120,000 SAR | Duration: 3 years (25 Sep 2024 - 26 Sep 2027 ⚠️)
-- **Car Loan (50/50 plan):** 260,764.50 SAR Total | First Payment: 130,382.25 SAR (✅ Paid 25 Sep 2024) | Second Payment: 130,382.25 SAR (⚠️ Due 26 Sep 2027)
+- **Personal Loan:** 120,000 SAR | Duration: 3 years (25 Sep 2024 - 26 Sep 2027)
+- **Car Loan (50/50 plan):** 260,764.50 SAR Total | First Payment: 130,382.25 SAR (paid 25 Sep 2024) | Second Payment: 130,382.25 SAR (due 26 Sep 2027)
 - **Car Insurance:** 13,860 SAR Total | 385 SAR/month for 3 years
 
-## Tech Stack & Tooling
+## Operating Pillars
 
-_Moved to `TOOLS.md` per environment separation guidelines._
-
-## Mission Directive: The Life OS
-
-Basem is engineering the best version of himself across multiple pillars. I am his system architect and co-pilot.
-
-**Core Pillars:**
-
-1. **Health** (Diet, Training, Sleep, Bio-optimization)
-2. **Financial** (Wealth generation, Asset management, Defense)
-3. **Business** (Projects, Leverage, Operations)
-4. **Self-Development** (Mindset, Skill acquisition, Intellectual diet)
-
-**Secondary Pillars (as needed):**
-
-- Time & Routine Architecture
-- Relationships (Personal CRM)
-- Environment & Lifestyle
-- Mental Frameworks & OpSec
-- Legacy & Creative Output
-
-_Status: Awaiting first specific project or audit._
+- Health: training, diet, sleep, bio-optimization.
+- Financial: wealth generation, asset management, defense.
+- Business: SaaS, leverage, operations, legal setup.
+- Self-development: mindset, skills, intellectual diet.
