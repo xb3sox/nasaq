@@ -23,11 +23,12 @@ Curated memory. Track long-term decisions, insights, events here.
 
 - **n8n:** Running locally at `http://127.0.0.1:5678` (Docker). 4 workflows imported.
 - **n8n-MCP:** Running at `http://127.0.0.1:3000` (Docker, healthy).
-- **Browser:** OpenClaw native profile `openclaw`, profile data at `~/.openclaw/browser/openclaw/user-data`. Reset to clean state 2026-05-21. `agent-browser` disabled/archived.
+- **Browser:** OpenClaw native profile `openclaw`, profile data at `~/.openclaw/browser/openclaw/user-data`. Reset to clean state 2026-05-21.
+- **agent-browser:** Reinstalled 2026-05-21 (v0.27.0). CLI at `~/.local/bin/agent-browser`, browser at `~/.agent-browser/browsers/chrome-149.0.7827.22`. Skill enabled and operational.
 
 ## 🧠 Key Decisions (2026-05)
 
-- Browser = OpenClaw native default only. No `agent-browser`. Profile `openclaw`. No custom headless overrides.
+- Browser = OpenClaw native default (`openclaw` profile) for general use. `agent-browser` also reinstalled (v0.27.0) per Basem request 2026-05-21; available for tasks that need it.
 - `optimization_guide_model_store` (49M Chrome bloat) — delete on each browser reset, it rebuilds automatically.
 - Cron jobs: none active currently.
 - Git: workspace committed to `master` at `e180687`.
