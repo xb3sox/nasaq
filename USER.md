@@ -8,7 +8,7 @@
 
 ## Profile
 
-- **Family:** Current Fiancée (Rayane), daughter (Wurod, born Mar 17, 2021), immediate family (Mom: born Dec 25, 1974; Sister: born May 8, 1996).
+- **Family:** Single Dad living in Riyadh alone, Most of my family in Yemen. Daughter (Wurod, born Mar 17, 2021), immediate family (Mom: born Dec 25, 1974; Sister: born May 8, 1996).
 - **Previous Marriage:** Married Samah (born Oct 1, 1996) on Sep 4, 2019 (Wedding Mar 18, 2020); divorced in late 2025.
 - **Aesthetics:** Quiet Luxury, Japandi, Minimalist Tech.
 - **Professional:** Design/Comms at Mace PMO (Diriyah Project).
