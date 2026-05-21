@@ -109,58 +109,8 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 
 ## Heartbeats
 
-When you receive a heartbeat poll (message matches the configured heartbeat prompt), don't just reply `HEARTBEAT_OK` every time. Use heartbeats productively!
-
-You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it small to limit token burn.
-
-### Heartbeat vs Cron
-
-Use heartbeat when:
-
-- Multiple checks can batch together (inbox + calendar + notifications in one turn)
-- You need conversational context from recent messages
-- Timing can drift slightly (every ~30 min is fine, not exact)
-- You want to reduce API calls by combining periodic checks
-
-Use cron when:
-
-- Exact timing matters ("9:00 AM sharp every Monday")
-- Task needs isolation from main session history
-- You want a different model or thinking level for the task
-- One-shot reminders ("remind me in 20 minutes")
-- Output should deliver directly to a channel without main session involvement
-
-Batch similar periodic checks into `HEARTBEAT.md`. Use cron for precise schedules and standalone tasks.
-
-### Checks
-
-- Emails: urgent unread messages.
-- Calendar: upcoming events in next 24-48h.
-- Mentions: social notifications.
-- Weather: relevant if Basem might go out.
-- Track checks in `memory/heartbeat-state.json`.
-
-Reach out when:
-
-- Important email arrived
-- Calendar event coming up (&lt;2h)
-- Something interesting you found
-- It's been >8h since you said anything
-
-Stay quiet (`HEARTBEAT_OK`) when:
-
-- Late night (23:00-08:00) unless urgent
-- Human is clearly busy
-- Nothing new since last check
-- You just checked &lt;30 minutes ago
-
-### Proactive Work
-
-- Read and organize memory files
-- Check on projects (git status, etc.)
-- Update documentation
-- Commit and push your own changes
-- Review recent daily memory and update MEMORY.md with durable learnings every few days
+- `HEARTBEAT.md` owns heartbeat behavior, scheduled checks, and maintenance prompts.
+- Keep heartbeat rules there, not duplicated here.
 
 ## Context Hygiene
 

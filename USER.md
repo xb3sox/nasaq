@@ -8,7 +8,6 @@
 
 ## Profile
 
-- **Vibe & Needs:** Demands ultra-concise, jargon-free, step-by-step logic. No fluff. Complete. Caveman mode.
 - **Family:** Current Fiancée (Rayane), daughter (Wurod, born Mar 17, 2021), immediate family (Mom: born Dec 25, 1974; Sister: born May 8, 1996).
 - **Previous Marriage:** Married Samah (born Oct 1, 1996) on Sep 4, 2019 (Wedding Mar 18, 2020); divorced in late 2025.
 - **Aesthetics:** Quiet Luxury, Japandi, Minimalist Tech.
@@ -36,10 +35,3 @@
 - **Personal Loan:** 120,000 SAR | Duration: 3 years (25 Sep 2024 - 26 Sep 2027)
 - **Car Loan (50/50 plan):** 260,764.50 SAR Total | First Payment: 130,382.25 SAR (paid 25 Sep 2024) | Second Payment: 130,382.25 SAR (due 26 Sep 2027)
 - **Car Insurance:** 13,860 SAR Total | 385 SAR/month for 3 years
-
-## Operating Pillars
-
-- Health: training, diet, sleep, bio-optimization.
-- Financial: wealth generation, asset management, defense.
-- Business: SaaS, leverage, operations, legal setup.
-- Self-development: mindset, skills, intellectual diet.

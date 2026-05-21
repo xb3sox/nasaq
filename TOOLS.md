@@ -37,7 +37,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 
 ## Browser
 - **OpenClaw browser:** enabled, default isolated `openclaw` profile per current docs.
-- **Profile rule:** use OpenClaw native browser/tooling by default. `agent-browser` is disabled and archived under `~/.agent-browser/disabled/`.
+- **Profile rule:** use OpenClaw native browser/tooling by default. Use `agent-browser` only when explicitly needed.
 - **Real Chrome profile:** `~/.config/google-chrome/Default` stays untouched. Use profile `user` only when Basem explicitly wants existing signed-in browser sessions.
 - **Config:** `~/.openclaw/openclaw.json` has `browser.enabled=true` and `browser.defaultProfile="openclaw"`; no custom headless/CDP/profile override.
 
