@@ -122,4 +122,3 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
   - `AGENTS.md` = workspace operating rules
 - Use `/context list` or equivalent when auditing token overhead.
 - Trim duplicate generic rules before trimming useful personal or project context.
-- Routine context checks belong in `HEARTBEAT.md`; avoid standalone cron jobs for self-audits unless Basem explicitly asks.
