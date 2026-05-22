@@ -3,31 +3,15 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { DEMO_METRICS, DEMO_REPORT_STATS } from "@/lib/demo-data";
 import {
-  TrendingUp, TrendingDown, Users, CalendarCheck, MessageCircle,
+  TrendingUp, Users, CalendarCheck, MessageCircle,
   Bot, DollarSign, Clock, ArrowUpRight, ArrowDownRight, RefreshCw,
 } from "lucide-react";
 import { useState } from "react";
 
-const DAYS = ["سبت", "أحد", "اثن", "ثلا", "أربع", "خميس", "جمع"];
 const MAX_BOOKINGS = Math.max(...DEMO_METRICS.bookings);
 const MAX_LEADS = Math.max(...DEMO_METRICS.leads);
-
-function MiniBarChart({ value, max, color }: { value: number; max: number; color: string }) {
-  const pct = Math.round((value / max) * 100);
-  return (
-    <div className="flex items-end gap-0.5 h-10">
-      <div className="w-8 bg-muted rounded-sm relative" style={{ height: "100%" }}>
-        <div
-          className="absolute bottom-0 left-0 right-0 rounded-sm transition-all duration-500"
-          style={{ height: `${pct}%`, backgroundColor: color }}
-        />
-      </div>
-    </div>
-  );
-}
 
 function StatCard({
   label,
