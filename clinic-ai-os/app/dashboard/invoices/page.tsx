@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -13,6 +14,93 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DEMO_INVOICES } from "@/lib/demo-data";
+
+type Invoice = typeof DEMO_INVOICES[number];
+
+function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => void }) {
+  const vatRate = 0.15;
+  const subtotal = inv.amount;
+  const vat = +(subtotal * vatRate).toFixed(2);
+  const total = +(subtotal + vat).toFixed(2);
+
+  return (
+    <Dialog open onOpenChange={onClose}>
+      <DialogContent className="max-w-md" dir="rtl">
+        <DialogTitle>فاتورة زكاتية — {inv.id.toUpperCase()}</DialogTitle>
+        <div className="space-y-4 text-sm">
+          {/* Header */}
+          <div className="p-4 rounded-xl bg-muted/50 border border-border/40 space-y-1">
+            <div className="font-bold text-lg">عيادات النخبة</div>
+            <div className="text-xs text-muted-foreground">رقم سجل ضريبة: 310000000000003 | 31xxxxx | سي7 رقم تسجيل ZATCA</div>
+            <div className="text-xs text-muted-foreground">تاريخ الفاتورة: {inv.date} · العملة: SAR</div>
+          </div>
+
+          {/* Customer */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <div className="text-xs text-muted-foreground mb-1">العميل</div>
+              <div className="font-medium">{inv.customerName}</div>
+            </div>
+            <div>
+              <div className="text-xs text-muted-foreground mb-1">رقم الفاتورة</div>
+              <div className="font-mono font-medium">{inv.id.toUpperCase()}</div>
+            </div>
+          </div>
+
+          {/* Line item */}
+          <div className="border rounded-xl overflow-hidden">
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="bg-muted/50 border-b">
+                  <th className="text-right p-2.5 font-medium">الوصف</th>
+                  <th className="text-left p-2.5 font-medium">السعر</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b">
+                  <td className="p-2.5">{inv.serviceName}</td>
+                  <td className="p-2.5 text-left font-mono">{subtotal.toLocaleString()} SAR</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Totals */}
+          <div className="space-y-2 border-t pt-3">
+            <div className="flex justify-between text-muted-foreground">
+              <span>المجموع قبل الضريبة</span>
+              <span className="font-mono">{subtotal.toLocaleString()} SAR</span>
+            </div>
+            <div className="flex justify-between text-muted-foreground">
+              <span>ضريبة القيمة المضافة (15%)</span>
+              <span className="font-mono">{vat.toLocaleString()} SAR</span>
+            </div>
+            <div className="flex justify-between font-bold text-base border-t pt-2">
+              <span>الإجمالي شامل الضريبة</span>
+              <span className="font-mono text-primary">{total.toLocaleString()} SAR</span>
+            </div>
+          </div>
+
+          {/* ZATCA QR placeholder */}
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40 border border-border/40">
+            <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center text-xs text-muted-foreground text-center leading-tight">كود QRزكاتي</div>
+            <div className="text-xs text-muted-foreground space-y-1">
+              <div className="font-medium text-foreground">قواعد ZATCA E-Invoice</div>
+              <div>الفاتورة تلتزم بمتطلبات هيئة الزكاة والدخل السعودية</div>
+              <div className="text-muted-foreground/70">كود TLV + QR يتم تفعيله بعد تسجيل ZATCA</div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2 pt-1">
+            <Button size="sm" className="flex-1">PDF تنزيل PDF</Button>
+            <Button size="sm" variant="outline" className="flex-1" onClick={onClose}>إغلاق</Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
 import {
   Search,
   Plus,
@@ -80,6 +168,7 @@ const STAT_CARDS = [
 export default function InvoicesPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
 
   const filtered = DEMO_INVOICES.filter((inv) => {
     const matchSearch =
@@ -92,6 +181,9 @@ export default function InvoicesPage() {
 
   return (
     <div className="p-6 space-y-6">
+      {selectedInvoice && (
+        <InvoiceDetailModal inv={selectedInvoice} onClose={() => setSelectedInvoice(null)} />
+      )}
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
@@ -183,7 +275,7 @@ export default function InvoicesPage() {
                 </tr>
               ) : (
                 filtered.map((inv) => (
-                  <tr key={inv.id} className="hover:bg-muted/20 transition-colors group">
+                  <tr key={inv.id} className="hover:bg-muted/20 transition-colors group cursor-pointer" onClick={() => setSelectedInvoice(inv)}>
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg bg-primary/8 flex items-center justify-center group-hover:bg-primary/12 transition-colors">

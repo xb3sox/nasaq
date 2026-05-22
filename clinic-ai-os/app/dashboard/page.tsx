@@ -2,9 +2,93 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, CalendarCheck, MessageCircle, TrendingUp, Bot, Bell, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2 } from "lucide-react";
 import { demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 import { useEffect, useState } from "react";
+
+type DemoStep = { label: string; detail: string; done: boolean; active: boolean };
+
+function LiveDemoRunner() {
+  const [running, setRunning] = useState(false);
+  const [steps, setSteps] = useState<DemoStep[]>([
+    { label: "رسالة واتساب", detail: "بكم تنظيف الأسنان؟", done: false, active: false },
+    { label: "قرار AI", detail: "intent: booking · 91%", done: false, active: false },
+    { label: "رد تلقائي", detail: "سعر تنظيف 250 ر.س · متاحالليوم", done: false, active: false },
+    { label: "تأكيد حجز", detail: "تنظيف مع د. ريم · 4:00 مساءً", done: false, active: false },
+    { label: "تذكيران مجدولان", detail: "24h + 2h قبل الموعد", done: false, active: false },
+    { label: "لوحة التحكم محدّثة", detail: "CRM + تقارير حية", done: false, active: false },
+  ]);
+
+  const runDemo = async () => {
+    setRunning(true);
+    setSteps((s) => s.map((st) => ({ ...st, done: false, active: false })));
+
+    for (let i = 0; i < steps.length; i++) {
+      setSteps((s) => s.map((st, idx) => ({ ...st, active: idx === i, done: idx < i })));
+      await new Promise((r) => setTimeout(r, i === 0 ? 600 : 700));
+    }
+    setSteps((s) => s.map((st) => ({ ...st, done: true, active: false })));
+    setRunning(false);
+  };
+
+  const allDone = steps.every((s) => s.done);
+
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base">عرض تجريبي حي</CardTitle>
+          <Button
+            size="sm"
+            onClick={runDemo}
+            disabled={running}
+            className="gap-1.5 h-8 text-xs"
+          >
+            {running
+              ? <Loader2 className="w-3 h-3 animate-spin" />
+              : allDone
+              ? <CheckCircle2 className="w-3 h-3" />
+              : <Play className="w-3 h-3" />
+            }
+            {running ? "جاري…" : allDone ? "إعادة" : "تشغيل"}
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-2">
+          {steps.map((step, i) => (
+            <div
+              key={step.label}
+              className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 text-sm ${
+                step.active
+                  ? "bg-primary/10 border border-primary/20"
+                  : step.done
+                  ? "bg-green-50 dark:bg-green-900/20"
+                  : "bg-muted/40"
+              }`}
+            >
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold transition-colors ${
+                step.done ? "bg-green-500 text-white" : step.active ? "bg-primary text-primary-foreground" : "bg-muted-foreground/20 text-muted-foreground"
+              }`}>
+                {step.done ? <CheckCircle2 className="w-3.5 h-3.5" /> : step.active ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : i + 1}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className={`font-medium truncate ${step.active ? "text-primary" : step.done ? "text-green-700 dark:text-green-400" : "text-muted-foreground"}`}>{step.label}</div>
+                <div className="text-xs text-muted-foreground truncate">{step.detail}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        {allDone && (
+          <div className="mt-3 text-xs text-center text-green-600 font-medium animate-fade-slide-up">
+            ✅ تم المسار بالكامل — العميل تلقى رداً، حجزاً، وتذكيرين بدون تدخل بشري
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
 
 function RiyadhClock() {
   const [time, setTime] = useState<Date | null>(null);
@@ -126,17 +210,7 @@ export default function DashboardPage() {
             ))}
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">جاهزية البيع</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm">
-            <div className="flex items-center gap-2"><Bot className="w-4 h-4 text-green-600" /> AI intent + reply ready</div>
-            <div className="flex items-center gap-2"><CalendarCheck className="w-4 h-4 text-green-600" /> Booking draft ready</div>
-            <div className="flex items-center gap-2"><Bell className="w-4 h-4 text-green-600" /> Reminder queue ready</div>
-            <div className="flex items-center gap-2"><Users className="w-4 h-4 text-orange-600" /> Needs real auth + DB writes</div>
-          </CardContent>
-        </Card>
+        <LiveDemoRunner />
       </div>
     </div>
   );
