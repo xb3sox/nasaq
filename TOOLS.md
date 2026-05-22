@@ -1,6 +1,6 @@
 # TOOLS.md - Local Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+Skills define _how_ tools work. This file is for local setup/state only. Verify live state before acting on auth, installs, servers, or deploy targets.
 
 ## Hardware & Compute Nodes
 - **Heavy Compute 1:** i5-12600K | 128GB RAM | RTX 3080Ti
@@ -22,6 +22,16 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - **IDEs & CLIs:** Cursor, VS Code, Antigravity, Claude Code, Gemini, GitHub Copilot, OpenAI Codex
 - **Cloud Async Agents:** GitHub Copilot Coding Agent, OpenAI Codex, Cursor Background Agents, Google Jules
 - **AI Builders & Design:** Figma Make, Replit, Lovable, Stitch, Relume, Aura Build
+
+## Agent Workflow Local State
+- **Workflow source of truth:** `AGENTS.md` owns operating policy; `sdd` owns product-development policy; `TOOLS.md` records local setup/state only.
+- **Local GitHub:** `gh` authenticated as `xb3sox`; `gh copilot` is available through GitHub CLI and can download/run Copilot CLI.
+- **Local Vercel:** `vercel` installed at `~/.npm-global/bin/vercel`; authenticated as `xb3sox`.
+- **Local 1Password:** `op` CLI installed (`2.33.1`). Abandoned. Migrate any remaining secrets to Bitwarden.
+- **Secrets Manager:** Bitwarden Password Manager (`bw` 2026.4.2) + Bitwarden Secrets Manager (`bws` 2.1.0), both free tier. `bw` logged in/synced (passwords imported). `bws` access token injected via `env.BWS_ACCESS_TOKEN` in `openclaw.json` → works from all exec sessions. Never store `BW_SESSION` in plaintext. `BWS_ACCESS_TOKEN` lives in openclaw.json config env block (acceptable for local-only gateway).
+- **Local Jules:** `jules` command not installed yet. Correct package is `@google/jules`; install only when starting a Jules lane, then run `jules login`.
+- **Local Cursor CLI:** `cursor-agent` not installed yet. Install only when starting Cursor review/fix lane; prefer read-only review before any write mode.
+- **Local prompt cost rule:** Internal prompts to Sabi, Jules, Cursor, Copilot, or Codex start with `Caveman mode: terse, no fluff, direct output, no long explanation.` Use normal prose for user-facing specs, docs, PR bodies, commits, and customer copy.
 
 ## Boilerplates & Starters
 - **Turbostarter Boilerplate:** Batteries-included pnpm/monorepo starter for product apps (Next.js, React, Tailwind).
@@ -46,5 +56,6 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 - **Gateway:** loopback `127.0.0.1:18789`, token auth, Tailscale Serve enabled for tailnet access
 - **ACP runtime:** enabled through `acpx`; default ACP agent is `hermes`.
 - **Hermes ACP:** reachable via OpenClaw `sessions_spawn` with `runtime: "acp"` and `agentId: "hermes"`.
-- **Beso + Hermes workflow:** Beso/OpenClaw owns user interaction, approvals, workspace-level decisions, git merges, destructive ops, and shared context files. Hermes owns delegated execution, skills, subagents, and its own memory/state.
-- **Hermes context rule:** do not pass Basem's private context or full workspace memory into Hermes unless needed. Ask Hermes for summaries/results, not raw logs or full internal state. For facts both sides must remember, write them to shared workspace files such as `TOOLS.md`.
+- **Beso + Hermes workflow:** Beso/OpenClaw owns user interaction, approvals, workspace-level decisions, git merges, destructive ops, and shared context files. Hermes/Sabi owns delegated execution, skills, subagents, Kanban tasks, and its own memory/state.
+- **Hermes Kanban:** installed and backed by `~/.hermes/kanban.db`; gateway is running. Use Kanban for durable multi-step work, dependencies, review-required blocks, crash recovery, and audit trail. Current discovered Hermes profile: `default`.
+- **Hermes context rule:** do not pass Basem's private context, `USER.md`, `FINANCE.md`, or full workspace memory into Hermes unless Basem explicitly asks. Ask Hermes for summaries/results, not raw logs or full internal state. For facts both sides must remember, write them to shared workspace files such as `TOOLS.md`.

@@ -14,7 +14,7 @@ Use `tasks:` block with due-only interval checks. HEARTBEAT_OK if nothing due.
 
 - name: memory-distill
   interval: 1d
-  prompt: "Read memory/YYYY-MM-DD.md (today's log). Distill durable facts → MEMORY.md. Commit if changed."
+  prompt: "Check today's memory log size first. If large, read recent tail or changed entries only. Distill durable facts into MEMORY.md. Report changed files; commit only when Basem asks."
 
 - name: config-drift-check
   interval: 1d
