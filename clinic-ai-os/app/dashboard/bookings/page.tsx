@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DEMO_BOOKINGS } from "@/lib/demo-data";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, CalendarCheck, Phone, Bot } from "lucide-react";
 
 export default function BookingsPage() {
@@ -23,12 +24,17 @@ export default function BookingsPage() {
           <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input placeholder="ابحث بالاسم أو رقم الجوال..." className="pr-10" />
         </div>
-        <select className="border rounded-lg px-3 py-2 text-sm bg-background">
-          <option>جميع الحالات</option>
-          <option>مؤكد</option>
-          <option>معلق</option>
-          <option>ملغي</option>
-        </select>
+        <Select defaultValue="all">
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="جميع الحالات" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">جميع الحالات</SelectItem>
+            <SelectItem value="confirmed">مؤكد</SelectItem>
+            <SelectItem value="pending">معلق</SelectItem>
+            <SelectItem value="cancelled">ملغي</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="space-y-3">
