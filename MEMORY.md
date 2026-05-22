@@ -21,3 +21,5 @@
 ## 🧠 Key Decisions
 - Git: workspace on `main`
 - GitHub username: `xb3sox`
+- Preferred PR review flow: use Google Jules for GitHub PR creation/async implementation, then run GitHub Copilot CLI `/review` on Jules-created PRs before merge
+- Correct Jules CLI package: `@google/jules`; authenticate with `jules login`
