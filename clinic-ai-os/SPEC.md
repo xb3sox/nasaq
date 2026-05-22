@@ -170,3 +170,4 @@ tests/                   # 41 passing Node.js test runner tests
 - v0.6: Added production DB hardening — idempotent conversation upsert + dead letter schema alignment
 - v0.7: Rebranded product identity to Nasaq and centralized brand metadata
 - v0.9: Repo setup hardening — Node engine contract (.nvmrc/.node-version/package.json engines), lazy Supabase client (no crash in demo mode), vercel.json installCommand+CORS fixes, migration cleanup (renamed legacy files, sequential numbering), RLS-aligned seed
+- v1.0: Demo data enrichment — 12 bookings, 10 leads, 8 invoices, 7 reminders; reminders page rebuilt with live retry/send API wired; CRM rebuilt with search+filter+empty state; custom 404 page; README fix

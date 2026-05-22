@@ -97,16 +97,16 @@ export const DEMO_BOOKING = {
 };
 
 export const DEMO_REPORT_STATS = {
-  todayBookings: 3,
-  todayConfirmed: 2,
+  todayBookings: 5,
+  todayConfirmed: 4,
   humanNeeded: 1,
-  aiHandled: 12,
-  newLeads: 5,
-  monthRevenue: 48750,
-  monthBookings: 89,
-  remindersSent: 28,
+  aiHandled: 18,
+  newLeads: 8,
+  monthRevenue: 67500,
+  monthBookings: 124,
+  remindersSent: 42,
   remindersFailed: 1,
-  responseTimeMin: 1.4,
+  responseTimeMin: 1.2,
 };
 
 // Typed union arrays — avoid `as const` on array elements causing narrow types
@@ -164,6 +164,36 @@ export const DEMO_REMINDERS: Array<{
     sendAt: "2026-05-25T12:00:00+03:00",
     status: "failed",
   },
+  {
+    id: "rem-5",
+    customerName: "ريم القحطاني",
+    serviceName: "تنظيف أسنان",
+    doctorName: "د. ريم السيف",
+    startAt: "2026-05-23T09:00:00+03:00",
+    type: "24h_before",
+    sendAt: "2026-05-22T09:00:00+03:00",
+    status: "sent",
+  },
+  {
+    id: "rem-6",
+    customerName: "خالد الغامدي",
+    serviceName: "حشوة أسنان",
+    doctorName: "د. ريم السيف",
+    startAt: "2026-05-23T13:00:00+03:00",
+    type: "2h_before",
+    sendAt: "2026-05-23T11:00:00+03:00",
+    status: "queued",
+  },
+  {
+    id: "rem-7",
+    customerName: "هند السالم",
+    serviceName: "فحص دوري",
+    doctorName: "د. نواف الحسين",
+    startAt: "2026-05-24T10:30:00+03:00",
+    type: "24h_before",
+    sendAt: "2026-05-23T10:30:00+03:00",
+    status: "pending",
+  },
 ];
 
 export const DEMO_INVOICES: Array<{
@@ -175,9 +205,14 @@ export const DEMO_INVOICES: Array<{
   status: "paid" | "pending" | "cancelled";
   date: string;
 }> = [
-  { id: "inv-1", customerName: "نورة المحمد", serviceName: "تنظيف أسنان", amount: 250, currency: "SAR", status: "paid", date: "2026-05-22" },
-  { id: "inv-2", customerName: "سارة الناصر", serviceName: "فحص أسنان", amount: 150, currency: "SAR", status: "pending", date: "2026-05-23" },
-  { id: "inv-3", customerName: "عبدالله القحطاني", serviceName: "تبييض أسنان", amount: 800, currency: "SAR", status: "paid", date: "2026-05-21" },
+  { id: "inv-1",  customerName: "نورة المحمد",       serviceName: "تنظيف أسنان",    amount: 250,  currency: "SAR", status: "paid",      date: "2026-05-22" },
+  { id: "inv-2",  customerName: "سارة الناصر",        serviceName: "فحص أسنان",       amount: 150,  currency: "SAR", status: "pending",   date: "2026-05-23" },
+  { id: "inv-3",  customerName: "عبدالله القحطاني",   serviceName: "تبييض أسنان",    amount: 800,  currency: "SAR", status: "paid",      date: "2026-05-21" },
+  { id: "inv-4",  customerName: "خالد الغامدي",       serviceName: "حشوة أسنان",     amount: 300,  currency: "SAR", status: "paid",      date: "2026-05-20" },
+  { id: "inv-5",  customerName: "لينا منصور",          serviceName: "تبييض أسنان",    amount: 800,  currency: "SAR", status: "paid",      date: "2026-05-18" },
+  { id: "inv-6",  customerName: "ريم القحطاني",      serviceName: "تنظيف أسنان",    amount: 250,  currency: "SAR", status: "pending",   date: "2026-05-23" },
+  { id: "inv-7",  customerName: "فهد الحربي",          serviceName: "تقويم أسنان",    amount: 3500, currency: "SAR", status: "paid",      date: "2026-05-15" },
+  { id: "inv-8",  customerName: "ماجدة حسين",          serviceName: "تنظيف أسنان",    amount: 250,  currency: "SAR", status: "cancelled", date: "2026-05-19" },
 ];
 
 type BookingStatus = "confirmed" | "pending" | "completed" | "cancelled";
@@ -195,10 +230,18 @@ export const DEMO_BOOKINGS: Array<{
   paymentStatus: PaymentStatus;
   source: string;
 }> = [
-  { id: "book-1", customer: "سارة أحمد", phone: "+966501234567", service: "تنظيف أسنان", doctor: "د. ريم السيف", date: "2026-05-22", time: "4:00 مساء", status: "confirmed", paymentStatus: "unpaid", source: "AI WhatsApp" },
-  { id: "book-2", customer: "محمد السالم", phone: "+966500001001", service: "استشارة عامة", doctor: "د. نواف", date: "2026-05-22", time: "10:00 صباحاً", status: "confirmed", paymentStatus: "paid", source: "Reception" },
-  { id: "book-3", customer: "نورة الفيفي", phone: "+966500001005", service: "فحص دوري", doctor: "د. نواف", date: "2026-05-22", time: "11:30 صباحاً", status: "pending", paymentStatus: "unpaid", source: "WhatsApp" },
-  { id: "book-4", customer: "فهد الحربي", phone: "+966500001003", service: "إجراء جلدي", doctor: "د. علي", date: "2026-05-21", time: "2:00 مساء", status: "completed", paymentStatus: "paid", source: "Referral" },
+  { id: "book-1",  customer: "سارة أحمد",        phone: "+966501234567", service: "تنظيف أسنان",    doctor: "د. ريم السيف",    date: "2026-05-22", time: "4:00 مساء",    status: "confirmed",  paymentStatus: "unpaid",  source: "AI WhatsApp" },
+  { id: "book-2",  customer: "محمد السالم",       phone: "+966500001001", service: "استشارة عامة",   doctor: "د. نواف الحسين", date: "2026-05-22", time: "10:00 صباحاً", status: "confirmed",  paymentStatus: "paid",    source: "Reception" },
+  { id: "book-3",  customer: "نورة الفيفي",       phone: "+966500001005", service: "فحص دوري",      doctor: "د. نواف الحسين", date: "2026-05-22", time: "11:30 صباحاً",status: "pending",    paymentStatus: "unpaid",  source: "WhatsApp" },
+  { id: "book-4",  customer: "فهد الحربي",        phone: "+966500001003", service: "تقويم أسنان",    doctor: "د. خالد المحسن",  date: "2026-05-21", time: "2:00 مساء",   status: "completed",  paymentStatus: "paid",    source: "Referral" },
+  { id: "book-5",  customer: "ريم القحطاني",      phone: "+966500001004", service: "تبييض أسنان",    doctor: "د. ريم السيف",    date: "2026-05-23", time: "9:00 صباحاً",  status: "confirmed",  paymentStatus: "unpaid",  source: "AI WhatsApp" },
+  { id: "book-6",  customer: "خالد الغامدي",      phone: "+966500001006", service: "حشوة أسنان",     doctor: "د. ريم السيف",    date: "2026-05-23", time: "1:00 مساء",   status: "confirmed",  paymentStatus: "paid",    source: "AI WhatsApp" },
+  { id: "book-7",  customer: "علي الشمري",        phone: "+966500001007", service: "استشارة عامة",   doctor: "د. نواف الحسين", date: "2026-05-20", time: "3:00 مساء",   status: "completed",  paymentStatus: "paid",    source: "Reception" },
+  { id: "book-8",  customer: "ماجدة حسين",        phone: "+966500001008", service: "تنظيف أسنان",    doctor: "د. ريم السيف",    date: "2026-05-19", time: "5:00 مساء",   status: "cancelled",  paymentStatus: "unpaid",  source: "WhatsApp" },
+  { id: "book-9",  customer: "هند السالم",         phone: "+966500001010", service: "فحص دوري",      doctor: "د. نواف الحسين", date: "2026-05-24", time: "10:30 صباحاً",status: "pending",    paymentStatus: "unpaid",  source: "AI WhatsApp" },
+  { id: "book-10", customer: "عبدالله فواز",       phone: "+966500001011", service: "تقويم أسنان",    doctor: "د. خالد المحسن",  date: "2026-05-24", time: "12:00 مساء",  status: "confirmed",  paymentStatus: "partial", source: "Referral" },
+  { id: "book-11", customer: "لينا منصور",         phone: "+966500001012", service: "تبييض أسنان",    doctor: "د. ريم السيف",    date: "2026-05-18", time: "2:30 مساء",   status: "completed",  paymentStatus: "paid",    source: "Instagram" },
+  { id: "book-12", customer: "راشد الدولي",        phone: "+966500001013", service: "حشوة أسنان",     doctor: "د. ريم السيف",    date: "2026-05-17", time: "4:00 مساء",   status: "completed",  paymentStatus: "paid",    source: "AI WhatsApp" },
 ];
 
 type LeadStatus = "new" | "contacted" | "booked";
@@ -211,14 +254,20 @@ export const DEMO_LEADS: Array<{
   status: LeadStatus;
   createdAt: string;
 }> = [
-  { id: "l1", name: "أحمد الدوسري", phone: "+966555678901", source: "whatsapp", status: "new", createdAt: "اليوم" },
-  { id: "l2", name: "فاطمة الزهرائي", phone: "+966566789012", source: "instagram", status: "contacted", createdAt: "بالأمس" },
-  { id: "l3", name: "محمد العتيبي", phone: "+966577890123", source: "google", status: "booked", createdAt: "هذا الأسبوع" },
-  { id: "l4", name: "هند السبيعي", phone: "+966588901234", source: "whatsapp", status: "new", createdAt: "اليوم" },
+  { id: "l1",  name: "أحمد الدوسري",      phone: "+966555678901", source: "whatsapp",  status: "new",       createdAt: "اليوم" },
+  { id: "l2",  name: "فاطمة الزهرائي",    phone: "+966566789012", source: "instagram", status: "contacted",  createdAt: "بالأمس" },
+  { id: "l3",  name: "محمد العتيبي",      phone: "+966577890123", source: "google",    status: "booked",    createdAt: "هذا الأسبوع" },
+  { id: "l4",  name: "هند السبيعي",        phone: "+966588901234", source: "whatsapp",  status: "new",       createdAt: "اليوم" },
+  { id: "l5",  name: "نواف الحربي",        phone: "+966500002001", source: "whatsapp",  status: "contacted",  createdAt: "اليوم" },
+  { id: "l6",  name: "رانيا العمري",       phone: "+966500002002", source: "instagram", status: "booked",    createdAt: "بالأمس" },
+  { id: "l7",  name: "عمر الزهراني",      phone: "+966500002003", source: "referral",  status: "new",       createdAt: "هذا الأسبوع" },
+  { id: "l8",  name: "داليا الشهري",      phone: "+966500002004", source: "google",    status: "contacted",  createdAt: "هذا الأسبوع" },
+  { id: "l9",  name: "بدر العسيري",        phone: "+966500002005", source: "whatsapp",  status: "booked",    createdAt: "الأسبوع الماضي" },
+  { id: "l10", name: "سلمى المطيري",      phone: "+966500002006", source: "instagram", status: "new",       createdAt: "اليوم" },
 ];
 
 export const DEMO_METRICS = {
   labels: ["سبت", "أحد", "اثن", "ثلاث", "أربع", "خميس", "جمع"],
-  bookings: [4, 6, 3, 7, 5, 8, 2],
-  leads: [5, 8, 4, 9, 6, 10, 3],
+  bookings: [6, 9, 5, 11, 8, 13, 4],
+  leads:    [7, 11, 6, 13, 9, 15, 5],
 };
