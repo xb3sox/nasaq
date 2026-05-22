@@ -135,7 +135,7 @@ export default function ReportsPage() {
                 <div key={day} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full bg-muted rounded-lg relative" style={{ height: 140 }}>
                     <div
-                      className="absolute bottom-0 left-0 right-0 rounded-lg bg-primary/80 transition-all duration-500 hover:bg-primary"
+                      className="absolute bottom-0 inset-x-0 rounded-lg bg-primary/80 transition-all duration-500 hover:bg-primary"
                       style={{ height: `${pct}%` }}
                       title={`${val} حجز`}
                     />
@@ -166,7 +166,7 @@ export default function ReportsPage() {
                 <div key={day} className="flex-1 flex flex-col items-center gap-2">
                   <div className="w-full bg-muted rounded-lg relative" style={{ height: 140 }}>
                     <div
-                      className="absolute bottom-0 left-0 right-0 rounded-lg bg-green-500/80 transition-all duration-500 hover:bg-green-500"
+                      className="absolute bottom-0 inset-x-0 rounded-lg bg-green-500/80 transition-all duration-500 hover:bg-green-500"
                       style={{ height: `${pct}%` }}
                       title={`${val} عميل`}
                     />

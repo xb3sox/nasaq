@@ -122,7 +122,7 @@ export default function InboxPage() {
   }
 
   return (
-    <div className="flex min-h-[calc(100dvh-4rem)] flex-col gap-4 p-4 lg:h-[calc(100vh-2rem)] lg:flex-row">
+    <div className="flex flex-col gap-4 p-4 lg:h-[calc(100vh-2rem)] lg:flex-row">
       {/* Sidebar */}
       <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col lg:max-h-none lg:w-80">
         <div className="p-4 border-b font-bold text-sm">المحادثات</div>
@@ -168,7 +168,7 @@ export default function InboxPage() {
                 onClick={handleConfirmBooking}
                 className="min-h-[40px] bg-green-600 hover:bg-green-700"
               >
-                <CalendarCheck className="w-3 h-3 ml-1" />
+                <CalendarCheck className="w-3 h-3 ms-1" />
                 تأكيد الحجز
               </Button>
             )}
@@ -181,7 +181,7 @@ export default function InboxPage() {
                 onClick={handleHumanHandoff}
                 className="min-h-[40px]"
               >
-                <Hand className="w-3 h-3 ml-1" />
+                <Hand className="w-3 h-3 ms-1" />
                 تحويل لموظف
               </Button>
             )}

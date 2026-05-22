@@ -112,7 +112,7 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
           </div>
           <div className="flex gap-2 pt-2">
             <Button className="flex-1" onClick={handleSave} disabled={saving}>
-              {saving ? <Loader2 className="w-4 h-4 animate-spin ml-1" /> : null}
+              {saving ? <Loader2 className="w-4 h-4 animate-spin ms-1" /> : null}
               حفظ الحجز
             </Button>
             <Button variant="outline" className="flex-1" onClick={() => setOpen(false)}>إلغاء</Button>
@@ -182,10 +182,10 @@ export default function BookingsPage() {
       {/* Filters */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="relative flex-1 min-w-[180px] max-w-sm">
-          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
-            className="h-9 pr-9 border-border/50"
+            className="h-9 pe-9 border-border/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -214,7 +214,7 @@ export default function BookingsPage() {
             <SelectItem value="Referral">إحالة</SelectItem>
           </SelectContent>
         </Select>
-        <span className="text-xs text-muted-foreground mr-auto">
+        <span className="text-xs text-muted-foreground me-auto">
           {filtered.length} من {all.length} حجز
         </span>
       </div>
@@ -253,15 +253,15 @@ export default function BookingsPage() {
                   </div>
                   <div className="flex flex-col items-end gap-1.5 shrink-0">
                     <Badge className={statusCfg.color}>
-                      <StatusIcon className="w-3 h-3 ml-1" />
+                      <StatusIcon className="w-3 h-3 ms-1" />
                       {statusCfg.label}
                     </Badge>
                     <Badge variant="outline" className={`text-xs ${paymentCfg.color} border-0`}>
-                      <DollarSign className="w-3 h-3 ml-0.5" />
+                      <DollarSign className="w-3 h-3 ms-0.5" />
                       {paymentCfg.label}
                     </Badge>
                     <Badge variant="outline" className={`text-xs hidden sm:flex ${SOURCE_COLORS[booking.source] ?? ""}`}>
-                      {booking.source === "AI WhatsApp" && <Bot className="w-3 h-3 ml-1" />}
+                      {booking.source === "AI WhatsApp" && <Bot className="w-3 h-3 ms-1" />}
                       {booking.source}
                     </Badge>
                   </div>

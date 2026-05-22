@@ -129,7 +129,7 @@ export default function RemindersPage() {
 
                 <div className="flex flex-col items-end gap-2 shrink-0">
                   <Badge className={cfg.color}>
-                    <StatusIcon className="w-3 h-3 ml-1" />
+                    <StatusIcon className="w-3 h-3 ms-1" />
                     {cfg.label}
                   </Badge>
                   {(status === "pending" || status === "failed") && (
