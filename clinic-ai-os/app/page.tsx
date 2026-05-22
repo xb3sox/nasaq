@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, Star, MessageCircle, Calendar, BarChart3, Bell, Users, Bot, Zap } from "lucide-react";
+import { Check, MessageCircle, Calendar, BarChart3, Bell, Users, Bot, Zap } from "lucide-react";
 
 const FEATURES = [
   { icon: MessageCircle, title: "واتساب ذكي", desc: "يرد على العملاء تلقائياً بالعربية على مدار الساعة" },

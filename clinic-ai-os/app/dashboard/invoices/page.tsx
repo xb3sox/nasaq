@@ -1,8 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Plus, FileText, CheckCircle, Printer } from "lucide-react";
+import { Plus, CheckCircle, Printer } from "lucide-react";
 
 const MOCK_INVOICES = [
   { id: "INV-1001", customer: "محمد السالم", service: "استشارة عامة", subtotal: 150, discount: 0, tax: 22.5, total: 172.5, status: "paid", date: "2026-05-20" },

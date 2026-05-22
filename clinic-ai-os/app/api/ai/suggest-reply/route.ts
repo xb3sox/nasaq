@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { analyzeClinicMessage } from '@/lib/clinic-workflow';
 
 export async function POST(request: Request) {
   try {
@@ -8,23 +9,19 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'No messages provided' }, { status: 400 });
     }
 
-    // Mock AI reply based on user intent
     const lastMessage = messages[messages.length - 1].content;
-    
-    let suggestedReply = "عفواً، هل يمكنك توضيح سؤالك؟";
-
-    if (lastMessage.includes('تنظيف') || lastMessage.includes('بكم')) {
-      suggestedReply = "أهلاً بك. سعر تنظيف الأسنان هو 250 ريال. يتوفر لدينا موعد اليوم الساعة 4:00 عصراً أو 7:00 مساءً. هل يناسبك أحدها؟";
-    } else if (lastMessage.includes('الغاء') || lastMessage.includes('إلغاء')) {
-      suggestedReply = "نأسف لسماع ذلك. تم إلغاء موعدك. هل ترغب في تحديد موعد آخر في يوم مختلف؟";
-    } else if (lastMessage.includes('حجز') || lastMessage.includes('موعد')) {
-      suggestedReply = "أهلاً بك. لحجز موعد، نحتاج لمعرفة الخدمة المطلوبة (تنظيف، تبييض، كشفية) والوقت المفضل لك (صباحاً أو مساءً).";
-    }
+    const decision = analyzeClinicMessage(lastMessage);
 
     return NextResponse.json({ 
       success: true,
-      suggestedReply,
-      intent: 'booking_inquiry'
+      suggestedReply: decision.reply,
+      intent: decision.intent,
+      confidence: decision.confidence,
+      humanNeeded: decision.humanNeeded,
+      nextAction: decision.nextAction,
+      serviceCode: decision.serviceCode,
+      serviceName: decision.serviceName,
+      availableSlots: decision.availableSlots ?? [],
     });
 
   } catch (error) {

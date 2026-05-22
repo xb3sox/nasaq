@@ -1,10 +1,18 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, CalendarCheck, MessageCircle, TrendingUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Users, CalendarCheck, MessageCircle, TrendingUp, Bot, Bell } from "lucide-react";
+import { demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 
 export default function DashboardPage() {
   return (
     <div className="p-8 space-y-8">
-      <h1 className="text-3xl font-bold">نظرة عامة</h1>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold">نظرة عامة</h1>
+          <p className="text-sm text-muted-foreground mt-2">مسار اليوم: واتساب → AI → حجز → تذكير → CRM → تقرير</p>
+        </div>
+        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Demo Ready</Badge>
+      </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
@@ -13,8 +21,8 @@ export default function DashboardPage() {
             <CalendarCheck className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">12</div>
-            <p className="text-xs text-muted-foreground">+2 عن أمس</p>
+            <div className="text-2xl font-bold">{demoReportStats.todayBookings}</div>
+            <p className="text-xs text-muted-foreground">منها حجز AI مؤكد</p>
           </CardContent>
         </Card>
         
@@ -24,8 +32,8 @@ export default function DashboardPage() {
             <MessageCircle className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">4</div>
-            <p className="text-xs text-muted-foreground">الذكاء الاصطناعي تعامل مع 32</p>
+            <div className="text-2xl font-bold text-destructive">{demoReportStats.humanNeeded}</div>
+            <p className="text-xs text-muted-foreground">AI تعامل مع {demoReportStats.aiHandled}</p>
           </CardContent>
         </Card>
 
@@ -35,7 +43,7 @@ export default function DashboardPage() {
             <Users className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">8</div>
+            <div className="text-2xl font-bold">{demoReportStats.newLeads}</div>
             <p className="text-xs text-muted-foreground">هذا الأسبوع</p>
           </CardContent>
         </Card>
@@ -46,18 +54,42 @@ export default function DashboardPage() {
             <TrendingUp className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">24,500 ر.س</div>
+            <div className="text-2xl font-bold">{demoReportStats.monthRevenue.toLocaleString()} ر.س</div>
             <p className="text-xs text-muted-foreground">+12% عن الشهر الماضي</p>
           </CardContent>
         </Card>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="h-96 flex items-center justify-center text-muted-foreground">
-          [مخطط المواعيد القادمة]
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <Card className="xl:col-span-2">
+          <CardHeader>
+            <CardTitle className="text-base">آخر مسار حجز من واتساب</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4 md:grid-cols-5 text-sm">
+            {[
+              ["رسالة", demoConversation.messages.at(-1)?.body ?? ""],
+              ["قرار AI", `${demoAiDecision.intent} · ${(demoAiDecision.confidence * 100).toFixed(0)}%`],
+              ["رد", demoAiDecision.reply],
+              ["حجز", `${demoBooking.serviceName} · ${demoBooking.doctorName}`],
+              ["تذكير", "24h + 2h queued"],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-lg border p-3 min-h-28">
+                <div className="text-xs text-muted-foreground mb-2">{label}</div>
+                <div className="font-medium leading-relaxed">{value}</div>
+              </div>
+            ))}
+          </CardContent>
         </Card>
-        <Card className="h-96 flex items-center justify-center text-muted-foreground">
-          [ملخص أداء الذكاء الاصطناعي]
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">جاهزية البيع</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm">
+            <div className="flex items-center gap-2"><Bot className="w-4 h-4 text-green-600" /> AI intent + reply ready</div>
+            <div className="flex items-center gap-2"><CalendarCheck className="w-4 h-4 text-green-600" /> Booking draft ready</div>
+            <div className="flex items-center gap-2"><Bell className="w-4 h-4 text-green-600" /> Reminder queue ready</div>
+            <div className="flex items-center gap-2"><Users className="w-4 h-4 text-orange-600" /> Needs real auth + DB writes</div>
+          </CardContent>
         </Card>
       </div>
     </div>

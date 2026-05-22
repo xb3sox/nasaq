@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).end()
-  const { conversation_id, messages } = req.body
+  const { conversation_id } = req.body
   // In mock mode, return canned Arabic reply
   if (process.env.MOCK_MODE === 'true') {
     return res.status(200).json({ suggested_text: 'مرحبًا، شكرًا لتواصلك. متى تفضل الحضور؟', action: 'ask_question', confidence: 0.95 })

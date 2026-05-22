@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Building2, MessageCircle, Bot, Users, Stethoscope, GitBranch, Bell } from "lucide-react";
+import { Building2, MessageCircle, Bot, Users, Stethoscope, Bell } from "lucide-react";
 
 export default function SettingsPage() {
   return (

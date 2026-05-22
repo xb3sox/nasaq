@@ -68,7 +68,7 @@ VALUES
 ('00000000-0000-0000-0000-000000000001','زياد الناصر','+966500001018','+966500001018','z.nasser@example.com','male','1986-07-07',ARRAY[],'new','website'),
 ('00000000-0000-0000-0000-000000000001','أمل السعيد','+966500001019','+966500001019','a.saeed@example.com','female','1995-08-08',ARRAY[],'new','referral'),
 ('00000000-0000-0000-0000-000000000001','باسل كريم','+966500001020','+966500001020','b.kareem@example.com','male','1990-09-09',ARRAY[],'new','whatsapp')
-ON CONFLICT (phone) DO NOTHING;
+ON CONFLICT (clinic_id, phone) DO NOTHING;
 
 -- Insert conversations (10 mock)
 INSERT INTO conversations (clinic_id, customer_id, channel, external_id, last_message, tags)

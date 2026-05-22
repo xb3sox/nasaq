@@ -1,20 +1,18 @@
 import { NextResponse } from 'next/server';
+import { handleWhatsAppWebhook } from '@/lib/clinic-api';
+import { DEMO_CLINIC_ID } from '@/lib/demo-clinic';
+import { getSupabaseClinicStore } from '@/lib/supabase-admin';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
-    // Webhook from Meta WhatsApp Cloud API usually looks like this
-    console.log('Received WhatsApp Webhook:', body);
+    const response = await handleWhatsAppWebhook({
+      clinicId: process.env.DEMO_CLINIC_ID ?? DEMO_CLINIC_ID,
+      payload: body,
+      store: getSupabaseClinicStore(),
+    });
 
-    // Mock handling logic
-    const mockResponse = {
-      success: true,
-      message: 'Message received and logged (mock mode)',
-      data: body
-    };
-
-    return NextResponse.json(mockResponse);
+    return NextResponse.json(response);
   } catch (error) {
     console.error('Webhook error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

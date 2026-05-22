@@ -158,6 +158,9 @@ CREATE TABLE IF NOT EXISTS bookings (
 
 CREATE INDEX IF NOT EXISTS idx_bookings_clinic_start ON bookings (clinic_id, start_at);
 
+-- invoice number sequence
+CREATE SEQUENCE IF NOT EXISTS invoices_number_seq START 1000;
+
 -- invoices
 CREATE TABLE IF NOT EXISTS invoices (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -177,6 +180,8 @@ CREATE TABLE IF NOT EXISTS invoices (
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+ALTER SEQUENCE invoices_number_seq OWNED BY invoices.invoice_number;
 
 -- invoice items
 CREATE TABLE IF NOT EXISTS invoice_items (
@@ -262,13 +267,6 @@ CREATE TABLE IF NOT EXISTS dead_letters (
   reason text,
   created_at timestamptz NOT NULL DEFAULT now()
 );
-
--- invoice number sequence
-DO $$ BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_class WHERE relname = 'invoices_number_seq') THEN
-        CREATE SEQUENCE invoices_number_seq START 1000 OWNED BY invoices.invoice_number;
-    END IF;
-END$$;
 
 -- updated_at trigger helper
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()

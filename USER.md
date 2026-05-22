@@ -1,5 +1,7 @@
 # USER.md - About Your Human
 
+**Shared with Sabi.** Sabi's memory has identical user profile. Don't pass this to Sabi — she already has it.
+
 - **Name:** Basem Sufan
 - **What to call them:** Basem
 - **Pronouns:** He/Him

@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, Users, CalendarCheck, XCircle, Bot } from "lucide-react";
+import { TrendingUp, TrendingDown } from "lucide-react";
+import { demoReportStats } from "@/lib/demo-clinic";
 
 const STATS = [
   { label: "إجمالي الحجوزات", value: "148", trend: "+12%", up: true },
@@ -8,7 +9,7 @@ const STATS = [
   { label: "ملغاة", value: "18", trend: "-2%", up: false },
   { label: "لم يحضر", value: "28", trend: "+3%", up: false },
   { label: "الإيرادات", value: "87,400 ر.س", trend: "+18%", up: true },
-  { label: "معالجة بالذكاء", value: "312 محادثة", trend: "+24%", up: true },
+  { label: "معالجة بالذكاء", value: `${demoReportStats.aiHandled} محادثة`, trend: "+24%", up: true },
 ];
 
 const TOP_SERVICES = [
@@ -88,10 +89,10 @@ export default function ReportsPage() {
         <CardHeader><CardTitle className="text-base">أداء الذكاء الاصطناعي</CardTitle></CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="space-y-1"><div className="text-2xl font-bold text-blue-600">312</div><div className="text-xs text-muted-foreground">محادثة معالجة</div></div>
-            <div className="space-y-1"><div className="text-2xl font-bold text-green-600">88%</div><div className="text-xs text-muted-foreground">نسبة التحويل</div></div>
-            <div className="space-y-1"><div className="text-2xl font-bold text-orange-600">37</div><div className="text-xs text-muted-foreground">تحويل لموظف</div></div>
-            <div className="space-y-1"><div className="text-2xl font-bold text-purple-600">68</div><div className="text-xs text-muted-foreground">حجز من المحادثة</div></div>
+            <div className="space-y-1"><div className="text-2xl font-bold text-blue-600">{demoReportStats.aiHandled}</div><div className="text-xs text-muted-foreground">محادثة معالجة</div></div>
+            <div className="space-y-1"><div className="text-2xl font-bold text-green-600">{demoReportStats.conversionRate}%</div><div className="text-xs text-muted-foreground">نسبة التحويل</div></div>
+            <div className="space-y-1"><div className="text-2xl font-bold text-orange-600">{demoReportStats.humanNeeded}</div><div className="text-xs text-muted-foreground">تحويل لموظف</div></div>
+            <div className="space-y-1"><div className="text-2xl font-bold text-purple-600">{demoReportStats.todayBookings}</div><div className="text-xs text-muted-foreground">حجز اليوم</div></div>
           </div>
         </CardContent>
       </Card>
