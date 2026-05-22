@@ -3,7 +3,7 @@
 ## Planned Products
 - **MatchMind** — AI Tinder autopilot extension (planned).
 - **PostPilot** — self-hosted social automation command center (planned).
-- **Clinic AI OS** — project state lives in `/home/beso/.openclaw/workspace/clinic-ai-os/`; load only for Clinic tasks.
+- **Nasaq** — AI clinic flow project state lives in `/home/beso/.openclaw/workspace/clinic-ai-os/`; load only for Clinic/Nasaq tasks.
 
 ## Infrastructure
 - **n8n:** `http://127.0.0.1:5678` (Docker) | 5 workflows, 4 active

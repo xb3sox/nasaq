@@ -1,16 +1,24 @@
 "use client";
+import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Building2, MessageCircle, Bot, Users, Stethoscope, Bell } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Building2, MessageCircle, Bot, Users, Stethoscope, Bell, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
+import type { RuntimeConfigStatus } from "@/lib/runtime-config";
 
 export default function SettingsPage() {
   return (
     <div className="p-6 space-y-6 max-w-4xl">
-      <h1 className="text-2xl font-bold">الإعدادات</h1>
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold">الإعدادات</h1>
+        <p className="text-sm text-muted-foreground">جاهزية الربط الحقيقي بدون عرض أي أسرار أو مفاتيح.</p>
+      </div>
+
+      <ConfigReadinessPanel />
 
       <Tabs defaultValue="clinic" className="space-y-4">
         <TabsList className="flex-wrap gap-1 h-auto p-1.5">
@@ -46,7 +54,7 @@ export default function SettingsPage() {
               <div className="space-y-2"><Label>WHATSAPP_VERIFY_TOKEN</Label><Input placeholder="توكن التحقق" /></div>
               <div className="flex items-center gap-3">
                 <Switch id="mock-mode" defaultChecked />
-                <Label htmlFor="mock-mode">وضع المحاكاة (MOCK_MODE) — يمنع الإرسال الحقيقي</Label>
+                <Label htmlFor="mock-mode">وضع المحاكاة — يستخدم تلقائياً عند نقص إعدادات واتساب</Label>
               </div>
               <Button>حفظ</Button>
             </CardContent>
@@ -137,4 +145,104 @@ export default function SettingsPage() {
       </Tabs>
     </div>
   );
+}
+
+function ConfigReadinessPanel() {
+  const [status, setStatus] = useState<RuntimeConfigStatus | null>(null);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("/api/config/status", { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to load config status");
+        }
+        return response.json() as Promise<RuntimeConfigStatus>;
+      })
+      .then(setStatus)
+      .catch((err: unknown) => {
+        if (!(err instanceof DOMException && err.name === "AbortError")) {
+          setError(true);
+        }
+      });
+
+    return () => controller.abort();
+  }, []);
+
+  if (error) {
+    return (
+      <Card className="border-destructive/30">
+        <CardContent className="flex items-center gap-3 p-4 text-sm text-destructive">
+          <AlertTriangle className="h-4 w-4" />
+          تعذر تحميل حالة الإعدادات.
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const rows = status
+    ? [
+        {
+          label: "Supabase",
+          ready: status.supabase.ready,
+          detail: status.supabase.ready ? "قاعدة البيانات جاهزة" : `ينقص: ${formatMissing(status.supabase.missing)}`,
+        },
+        {
+          label: "WhatsApp",
+          ready: status.whatsapp.ready,
+          detail: status.whatsapp.ready ? "Cloud API جاهز" : `وضع المحاكاة مفعل. ينقص: ${formatMissing(status.whatsapp.missing)}`,
+        },
+        {
+          label: "AI",
+          ready: status.ai.ready,
+          detail: status.ai.ready ? `المزود: ${status.ai.provider}` : "يعمل بالمزود الحتمي التجريبي",
+        },
+        {
+          label: "Demo API",
+          ready: !status.demoApi.exposed,
+          detail: status.demoApi.exposed ? "واجهات الديمو مفتوحة في هذه البيئة" : "واجهات الديمو محمية في الإنتاج",
+          caution: status.demoApi.exposed,
+        },
+      ]
+    : [];
+
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <CardTitle className="text-base">جاهزية التشغيل</CardTitle>
+          <Badge variant="outline" className="w-fit">
+            {status ? status.environment : "loading"}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent className="grid gap-3 sm:grid-cols-2">
+        {status
+          ? rows.map((row) => (
+              <div key={row.label} className="flex min-h-20 items-start gap-3 rounded-lg border p-3">
+                {row.ready ? (
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />
+                ) : row.caution ? (
+                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                ) : (
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                )}
+                <div className="min-w-0 space-y-1">
+                  <div className="font-medium">{row.label}</div>
+                  <p className="text-xs leading-relaxed text-muted-foreground">{row.detail}</p>
+                </div>
+              </div>
+            ))
+          : Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="h-20 animate-pulse rounded-lg border bg-muted/40" />
+            ))}
+      </CardContent>
+    </Card>
+  );
+}
+
+function formatMissing(keys: string[]) {
+  return keys.length > 0 ? keys.join(", ") : "لا شيء";
 }

@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BRAND } from "@/lib/brand";
 
 const routes = [
   { name: "لوحة القيادة", href: "/dashboard", icon: LayoutDashboard },
@@ -40,8 +41,8 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
             <Activity className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-base font-bold text-foreground leading-none">Clinic AI</h1>
-            <p className="text-xs text-muted-foreground leading-none mt-0.5">Operating System</p>
+            <h1 className="text-base font-bold text-foreground leading-none">{BRAND.name}</h1>
+            <p className="text-xs text-muted-foreground leading-none mt-0.5">{BRAND.nameAr}</p>
           </div>
         </div>
       </div>

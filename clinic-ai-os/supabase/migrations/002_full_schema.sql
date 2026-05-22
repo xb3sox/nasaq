@@ -1,5 +1,5 @@
 -- ============================================================
--- Clinic AI OS — Supabase Schema Migration
+-- Nasaq — Supabase Schema Migration
 -- Run this in your Supabase SQL Editor
 -- ============================================================
 

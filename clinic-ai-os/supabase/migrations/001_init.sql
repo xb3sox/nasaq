@@ -1,5 +1,5 @@
 -- 001_init.sql
--- Supabase/Postgres schema for Clinic AI OS MVP
+-- Supabase/Postgres schema for Nasaq MVP
 -- Run as migration (psql or supabase migrations)
 
 BEGIN;

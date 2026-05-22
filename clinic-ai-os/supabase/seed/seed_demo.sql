@@ -1,5 +1,5 @@
 -- seed_demo.sql
--- Demo data for Clinic AI OS MVP (Riyadh clinic)
+-- Demo data for Nasaq MVP (Riyadh clinic)
 
 BEGIN;
 

@@ -1,10 +1,12 @@
-# Clinic AI OS — MVP Spec
+# Nasaq — MVP Spec
 
 ## Goal
 
 Build a sales-ready MVP for Riyadh clinics that proves one high-value flow:
 
 **WhatsApp lead → AI reply → appointment booking → reminders → CRM timeline → owner report.**
+
+Product identity: **Nasaq** / **نسق** — AI clinic flow. The brand means order, coordination, and structured operations. Technical domain names still use `clinic` where they represent the healthcare tenant model.
 
 Target: demoable, pilot-able with 1-2 clinics, sellable within 2 days.
 
@@ -22,10 +24,12 @@ Target: demoable, pilot-able with 1-2 clinics, sellable within 2 days.
 ### Files
 ```
 lib/
+  brand.ts              # Nasaq product identity and metadata copy
   clinic-workflow.ts     # Intent detection, booking logic, reminders
   clinic-persistence.ts  # Store interface (10 operations)
   supabase-store.ts      # Supabase adapter implementing ClinicStore
   supabase-admin.ts      # Service role client + isConfigured guard
+  runtime-config.ts      # Safe runtime readiness status without secret values
   clinic-api.ts          # Webhook, booking, send — 3 handlers
   whatsapp-send.ts        # Mock + Cloud API sender + factory
   ai-provider.ts          # Deterministic + OpenAI + Gemini + factory
@@ -34,6 +38,7 @@ lib/
   utils.ts
 
 app/api/
+  config/status/         # Safe config readiness endpoint for settings UI
   webhooks/whatsapp/     # Meta webhook verification + inbound handler
   messages/send/         # Outbound WhatsApp sender endpoint
   bookings/              # Booking creation endpoint
@@ -48,9 +53,11 @@ app/dashboard/
   reminders/page.tsx     # Reminder queue with status + retry
   invoices/page.tsx      # Invoice list (stub)
   reports/page.tsx       # Reports (stub)
-  settings/page.tsx      # WhatsApp + AI config (stub)
+  settings/page.tsx      # Readiness panel + WhatsApp, AI, clinic settings
 
-tests/                   # 32 passing Node.js test runner tests
+tests/                   # 41 passing Node.js test runner tests
+  brand.test.ts
+  runtime-config.test.ts
   clinic-workflow.test.ts
   clinic-api.test.ts
   clinic-persistence.test.ts
@@ -62,7 +69,7 @@ tests/                   # 32 passing Node.js test runner tests
 ```
 
 ### Review Gate Results
-- ✅ 35/35 tests passing
+- ✅ 43/43 tests passing
 - ✅ Lint clean
 - ✅ Build clean (no type errors)
 - ✅ Smoke test: `POST /api/messages/send` returns `{ success: true, messageId: "mock-..." }`
@@ -161,3 +168,5 @@ tests/                   # 32 passing Node.js test runner tests
 - v0.4: Interactive inbox with send/confirm/handoff actions wired to API
 - v0.5: Typed demo data, all pages wired to demo-data, build clean
 - v0.6: Added production DB hardening — idempotent conversation upsert + dead letter schema alignment
+- v0.7: Rebranded product identity to Nasaq and centralized brand metadata
+- v0.8: Added safe runtime config status endpoint and settings readiness panel

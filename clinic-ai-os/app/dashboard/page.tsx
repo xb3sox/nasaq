@@ -7,30 +7,35 @@ import { demoAiDecision, demoBooking, demoConversation, demoReportStats } from "
 import { useEffect, useState } from "react";
 
 function RiyadhClock() {
-  const [time, setTime] = useState(new Date());
+  const [time, setTime] = useState<Date | null>(null);
 
   useEffect(() => {
+    const syncClock = () => setTime(new Date());
+    const initialTimer = setTimeout(syncClock, 0);
     const timer = setInterval(() => {
       setTime(new Date());
     }, 1000);
-    return () => clearInterval(timer);
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(timer);
+    };
   }, []);
 
-  const riyadh = time.toLocaleString("ar-SA", {
+  const riyadh = time?.toLocaleString("ar-SA", {
     timeZone: "Asia/Riyadh",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: true,
-  });
+  }) ?? "--:--:--";
 
-  const date = time.toLocaleDateString("ar-SA", {
+  const date = time?.toLocaleDateString("ar-SA", {
     timeZone: "Asia/Riyadh",
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-  });
+  }) ?? "";
 
   return (
     <div className="flex items-center gap-2 text-sm text-muted-foreground">

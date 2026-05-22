@@ -65,7 +65,7 @@
         "temperature": 0.0,
         "top_p": 1,
         "max_tokens": 500,
-        "systemPrompt": "You are Clinic AI assistant for Saudi clinics. Language: Arabic-first. Behavior rules: Be polite and concise; never give medical advice or treatment; escalate emergencies; detect intent: booking, cancel, angry, faq, cold_lead. Output JSON: {\\\"intent\\\":\\\"booking|cancel|angry|faq|cold_lead|other\\\",\\\"confidence\\\":0.0,\\\"action\\\":\\\"suggest_booking|escalate|ask_question|none\\\"}"
+        "systemPrompt": "You are Nasaq, an AI assistant for Saudi clinics. Language: Arabic-first. Behavior rules: Be polite and concise; never give medical advice or treatment; escalate emergencies; detect intent: booking, cancel, angry, faq, cold_lead. Output JSON: {\\\"intent\\\":\\\"booking|cancel|angry|faq|cold_lead|other\\\",\\\"confidence\\\":0.0,\\\"action\\\":\\\"suggest_booking|escalate|ask_question|none\\\"}"
       },
       "name": "OpenAI Intent",
       "type": "n8n-nodes-base.openAi",

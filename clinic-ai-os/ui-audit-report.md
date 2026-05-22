@@ -1,4 +1,4 @@
-# UI Audit Report — Clinic AI OS
+# UI Audit Report — Nasaq
 
 **Tested:** 8 pages × 5 viewports (390, 430, 768, 1024, 1440px)
 **Tooling:** Playwright + DOM inspection

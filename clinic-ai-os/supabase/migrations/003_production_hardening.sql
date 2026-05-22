@@ -1,4 +1,4 @@
--- Clinic AI OS production hardening
+-- Nasaq production hardening
 -- Fixes adapter/schema mismatches before real clinic pilots.
 
 begin;

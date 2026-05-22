@@ -1,4 +1,4 @@
--- Database Schema for Clinic AI OS
+-- Database Schema for Nasaq
 
 -- 1. Clinics
 CREATE TABLE clinics (

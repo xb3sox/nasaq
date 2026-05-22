@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { BRAND } from "@/lib/brand";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Clinic AI OS — AI للعيادات السعودية",
-  description: "نظام AI للعيادات يرد على الواتساب، يحجز المواعيد، ويقلل ضغط الاستقبال. خلال 7 أيام نجهز لك نظاماً ذكياً.",
+  title: BRAND.metadataTitle,
+  description: BRAND.metadataDescription,
 };
 
 export default function RootLayout({

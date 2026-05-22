@@ -1,6 +1,6 @@
-# Clinic AI OS — Setup Guide
+# Nasaq — Setup Guide
 
-Arabic AI Operating System for Riyadh clinics.
+Arabic-first AI clinic flow system for Riyadh clinics.
 WhatsApp → AI → Booking → Reminders → CRM → Reports.
 
 ---
@@ -91,6 +91,11 @@ Add all env variables in Vercel dashboard:
 - `APP_URL` (your Vercel domain)
 - `ENABLE_UNAUTHENTICATED_DEMO_API=false`
 
+GitHub Actions deployment also needs these repository secrets:
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+
 ---
 
 ## Environment Variables
@@ -127,6 +132,7 @@ ENABLE_UNAUTHENTICATED_DEMO_API=false
 clinic-ai-os/
 ├── app/
 │   ├── api/
+│   │   ├── config/status/        # Safe readiness flags; never returns secrets
 │   │   ├── webhooks/whatsapp/   # Meta webhook receiver
 │   │   ├── messages/send/       # Outbound WhatsApp sender
 │   │   ├── bookings/             # Booking creation
@@ -139,9 +145,11 @@ clinic-ai-os/
 │       ├── invoices/             # Invoice management
 │       └── reports/             # Analytics & reports
 ├── lib/
+│   ├── brand.ts                 # Nasaq product identity
 │   ├── clinic-workflow.ts        # Intent detection + booking logic
 │   ├── clinic-persistence.ts     # Store interface (10 ops)
 │   ├── supabase-store.ts         # Supabase adapter
+│   ├── runtime-config.ts         # Env readiness status without secret values
 │   ├── clinic-api.ts             # Webhook + booking + send handlers
 │   ├── whatsapp-send.ts          # Mock + Meta Cloud API sender
 │   ├── ai-provider.ts            # Deterministic + OpenAI + Gemini
@@ -154,6 +162,10 @@ clinic-ai-os/
 ---
 
 ## Demo Flow (5 minutes)
+
+Product name: **Nasaq** / **نسق** — AI clinic flow.
+
+Open **الإعدادات** first to check Supabase, WhatsApp, AI, and demo API readiness. The readiness panel exposes only status flags and missing variable names; it never returns secret values.
 
 1. **صندوق الواتساب** — show نورة's conversation, click "استخدام الرد", send
 2. **تأكيد الحجز** — click green button, shows confirmed

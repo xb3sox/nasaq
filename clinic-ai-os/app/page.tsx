@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { BRAND } from "@/lib/brand";
 import { Check, MessageCircle, Calendar, BarChart3, Bell, Users, Bot, Zap } from "lucide-react";
 
 export const FEATURES = [
@@ -36,7 +37,7 @@ export function LandingContent() {
       {/* Nav */}
       <nav className="border-b sticky top-0 bg-background/95 backdrop-blur z-50">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="font-bold text-lg">🏥 Clinic AI OS</div>
+          <div className="font-bold text-lg">{BRAND.name}</div>
           <div className="flex gap-3">
             <Link href="/dashboard"><Button variant="outline">لوحة التحكم</Button></Link>
             <Button variant="default" className="shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">احجز ديمو مجاني</Button>
@@ -50,7 +51,7 @@ export function LandingContent() {
           <Zap className="w-4 h-4" /> نظام ذكاء اصطناعي مخصص للعيادات السعودية
         </div>
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight animate-fade-slide-up animate-delay-1">
-          نظام AI للعيادات يرد على الواتساب،<br />
+          {BRAND.nameAr} ينظم واتساب العيادة،<br />
           <span className="text-primary">يحجز المواعيد</span>، ويقلل ضغط الاستقبال
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-slide-up animate-delay-2">
@@ -166,7 +167,7 @@ export function LandingContent() {
 
       {/* Footer */}
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">
-        <div className="max-w-6xl mx-auto px-6">© 2026 Clinic AI OS — جميع الحقوق محفوظة</div>
+        <div className="max-w-6xl mx-auto px-6">© 2026 {BRAND.footer}</div>
       </footer>
     </div>
   );

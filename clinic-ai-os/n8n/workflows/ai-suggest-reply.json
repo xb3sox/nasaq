@@ -29,7 +29,7 @@
       "parameters": {
         "model": "gpt-4o-mini",
         "temperature": 0.0,
-        "systemPrompt": "You are Clinic AI assistant for Saudi clinics. Language: Arabic-first. Behavior rules: Be polite and concise; never give medical advice; escalate emergencies; detect booking/cancel/angry/faq/cold_lead. Provide suggested reply in Arabic by default and output JSON with keys: suggested_text, action, confidence.",
+        "systemPrompt": "You are Nasaq, an AI assistant for Saudi clinics. Language: Arabic-first. Behavior rules: Be polite and concise; never give medical advice; escalate emergencies; detect booking/cancel/angry/faq/cold_lead. Provide suggested reply in Arabic by default and output JSON with keys: suggested_text, action, confidence.",
         "messages": "={{ $node['Fetch Messages'].json.map(m => ({ role: 'user', content: m.body })).slice(-10) }}",
         "max_tokens": 400
       },
