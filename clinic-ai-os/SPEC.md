@@ -148,15 +148,36 @@ tests/                   # 41 passing Node.js test runner tests
 
 ---
 
-## Missing for Production (Post-MVP)
+## Task Queue (Auto-Dispatch)
 
-1. **Supabase**: apply migrations to live project + verify RLS with real auth users
-2. **Auth**: NextAuth for dashboard access
-3. **Real WhatsApp**: Meta Cloud API credentials + webhook registration
-4. **Real AI**: OpenAI/Gemini API key
-5. **Reminders sender**: n8n workflow to send queued reminders via `/api/messages/send`
-6. **ZATCA invoicing**: VAT-ready invoice generation
-7. **Doctor calendar**: real slot availability from a scheduling tool
+> Format: `[ ]` pending · `[~]` in-progress · `[x]` done
+> Beso reads this on heartbeat and dispatches agents automatically.
+> Do NOT reorder items — priority is top-down.
+
+### P1 — Core (MVP blockers)
+- [ ] **Auth** — NextAuth email+password, protect dashboard routes, login page already built
+- [ ] **Real WhatsApp** — Meta Cloud API creds + webhook registration + test end-to-end
+- [ ] **Real AI** — OpenAI/Gemini key wired to `/api/ai/suggest-reply`
+- [ ] **Supabase live** — apply all migrations to live project, verify RLS with real auth users
+
+### P2 — Revenue
+- [ ] **ZATCA PDF** — generate VAT-compliant PDF invoice from modal, download button live
+- [ ] **Reminders sender** — n8n workflow fires queued reminders via `/api/messages/send`
+- [ ] **Doctor calendar** — real slot availability, block double-booking
+
+### P3 — Growth
+- [ ] **Multi-clinic** — org/tenant model, each clinic isolated
+- [ ] **Onboarding flow** — guided setup wizard for new clinics
+- [ ] **Analytics** — week-over-week trend charts on reports page
+- [ ] **Mobile PWA** — add manifest + service worker for installable app
+
+### P4 — Compliance
+- [ ] Data stored in Saudi Arabia or compliant jurisdiction (SDA requirements)
+- [ ] Patient data not shared with third parties without consent
+- [ ] AI does not give medical advice — routes to human for symptoms
+- [ ] WhatsApp Business policy compliance — no marketing without opt-in
+- [ ] CRM consent — customers opt in to WhatsApp messages
+- [ ] Data retention policy — conversation log TTL
 
 ---
 
