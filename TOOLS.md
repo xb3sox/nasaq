@@ -44,3 +44,7 @@ Skills define _how_ tools work. This file is for _your_ specifics — the stuff 
 ## OpenClaw
 - **CLI path:** `~/.nvm/versions/node/v24.15.0/bin/openclaw` (shell PATH may not expose `openclaw` in non-interactive commands)
 - **Gateway:** loopback `127.0.0.1:18789`, token auth, Tailscale Serve enabled for tailnet access
+- **ACP runtime:** enabled through `acpx`; default ACP agent is `hermes`.
+- **Hermes ACP:** reachable via OpenClaw `sessions_spawn` with `runtime: "acp"` and `agentId: "hermes"`.
+- **Beso + Hermes workflow:** Beso/OpenClaw owns user interaction, approvals, workspace-level decisions, git merges, destructive ops, and shared context files. Hermes owns delegated execution, skills, subagents, and its own memory/state.
+- **Hermes context rule:** do not pass Basem's private context or full workspace memory into Hermes unless needed. Ask Hermes for summaries/results, not raw logs or full internal state. For facts both sides must remember, write them to shared workspace files such as `TOOLS.md`.
