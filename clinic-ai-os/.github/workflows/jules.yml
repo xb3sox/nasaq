@@ -9,6 +9,8 @@ on:
         description: "What should Jules do?"
         required: true
         default: "Polish pass on the Clinic AI OS MVP"
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   jules:
@@ -22,3 +24,4 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number || '' }}
+          max-steps: 10
