@@ -182,10 +182,10 @@ export default function BookingsPage() {
       {/* Filters */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="relative flex-1 min-w-[180px] max-w-sm">
-          <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
-            className="h-9 pe-9 border-border/50"
+            className="h-9 pr-9 border-border/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -214,7 +214,7 @@ export default function BookingsPage() {
             <SelectItem value="Referral">إحالة</SelectItem>
           </SelectContent>
         </Select>
-        <span className="text-xs text-muted-foreground me-auto">
+        <span className="text-xs text-muted-foreground mr-auto">
           {filtered.length} من {all.length} حجز
         </span>
       </div>
