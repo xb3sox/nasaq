@@ -65,7 +65,7 @@ export default function CrmPage() {
           <p className="text-sm text-muted-foreground">عملاء من جميع القنوات</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button size="sm" className="h-9 gap-1.5">
+          <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
             <Plus className="w-3.5 h-3.5" />
             عميل جديد
           </Button>

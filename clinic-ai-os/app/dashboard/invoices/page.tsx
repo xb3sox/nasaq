@@ -191,11 +191,11 @@ export default function InvoicesPage() {
           <p className="text-sm text-muted-foreground">إدارة وتتبع فواتير العيادة</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="h-9 gap-1.5">
+          <Button variant="outline" size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
             <Download className="w-3.5 h-3.5" />
             تصدير
           </Button>
-          <Button size="sm" className="h-9 gap-1.5">
+          <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
             <Plus className="w-3.5 h-3.5" />
             فاتورة جديدة
           </Button>

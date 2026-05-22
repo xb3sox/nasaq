@@ -140,7 +140,7 @@ export default function ReportsPage() {
                       title={`${val} حجز`}
                     />
                   </div>
-                  <span className="text-[10px] text-muted-foreground">{day}</span>
+                  <span className="text-xs text-muted-foreground">{day}</span>
                 </div>
               );
             })}
@@ -171,7 +171,7 @@ export default function ReportsPage() {
                       title={`${val} عميل`}
                     />
                   </div>
-                  <span className="text-[10px] text-muted-foreground">{day}</span>
+                  <span className="text-xs text-muted-foreground">{day}</span>
                 </div>
               );
             })}

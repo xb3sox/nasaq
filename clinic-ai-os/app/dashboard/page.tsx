@@ -43,7 +43,7 @@ function LiveDemoRunner() {
             size="sm"
             onClick={runDemo}
             disabled={running}
-            className="gap-1.5 h-8 text-xs"
+            className="gap-1.5 min-h-[40px] sm:min-h-0 sm:h-8 text-xs"
           >
             {running
               ? <Loader2 className="w-3 h-3 animate-spin" />
@@ -195,8 +195,8 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle className="text-base">آخر مسار حجز من واتساب</CardTitle>
           </CardHeader>
-          <div className="overflow-x-auto">
-            <CardContent className="pb-2 snap-x snap-mandatory flex lg:grid lg:grid-cols-5 text-sm w-max lg:w-auto min-w-full gap-4 lg:gap-0">
+          <div className="overflow-x-auto pb-4">
+            <CardContent className="pb-2 snap-x snap-mandatory flex lg:grid lg:grid-cols-5 text-sm w-max lg:w-auto min-w-full gap-4 lg:gap-0 px-4 sm:px-6">
               {[
                 ["رسالة", demoConversation.messages.at(-1)?.body ?? ""],
                 ["قرار AI", `${demoAiDecision.intent} · ${(demoAiDecision.confidence * 100).toFixed(0)}%`],

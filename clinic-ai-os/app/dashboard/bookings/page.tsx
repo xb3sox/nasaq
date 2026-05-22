@@ -60,7 +60,7 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={
-        <Button size="sm" className="h-9 gap-1.5">
+        <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
           <Plus className="w-3.5 h-3.5" />
           حجز جديد
         </Button>
@@ -267,12 +267,12 @@ export default function BookingsPage() {
                   </div>
                 </div>
                 <div className="mt-3 flex gap-2 justify-end">
-                  <Button size="sm" variant="outline" className="h-8 text-xs">تعديل</Button>
+                  <Button size="sm" variant="outline" className="min-h-[40px] sm:min-h-0 sm:h-8 text-xs">تعديل</Button>
                   {booking.status === "pending" && (
-                    <Button size="sm" className="h-8 text-xs bg-green-600 hover:bg-green-700">تأكيد</Button>
+                    <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-8 text-xs bg-green-600 hover:bg-green-700">تأكيد</Button>
                   )}
                   {booking.status !== "cancelled" && booking.status !== "completed" && (
-                    <Button size="sm" variant="outline" className="h-8 text-xs text-destructive hover:text-destructive">إلغاء</Button>
+                    <Button size="sm" variant="outline" className="min-h-[40px] sm:min-h-0 sm:h-8 text-xs text-destructive hover:text-destructive">إلغاء</Button>
                   )}
                 </div>
               </Card>
