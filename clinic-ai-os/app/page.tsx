@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BRAND } from "@/lib/brand";
 import { Check, MessageCircle, Calendar, BarChart3, Bell, Users, Bot, Zap } from "lucide-react";
 
-export const FEATURES = [
+const FEATURES = [
   { icon: MessageCircle, title: "واتساب ذكي", desc: "يرد على العملاء تلقائياً بالعربية على مدار الساعة" },
   { icon: Calendar, title: "حجوزات آلية", desc: "يحجز المواعيد مباشرة من المحادثة بدون تدخل بشري" },
   { icon: Bell, title: "تذكيرات تلقائية", desc: "يرسل تذكيرات قبل الموعد ومتابعة بعد الزيارة" },
@@ -13,13 +13,13 @@ export const FEATURES = [
   { icon: Bot, title: "AI متخصص للعيادات", desc: "مدرّب على لغة وأسلوب عيادات الرياض" },
 ];
 
-export const PRICING = [
+const PRICING = [
   { name: "أساسي", setup: "7,000 ر.س", monthly: "1,500 ر.س/شهر", features: ["ردود واتساب AI", "لوحة الحجوزات", "CRM أساسي", "التذكيرات"], highlight: false },
   { name: "احترافي", setup: "12,000 ر.س", monthly: "3,000 ر.س/شهر", features: ["كل ما في الأساسي", "التقارير التفصيلية", "أتمتة المتابعة", "تعدد الموظفين", "تحويل بشري"], highlight: true },
   { name: "متميز", setup: "20,000 ر.س", monthly: "5,000 ر.س/شهر", features: ["كل ما في الاحترافي", "تعدد الفروع", "سير عمل مخصصة", "تحليلات متقدمة", "دعم أولوي"], highlight: false },
 ];
 
-export const FAQS = [
+const FAQS = [
   { q: "كيف يتصل النظام بواتساب؟", a: "نستخدم WhatsApp Business Cloud API الرسمي من Meta. الإعداد يستغرق أقل من يوم." },
   { q: "هل الذكاء الاصطناعي يفهم العربية؟", a: "نعم، النظام مدرّب على اللغة العربية السعودية ويتعامل مع العامية بكفاءة." },
   { q: "هل يمكن للموظف التدخل في أي وقت؟", a: "بالطبع. يمكن للموظف الاستيلاء على أي محادثة بنقرة واحدة." },
@@ -27,10 +27,6 @@ export const FAQS = [
 ];
 
 export default function RootPage() {
-  return <LandingContent />;
-}
-
-export function LandingContent() {
   return (
     <div className="min-h-screen bg-background font-sans" dir="rtl">
       {/* Nav */}
@@ -58,7 +54,9 @@ export function LandingContent() {
         </p>
         <div className="flex gap-4 justify-center flex-wrap animate-fade-slide-up animate-delay-3">
           <Button size="lg" className="px-8 py-6 text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200">احجز ديمو مجاني</Button>
-          <Link href="/dashboard"><Button size="lg" variant="outline" className="px-8 py-6 text-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">جرب النظام الآن</Button></Link>
+          <Link href="/dashboard">
+            <Button size="lg" variant="outline" className="px-8 py-6 text-lg shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">جرب النظام الآن</Button>
+          </Link>
         </div>
         <div className="flex gap-6 justify-center text-sm text-muted-foreground flex-wrap animate-fade-slide-up animate-delay-4">
           <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />إعداد خلال 7 أيام</span>
@@ -126,9 +124,9 @@ export function LandingContent() {
                     <div className="text-muted-foreground text-sm">إعداد + {p.monthly}</div>
                   </div>
                   <ul className="space-y-3">
-                    {p.features.map(f => (
-                      <li key={f} className="flex items-center gap-2 text-sm">
-                        <Check className="w-4 h-4 text-green-500 shrink-0" />{f}
+                    {p.features.map((feat) => (
+                      <li key={feat} className="flex items-center gap-2 text-sm">
+                        <Check className="w-4 h-4 text-green-500 shrink-0" />{feat}
                       </li>
                     ))}
                   </ul>
