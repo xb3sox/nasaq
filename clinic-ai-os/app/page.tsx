@@ -40,8 +40,8 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="max-w-6xl mx-auto px-6 py-24 text-center space-y-8">
-        <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
+      <section className="max-w-6xl mx-auto px-6 py-24 text-center space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+        <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium animate-bounce">
           <Zap className="w-4 h-4" /> نظام ذكاء اصطناعي مخصص للعيادات السعودية
         </div>
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight">
@@ -52,8 +52,8 @@ export default function LandingPage() {
           خلال 7 أيام نجهز لك نظام ذكي يدير العملاء، الحجوزات، التذكيرات، والتقارير من لوحة واحدة.
         </p>
         <div className="flex gap-4 justify-center flex-wrap">
-          <Button size="lg" className="px-8 py-6 text-lg">احجز ديمو مجاني</Button>
-          <Link href="/dashboard"><Button size="lg" variant="outline" className="px-8 py-6 text-lg">جرب النظام الآن</Button></Link>
+          <Button size="lg" className="px-8 py-6 text-lg hover:scale-105 transition-transform">احجز ديمو مجاني</Button>
+          <Link href="/dashboard"><Button size="lg" variant="outline" className="px-8 py-6 text-lg hover:scale-105 transition-transform">جرب النظام الآن</Button></Link>
         </div>
         <div className="flex gap-6 justify-center text-sm text-muted-foreground flex-wrap">
           <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />إعداد خلال 7 أيام</span>
@@ -64,7 +64,7 @@ export default function LandingPage() {
 
       {/* Problem */}
       <section className="bg-muted/30 py-20">
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
           <h2 className="text-3xl font-bold">مشكلة كل عيادة في الرياض</h2>
           <div className="grid md:grid-cols-3 gap-6 text-right">
             {[
@@ -72,7 +72,7 @@ export default function LandingPage() {
               { title: "📅 حجوزات فائتة", desc: "عملاء يسألون عن الأسعار والمواعيد ثم يختفون لعدم متابعتهم" },
               { title: "📊 لا رؤية واضحة", desc: "بدون بيانات يصعب معرفة ما يعمل وما لا يعمل في العيادة" },
             ].map(p => (
-              <Card key={p.title} className="text-right">
+              <Card key={p.title} className="text-right hover:shadow-lg transition-shadow duration-300">
                 <CardContent className="p-6 space-y-2">
                   <div className="text-2xl">{p.title.split(" ")[0]}</div>
                   <div className="font-semibold">{p.title.slice(2)}</div>
@@ -85,13 +85,13 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section className="py-20 max-w-6xl mx-auto px-6">
+      <section className="py-20 max-w-6xl mx-auto px-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold">كل ما تحتاجه في مكان واحد</h2>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {FEATURES.map(f => (
-            <Card key={f.title}>
+            <Card key={f.title} className="hover:border-primary/50 transition-colors duration-300">
               <CardContent className="p-6 space-y-3">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                   <f.icon className="w-5 h-5 text-primary" />
@@ -106,13 +106,13 @@ export default function LandingPage() {
 
       {/* Pricing */}
       <section className="bg-muted/30 py-20">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold">الأسعار</h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {PRICING.map(p => (
-              <Card key={p.name} className={p.highlight ? "border-primary shadow-lg" : ""}>
+              <Card key={p.name} className={`hover:scale-105 transition-all duration-300 ${p.highlight ? "border-primary shadow-lg" : "hover:shadow-md"}`}>
                 <CardContent className="p-8 space-y-6">
                   {p.highlight && <div className="bg-primary text-primary-foreground text-xs px-3 py-1 rounded-full w-fit">الأكثر شيوعاً</div>}
                   <div>
@@ -151,11 +151,11 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-primary text-primary-foreground py-20 text-center">
-        <div className="max-w-3xl mx-auto px-6 space-y-6">
-          <h2 className="text-3xl font-bold">ابدأ الآن وجرب النظام مجاناً</h2>
-          <p className="text-primary-foreground/80 text-lg">لا تحتاج بطاقة ائتمانية. ديمو مباشر في أقل من 5 دقائق.</p>
-          <Button size="lg" variant="secondary" className="px-10 py-6 text-lg">احجز ديمو مجاني الآن</Button>
+      <section className="bg-linear-to-r from-primary to-primary/80 text-primary-foreground py-24 text-center">
+        <div className="max-w-3xl mx-auto px-6 space-y-8 animate-in fade-in zoom-in duration-1000">
+          <h2 className="text-4xl font-bold">ابدأ الآن وجرب النظام مجاناً</h2>
+          <p className="text-primary-foreground/90 text-xl max-w-2xl mx-auto">لا تحتاج بطاقة ائتمانية. ديمو مباشر في أقل من 5 دقائق يوضح لك كيف نوفر وقتك ونزيد مبيعاتك.</p>
+          <Button size="lg" variant="secondary" className="px-12 py-8 text-xl font-bold hover:scale-110 transition-transform shadow-xl">احجز ديمو مجاني الآن</Button>
         </div>
       </section>
 

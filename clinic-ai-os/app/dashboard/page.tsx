@@ -1,17 +1,50 @@
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, CalendarCheck, MessageCircle, TrendingUp, Bot, Bell } from "lucide-react";
+import { Users, CalendarCheck, MessageCircle, TrendingUp, Bot, Bell, Clock } from "lucide-react";
 import { demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
+import { useEffect, useState } from "react";
+
+function RiyadhClock() {
+  const [time, setTime] = useState<string>("");
+
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      setTime(new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Riyadh",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }).format(now));
+    };
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex items-center gap-2 text-sm font-mono bg-muted px-3 py-1 rounded-md border shadow-xs">
+      <Clock className="w-3.5 h-3.5 text-primary" />
+      <span>Riyadh: {time}</span>
+    </div>
+  );
+}
 
 export default function DashboardPage() {
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-8 space-y-8 animate-in fade-in duration-700">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">نظرة عامة</h1>
-          <p className="text-sm text-muted-foreground mt-2">مسار اليوم: واتساب → AI → حجز → تذكير → CRM → تقرير</p>
+        <div className="space-y-1">
+          <h1 className="text-3xl font-bold tracking-tight">نظرة عامة</h1>
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-muted-foreground">مسار اليوم: واتساب → AI → حجز → تذكير → CRM → تقرير</p>
+            <RiyadhClock />
+          </div>
         </div>
-        <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Demo Ready</Badge>
+        <Badge className="bg-green-100 text-green-800 hover:bg-green-100 animate-pulse border-green-200">Demo Ready</Badge>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -61,7 +94,7 @@ export default function DashboardPage() {
       </div>
       
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <Card className="xl:col-span-2">
+        <Card className="xl:col-span-2 shadow-xs border-primary/10">
           <CardHeader>
             <CardTitle className="text-base">آخر مسار حجز من واتساب</CardTitle>
           </CardHeader>
@@ -73,7 +106,7 @@ export default function DashboardPage() {
               ["حجز", `${demoBooking.serviceName} · ${demoBooking.doctorName}`],
               ["تذكير", "24h + 2h queued"],
             ].map(([label, value]) => (
-              <div key={label} className="rounded-lg border p-3 min-h-28">
+              <div key={label} className="rounded-lg border p-3 min-h-28 hover:-translate-y-1 hover:shadow-md hover:border-primary/20 transition-all duration-200 cursor-default bg-card">
                 <div className="text-xs text-muted-foreground mb-2">{label}</div>
                 <div className="font-medium leading-relaxed">{value}</div>
               </div>
