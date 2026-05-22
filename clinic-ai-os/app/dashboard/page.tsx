@@ -195,20 +195,22 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle className="text-base">آخر مسار حجز من واتساب</CardTitle>
           </CardHeader>
-          <CardContent className="overflow-x-auto pb-2 snap-x snap-mandatory flex lg:grid lg:grid-cols-5 text-sm">
-            {[
-              ["رسالة", demoConversation.messages.at(-1)?.body ?? ""],
-              ["قرار AI", `${demoAiDecision.intent} · ${(demoAiDecision.confidence * 100).toFixed(0)}%`],
-              ["رد", demoAiDecision.reply],
-              ["حجز", `${demoBooking.serviceName} · ${demoBooking.doctorName}`],
-              ["تذكير", "24h + 2h queued"],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded-lg border p-3 min-h-28 min-w-40 lg:min-w-0 shrink-0 lg:shrink card-hover-lift snap-start">
-                <div className="text-xs text-muted-foreground mb-2">{label}</div>
-                <div className="font-medium leading-relaxed">{value}</div>
-              </div>
-            ))}
-          </CardContent>
+          <div className="overflow-x-auto">
+            <CardContent className="pb-2 snap-x snap-mandatory flex lg:grid lg:grid-cols-5 text-sm w-max lg:w-auto min-w-full gap-4 lg:gap-0">
+              {[
+                ["رسالة", demoConversation.messages.at(-1)?.body ?? ""],
+                ["قرار AI", `${demoAiDecision.intent} · ${(demoAiDecision.confidence * 100).toFixed(0)}%`],
+                ["رد", demoAiDecision.reply],
+                ["حجز", `${demoBooking.serviceName} · ${demoBooking.doctorName}`],
+                ["تذكير", "24h + 2h queued"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg border p-3 min-h-28 min-w-40 lg:min-w-0 shrink-0 lg:shrink card-hover-lift snap-start">
+                  <div className="text-xs text-muted-foreground mb-2">{label}</div>
+                  <div className="font-medium leading-relaxed">{value}</div>
+                </div>
+              ))}
+            </CardContent>
+          </div>
         </Card>
         <LiveDemoRunner />
       </div>
