@@ -169,4 +169,4 @@ tests/                   # 41 passing Node.js test runner tests
 - v0.5: Typed demo data, all pages wired to demo-data, build clean
 - v0.6: Added production DB hardening — idempotent conversation upsert + dead letter schema alignment
 - v0.7: Rebranded product identity to Nasaq and centralized brand metadata
-- v0.8: Added safe runtime config status endpoint and settings readiness panel
+- v0.9: Repo setup hardening — Node engine contract (.nvmrc/.node-version/package.json engines), lazy Supabase client (no crash in demo mode), vercel.json installCommand+CORS fixes, migration cleanup (renamed legacy files, sequential numbering), RLS-aligned seed

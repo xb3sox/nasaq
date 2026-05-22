@@ -2,7 +2,7 @@
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
+  "installCommand": "npm ci",
   "regions": ["fra1"],
   "functions": {
     "app/api/**/*.ts": {
@@ -13,15 +13,16 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Origin", "value": "https://nasaq.vercel.app" },
         { "key": "Access-Control-Allow-Methods", "value": "GET, POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization, x-hub-signature-256" }
       ]
     },
     {
-      "source": "/webhooks/whatsapp/(.*)",
+      "source": "/api/webhooks/whatsapp",
       "headers": [
         { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET, POST" },
         { "key": "X-Webhook-Source", "value": "meta-whatsapp" }
       ]
     }
