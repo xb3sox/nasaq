@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DEMO_METRICS, DEMO_REPORT_STATS } from "@/lib/demo-data";
 import {
-  TrendingUp, Users, CalendarCheck, MessageCircle,
+  TrendingUp, Users, CalendarCheck,
   Bot, DollarSign, Clock, ArrowUpRight, ArrowDownRight, RefreshCw,
 } from "lucide-react";
 import { useState } from "react";
@@ -191,21 +191,23 @@ export default function ReportsPage() {
           </div>
         </Card>
         <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
-            <MessageCircle className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">{DEMO_REPORT_STATS.remindersFailed}</div>
-            <div className="text-xs text-muted-foreground">تذكير فشل</div>
-          </div>
-        </Card>
-        <Card className="p-5 flex items-center gap-4">
           <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
             <Clock className="w-5 h-5" />
           </div>
           <div>
             <div className="text-2xl font-bold">{DEMO_REPORT_STATS.responseTimeMin} د</div>
             <div className="text-xs text-muted-foreground">متوسط وقت الرد</div>
+          </div>
+        </Card>
+        <Card className="p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            <Bot className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="text-2xl font-bold">
+              {Math.round((DEMO_REPORT_STATS.aiHandled / (DEMO_REPORT_STATS.aiHandled + DEMO_REPORT_STATS.humanNeeded)) * 100)}%
+            </div>
+            <div className="text-xs text-muted-foreground">AI يتعامل تلقائياً</div>
           </div>
         </Card>
         <Card className="p-5 flex items-center gap-4">
