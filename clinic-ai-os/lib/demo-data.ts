@@ -31,8 +31,8 @@ export const DEMO_SERVICES = [
 ];
 
 export const DEMO_CUSTOMERS = [
-  { id: "cust-1", name: "نورة المحمد", phone: "+966501234567", leadStatus: "active", tags: ["booking"] },
-  { id: "cust-2", name: "خالد العتيبي", phone: "+966552345678", leadStatus: "human_needed", tags: ["cancel"] },
+  { id: "cust-1", name: "نورة المحمد", phone: "+966501234567", leadStatus: "new", tags: ["booking"] },
+  { id: "cust-2", name: "خالد العتيبي", phone: "+966552345678", leadStatus: "contacted", tags: ["cancel"] },
   { id: "cust-3", name: "سارة الناصر", phone: "+966533456789", leadStatus: "booked", tags: ["booking"] },
   { id: "cust-4", name: "عبدالله القحطاني", phone: "+966544567890", leadStatus: "booked", tags: ["pricing"] },
   { id: "cust-5", name: "أحمد الدوسري", phone: "+966555678901", leadStatus: "new", tags: ["inquiry"] },

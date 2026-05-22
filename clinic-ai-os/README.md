@@ -8,7 +8,7 @@ WhatsApp → AI → Booking → Reminders → CRM → Reports.
 ## Prerequisites
 
 - **Node.js 24+** — `node --version`
-- **pnpm** — `npm install -g pnpm`
+- **npm 10+** — bundled with Node 24
 - **Supabase account** (free tier) — [supabase.com](https://supabase.com)
 - **WhatsApp Meta Business Account** (for production) — [business.facebook.com](https://business.facebook.com)
 - **OpenAI or Gemini API key** (for production AI)
