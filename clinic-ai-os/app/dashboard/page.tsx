@@ -43,7 +43,7 @@ function RiyadhClock() {
 
 export default function DashboardPage() {
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8">
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold">نظرة عامة</h1>
@@ -106,7 +106,7 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle className="text-base">آخر مسار حجز من واتساب</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-5 text-sm">
+          <CardContent className="overflow-x-auto pb-2 snap-x snap-mandatory flex lg:grid lg:grid-cols-5 text-sm">
             {[
               ["رسالة", demoConversation.messages.at(-1)?.body ?? ""],
               ["قرار AI", `${demoAiDecision.intent} · ${(demoAiDecision.confidence * 100).toFixed(0)}%`],
@@ -114,7 +114,7 @@ export default function DashboardPage() {
               ["حجز", `${demoBooking.serviceName} · ${demoBooking.doctorName}`],
               ["تذكير", "24h + 2h queued"],
             ].map(([label, value]) => (
-              <div key={label} className="rounded-lg border p-3 min-h-28 card-hover-lift">
+              <div key={label} className="rounded-lg border p-3 min-h-28 min-w-40 lg:min-w-0 shrink-0 lg:shrink card-hover-lift snap-start">
                 <div className="text-xs text-muted-foreground mb-2">{label}</div>
                 <div className="font-medium leading-relaxed">{value}</div>
               </div>

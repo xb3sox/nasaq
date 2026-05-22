@@ -3,9 +3,14 @@ import { handleSendMessage } from "@/lib/clinic-api";
 import { DEMO_CLINIC_ID } from "@/lib/demo-clinic";
 import { getSupabaseClinicStore } from "@/lib/supabase-admin";
 import { getAiProvider } from "@/lib/ai-provider";
+import { getBoundedString, isUnauthenticatedDemoApiAllowed } from "@/lib/api-guards";
 
 export async function POST(request: Request) {
   try {
+    if (!isUnauthenticatedDemoApiAllowed()) {
+      return NextResponse.json({ error: "Authentication is required" }, { status: 401 });
+    }
+
     const body = (await request.json()) as {
       to?: string;
       message?: string;
@@ -14,9 +19,12 @@ export async function POST(request: Request) {
       useRealAi?: boolean;
     };
 
-    if (!body.to || !body.message) {
+    const to = getBoundedString(body.to, { max: 32 });
+    const message = getBoundedString(body.message, { max: 4096 });
+
+    if (!to || !message) {
       return NextResponse.json(
-        { error: "Missing required fields: to, message" },
+        { error: "Invalid required fields: to, message" },
         { status: 400 },
       );
     }
@@ -24,10 +32,10 @@ export async function POST(request: Request) {
     const store = getSupabaseClinicStore();
 
     // If useRealAi, generate contextual reply first
-    let messageBody = body.message;
+    let messageBody = message;
     if (body.useRealAi) {
       try {
-        const ai = await getAiProvider().analyze(body.message);
+        const ai = await getAiProvider().analyze(message);
         messageBody = ai.reply;
       } catch {
         // Fall back to original message
@@ -36,7 +44,7 @@ export async function POST(request: Request) {
 
     const result = await handleSendMessage({
       clinicId: process.env.DEMO_CLINIC_ID ?? DEMO_CLINIC_ID,
-      to: body.to,
+      to,
       body: messageBody,
       conversationId: body.conversationId ?? "demo-conv-1",
       customerId: body.customerId ?? "demo-cust-1",

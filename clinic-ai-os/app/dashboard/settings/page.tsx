@@ -13,13 +13,13 @@ export default function SettingsPage() {
       <h1 className="text-2xl font-bold">الإعدادات</h1>
 
       <Tabs defaultValue="clinic" className="space-y-4">
-        <TabsList className="flex-wrap gap-1 h-auto p-1">
-          <TabsTrigger value="clinic" className="gap-1.5"><Building2 className="w-3.5 h-3.5" />العيادة</TabsTrigger>
-          <TabsTrigger value="whatsapp" className="gap-1.5"><MessageCircle className="w-3.5 h-3.5" />واتساب</TabsTrigger>
-          <TabsTrigger value="ai" className="gap-1.5"><Bot className="w-3.5 h-3.5" />الذكاء الاصطناعي</TabsTrigger>
-          <TabsTrigger value="team" className="gap-1.5"><Users className="w-3.5 h-3.5" />الفريق</TabsTrigger>
-          <TabsTrigger value="services" className="gap-1.5"><Stethoscope className="w-3.5 h-3.5" />الخدمات</TabsTrigger>
-          <TabsTrigger value="reminders" className="gap-1.5"><Bell className="w-3.5 h-3.5" />التذكيرات</TabsTrigger>
+        <TabsList className="flex-wrap gap-1 h-auto p-1.5">
+          <TabsTrigger value="clinic" className="gap-1.5 py-2.5"><Building2 className="w-3.5 h-3.5" />العيادة</TabsTrigger>
+          <TabsTrigger value="whatsapp" className="gap-1.5 py-2.5"><MessageCircle className="w-3.5 h-3.5" />واتساب</TabsTrigger>
+          <TabsTrigger value="ai" className="gap-1.5 py-2.5"><Bot className="w-3.5 h-3.5" />الذكاء الاصطناعي</TabsTrigger>
+          <TabsTrigger value="team" className="gap-1.5 py-2.5"><Users className="w-3.5 h-3.5" />الفريق</TabsTrigger>
+          <TabsTrigger value="services" className="gap-1.5 py-2.5"><Stethoscope className="w-3.5 h-3.5" />الخدمات</TabsTrigger>
+          <TabsTrigger value="reminders" className="gap-1.5 py-2.5"><Bell className="w-3.5 h-3.5" />التذكيرات</TabsTrigger>
         </TabsList>
 
         <TabsContent value="clinic">

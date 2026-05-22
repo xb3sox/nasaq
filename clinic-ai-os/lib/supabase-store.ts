@@ -49,7 +49,7 @@ export function createSupabaseClinicStore(client: SupabaseLike): ClinicStore {
             last_message: input.lastMessage,
             human_needed: input.humanNeeded,
             tags: input.tags,
-          })
+          }, { onConflict: "clinic_id,external_id" })
           .select()
           .single(),
       );

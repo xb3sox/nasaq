@@ -59,7 +59,7 @@ const DEMO_CONVERSATIONS: Conversation[] = [
     messages: [
       { id: "m7", sender: "customer", body: "أريد حجز موعد تنظيف أسنان" },
       { id: "m8", sender: "bot", body: "أهلاً بك. سعر تنظيف الأسنان 250 ريال. متاح اليوم 4:00 مساء أو 7:00 مساء مع د. ريم السيف." },
-      { id: "m9", sender: "customer", body: "الموعد 4:00 يس匡؟" },
+      { id: "m9", sender: "customer", body: "الموعد 4:00 يناسب؟" },
       { id: "m10", sender: "bot", body: "تم تأكيد موعدك يا سارة: تنظيف أسنان مع د. ريم السيف الساعة 4:00 مساء." },
       { id: "m11", sender: "customer", body: "ممتاز شكراً جزيلاً" },
     ],
@@ -122,9 +122,9 @@ export default function InboxPage() {
   }
 
   return (
-    <div className="h-[calc(100vh-2rem)] p-4 flex gap-4">
+    <div className="flex min-h-[calc(100dvh-4rem)] flex-col gap-4 p-4 lg:h-[calc(100vh-2rem)] lg:flex-row">
       {/* Sidebar */}
-      <Card className="w-80 flex flex-col shrink-0">
+      <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col lg:max-h-none lg:w-80">
         <div className="p-4 border-b font-bold text-sm">المحادثات</div>
         <div className="flex-1 overflow-y-auto">
           {DEMO_CONVERSATIONS.map((conv) => (
@@ -151,14 +151,14 @@ export default function InboxPage() {
       </Card>
 
       {/* Main Chat */}
-      <Card className="flex-1 flex flex-col min-w-0">
+      <Card className="flex min-h-[620px] min-w-0 flex-1 flex-col lg:min-h-0">
         {/* Header */}
-        <div className="p-4 border-b flex justify-between items-center shrink-0">
-          <div>
+        <div className="flex shrink-0 flex-col gap-3 border-b p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
             <div className="font-bold">{selected.customerName}</div>
             <div className="text-xs text-muted-foreground">{selected.phone} · WhatsApp</div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {bookingConfirmed ? (
               <Badge className="bg-green-600 text-white gap-1"><Check className="w-3 h-3" /> الحجز مؤكد</Badge>
             ) : (
@@ -166,7 +166,7 @@ export default function InboxPage() {
                 size="sm"
                 variant="default"
                 onClick={handleConfirmBooking}
-                className="bg-green-600 hover:bg-green-700"
+                className="min-h-[40px] bg-green-600 hover:bg-green-700"
               >
                 <CalendarCheck className="w-3 h-3 ml-1" />
                 تأكيد الحجز
@@ -179,6 +179,7 @@ export default function InboxPage() {
                 size="sm"
                 variant="outline"
                 onClick={handleHumanHandoff}
+                className="min-h-[40px]"
               >
                 <Hand className="w-3 h-3 ml-1" />
                 تحويل لموظف
@@ -216,7 +217,7 @@ export default function InboxPage() {
         </div>
 
         {/* Action Panel */}
-        <div className="p-4 border-t bg-muted/30 shrink-0">
+        <div className="shrink-0 border-t bg-muted/30 p-4">
           <div className="mb-4 grid gap-3 lg:grid-cols-[1fr_280px]">
             {/* AI Suggestion */}
             <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800">
@@ -226,15 +227,15 @@ export default function InboxPage() {
                 <Badge variant="outline" className="text-xs">{Math.round(ai.confidence * 100)}%</Badge>
               </div>
               <p className="text-sm">{ai.reply}</p>
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 flex flex-wrap gap-2">
                 <Button
                   size="sm"
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  className="bg-blue-600 hover:bg-blue-700 text-white min-h-[40px]"
                   onClick={() => setReplyText(ai.reply)}
                 >
                   استخدام الرد
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => setReplyText("")}>
+                <Button size="sm" variant="outline" onClick={() => setReplyText("")} className="min-h-[40px]">
                   مسح
                 </Button>
               </div>
@@ -261,12 +262,12 @@ export default function InboxPage() {
           <div className="flex gap-2">
             <Input
               placeholder="اكتب رسالة أو استخدم اقتراح الذكاء الاصطناعي..."
-              className="flex-1"
+              className="min-h-[40px] flex-1"
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendReply()}
             />
-            <Button onClick={handleSendReply} disabled={sending || !replyText.trim()}>
+            <Button onClick={handleSendReply} disabled={sending || !replyText.trim()} className="min-h-[40px] min-w-[40px]">
               {sent ? <Check className="w-4 h-4" /> : <Send className="w-4 h-4 rtl:rotate-180" />}
             </Button>
           </div>

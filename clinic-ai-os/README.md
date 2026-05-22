@@ -84,10 +84,12 @@ Add all env variables in Vercel dashboard:
 - `WHATSAPP_ACCESS_TOKEN`
 - `WHATSAPP_PHONE_NUMBER_ID`
 - `WHATSAPP_VERIFY_TOKEN`
+- `WHATSAPP_APP_SECRET`
 - `WHATSAPP_BUSINESS_ACCOUNT_ID`
 - `OPENAI_API_KEY` (or `GEMINI_API_KEY`)
 - `AI_PROVIDER`
 - `APP_URL` (your Vercel domain)
+- `ENABLE_UNAUTHENTICATED_DEMO_API=false`
 
 ---
 
@@ -103,6 +105,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ...
 WHATSAPP_ACCESS_TOKEN=EAA...
 WHATSAPP_PHONE_NUMBER_ID=123456789
 WHATSAPP_VERIFY_TOKEN=your-secret-token
+WHATSAPP_APP_SECRET=your-meta-app-secret
 WHATSAPP_BUSINESS_ACCOUNT_ID=123456789
 
 # AI (optional — falls back to deterministic demo)
@@ -113,6 +116,7 @@ GEMINI_API_KEY=...
 # App
 APP_URL=https://your-domain.com
 MOCK_MODE=false               # set to false for production
+ENABLE_UNAUTHENTICATED_DEMO_API=false
 ```
 
 ---

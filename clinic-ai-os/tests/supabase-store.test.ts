@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { createSupabaseClinicStore } from "../lib/supabase-store.ts";
 
 function fakeSupabaseClient() {
-  const calls: Array<{ op: string; table?: string; name?: string; payload?: unknown }> = [];
+  const calls: Array<{ op: string; table?: string; name?: string; payload?: unknown; options?: unknown }> = [];
   const client = {
     calls,
     rpc(name: string, payload: unknown) {
@@ -25,8 +25,8 @@ function fakeSupabaseClient() {
             },
           };
         },
-        upsert(payload: unknown) {
-          calls.push({ op: "upsert", table, payload });
+        upsert(payload: unknown, options?: unknown) {
+          calls.push({ op: "upsert", table, payload, options });
           return {
             select() {
               return {
@@ -126,5 +126,34 @@ test("Supabase store maps reminder queue to reminders table columns", async () =
       send_at: "2026-05-21T13:00:00.000Z",
       status: "pending",
     },
+  });
+});
+
+test("Supabase store upserts conversations by clinic and WhatsApp external id", async () => {
+  const client = fakeSupabaseClient();
+  const store = createSupabaseClinicStore(client);
+
+  await store.upsertConversation({
+    clinicId: "clinic-1",
+    customerId: "customer-1",
+    externalId: "+966501234567",
+    lastMessage: "أبغى موعد اليوم",
+    humanNeeded: false,
+    tags: ["booking"],
+  });
+
+  assert.deepEqual(client.calls[0], {
+    op: "upsert",
+    table: "conversations",
+    payload: {
+      clinic_id: "clinic-1",
+      customer_id: "customer-1",
+      channel: "whatsapp",
+      external_id: "+966501234567",
+      last_message: "أبغى موعد اليوم",
+      human_needed: false,
+      tags: ["booking"],
+    },
+    options: { onConflict: "clinic_id,external_id" },
   });
 });

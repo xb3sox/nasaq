@@ -1,15 +1,20 @@
 import { NextResponse } from 'next/server';
 import { analyzeClinicMessage } from '@/lib/clinic-workflow';
+import { extractLastMessageContent, isUnauthenticatedDemoApiAllowed } from '@/lib/api-guards';
 
 export async function POST(request: Request) {
   try {
-    const { messages } = await request.json();
-
-    if (!messages || messages.length === 0) {
-      return NextResponse.json({ error: 'No messages provided' }, { status: 400 });
+    if (!isUnauthenticatedDemoApiAllowed()) {
+      return NextResponse.json({ error: 'Authentication is required' }, { status: 401 });
     }
 
-    const lastMessage = messages[messages.length - 1].content;
+    const body = await request.json();
+    const lastMessage = extractLastMessageContent(body);
+
+    if (!lastMessage) {
+      return NextResponse.json({ error: 'Invalid messages payload' }, { status: 400 });
+    }
+
     const decision = analyzeClinicMessage(lastMessage);
 
     return NextResponse.json({ 

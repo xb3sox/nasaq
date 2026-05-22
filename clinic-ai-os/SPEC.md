@@ -62,7 +62,7 @@ tests/                   # 32 passing Node.js test runner tests
 ```
 
 ### Review Gate Results
-- ✅ 32/32 tests passing
+- ✅ 35/35 tests passing
 - ✅ Lint clean
 - ✅ Build clean (no type errors)
 - ✅ Smoke test: `POST /api/messages/send` returns `{ success: true, messageId: "mock-..." }`
@@ -143,7 +143,7 @@ tests/                   # 32 passing Node.js test runner tests
 
 ## Missing for Production (Post-MVP)
 
-1. **Supabase**: real schema + RLS policies needed
+1. **Supabase**: apply migrations to live project + verify RLS with real auth users
 2. **Auth**: NextAuth for dashboard access
 3. **Real WhatsApp**: Meta Cloud API credentials + webhook registration
 4. **Real AI**: OpenAI/Gemini API key
@@ -160,3 +160,4 @@ tests/                   # 32 passing Node.js test runner tests
 - v0.3: Added AI provider abstraction (Deterministic + OpenAI + Gemini)
 - v0.4: Interactive inbox with send/confirm/handoff actions wired to API
 - v0.5: Typed demo data, all pages wired to demo-data, build clean
+- v0.6: Added production DB hardening — idempotent conversation upsert + dead letter schema alignment
