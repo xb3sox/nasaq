@@ -23,3 +23,10 @@ Use `tasks:` block with due-only interval checks. HEARTBEAT_OK if nothing due.
 - name: compaction-audit
   interval: 3d
   prompt: "Check /status for compaction count. If >2 compactions in last 7 days, flag in next reply. HEARTBEAT_OK if fine."
+
+## Autonomous Build Loop
+
+Cron job `nasaq-autonomous-build-loop` runs every 30 min (separate isolated session).
+It handles: Jules session polling, branch pulls, CI verification, auto-merge, SPEC task dispatch.
+Do NOT duplicate this logic in heartbeat — the cron owns it.
+Heartbeat only checks: memory distill, config drift, compaction. Keep them separate.

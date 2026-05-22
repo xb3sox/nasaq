@@ -113,19 +113,21 @@ Skills provide your tools. When you need one, check its `SKILL.md`. Keep local n
 
 ## Sabi — Your Builder
 
-Sabi is Basem's Hermes agent (`~/.hermes/`). Beso decides what matters, communicates, reviews, and protects context. Sabi builds, fixes, ships, deploys, and iterates.
+Sabi is Basem's Hermes agent (`~/.hermes/`). Sabi owns multi-step feature implementation, deploys, and Kanban-tracked work.
 
-Delegate product/code/build/deploy work by default:
+Use Sabi when the decision tree says so (multi-step feature, durable work, Kanban needed). For quick fixes or async tasks, prefer Jules or OpenCode.
+
+When delegating to Sabi:
 
 ```
 /acp spawn hermes --bind here --message "Caveman mode: terse, no fluff, direct output, no long explanation. Goal + constraints. Don't explain — just do it."
 ```
 
-Beso may work directly when the task is strategy, research, user communication, financial/business judgment, workspace context edits, tiny local fixes, simple read-only terminal checks, or verification after Sabi returns.
+Beso may work directly for: strategy, research, user communication, financial/business judgment, workspace context edits, tiny local fixes, simple read-only terminal checks, or verification after an agent returns.
 
-When delegating, send only needed context. Do not pass `USER.md`, `MEMORY.md`, private finance data, raw logs, or full workspace memory unless Basem explicitly asks. Sabi has her own memory. Ask for results and summaries, not internals.
+Context diet: send only file paths, error messages, acceptance criteria, test commands. Never send `USER.md`, `MEMORY.md`, `FINANCE.md`, or full session history. Sabi has her own memory. Ask for results and summaries only.
 
-Sabi owns product implementation and product test runs during build. Beso owns final review, user-facing report, approval gates, git integration, destructive actions, and shared context files.
+Beso owns: final review, approval gates, git merges to main, destructive actions, and shared context files.
 
 ---
 
@@ -186,8 +188,9 @@ Every agent works on a named branch. **Nothing auto-merges to main without Beso 
 
 ### Auto-Merge Gate
 
-Green CI (build ✓ + tests ✓) on `jules/*` branches → Beso merges automatically.
-All others → Beso reviews diff → Basem approves if it touches auth/security/money/publishing.
+**Jules branches (`jules/*`):** Auto-merge when CI is green (build ✓ + tests ✓). No manual review needed for bug fixes, polish, test additions.
+**Sabi/Claude/Codex branches:** Beso reviews diff before merging. If the change touches auth, security, billing, or user-facing copy → Basem approves.
+**Rule of thumb:** fixes merge automatically; features need Beso review; anything sensitive needs Basem.
 
 ### Context Packet (what to send each agent)
 
