@@ -9,12 +9,17 @@ import {
 } from "@/lib/demo-clinic";
 
 export async function GET() {
-  return NextResponse.json({
-    clinic: demoClinic,
-    conversation: demoConversation,
-    ai: demoAiDecision,
-    booking: demoBooking,
-    reminders: demoReminders,
-    report: demoReportStats,
-  });
+  try {
+    return NextResponse.json({
+      clinic: demoClinic,
+      conversation: demoConversation,
+      ai: demoAiDecision,
+      booking: demoBooking,
+      reminders: demoReminders,
+      report: demoReportStats,
+    });
+  } catch (error) {
+    console.error("Demo flow error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
 }

@@ -168,7 +168,7 @@ export default function InboxPage() {
                 onClick={handleConfirmBooking}
                 className="min-h-[40px] bg-green-600 hover:bg-green-700"
               >
-                <CalendarCheck className="w-3 h-3 ms-1" />
+                <CalendarCheck className="w-3 h-3 me-1" />
                 تأكيد الحجز
               </Button>
             )}
@@ -181,7 +181,7 @@ export default function InboxPage() {
                 onClick={handleHumanHandoff}
                 className="min-h-[40px]"
               >
-                <Hand className="w-3 h-3 ms-1" />
+                <Hand className="w-3 h-3 me-1" />
                 تحويل لموظف
               </Button>
             )}

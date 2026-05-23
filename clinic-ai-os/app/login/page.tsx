@@ -1,10 +1,8 @@
 import { BRAND } from "@/lib/brand";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Lock } from "lucide-react";
+import { LoginForm } from "./login-form";
 
 export default function LoginPage() {
   return (
@@ -30,38 +28,7 @@ export default function LoginPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="email">البريد الإلكتروني</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="owner@clinic.com"
-                dir="ltr"
-                autoComplete="email"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="password">كلمة المرور</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                autoComplete="current-password"
-              />
-            </div>
-
-            {/* Demo mode notice */}
-            <div className="rounded-lg bg-muted/60 border border-border/40 p-3 text-xs text-muted-foreground space-y-1">
-              <div className="font-medium text-foreground">وضع الديمو</div>
-              <div>تسجيل الدخول غير مفعّل بعد — النظام يعمل بوضع العرض التجريبي.</div>
-            </div>
-
-            {/* Demo bypass */}
-            <Link href="/dashboard">
-              <Button className="w-full" size="lg">
-                دخول (ديمو)
-              </Button>
-            </Link>
+            <LoginForm />
 
             <p className="text-center text-xs text-muted-foreground">
               للحصول على حساب حقيقي،{" "}

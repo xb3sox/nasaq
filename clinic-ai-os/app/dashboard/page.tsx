@@ -92,8 +92,10 @@ function LiveDemoRunner() {
 
 function RiyadhClock() {
   const [time, setTime] = useState<Date | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect
     const syncClock = () => setTime(new Date());
     const initialTimer = setTimeout(syncClock, 0);
     const timer = setInterval(() => {
@@ -104,6 +106,16 @@ function RiyadhClock() {
       clearInterval(timer);
     };
   }, []);
+
+  if (!mounted) {
+    return (
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <Clock className="w-4 h-4" />
+        <span dir="ltr">--:--:--</span>
+        <span className="hidden sm:inline">— </span>
+      </div>
+    );
+  }
 
   const riyadh = time?.toLocaleString("ar-SA", {
     timeZone: "Asia/Riyadh",
@@ -122,10 +134,10 @@ function RiyadhClock() {
   }) ?? "";
 
   return (
-    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+    <div className="flex items-center gap-2 text-sm text-muted-foreground" suppressHydrationWarning>
       <Clock className="w-4 h-4" />
-      <span dir="ltr">{riyadh}</span>
-      <span className="hidden sm:inline">— {date}</span>
+      <span dir="ltr" suppressHydrationWarning>{riyadh}</span>
+      <span className="hidden sm:inline" suppressHydrationWarning>— {date}</span>
     </div>
   );
 }

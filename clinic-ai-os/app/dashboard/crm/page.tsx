@@ -166,7 +166,7 @@ export default function CrmPage() {
                     <Badge className={STATUS_COLORS[lead.status] ?? "bg-muted text-muted-foreground"}>
                       {STATUS_LABELS[lead.status] ?? lead.status}
                     </Badge>
-                    <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hidden sm:flex">
+                    <Button size="sm" variant="ghost" className="h-9 w-9 p-0 hidden sm:flex">
                       <MessageCircle className="w-4 h-4" />
                     </Button>
                   </div>

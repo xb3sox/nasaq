@@ -99,14 +99,14 @@ export function Sidebar() {
       {/* Hamburger — visible on mobile only */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 right-4 z-40 lg:hidden w-10 h-10 rounded-xl bg-card border border-border shadow-sm flex items-center justify-center hover:bg-muted transition-colors"
+        className="fixed top-4 end-4 z-40 lg:hidden w-10 h-10 rounded-xl bg-card border border-border shadow-sm flex items-center justify-center hover:bg-muted transition-colors"
         aria-label="فتح القائمة"
       >
         <Menu className="w-5 h-5" />
       </button>
 
       {/* Desktop sidebar — hidden on mobile */}
-      <aside className="hidden lg:flex w-64 border-l border-border/50 h-screen bg-card flex-col fixed right-0 top-0 z-30">
+      <aside className="hidden lg:flex w-64 border-l border-border/50 h-screen bg-card flex-col fixed end-0 top-0 z-30">
         <SidebarContent />
       </aside>
 
@@ -119,7 +119,7 @@ export function Sidebar() {
             onClick={() => setMobileOpen(false)}
           />
           {/* Drawer */}
-          <aside className="fixed right-0 top-0 h-full w-72 bg-card border-l border-border/50 z-50 flex flex-col animate-fade-slide-up shadow-2xl">
+          <aside className="fixed end-0 top-0 h-full w-72 bg-card border-l border-border/50 z-50 flex flex-col animate-fade-slide-up shadow-2xl">
             <div className="flex justify-end p-3">
               <button
                 onClick={() => setMobileOpen(false)}
