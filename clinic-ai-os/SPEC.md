@@ -155,15 +155,15 @@ tests/                   # 41 passing Node.js test runner tests
 > Do NOT reorder items — priority is top-down.
 
 ### P1 — Core (MVP blockers)
-- [ ] **Auth** — NextAuth email+password, protect dashboard routes, login page already built
+- [x] **Auth** — NextAuth email+password, protect dashboard routes, login page already built
 - [ ] **Real WhatsApp** — Meta Cloud API creds + webhook registration + test end-to-end
-- [ ] **Real AI** — OpenAI/Gemini key wired to `/api/ai/suggest-reply`
-- [ ] **Supabase live** — apply all migrations to live project, verify RLS with real auth users
+- [~] **Real AI** — OpenAI/Gemini key wired to `/api/ai/suggest-reply`
+- [~] **Supabase live** — apply all migrations to live project, verify RLS with real auth users
 
 ### P2 — Revenue
-- [ ] **ZATCA PDF** — generate VAT-compliant PDF invoice from modal, download button live
+- [~] **ZATCA PDF** — generate VAT-compliant PDF invoice from modal, download button live
 - [ ] **Reminders sender** — n8n workflow fires queued reminders via `/api/messages/send`
-- [ ] **Doctor calendar** — real slot availability, block double-booking
+- [~] **Doctor calendar** — real slot availability, block double-booking
 
 ### P3 — Growth
 - [ ] **Multi-clinic** — org/tenant model, each clinic isolated
