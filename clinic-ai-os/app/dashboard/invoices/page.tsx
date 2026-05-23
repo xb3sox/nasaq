@@ -1,6 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import {
+  Search,
+  Plus,
+  Download,
+  FileText,
+  Receipt,
+  CheckCircle2,
+  Clock,
+  TrendingUp,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -101,16 +111,6 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
     </Dialog>
   );
 }
-import {
-  Search,
-  Plus,
-  Download,
-  FileText,
-  Receipt,
-  CheckCircle2,
-  Clock,
-  TrendingUp,
-} from "lucide-react";
 
 const STATUS_LABELS: Record<string, string> = {
   paid: "مدفوعة",

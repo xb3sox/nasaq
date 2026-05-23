@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2 } from "lucide-react";
-import { demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
+import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 import { useEffect, useState } from "react";
 
 type DemoStep = { label: string; detail: string; done: boolean; active: boolean };
@@ -135,7 +135,7 @@ export default function DashboardPage() {
     <div className="p-4 sm:p-6 lg:p-8 space-y-8">
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold">نظرة عامة</h1>
+          <h1 className="text-3xl font-bold">نظرة عامة — {demoClinic.name}</h1>
           <p className="text-sm text-muted-foreground">مسار اليوم: واتساب → AI → حجز → تذكير → CRM → تقرير</p>
           <RiyadhClock />
         </div>
