@@ -95,15 +95,15 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
           <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40 border border-border/40">
             <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center text-xs text-muted-foreground text-center leading-tight">كود QRزكاتي</div>
             <div className="text-xs text-muted-foreground space-y-1">
-              <div className="font-medium text-foreground">قواعد ZATCA E-Invoice</div>
-              <div>الفاتورة تلتزم بمتطلبات هيئة الزكاة والدخل السعودية</div>
-              <div className="text-muted-foreground/70">كود TLV + QR يتم تفعيله بعد تسجيل ZATCA</div>
+              <div className="font-medium text-foreground">متطلبات ZATCA E-Invoice</div>
+              <div>الفاتورة جاهزة للتسجيل في منصة الزكاة والدخل</div>
+              <div className="text-muted-foreground/70">كود TLV + QR يتم تفعيله بعد التسجيل الرسمي</div>
             </div>
           </div>
 
           {/* Actions */}
           <div className="flex gap-2 pt-1">
-            <Button size="sm" className="flex-1">PDF تنزيل PDF</Button>
+            <Button size="sm" className="flex-1">تنزيل PDF</Button>
             <Button size="sm" variant="outline" className="flex-1" onClick={onClose}>إغلاق</Button>
           </div>
         </div>
