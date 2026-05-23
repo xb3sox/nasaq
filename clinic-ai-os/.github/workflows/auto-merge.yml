@@ -1,0 +1,55 @@
+name: Auto-Merge Jules Branches
+
+on:
+  check_suite:
+    types: [completed]
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' || github.event.check_suite.conclusion == 'success'
+    steps:
+      - name: Auto-merge green jules/* PRs
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+            });
+
+            for (const pr of prs) {
+              const branch = pr.head.ref;
+              // Only auto-merge jules/* and sabi/* branches
+              if (!branch.startsWith('jules/') && !branch.startsWith('sabi/')) continue;
+
+              // Check all required status checks pass
+              const { data: checks } = await github.rest.checks.listForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: pr.head.sha,
+              });
+
+              const allPassed = checks.check_runs.every(
+                (c) => c.status === 'completed' && c.conclusion === 'success'
+              );
+
+              if (!allPassed) {
+                console.log(`Skipping PR #${pr.number} (${branch}) — checks not all green`);
+                continue;
+              }
+
+              console.log(`Auto-merging PR #${pr.number}: ${pr.title} (${branch})`);
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                merge_method: 'squash',
+                commit_title: `${pr.title} [auto-merged by Beso]`,
+              });
+            }
