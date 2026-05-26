@@ -19,7 +19,7 @@ on:
       - "auth.config.ts"
       - "eslint.config.mjs"
       - "postcss.config.mjs"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/*.yml"
   pull_request:
     branches: [main]
     paths:
@@ -38,7 +38,7 @@ on:
       - "auth.config.ts"
       - "eslint.config.mjs"
       - "postcss.config.mjs"
-      - ".github/workflows/ci.yml"
+      - ".github/workflows/*.yml"
 
 permissions:
   contents: read
