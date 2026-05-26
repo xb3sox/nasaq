@@ -29,7 +29,7 @@ Skills define _how_ tools work. This file is for local setup/state only. Verify 
 - **Local Vercel:** `vercel` installed at `~/.npm-global/bin/vercel`; authenticated as `xb3sox`.
 - **Local 1Password:** `op` CLI installed (`2.33.1`). Abandoned. Migrate any remaining secrets to Bitwarden.
 - **Secrets Manager:** Bitwarden Password Manager (`bw` 2026.4.2) + Bitwarden Secrets Manager (`bws` 2.1.0), both free tier. `bw` logged in/synced (passwords imported). `bws` access token injected via `env.BWS_ACCESS_TOKEN` in `openclaw.json` → works from all exec sessions. Never store `BW_SESSION` in plaintext. `BWS_ACCESS_TOKEN` lives in openclaw.json config env block (acceptable for local-only gateway).
-- **Local Jules:** `@google/jules` installed globally (`~/.npm-global/bin/jules`). Authenticated. Connected repos: `xb3sox/clinic-ai-os`, `xb3sox/makeit`. Use `jules remote new --repo <owner/repo> --session "..."`. Active sessions tracked via `jules remote list --session`.
+- **Local Jules:** `@google/jules` installed globally (`~/.npm-global/bin/jules`). Authenticated. Connected repos: `xb3sox/nasaq`, `xb3sox/makeit`. Use `jules remote new --repo <owner/repo> --session "..."`. Active sessions tracked via `jules remote list --session`.
 - **Local Cursor CLI:** `cursor-agent` not installed yet. Install only when starting Cursor review/fix lane; prefer read-only review before any write mode.
 - **Local prompt cost rule:** Internal prompts to Sabi, Jules, Cursor, Copilot, or Codex start with `Caveman mode: terse, no fluff, direct output, no long explanation.` Use normal prose for user-facing specs, docs, PR bodies, commits, and customer copy.
 

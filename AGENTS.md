@@ -226,7 +226,7 @@ Never send:
 
 ```
 Heartbeat fires →
-  Read clinic-ai-os/SPEC.md task queue →
+  Read nasaq/SPEC.md task queue →
   Pick next [ ] item →
   Select agent via decision tree →
   Dispatch with branch + acceptance criteria + test command →

@@ -18,7 +18,7 @@ WhatsApp → AI → Booking → Reminders → CRM → Reports.
 ## Quick Start (Demo Mode — No Credentials Needed)
 
 ```bash
-cd clinic-ai-os
+cd nasaq
 npm install
 npm run dev
 ```
@@ -34,7 +34,7 @@ Demo mode is enabled by default. All features work with mock data.
 ### 1. Clone and Install
 
 ```bash
-cd clinic-ai-os
+cd nasaq
 npm install
 ```
 
@@ -129,7 +129,7 @@ ENABLE_UNAUTHENTICATED_DEMO_API=false
 ## Project Structure
 
 ```
-clinic-ai-os/
+nasaq/
 ├── app/
 │   ├── api/
 │   │   ├── config/status/        # Safe readiness flags; never returns secrets
