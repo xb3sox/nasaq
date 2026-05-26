@@ -171,7 +171,7 @@ export default function RemindersPage() {
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                   <h3 className="font-semibold">{date}</h3>
-                  <Badge variant="secondary" className="ml-2">{reminders.length}</Badge>
+                  <Badge variant="secondary" className="me-2">{reminders.length}</Badge>
                 </div>
                 {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
               </div>
@@ -184,7 +184,7 @@ export default function RemindersPage() {
                     const isRetrying = retrying[reminder.id];
 
                     return (
-                      <Card key={reminder.id} className="p-5 hover:shadow-sm transition-all border-l-4" style={{ borderLeftColor: cfg.dotColor }}>
+                      <Card key={reminder.id} className="p-5 hover:shadow-sm transition-all border-s-4" style={{ borderInlineStartColor: cfg.dotColor }}>
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                           
                           <div className="flex gap-4 items-start md:items-center min-w-0 flex-1">
@@ -192,7 +192,7 @@ export default function RemindersPage() {
                             <div className="hidden sm:flex flex-col items-center justify-center min-w-[60px] text-xs text-muted-foreground">
                               <span>{new Date(reminder.sendAt).toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" })}</span>
                               <div className="w-px h-6 bg-border my-1 relative">
-                                <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${cfg.dotColor}`}></div>
+                                <div className={`absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${cfg.dotColor}`}></div>
                               </div>
                               <span className="font-medium text-foreground">{reminder.type === "24h_before" ? "24h" : "2h"}</span>
                             </div>

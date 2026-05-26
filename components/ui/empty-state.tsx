@@ -25,7 +25,7 @@ export function EmptyState({
       <p className="mt-2 text-sm text-muted-foreground max-w-[250px]">{description}</p>
       {actionLabel && onAction && (
         <Button onClick={onAction} className="mt-6">
-          <Plus className="w-4 h-4 mr-2" />
+          <Plus className="w-4 h-4 me-2" />
           {actionLabel}
         </Button>
       )}

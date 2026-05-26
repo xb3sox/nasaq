@@ -314,10 +314,10 @@ export default function InvoicesPage() {
         </Tabs>
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="relative flex-1 sm:w-64">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               placeholder="ابحث بالاسم أو رقم الفاتورة..."
-              className="h-9 pr-9 border-border/50 focus-visible:ring-primary/30"
+              className="h-9 pe-9 border-border/50 focus-visible:ring-primary/30"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -410,10 +410,10 @@ export default function InvoicesPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>الإجراءات</DropdownMenuLabel>
-                          <DropdownMenuItem onClick={() => setSelectedInvoice(inv)}><FileText className="w-4 h-4 ml-2" /> عرض التفاصيل</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleBulkAction("pay")}><CreditCard className="w-4 h-4 ml-2" /> دفع الفاتورة</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setSelectedInvoice(inv)}><FileText className="w-4 h-4 me-2" /> عرض التفاصيل</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleBulkAction("pay")}><CreditCard className="w-4 h-4 me-2" /> دفع الفاتورة</DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem onClick={() => handleBulkAction("remind")}><Send className="w-4 h-4 ml-2" /> إرسال تذكير</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleBulkAction("remind")}><Send className="w-4 h-4 me-2" /> إرسال تذكير</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </td>

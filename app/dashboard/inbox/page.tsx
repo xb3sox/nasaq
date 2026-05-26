@@ -138,7 +138,7 @@ export default function InboxPage() {
             <div
               key={conv.id}
               onClick={() => { setSelectedId(conv.id); setBookingConfirmed(false); setHandoffDone(false); setDismissSuggestion(false); }}
-              className={`p-4 border-b cursor-pointer transition-colors ${selectedId === conv.id ? "bg-primary/5 border-l-4 border-l-primary" : "hover:bg-muted/50"}`}
+              className={`p-4 border-b cursor-pointer transition-colors ${selectedId === conv.id ? "bg-primary/5 border-s-4 border-s-primary" : "hover:bg-muted/50"}`}
             >
               <div className="flex justify-between items-start mb-1">
                 <div className="font-semibold text-sm truncate">{conv.customerName}</div>
@@ -180,15 +180,15 @@ export default function InboxPage() {
           <div className="flex flex-wrap gap-2 items-center">
             {showSearch && (
               <div className="relative">
-                <Search className="w-3.5 h-3.5 absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <Search className="w-3.5 h-3.5 absolute end-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <Input 
                   placeholder="بحث في المحادثة..." 
-                  className="h-8 w-40 pr-7 text-xs" 
+                  className="h-8 w-40 pe-7 text-xs" 
                   autoFocus 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button variant="ghost" size="icon" className="h-6 w-6 absolute left-1 top-1/2 -translate-y-1/2" onClick={() => setShowSearch(false)}>
+                <Button variant="ghost" size="icon" className="h-6 w-6 absolute start-1 top-1/2 -translate-y-1/2" onClick={() => setShowSearch(false)}>
                   <X className="w-3 h-3" />
                 </Button>
               </div>

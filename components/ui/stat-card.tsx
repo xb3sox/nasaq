@@ -33,14 +33,14 @@ export function StatCard({
           <p className="flex items-center text-xs text-muted-foreground mt-1">
             <span
               className={cn(
-                "flex items-center mr-1",
+                "flex items-center me-1",
                 trend > 0 ? "text-emerald-500" : "text-rose-500"
               )}
             >
               {trend > 0 ? (
-                <ArrowUpIcon className="w-3 h-3 mr-1" />
+                <ArrowUpIcon className="w-3 h-3 me-1" />
               ) : (
-                <ArrowDownIcon className="w-3 h-3 mr-1" />
+                <ArrowDownIcon className="w-3 h-3 me-1" />
               )}
               {Math.abs(trend)}%
             </span>

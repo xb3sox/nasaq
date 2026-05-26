@@ -76,7 +76,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
               className={cn(
                 "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group",
                 isActive
-                  ? "bg-primary/5 text-primary border-e-2 border-primary rounded-e-none"
+                  ? "bg-primary/5 text-primary border-s-2 border-primary rounded-s-none"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
@@ -130,7 +130,7 @@ export function Sidebar() {
       </button>
 
       {/* Desktop sidebar — hidden on mobile */}
-      <aside className="hidden lg:flex w-64 border-l border-border/50 h-screen bg-card flex-col fixed end-0 top-0 z-30">
+      <aside className="hidden lg:flex w-64 border-s border-border/50 h-screen bg-card flex-col fixed end-0 top-0 z-30">
         <SidebarContent />
       </aside>
 
@@ -143,7 +143,7 @@ export function Sidebar() {
             onClick={() => setMobileOpen(false)}
           />
           {/* Drawer: slide in from right (RTL: end-0) */}
-          <aside className="fixed end-0 top-0 h-full w-72 bg-card border-l border-border/50 z-50 flex flex-col shadow-2xl transition-transform duration-300 translate-x-0">
+          <aside className="fixed end-0 top-0 h-full w-72 bg-card border-s border-border/50 z-50 flex flex-col shadow-2xl transition-transform duration-300 translate-x-0">
             <div className="flex justify-end p-3">
               <button
                 onClick={() => setMobileOpen(false)}

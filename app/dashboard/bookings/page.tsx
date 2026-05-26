@@ -213,10 +213,10 @@ export default function BookingsPage() {
       {/* Filters */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="relative flex-1 min-w-[180px] max-w-sm">
-          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
-            className="h-10 sm:h-9 pr-9 border-border/50"
+            className="h-10 sm:h-9 pe-9 border-border/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -300,7 +300,7 @@ export default function BookingsPage() {
               <div className="space-y-3 relative">
                 {/* Timeline connector for default view */}
                 {!compactView && groupBookings.length > 1 && (
-                  <div className="absolute top-6 bottom-6 right-[19px] w-0.5 bg-border/50 hidden sm:block"></div>
+                  <div className="absolute top-6 bottom-6 end-[19px] w-0.5 bg-border/50 hidden sm:block"></div>
                 )}
                 
                 {groupBookings.map((booking) => {
@@ -329,7 +329,7 @@ export default function BookingsPage() {
                             <Badge className={`${statusCfg.color} scale-90 origin-right`}>{statusCfg.label}</Badge>
                           </div>
                         </div>
-                        <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1 shrink-0 bg-gradient-to-r from-transparent to-card rtl:to-card/0 rtl:from-card pl-2 rtl:pr-2 rtl:pl-0 absolute left-2 rtl:right-auto rtl:left-2">
+                        <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1 shrink-0 bg-gradient-to-r from-transparent to-card ps-2 absolute start-2 ">
                           <Button size="icon" variant="ghost" className="h-8 w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
                             <MessageCircle className="w-4 h-4" />
                           </Button>
@@ -351,9 +351,9 @@ export default function BookingsPage() {
                   return (
                     <Card key={booking.id} className="group p-4 hover:shadow-md transition-all relative overflow-hidden border-border/60 hover:border-border">
                       {/* Timeline Dot */}
-                      <div className={`absolute right-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
+                      <div className={`absolute end-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
                       
-                      <div className="flex items-start justify-between gap-4 pl-12 rtl:pr-1 rtl:pl-12">
+                      <div className="flex items-start justify-between gap-4 ps-12 rtl:pe-1 rtl:ps-12">
                         <div className="flex gap-4 items-start min-w-0 relative z-10">
                           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 hidden sm:flex">
                             <CalendarCheck className="w-5 h-5 text-primary" />
@@ -387,7 +387,7 @@ export default function BookingsPage() {
                       </div>
 
                       {/* Hover Actions Overlay */}
-                      <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2 bg-card/90 backdrop-blur-sm p-2 rounded-lg shadow-sm border border-border/50 translate-x-4 group-hover:translate-x-0 rtl:-translate-x-4 rtl:group-hover:translate-x-0">
+                      <div className="absolute start-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2 bg-card/90 backdrop-blur-sm p-2 rounded-lg shadow-sm border border-border/50 translate-x-4 group-hover:translate-x-0 ">
                         <Button size="sm" variant="ghost" className="h-8 px-2 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
                           <MessageCircle className="w-4 h-4 me-1.5" />
                           مراسلة
