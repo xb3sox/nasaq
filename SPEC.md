@@ -161,15 +161,15 @@ tests/                   # 41 passing Node.js test runner tests
 - [~] **Supabase live** — apply all migrations to live project, verify RLS with real auth users
 
 ### P2 — Revenue
-- [~] **ZATCA PDF** — generate VAT-compliant PDF invoice from modal, download button live
+- [x] **ZATCA PDF** — generate VAT-compliant PDF invoice from modal, download button live
 - [ ] **Reminders sender** — n8n workflow fires queued reminders via `/api/messages/send`
-- [~] **Doctor calendar** — real slot availability, block double-booking
+- [x] **Doctor calendar** — real slot availability, block double-booking
 
 ### P3 — Growth
 - [ ] **Multi-clinic** — org/tenant model, each clinic isolated
 - [ ] **Onboarding flow** — guided setup wizard for new clinics
-- [ ] **Analytics** — week-over-week trend charts on reports page
-- [ ] **Mobile PWA** — add manifest + service worker for installable app
+- [x] **Analytics** — week-over-week trend charts on reports page
+- [x] **Mobile PWA** — add manifest + service worker for installable app
 
 ### P4 — Compliance
 - [ ] Data stored in Saudi Arabia or compliant jurisdiction (SDA requirements)
@@ -195,3 +195,4 @@ tests/                   # 41 passing Node.js test runner tests
 - v1.1: Repo cleanup — workflows moved into clinic-ai-os repo, legacy .bak migration removed, stale local branches deleted, Next.js 15.3.9 confirmed stable, auto-merge workflow added, autonomous build cron active, SPEC task queue formalized
 - v1.2: RTL polish pass merged — import order fix, demoClinic name in header, eslint unused-vars rule, RTL/LTR sidebar/button/dialog/select/sheet/table/tabs components using logical CSS properties (pe/ps/me/ms/inset-x), mobile touch targets (min-h-[40px] sm breakpoint), horizontal scroll fix on dashboard flow card; deployed to production 2026-05-23
 - v1.3: Jules sentinel session applied — invoices ZATCA label fixed, PDF button label corrected, invoice modal open on row click; all previous patches reviewed and consolidated; build + 43 tests verified clean
+- v1.4: Doctor calendar — dynamic slot generation (Sun–Thu, 9AM–5PM), multi-doctor support (3 doctors), double-booking conflict detection, `generateAvailableSlots()` + `hasBookingConflict()`; ZATCA PDF + analytics charts + mobile PWA completed via Jules parallel sessions

@@ -55,7 +55,11 @@ test("detects booking intent and proposes safe clinic reply", () => {
   assert.equal(result.humanNeeded, false);
   assert.equal(result.nextAction, "offer_slots");
   assert.match(result.reply, /250/);
-  assert.match(result.reply, /4:00/);
+  assert.match(result.reply, /\d+:\d+/);  // dynamic slot time
+  assert.ok(
+    (result.availableSlots ?? []).length > 0,
+    "should offer at least one slot",
+  );
 });
 
 test("escalates medical advice requests to human", () => {
