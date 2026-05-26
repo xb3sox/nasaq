@@ -7,10 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
 import { Building2, MessageCircle, Bot, Users, Briefcase, Bell, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
 import type { RuntimeConfigStatus } from "@/lib/runtime-config";
 
 export default function SettingsPage() {
+
+  const handleSave = () => {
+    toast.success("تم حفظ التغييرات بنجاح");
+  };
+
   return (
     <div className="p-6 space-y-6 max-w-4xl">
       <div className="space-y-2">
@@ -21,13 +27,13 @@ export default function SettingsPage() {
       <ConfigReadinessPanel />
 
       <Tabs defaultValue="clinic" className="space-y-4">
-        <TabsList className="flex-wrap gap-1 h-auto p-1.5" role="tablist">
-          <TabsTrigger role="tab" aria-selected={true} aria-controls="clinic" id="tab-clinic" value="clinic" className="gap-1.5 py-2.5"><Building2 className="w-3.5 h-3.5" />العيادة</TabsTrigger>
-          <TabsTrigger role="tab" aria-selected={false} aria-controls="whatsapp" id="tab-whatsapp" value="whatsapp" className="gap-1.5 py-2.5"><MessageCircle className="w-3.5 h-3.5" />واتساب</TabsTrigger>
-          <TabsTrigger role="tab" aria-selected={false} aria-controls="ai" id="tab-ai" value="ai" className="gap-1.5 py-2.5"><Bot className="w-3.5 h-3.5" />الذكاء الاصطناعي</TabsTrigger>
-          <TabsTrigger role="tab" aria-selected={false} aria-controls="team" id="tab-team" value="team" className="gap-1.5 py-2.5"><Users className="w-3.5 h-3.5" />الفريق</TabsTrigger>
-          <TabsTrigger role="tab" aria-selected={false} aria-controls="services" id="tab-services" value="services" className="gap-1.5 py-2.5"><Briefcase className="w-3.5 h-3.5" />الخدمات</TabsTrigger>
-          <TabsTrigger role="tab" aria-selected={false} aria-controls="reminders" id="tab-reminders" value="reminders" className="gap-1.5 py-2.5"><Bell className="w-3.5 h-3.5" />التذكيرات</TabsTrigger>
+        <TabsList className="flex-nowrap overflow-x-auto gap-1 h-auto p-1.5 w-full justify-start sm:flex-wrap" role="tablist">
+          <TabsTrigger role="tab" aria-selected={true} aria-controls="clinic" id="tab-clinic" value="clinic" className="gap-1.5 py-2.5 whitespace-nowrap"><Building2 className="w-3.5 h-3.5" />العيادة</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="whatsapp" id="tab-whatsapp" value="whatsapp" className="gap-1.5 py-2.5 whitespace-nowrap"><MessageCircle className="w-3.5 h-3.5" />واتساب</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="ai" id="tab-ai" value="ai" className="gap-1.5 py-2.5 whitespace-nowrap"><Bot className="w-3.5 h-3.5" />الذكاء الاصطناعي</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="team" id="tab-team" value="team" className="gap-1.5 py-2.5 whitespace-nowrap"><Users className="w-3.5 h-3.5" />الفريق</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="services" id="tab-services" value="services" className="gap-1.5 py-2.5 whitespace-nowrap"><Briefcase className="w-3.5 h-3.5" />الخدمات</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="reminders" id="tab-reminders" value="reminders" className="gap-1.5 py-2.5 whitespace-nowrap"><Bell className="w-3.5 h-3.5" />التذكيرات</TabsTrigger>
         </TabsList>
 
         <TabsContent role="tabpanel" id="clinic" aria-labelledby="tab-clinic" value="clinic">
@@ -35,12 +41,12 @@ export default function SettingsPage() {
             <CardHeader><CardTitle>معلومات العيادة</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2"><Label>اسم العيادة</Label><Input defaultValue="عيادة النور الطبية" /></div>
-                <div className="space-y-2"><Label>رقم الجوال</Label><Input defaultValue="+966500000001" /></div>
-                <div className="space-y-2"><Label>العنوان</Label><Input defaultValue="الرياض، المالقا" /></div>
-                <div className="space-y-2"><Label>العملة</Label><Input defaultValue="SAR" /></div>
+                <div className="space-y-2"><Label htmlFor="clinic-name">اسم العيادة</Label><Input id="clinic-name" defaultValue="عيادة النور الطبية" /></div>
+                <div className="space-y-2"><Label htmlFor="clinic-phone">رقم الجوال</Label><Input id="clinic-phone" defaultValue="+966500000001" /></div>
+                <div className="space-y-2"><Label htmlFor="clinic-address">العنوان</Label><Input id="clinic-address" defaultValue="الرياض، المالقا" /></div>
+                <div className="space-y-2"><Label htmlFor="clinic-currency">العملة</Label><Input id="clinic-currency" defaultValue="SAR" /></div>
               </div>
-              <Button>حفظ التغييرات</Button>
+              <Button onClick={handleSave}>حفظ التغييرات</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -49,14 +55,14 @@ export default function SettingsPage() {
           <Card>
             <CardHeader><CardTitle>إعدادات واتساب Cloud API</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2"><Label>WHATSAPP_ACCESS_TOKEN</Label><Input type="password" placeholder="توكن الوصول" /></div>
-              <div className="space-y-2"><Label>WHATSAPP_PHONE_NUMBER_ID</Label><Input placeholder="معرف رقم الهاتف" /></div>
-              <div className="space-y-2"><Label>WHATSAPP_VERIFY_TOKEN</Label><Input placeholder="توكن التحقق" /></div>
+              <div className="space-y-2"><Label htmlFor="wa-token">WHATSAPP_ACCESS_TOKEN</Label><Input id="wa-token" type="password" placeholder="توكن الوصول" /></div>
+              <div className="space-y-2"><Label htmlFor="wa-phone-id">WHATSAPP_PHONE_NUMBER_ID</Label><Input id="wa-phone-id" placeholder="معرف رقم الهاتف" /></div>
+              <div className="space-y-2"><Label htmlFor="wa-verify">WHATSAPP_VERIFY_TOKEN</Label><Input id="wa-verify" placeholder="توكن التحقق" /></div>
               <div className="flex items-center gap-3">
                 <Switch id="mock-mode" defaultChecked />
                 <Label htmlFor="mock-mode">وضع المحاكاة — يستخدم تلقائياً عند نقص إعدادات واتساب</Label>
               </div>
-              <Button>حفظ</Button>
+              <Button onClick={handleSave}>حفظ</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -65,14 +71,14 @@ export default function SettingsPage() {
           <Card>
             <CardHeader><CardTitle>إعدادات الذكاء الاصطناعي</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2"><Label>OPENAI_API_KEY</Label><Input type="password" placeholder="مفتاح OpenAI" /></div>
-              <div className="space-y-2"><Label>النموذج المستخدم</Label><Input defaultValue="gpt-4o-mini" /></div>
+              <div className="space-y-2"><Label htmlFor="ai-key">OPENAI_API_KEY</Label><Input id="ai-key" type="password" placeholder="مفتاح OpenAI" /></div>
+              <div className="space-y-2"><Label htmlFor="ai-model">النموذج المستخدم</Label><Input id="ai-model" defaultValue="gpt-4o-mini" /></div>
               <div className="space-y-4">
                 <div className="flex items-center gap-3"><Switch id="ai-enabled" defaultChecked /><Label htmlFor="ai-enabled">تفعيل الردود التلقائية</Label></div>
                 <div className="flex items-center gap-3"><Switch id="ai-booking" defaultChecked /><Label htmlFor="ai-booking">تفعيل اكتشاف نية الحجز</Label></div>
                 <div className="flex items-center gap-3"><Switch id="ai-escalate" defaultChecked /><Label htmlFor="ai-escalate">تصعيد الحالات الطارئة للموظف</Label></div>
               </div>
-              <Button>حفظ</Button>
+              <Button onClick={handleSave}>حفظ</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -134,11 +140,11 @@ export default function SettingsPage() {
                 { key: "post_visit", label: "متابعة بعد الزيارة", message: "مرحباً {{customer_name}}، كيف تشعر بعد زيارتك؟ يسعدنا خدمتك مجدداً." },
               ].map(t => (
                 <div key={t.key} className="space-y-2 p-4 rounded-lg border">
-                  <Label className="font-medium">{t.label}</Label>
-                  <Input defaultValue={t.message} className="text-sm" />
+                  <Label htmlFor={`template-${t.key}`} className="font-medium">{t.label}</Label>
+                  <Input id={`template-${t.key}`} defaultValue={t.message} className="text-sm" />
                 </div>
               ))}
-              <Button>حفظ القوالب</Button>
+              <Button onClick={handleSave}>حفظ القوالب</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -185,52 +191,52 @@ function ConfigReadinessPanel() {
   const rows = status
     ? [
         {
-          label: "Supabase",
+          label: "قاعدة البيانات (Supabase)",
           ready: status.supabase.ready,
-          detail: status.supabase.ready ? "قاعدة البيانات جاهزة" : `ينقص: ${formatMissing(status.supabase.missing)}`,
+          detail: status.supabase.ready ? "متصلة وجاهزة" : `ينقص: ${formatMissing(status.supabase.missing)}`,
         },
         {
-          label: "WhatsApp",
+          label: "واتساب (Cloud API)",
           ready: status.whatsapp.ready,
-          detail: status.whatsapp.ready ? "Cloud API جاهز" : `وضع المحاكاة مفعل. ينقص: ${formatMissing(status.whatsapp.missing)}`,
+          detail: status.whatsapp.ready ? "الربط جاهز" : `وضع المحاكاة مفعل. ينقص: ${formatMissing(status.whatsapp.missing)}`,
         },
         {
-          label: "AI",
+          label: "الذكاء الاصطناعي (AI)",
           ready: status.ai.ready,
-          detail: status.ai.ready ? `المزود: ${status.ai.provider}` : "يعمل بالمزود الحتمي التجريبي",
+          detail: status.ai.ready ? `المزود الحالي: ${status.ai.provider}` : "يعمل بوضع المحاكاة التجريبي",
         },
         {
-          label: "Demo API",
+          label: "واجهات الديمو (Demo API)",
           ready: !status.demoApi.exposed,
-          detail: status.demoApi.exposed ? "واجهات الديمو مفتوحة في هذه البيئة" : "واجهات الديمو محمية في الإنتاج",
+          detail: status.demoApi.exposed ? "واجهات الديمو مفتوحة في بيئة التطوير" : "واجهات الديمو محمية (وضع الإنتاج)",
           caution: status.demoApi.exposed,
         },
       ]
     : [];
 
   return (
-    <Card>
-      <CardHeader className="pb-3">
+    <Card className="border-teal-100 dark:border-teal-900 shadow-sm">
+      <CardHeader className="pb-3 bg-teal-50/50 dark:bg-teal-950/20">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle className="text-base">جاهزية التشغيل</CardTitle>
-          <Badge variant="outline" className="w-fit">
-            {status ? status.environment : "loading"}
+          <CardTitle className="text-base text-teal-900 dark:text-teal-100">حالة الربط والجاهزية</CardTitle>
+          <Badge variant={status?.environment === "production" ? "default" : "secondary"} className="w-fit">
+            {status ? (status.environment === "production" ? "إنتاج" : "تطوير") : "جاري التحميل..."}
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="grid gap-3 sm:grid-cols-2">
+      <CardContent className="grid gap-3 sm:grid-cols-2 pt-4">
         {status
           ? rows.map((row) => (
-              <div key={row.label} className="flex min-h-20 items-start gap-3 rounded-lg border p-3">
+              <div key={row.label} className="flex min-h-20 items-start gap-3 rounded-lg border p-3 bg-card transition-colors hover:bg-muted/50">
                 {row.ready ? (
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-500" />
                 ) : row.caution ? (
-                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-500" />
                 ) : (
-                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" />
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-500" />
                 )}
                 <div className="min-w-0 space-y-1">
-                  <div className="font-medium">{row.label}</div>
+                  <div className="font-medium text-sm">{row.label}</div>
                   <p className="text-xs leading-relaxed text-muted-foreground">{row.detail}</p>
                 </div>
               </div>

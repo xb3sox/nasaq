@@ -14,15 +14,15 @@ export default function WhatsappStep() {
       <Alert className="bg-primary/5 border-primary/20 text-primary">
         <Info className="w-4 h-4 text-primary" />
         <AlertTitle className="text-sm font-bold mb-1">WhatsApp Cloud API</AlertTitle>
-        <AlertDescription className="text-xs">
-          للربط مع واتساب، تحتاج إلى حساب مطور في منصة Meta وإعداد تطبيق WhatsApp. يمكنك تخطي هذه الخطوة في وضع العرض التجريبي.
+        <AlertDescription className="text-xs leading-relaxed">
+          يتطلب الربط الفعلي حساب مطور موثق في Meta. للتجربة السريعة، يمكنك تخطي هذه الخطوة وسنستخدم نظام محاكاة (Mock) داخلي للرسائل.
         </AlertDescription>
       </Alert>
 
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="phoneNumberId">Phone Number ID</Label>
-          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+          <Label htmlFor="phoneNumberId">رقم الهاتف المميز (Phone Number ID)</Label>
+          <Input
             id="phoneNumberId"
             placeholder="مثال: 123456789012345"
             dir="ltr"
@@ -32,8 +32,8 @@ export default function WhatsappStep() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="accessToken">Access Token (الرمز الدائم)</Label>
-          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+          <Label htmlFor="accessToken">رمز الوصول الدائم (Access Token)</Label>
+          <Input
             id="accessToken"
             type="password"
             placeholder="EAAB..."
@@ -44,8 +44,8 @@ export default function WhatsappStep() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="verifyToken">Webhook Verify Token</Label>
-          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+          <Label htmlFor="verifyToken">رمز التحقق (Webhook Verify Token)</Label>
+          <Input
             id="verifyToken"
             placeholder="مثال: my_custom_verify_token"
             dir="ltr"
@@ -53,7 +53,7 @@ export default function WhatsappStep() {
             onChange={(e) => updateWhatsapp({ verifyToken: e.target.value })}
           />
           <p className="text-xs text-muted-foreground mt-1">
-            هذا الرمز ستستخدمه عند إعداد الـ Webhook في منصة Meta.
+            الرمز المخصص الذي ستدخله عند إعداد الـ Webhook في لوحة تحكم Meta.
           </p>
         </div>
       </div>

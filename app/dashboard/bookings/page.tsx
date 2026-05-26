@@ -70,17 +70,17 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
         <div className="space-y-4 mt-2">
           <div className="space-y-1.5">
             <Label>اسم العميل</Label>
-            <Input placeholder="مثال: نورة المحمد" />
+            <Input placeholder="مثال: نورة المحمد" className="min-h-[44px] sm:min-h-0 sm:h-9" />
           </div>
           <div className="space-y-1.5">
             <Label>رقم الجوال</Label>
-            <Input placeholder="+966 5XX XXX XXXX" dir="ltr" />
+            <Input placeholder="+966 5XX XXX XXXX" dir="ltr" className="min-h-[44px] sm:min-h-0 sm:h-9" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>الخدمة</Label>
               <Select>
-                <SelectTrigger><SelectValue placeholder="اختر الخدمة" /></SelectTrigger>
+                <SelectTrigger className="min-h-[44px] sm:min-h-0 sm:h-9"><SelectValue placeholder="اختر الخدمة" /></SelectTrigger>
                 <SelectContent>
                   {DEMO_SERVICES.map((s) => (
                     <SelectItem key={s.id} value={s.id}>{s.name} — {s.price} ر.س</SelectItem>
@@ -91,7 +91,7 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
             <div className="space-y-1.5">
               <Label>الطبيب</Label>
               <Select>
-                <SelectTrigger><SelectValue placeholder="اختر الطبيب" /></SelectTrigger>
+                <SelectTrigger className="min-h-[44px] sm:min-h-0 sm:h-9"><SelectValue placeholder="اختر الطبيب" /></SelectTrigger>
                 <SelectContent>
                   {DEMO_DOCTORS.map((d) => (
                     <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
@@ -103,19 +103,19 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>التاريخ</Label>
-              <Input type="date" />
+              <Input type="date" className="min-h-[44px] sm:min-h-0 sm:h-9" />
             </div>
             <div className="space-y-1.5">
               <Label>الوقت</Label>
-              <Input type="time" />
+              <Input type="time" className="min-h-[44px] sm:min-h-0 sm:h-9" />
             </div>
           </div>
           <div className="flex gap-2 pt-2">
-            <Button className="flex-1" onClick={handleSave} disabled={saving}>
+            <Button className="flex-1 min-h-[44px] sm:min-h-0 sm:h-9" onClick={handleSave} disabled={saving}>
               {saving ? <Loader2 className="w-4 h-4 animate-spin ms-1" /> : null}
               حفظ الحجز
             </Button>
-            <Button variant="outline" className="flex-1" onClick={() => setOpen(false)}>إلغاء</Button>
+            <Button variant="outline" className="flex-1 min-h-[44px] sm:min-h-0 sm:h-9" onClick={() => setOpen(false)}>إلغاء</Button>
           </div>
         </div>
       </DialogContent>
@@ -123,25 +123,14 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
   );
 }
 
-function getDateGroup(dateStr: string) {
+function getFormattedDate(dateStr: string) {
   const date = new Date(dateStr);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-  const tomorrow = new Date(today);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  
-  const endOfWeek = new Date(today);
-  endOfWeek.setDate(today.getDate() + (7 - today.getDay()));
-
-  const dateMidnight = new Date(date);
-  dateMidnight.setHours(0, 0, 0, 0);
-
-  if (dateMidnight.getTime() === today.getTime()) return "اليوم";
-  if (dateMidnight.getTime() === tomorrow.getTime()) return "غداً";
-  if (dateMidnight > tomorrow && dateMidnight <= endOfWeek) return "هذا الأسبوع";
-  if (dateMidnight < today) return "سابقاً";
-  return "لاحقاً";
+  return new Intl.DateTimeFormat('ar-SA', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date);
 }
 
 export default function BookingsPage() {
@@ -216,13 +205,13 @@ export default function BookingsPage() {
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
-            className="h-10 sm:h-9 ps-9 border-border/50"
+            className="min-h-[44px] sm:min-h-0 h-10 sm:h-9 ps-9 border-border/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? "all")}>
-          <SelectTrigger className="w-[140px] h-10 sm:h-9 border-border/50">
+          <SelectTrigger className="min-h-[44px] sm:min-h-0 w-[140px] h-10 sm:h-9 border-border/50">
             <SelectValue placeholder="الحالة" />
           </SelectTrigger>
           <SelectContent>
@@ -234,7 +223,7 @@ export default function BookingsPage() {
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v ?? "all")}>
-          <SelectTrigger className="w-[150px] h-9 border-border/50">
+          <SelectTrigger className="min-h-[44px] sm:min-h-0 w-[150px] h-10 sm:h-9 border-border/50">
             <SelectValue placeholder="المصدر" />
           </SelectTrigger>
           <SelectContent>
@@ -249,19 +238,21 @@ export default function BookingsPage() {
           {filtered.length} من {all.length} حجز
         </span>
         <div className="flex bg-muted rounded-lg p-0.5 border">
-          <Button 
-            variant={!compactView ? "secondary" : "ghost"} 
-            size="sm" 
-            className="h-8 px-2"
+          <Button
+            variant={!compactView ? "secondary" : "ghost"}
+            size="sm"
+            className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:px-2"
             onClick={() => setCompactView(false)}
+            aria-label="عرض افتراضي"
           >
             <LayoutList className="w-4 h-4" />
           </Button>
-          <Button 
-            variant={compactView ? "secondary" : "ghost"} 
-            size="sm" 
-            className="h-8 px-2"
+          <Button
+            variant={compactView ? "secondary" : "ghost"}
+            size="sm"
+            className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:px-2"
             onClick={() => setCompactView(true)}
+            aria-label="عرض مضغوط"
           >
             <AlignJustify className="w-4 h-4" />
           </Button>
@@ -284,30 +275,31 @@ export default function BookingsPage() {
         <div className="space-y-8">
           {Object.entries(
             filtered.reduce((acc, booking) => {
-              const group = getDateGroup(booking.date);
+              const group = booking.date; // Group directly by YYYY-MM-DD
               if (!acc[group]) acc[group] = [];
               acc[group].push(booking);
               return acc;
             }, {} as Record<string, typeof filtered>)
-          ).map(([group, groupBookings]) => (
-            <div key={group} className="space-y-4">
+          ).sort(([dateA], [dateB]) => new Date(dateA).getTime() - new Date(dateB).getTime())
+          .map(([dateKey, groupBookings]) => (
+            <div key={dateKey} className="space-y-4">
               <div className="flex items-center gap-3">
-                <h3 className="font-semibold text-lg">{group}</h3>
+                <h3 className="font-semibold text-lg">{getFormattedDate(dateKey)}</h3>
                 <div className="h-px bg-border/60 flex-1"></div>
                 <Badge variant="secondary" className="text-xs bg-muted">{groupBookings.length}</Badge>
               </div>
-              
+
               <div className="space-y-3 relative">
                 {/* Timeline connector for default view */}
                 {!compactView && groupBookings.length > 1 && (
                   <div className="absolute top-6 bottom-6 start-[19px] w-0.5 bg-border/50 hidden sm:block"></div>
                 )}
-                
+
                 {groupBookings.map((booking) => {
                   const statusCfg = STATUS_CONFIG[booking.status as BookingStatus] ?? STATUS_CONFIG.pending;
                   const paymentCfg = PAYMENT_CONFIG[booking.paymentStatus as PaymentStatus] ?? PAYMENT_CONFIG.unpaid;
                   const StatusIcon = statusCfg.icon;
-                  
+
                   const statusColors = {
                     confirmed: "bg-green-500",
                     completed: "bg-blue-500",
@@ -329,18 +321,18 @@ export default function BookingsPage() {
                             <Badge className={`${statusCfg.color} scale-90 origin-right`}>{statusCfg.label}</Badge>
                           </div>
                         </div>
-                        <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1 shrink-0 bg-gradient-to-r from-transparent to-card ps-2 absolute start-2 ">
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
-                            <MessageCircle className="w-4 h-4" />
+                        <div className="flex gap-1 shrink-0 ps-2 items-center">
+                          <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10" aria-label="مراسلة">
+                            <MessageCircle className="w-4 h-4" aria-hidden="true" />
                           </Button>
                           {booking.status === "pending" && (
-                            <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600 hover:text-green-600 hover:bg-green-50">
-                              <CheckCircle2 className="w-4 h-4" />
+                            <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-green-600 hover:text-green-600 hover:bg-green-50" aria-label="تأكيد الحجز">
+                              <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
                             </Button>
                           )}
                           {booking.status !== "cancelled" && booking.status !== "completed" && (
-                            <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10">
-                              <AlertCircle className="w-4 h-4" />
+                            <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-destructive hover:text-destructive hover:bg-destructive/10" aria-label="إلغاء الحجز">
+                              <AlertCircle className="w-4 h-4" aria-hidden="true" />
                             </Button>
                           )}
                         </div>
@@ -352,13 +344,13 @@ export default function BookingsPage() {
                     <Card key={booking.id} className="group p-4 hover:shadow-md transition-all relative overflow-hidden border-border/60 hover:border-border">
                       {/* Timeline Dot */}
                       <div className={`absolute start-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
-                      
-                      <div className="flex items-start justify-between gap-4 ps-12 rtl:pe-1 rtl:ps-12">
-                        <div className="flex gap-4 items-start min-w-0 relative z-10">
-                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 hidden sm:flex">
+
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 ps-12 rtl:pe-1 rtl:ps-12">
+                        <div className="flex gap-4 items-start min-w-0 relative z-10 w-full sm:w-auto">
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 hidden sm:flex" aria-hidden="true">
                             <CalendarCheck className="w-5 h-5 text-primary" />
                           </div>
-                          <div className="min-w-0">
+                          <div className="min-w-0 flex-1">
                             <div className="font-bold truncate text-base">{booking.customer}</div>
                             <div className="text-sm text-muted-foreground truncate mt-0.5">
                               {booking.service} · {booking.doctor}
@@ -370,35 +362,34 @@ export default function BookingsPage() {
                             </div>
                           </div>
                         </div>
-                        <div className="flex flex-col items-end gap-1.5 shrink-0 relative z-10">
-                          <Badge className={statusCfg.color}>
-                            <StatusIcon className="w-3 h-3 me-1" />
-                            {statusCfg.label}
-                          </Badge>
-                          <Badge variant="outline" className={`text-xs ${paymentCfg.color} border-0 bg-muted/50`}>
-                            <DollarSign className="w-3 h-3 me-0.5" />
-                            {paymentCfg.label}
-                          </Badge>
-                          <Badge variant="outline" className={`text-xs hidden sm:flex ${SOURCE_COLORS[booking.source] ?? ""}`}>
-                            {booking.source === "AI WhatsApp" && <Bot className="w-3 h-3 me-1" />}
-                            {booking.source}
-                          </Badge>
+                        <div className="flex flex-col items-start sm:items-end gap-3 shrink-0 relative z-10 mt-3 sm:mt-0">
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            <Badge className={statusCfg.color}>
+                              <StatusIcon className="w-3 h-3 me-1" />
+                              {statusCfg.label}
+                            </Badge>
+                            <Badge variant="outline" className={`text-xs ${paymentCfg.color} border-0 bg-muted/50`}>
+                              <DollarSign className="w-3 h-3 me-0.5" />
+                              {paymentCfg.label}
+                            </Badge>
+                            <Badge variant="outline" className={`text-xs hidden sm:flex ${SOURCE_COLORS[booking.source] ?? ""}`}>
+                              {booking.source === "AI WhatsApp" && <Bot className="w-3 h-3 me-1" />}
+                              {booking.source}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center gap-2 mt-auto">
+                            <Button size="sm" variant="ghost" className="min-h-[44px] sm:min-h-0 sm:h-8 px-2 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
+                              <MessageCircle className="w-4 h-4 me-1.5" />
+                              مراسلة
+                            </Button>
+                            {booking.status === "pending" && (
+                              <Button size="sm" className="min-h-[44px] sm:min-h-0 sm:h-8 px-3 bg-green-600 hover:bg-green-700">تأكيد</Button>
+                            )}
+                            {booking.status !== "cancelled" && booking.status !== "completed" && (
+                              <Button size="sm" variant="outline" className="min-h-[44px] sm:min-h-0 sm:h-8 px-3 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30">إلغاء</Button>
+                            )}
+                          </div>
                         </div>
-                      </div>
-
-                      {/* Hover Actions Overlay */}
-                      <div className="absolute start-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2 bg-card/90 backdrop-blur-sm p-2 rounded-lg shadow-sm border border-border/50 translate-x-4 group-hover:translate-x-0 ">
-                        <Button size="sm" variant="ghost" className="h-8 px-2 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
-                          <MessageCircle className="w-4 h-4 me-1.5" />
-                          مراسلة
-                        </Button>
-                        <div className="w-px h-4 bg-border"></div>
-                        {booking.status === "pending" && (
-                          <Button size="sm" className="h-8 px-3 bg-green-600 hover:bg-green-700">تأكيد</Button>
-                        )}
-                        {booking.status !== "cancelled" && booking.status !== "completed" && (
-                          <Button size="sm" variant="outline" className="h-8 px-3 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30">إلغاء</Button>
-                        )}
                       </div>
                     </Card>
                   );

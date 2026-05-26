@@ -12,6 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { DEMO_INVOICES } from "@/lib/demo-data";
+import { cn } from "@/lib/utils";
 
 
 type Invoice = typeof DEMO_INVOICES[number];
@@ -40,8 +41,6 @@ async function generateZatcaPDF(inv: Invoice) {
       logging: false,
       windowWidth: 800,
     });
-    
-    buttons.forEach(b => b.style.display = '');
 
     const imgData = canvas.toDataURL('image/png');
     const pdf = new jsPDF({
@@ -55,8 +54,10 @@ async function generateZatcaPDF(inv: Invoice) {
 
     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save(`invoice-${inv.id}.pdf`);
-  } catch (error) {
-    console.error('PDF generation error:', error);
+    toast.success("تم تنزيل الفاتورة بنجاح");
+  } catch {
+    toast.error("حدث خطأ أثناء إنشاء ملف PDF. حاول مرة أخرى.");
+  } finally {
     buttons.forEach(b => b.style.display = '');
   }
 }
@@ -103,7 +104,7 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
               <tbody>
                 <tr className="border-b">
                   <td className="p-2.5">{inv.serviceName}</td>
-                  <td className="p-2.5 text-start font-mono">{subtotal.toLocaleString()} SAR</td>
+                  <td className="p-2.5 text-start font-mono">{new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(subtotal)}</td>
                 </tr>
               </tbody>
             </table>
@@ -113,22 +114,39 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
           <div className="space-y-2 border-t pt-3">
             <div className="flex justify-between text-muted-foreground">
               <span>المجموع قبل الضريبة</span>
-              <span className="font-mono">{subtotal.toLocaleString()} SAR</span>
+              <span className="font-mono">{new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(subtotal)}</span>
             </div>
             <div className="flex justify-between text-muted-foreground">
               <span>ضريبة القيمة المضافة (15%)</span>
-              <span className="font-mono">{vat.toLocaleString()} SAR</span>
+              <span className="font-mono">{new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(vat)}</span>
             </div>
             <div className="flex justify-between font-bold text-base border-t pt-2">
               <span>الإجمالي شامل الضريبة</span>
-              <span className="font-mono text-primary">{total.toLocaleString()} SAR</span>
+              <span className="font-mono text-primary">{new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(total)}</span>
             </div>
           </div>
 
           {/* ZATCA Formatting */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 rounded-xl bg-muted/30 border border-border/40 mt-4">
             <div className="w-24 h-24 bg-white border border-border/50 rounded-lg flex flex-col items-center justify-center p-2 shrink-0">
-              <div className="w-full h-full bg-[url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=ZATCA_QR_PLACEHOLDER')] bg-contain bg-no-repeat bg-center opacity-80" />
+              <div
+                aria-label="رمز QR لفاتورة ZATCA"
+                className="grid h-full w-full grid-cols-5 gap-0.5 rounded bg-white p-1"
+                role="img"
+              >
+                {Array.from({ length: 25 }).map((_, index) => (
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "rounded-[1px]",
+                      [0, 1, 3, 4, 5, 6, 8, 9, 15, 16, 18, 19, 20, 21, 23, 24].includes(index)
+                        ? "bg-foreground"
+                        : "bg-muted",
+                    )}
+                    key={index}
+                  />
+                ))}
+              </div>
               <span className="text-[10px] text-muted-foreground mt-1 font-mono">QR ZATCA</span>
             </div>
             <div className="text-sm text-muted-foreground space-y-2 flex-1 text-center sm:text-start">
@@ -196,11 +214,11 @@ const STAT_CARDS = [
   },
   {
     label: "إجمالي الإيرادات",
-    value: `${totalRevenue.toLocaleString()} ر.س`,
+    value: new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(totalRevenue),
     icon: TrendingUp,
     color: "text-primary",
     bg: "bg-primary/10",
-    subtitle: `${pendingRevenue.toLocaleString()} ر.س معلق`,
+    subtitle: `${new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(pendingRevenue)} معلق`,
   },
 ];
 
@@ -321,6 +339,7 @@ export default function InvoicesPage() {
           <div className="relative flex-1 sm:w-64">
             <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
+              aria-label="ابحث بالاسم أو رقم الفاتورة"
               placeholder="ابحث بالاسم أو رقم الفاتورة..."
               className="h-9 ps-9 border-border/50 focus-visible:ring-primary/30"
               value={search}
@@ -346,14 +365,15 @@ export default function InvoicesPage() {
 
       {/* Invoice Table */}
       <Card className="overflow-hidden border-border/50">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto -mx-6 sm:mx-0 px-6 sm:px-0">
           <table className="w-full text-sm" role="table" aria-label="الفواتير">
             <thead>
               <tr className="border-b bg-muted/40">
                 <th className="px-5 py-3.5 w-[50px]">
                   <Checkbox 
                     checked={filtered.length > 0 && selectedIds.size === filtered.length} 
-                    onCheckedChange={toggleSelectAll} 
+                    onCheckedChange={toggleSelectAll}
+                    aria-label="تحديد الكل"
                   />
                 </th>
                 <th scope="col" aria-sort={sortConfig?.key === "id" ? (sortConfig.direction === "asc" ? "ascending" : "descending") : "none"} className="text-end font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("id")}>
@@ -387,7 +407,7 @@ export default function InvoicesPage() {
                 filtered.map((inv) => (
                   <tr key={inv.id} className={`hover:bg-muted/30 transition-colors group ${selectedIds.has(inv.id) ? "bg-primary/5" : ""}`}>
                     <td className="px-5 py-4">
-                      <Checkbox checked={selectedIds.has(inv.id)} onCheckedChange={() => toggleSelect(inv.id)} />
+                      <Checkbox checked={selectedIds.has(inv.id)} onCheckedChange={() => toggleSelect(inv.id)} aria-label={`تحديد فاتورة ${inv.id}`} />
                     </td>
                     <td className="px-5 py-4 cursor-pointer" onClick={() => setSelectedInvoice(inv)}>
                       <div className="flex items-center gap-2.5">
@@ -397,9 +417,9 @@ export default function InvoicesPage() {
                         <span className="font-medium font-mono text-xs tracking-wider">{inv.id.toUpperCase()}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-4 font-medium cursor-pointer" onClick={() => setSelectedInvoice(inv)}>{inv.customerName}</td>
-                    <td className="px-5 py-4 text-muted-foreground cursor-pointer" onClick={() => setSelectedInvoice(inv)}>{inv.serviceName}</td>
-                    <td className="px-5 py-4 font-semibold tabular-nums cursor-pointer" onClick={() => setSelectedInvoice(inv)}>{inv.amount.toLocaleString()} SAR</td>
+                    <td className="px-5 py-4 font-medium cursor-pointer max-w-[150px] sm:max-w-[200px] truncate" onClick={() => setSelectedInvoice(inv)} title={inv.customerName}>{inv.customerName}</td>
+                    <td className="px-5 py-4 text-muted-foreground cursor-pointer max-w-[150px] sm:max-w-[200px] truncate" onClick={() => setSelectedInvoice(inv)} title={inv.serviceName}>{inv.serviceName}</td>
+                    <td className="px-5 py-4 font-semibold tabular-nums cursor-pointer" onClick={() => setSelectedInvoice(inv)}>{new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(inv.amount)}</td>
                     <td className="px-5 py-4 cursor-pointer" onClick={() => setSelectedInvoice(inv)}>
                       <Badge variant={STATUS_BADGE_VARIANTS[inv.status] ?? "outline"}>
                         {STATUS_LABELS[inv.status] ?? inv.status}
@@ -409,7 +429,7 @@ export default function InvoicesPage() {
                     <td className="px-5 py-4">
                       <DropdownMenu>
                         <DropdownMenuTrigger>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100">
+                          <Button variant="ghost" size="icon" className="h-8 w-8 transition-opacity" aria-label="خيارات الفاتورة">
                             <MoreHorizontal className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>

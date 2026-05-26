@@ -1,14 +1,18 @@
-import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
+import { ArrowDownIcon, ArrowUpRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
   title: string;
-  value: string | number;
+  value: React.ReactNode;
   icon: React.ElementType;
   trend?: number;
-  trendLabel?: string;
+  trendLabel?: React.ReactNode;
+  description?: React.ReactNode;
   className?: string;
+  valueClassName?: string;
+  iconClassName?: string;
+  iconContainerClassName?: string;
 }
 
 export function StatCard({
@@ -17,36 +21,44 @@ export function StatCard({
   icon: Icon,
   trend,
   trendLabel,
+  description,
   className,
+  valueClassName,
+  iconClassName,
+  iconContainerClassName,
 }: StatCardProps) {
   return (
-    <Card className={cn("card-hover-lift", className)}>
+    <Card className={cn("card-hover-lift shadow-sm hover:shadow-md transition-shadow", className)}>
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
-        <div className="p-2 bg-primary/10 rounded-full">
-          <Icon className="w-4 h-4 text-primary" />
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
+        <div className={cn("p-2 bg-primary/10 rounded-lg", iconContainerClassName)}>
+          <Icon className={cn("w-4 h-4 text-primary", iconClassName)} />
         </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
-        {trend !== undefined && (
-          <p className="flex items-center text-xs text-muted-foreground mt-1">
+        <div className={cn("text-2xl font-bold", valueClassName)}>{value}</div>
+        {trend !== undefined ? (
+          <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground font-medium">
             <span
               className={cn(
-                "flex items-center me-1",
-                trend > 0 ? "text-emerald-500" : "text-rose-500"
+                "flex items-center",
+                trend > 0 ? "text-green-600" : trend < 0 ? "text-rose-500" : "text-muted-foreground"
               )}
             >
               {trend > 0 ? (
-                <ArrowUpIcon className="w-3 h-3 me-1" />
-              ) : (
+                <ArrowUpRight className="w-3 h-3 me-1" />
+              ) : trend < 0 ? (
                 <ArrowDownIcon className="w-3 h-3 me-1" />
-              )}
-              {Math.abs(trend)}%
+              ) : null}
+              <span>{trend > 0 ? "+" : ""}{trend}%</span>
             </span>
             {trendLabel && <span>{trendLabel}</span>}
-          </p>
-        )}
+          </div>
+        ) : description ? (
+          <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
+            {description}
+          </div>
+        ) : null}
       </CardContent>
     </Card>
   );

@@ -116,31 +116,31 @@ export default function SetupPage() {
               {STEPS[currentStep].title}
             </CardTitle>
             <CardDescription>
-              الرجاء إدخال {STEPS[currentStep].title} للمتابعة. يمكنك تخطي هذه الخطوة في وضع العرض التجريبي.
+              أدخل تفاصيل {STEPS[currentStep].title}. يمكنك تخطي هذه الخطوة والاستمرار بالبيانات التجريبية الافتراضية.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <CurrentStepComponent />
 
             <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-4 border-t">
-              <Button variant="ghost" onClick={handleSkip} className="w-full sm:w-auto text-muted-foreground">
-                تخطي هذه الخطوة
+              <Button variant="ghost" onClick={handleSkip} className="w-full sm:w-auto text-muted-foreground hover:text-foreground">
+                تخطي للمرحلة التالية
               </Button>
               <div className="flex gap-3 w-full sm:w-auto">
                 <Button 
                   variant="outline" 
                   onClick={handleBack} 
                   disabled={currentStep === 0}
-                  className="w-full sm:w-auto min-h-[40px] sm:min-h-0 sm:h-9"
+                  className="w-full sm:w-auto min-h-[44px] sm:min-h-0 sm:h-10"
                 >
                   <ArrowRight className="w-4 h-4 me-2" />
                   السابق
                 </Button>
                 <Button 
                   onClick={handleNext} 
-                  className="w-full sm:w-auto min-h-[40px] sm:min-h-0 sm:h-9"
+                  className="w-full sm:w-auto min-h-[44px] sm:min-h-0 sm:h-10"
                 >
-                  {currentStep === STEPS.length - 1 ? "إكمال الإعداد" : "التالي"}
+                  {currentStep === STEPS.length - 1 ? "حفظ وإنهاء الإعداد" : "متابعة والتالي"}
                   {currentStep !== STEPS.length - 1 && <ArrowLeft className="w-4 h-4 ms-2" />}
                 </Button>
               </div>

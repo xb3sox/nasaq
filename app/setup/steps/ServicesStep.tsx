@@ -68,16 +68,18 @@ export default function ServicesStep() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2 md:col-span-3">
-                  <Label>اسم الخدمة</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Label htmlFor={`service-name-${service.id}`}>اسم الخدمة</Label>
+                  <Input
+                    id={`service-name-${service.id}`}
                     placeholder="تنظيف أسنان"
                     value={service.name}
                     onChange={(e) => updateService(service.id, "name", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>السعر (ر.س)</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Label htmlFor={`service-price-${service.id}`}>السعر (ر.س)</Label>
+                  <Input
+                    id={`service-price-${service.id}`}
                     type="number"
                     placeholder="250"
                     value={service.price || ""}
@@ -85,8 +87,9 @@ export default function ServicesStep() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>المدة (بالدقائق)</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Label htmlFor={`service-duration-${service.id}`}>المدة (بالدقائق)</Label>
+                  <Input
+                    id={`service-duration-${service.id}`}
                     type="number"
                     placeholder="30"
                     value={service.duration || ""}

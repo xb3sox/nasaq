@@ -21,6 +21,7 @@ export function LoginForm() {
           id="email"
           name="email"
           type="email"
+          inputMode="email"
           placeholder="owner@clinic.com"
           dir="ltr"
           autoComplete="email"
@@ -41,21 +42,29 @@ export function LoginForm() {
         />
       </div>
 
-      <div className="rounded-lg bg-muted/60 border border-border/40 p-3 text-xs text-muted-foreground space-y-1">
-        <div className="font-medium text-foreground">معلومات الدخول (ديمو)</div>
-        <div dir="ltr" className="text-end font-mono mt-1">owner@clinic.com</div>
-        <div dir="ltr" className="text-end font-mono">demo1234</div>
+      <div className="rounded-lg bg-primary/5 border border-primary/20 p-3 text-xs text-muted-foreground space-y-2">
+        <div className="font-semibold text-primary">معلومات الدخول للتجربة (Demo)</div>
+        <div className="flex justify-between items-center">
+          <span>البريد الإلكتروني:</span>
+          <code dir="ltr" className="font-mono bg-background px-1.5 py-0.5 rounded border text-foreground">owner@clinic.com</code>
+        </div>
+        <div className="flex justify-between items-center">
+          <span>كلمة المرور:</span>
+          <code dir="ltr" className="font-mono bg-background px-1.5 py-0.5 rounded border text-foreground">demo1234</code>
+        </div>
       </div>
 
-      <Button className="w-full" size="lg" type="submit" disabled={isPending}>
+      <Button className="w-full" size="lg" type="submit" disabled={isPending} aria-disabled={isPending}>
         {isPending ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
       </Button>
 
-      {errorMessage && (
-        <div className="text-sm text-destructive text-center" role="alert">
-          {errorMessage === 'Invalid credentials.' ? 'بيانات الدخول غير صحيحة' : 'حدث خطأ ما'}
-        </div>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {errorMessage && (
+          <div className="text-sm text-destructive text-center mt-2" role="alert">
+            {errorMessage === 'Invalid credentials.' ? 'بيانات الدخول غير صحيحة' : 'حدث خطأ ما'}
+          </div>
+        )}
+      </div>
     </form>
   )
 }
