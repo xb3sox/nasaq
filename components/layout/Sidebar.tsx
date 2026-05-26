@@ -15,9 +15,16 @@ import {
   Bell,
   Menu,
   X,
+  ChevronDown
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
+
+// Mock notification counts
+const notificationCounts: Record<string, number> = {
+  "/dashboard/inbox": 3,
+  "/dashboard/reminders": 5,
+};
 
 const routes = [
   { name: "لوحة القيادة", href: "/dashboard", icon: LayoutDashboard },
@@ -48,41 +55,58 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
       </div>
 
       <div className="px-4 py-4 border-b border-border/30">
-        <div className="px-3 py-2.5 rounded-xl bg-muted/60">
-          <p className="text-xs font-medium text-foreground">عيادات النخبة</p>
-          <p className="text-xs text-muted-foreground mt-0.5">حي الملقا، الرياض</p>
-        </div>
+        <button className="w-full px-3 py-2.5 rounded-xl hover:bg-muted/60 transition-colors flex items-center justify-between group">
+          <div className="flex flex-col items-start">
+            <p className="text-sm font-bold text-foreground">عيادات النخبة</p>
+            <p className="text-xs text-muted-foreground mt-0.5">حي الملقا، الرياض</p>
+          </div>
+          <ChevronDown className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+        </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
         {routes.map((route) => {
           const isActive = pathname === route.href || (route.href !== "/dashboard" && pathname.startsWith(route.href));
+          const count = notificationCounts[route.href];
           return (
             <Link
               key={route.href}
               href={route.href}
               onClick={onNavClick}
               className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group",
                 isActive
-                  ? "bg-primary text-primary-foreground shadow-sm"
+                  ? "bg-primary/5 text-primary border-e-2 border-primary rounded-e-none"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
-              <route.icon className={cn("w-4 h-4 shrink-0", isActive ? "text-primary-foreground" : "")} />
-              <span>{route.name}</span>
+              <div className="flex items-center gap-3">
+                <route.icon className={cn("w-4 h-4 shrink-0 transition-colors duration-150", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
+                <span>{route.name}</span>
+              </div>
+              {count > 0 && (
+                <div className={cn(
+                  "flex items-center justify-center min-w-[20px] h-5 rounded-full text-[10px] font-bold px-1.5",
+                  isActive ? "bg-primary text-primary-foreground" : "bg-destructive text-destructive-foreground"
+                )}>
+                  {count}
+                </div>
+              )}
             </Link>
           );
         })}
       </nav>
 
       <div className="p-4 border-t border-border/50">
-        <div className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-muted transition-colors cursor-pointer">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground text-sm font-bold shadow-sm">
-            م
+        <div className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-muted transition-colors cursor-pointer group">
+          <div className="relative">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground text-sm font-bold shadow-sm">
+              م
+            </div>
+            <div className="absolute -bottom-1 -end-1 w-3.5 h-3.5 bg-green-500 border-2 border-card rounded-full"></div>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">المدير</p>
+            <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">المدير</p>
             <p className="text-xs text-muted-foreground truncate">owner@clinic.com</p>
           </div>
         </div>
@@ -115,11 +139,11 @@ export function Sidebar() {
         <div className="fixed inset-0 z-50 lg:hidden">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
             onClick={() => setMobileOpen(false)}
           />
-          {/* Drawer */}
-          <aside className="fixed end-0 top-0 h-full w-72 bg-card border-l border-border/50 z-50 flex flex-col animate-fade-slide-up shadow-2xl">
+          {/* Drawer: slide in from right (RTL: end-0) */}
+          <aside className="fixed end-0 top-0 h-full w-72 bg-card border-l border-border/50 z-50 flex flex-col shadow-2xl transition-transform duration-300 translate-x-0">
             <div className="flex justify-end p-3">
               <button
                 onClick={() => setMobileOpen(false)}
