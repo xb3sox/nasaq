@@ -6,19 +6,19 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DEMO_REMINDERS } from "@/lib/demo-data";
-import { Bell, Clock, Send, RefreshCw, CheckCircle2, XCircle, Loader2, Calendar, ChevronDown, ChevronUp, User, Activity } from "lucide-react";
+import { Bell, Clock, Send, RefreshCw, CheckCircle2, XCircle, Loader2, Calendar, ChevronDown, ChevronUp, User, Activity, BellOff, X } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 type ReminderStatus = "queued" | "pending" | "sent" | "failed";
 
 const STATUS_CONFIG: Record<
   ReminderStatus,
-  { label: string; color: string; icon: React.ElementType; dotColor: string }
+  { label: string; color: string; icon: React.ElementType; dotColor: string; bg: string; text: string; border: string }
 > = {
-  sent:    { label: "تم الإرسال",  color: "bg-green-100 text-green-800",  icon: CheckCircle2, dotColor: "bg-green-500" },
-  queued:  { label: "في الانتظار", color: "bg-blue-100 text-blue-800",    icon: Clock, dotColor: "bg-blue-500" },
-  pending: { label: "معلق",        color: "bg-yellow-100 text-yellow-800", icon: Clock, dotColor: "bg-yellow-500" },
-  failed:  { label: "فشل الإرسال", color: "bg-red-100 text-red-800",      icon: XCircle, dotColor: "bg-red-500" },
+  sent:    { label: "تم الإرسال",  color: "bg-green-100 text-green-800", bg: "bg-green-100", text: "text-green-800", border: "border-green-200",  icon: CheckCircle2, dotColor: "bg-green-500" },
+  queued:  { label: "في الانتظار", color: "bg-blue-100 text-blue-800", bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-200",   icon: Clock, dotColor: "bg-blue-500" },
+  pending: { label: "معلق",        color: "bg-yellow-100 text-yellow-800", bg: "bg-yellow-100", text: "text-yellow-800", border: "border-yellow-200", icon: Clock, dotColor: "bg-yellow-500" },
+  failed:  { label: "فشل الإرسال", color: "bg-red-100 text-red-800", bg: "bg-red-100", text: "text-red-800", border: "border-red-200",     icon: XCircle, dotColor: "bg-red-500" },
 };
 
 export default function RemindersPage() {
@@ -71,10 +71,42 @@ export default function RemindersPage() {
     return filter === "all" || status === filter;
   });
 
-  const groupedReminders = filteredReminders.reduce((acc, reminder) => {
-    const date = new Date(reminder.sendAt).toLocaleDateString("ar-SA", { timeZone: "Asia/Riyadh", year: 'numeric', month: 'long', day: 'numeric' });
-    if (!acc[date]) acc[date] = [];
-    acc[date].push(reminder);
+  const sortedReminders = [...filteredReminders].sort((a, b) => new Date(a.sendAt).getTime() - new Date(b.sendAt).getTime());
+
+  const getRiyadhDate = (date: Date) => {
+    return new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Riyadh' }));
+  };
+
+  const groupedReminders = sortedReminders.reduce((acc, reminder) => {
+    const d = new Date(reminder.sendAt);
+    const dateStr = d.toLocaleDateString("ar-SA", { timeZone: "Asia/Riyadh", year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Calculate relative day string using Riyadh timezone consistently
+    const riyadhNow = getRiyadhDate(new Date());
+    riyadhNow.setHours(0, 0, 0, 0);
+
+    const riyadhTomorrow = new Date(riyadhNow);
+    riyadhTomorrow.setDate(riyadhTomorrow.getDate() + 1);
+
+    const riyadhYesterday = new Date(riyadhNow);
+    riyadhYesterday.setDate(riyadhYesterday.getDate() - 1);
+
+    const riyadhSendDate = getRiyadhDate(d);
+    riyadhSendDate.setHours(0, 0, 0, 0);
+
+    let relativeStr = "";
+    if (riyadhSendDate.getTime() === riyadhNow.getTime()) {
+      relativeStr = "اليوم - ";
+    } else if (riyadhSendDate.getTime() === riyadhTomorrow.getTime()) {
+      relativeStr = "غداً - ";
+    } else if (riyadhSendDate.getTime() === riyadhYesterday.getTime()) {
+      relativeStr = "أمس - ";
+    }
+
+    const groupKey = `${relativeStr}${dateStr}`;
+
+    if (!acc[groupKey]) acc[groupKey] = [];
+    acc[groupKey].push(reminder);
     return acc;
   }, {} as Record<string, typeof DEMO_REMINDERS>);
 
@@ -114,13 +146,13 @@ export default function RemindersPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="p-5 lg:col-span-2">
           <h2 className="text-base font-semibold mb-4">ملخص الأسبوع</h2>
-          <div className="h-48 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني يوضح عدد التذكيرات المرسلة والفاشلة خلال الأسبوع">
+          <div className="h-48 w-full" dir="ltr">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                 <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
                 <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} />
-                <Tooltip 
+                <Tooltip
                   cursor={{ fill: '#f3f4f6' }}
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: '#0f172a' }}
@@ -131,7 +163,7 @@ export default function RemindersPage() {
             </ResponsiveContainer></ChartWrapper>
           </div>
         </Card>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
           {(["sent", "queued", "pending", "failed"] as ReminderStatus[]).map((s) => {
             const cfg = STATUS_CONFIG[s];
@@ -165,7 +197,7 @@ export default function RemindersPage() {
           const isExpanded = expandedDates[date] ?? true;
           return (
             <div key={date} className="space-y-3">
-              <div 
+              <div
                 className="flex items-center justify-between cursor-pointer group"
                 onClick={() => toggleDate(date)}
               >
@@ -176,7 +208,7 @@ export default function RemindersPage() {
                 </div>
                 {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
               </div>
-              
+
               {isExpanded && (
                 <div className="space-y-3">
                   {reminders.map((reminder) => {
@@ -187,23 +219,23 @@ export default function RemindersPage() {
                     return (
                       <Card key={reminder.id} className="p-5 hover:shadow-sm transition-all border-s-4" style={{ borderInlineStartColor: cfg.dotColor }}>
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                          
+
                           <div className="flex gap-4 items-start md:items-center min-w-0 flex-1">
                             {/* Visual Timeline */}
                             <div className="hidden sm:flex flex-col items-center justify-center min-w-[60px] text-xs text-muted-foreground">
-                              <span>{new Intl.DateTimeFormat("ar-SA", { hour: "2-digit", minute: "2-digit" }).format(new Date(reminder.sendAt))}</span>
+                              <span>{new Date(reminder.sendAt).toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" })}</span>
                               <div className="w-px h-6 bg-border my-1 relative">
-                                <div className={`absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${cfg.dotColor}`} aria-hidden="true"></div>
+                                <div className={`absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${cfg.dotColor}`}></div>
                               </div>
-                              <span className="font-medium text-foreground" aria-label={`تذكير قبل ${reminder.type === "24h_before" ? "24 ساعة" : "ساعتين"}`}>{reminder.type === "24h_before" ? "24h" : "2h"}</span>
+                              <span className="font-medium text-foreground">{reminder.type === "24h_before" ? "24h" : "2h"}</span>
                             </div>
 
                             <div className="min-w-0 space-y-1">
                               <div className="flex items-center gap-2">
-                                <User className="w-4 h-4 text-muted-foreground shrink-0" />
+                                <User className="w-4 h-4 text-muted-foreground" />
                                 <span className="font-bold text-base truncate">{reminder.customerName}</span>
-                                <Badge variant="outline" className="gap-1 bg-background shrink-0">
-                                  {cfg.icon && <cfg.icon className="w-3 h-3" />}
+                                <Badge variant="outline" className={`gap-1 bg-background ${cfg.text} ${cfg.border}`}>
+                                  <cfg.icon className="w-3 h-3" />
                                   {cfg.label}
                                 </Badge>
                               </div>
@@ -224,12 +256,22 @@ export default function RemindersPage() {
                             </div>
                           </div>
 
-                          <div className="flex items-center justify-end gap-2 shrink-0 border-t md:border-t-0 pt-3 md:pt-0">
-                            {(status === "pending" || status === "failed") && (
+                          <div className="flex items-center justify-end gap-2 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 flex-wrap">
+                            {(status === "pending" || status === "queued") && (
+                              <div className="flex gap-2">
+                                <Button size="sm" variant="outline" className="text-xs gap-1 min-h-[36px] px-2" aria-label="تأجيل" disabled>
+                                  <BellOff className="w-4 h-4" />
+                                </Button>
+                                <Button size="sm" variant="outline" className="text-xs gap-1 min-h-[36px] px-2 text-destructive hover:text-destructive border-red-200 bg-red-50" aria-label="إلغاء" disabled>
+                                  <X className="w-4 h-4" />
+                                </Button>
+                              </div>
+                            )}
+                            {(status === "pending" || status === "failed" || status === "queued") && (
                               <Button
                                 size="sm"
-                                variant={status === "failed" ? "default" : "outline"}
-                                className="text-xs gap-1 min-h-[36px]"
+                                variant={status === "failed" ? "destructive" : "default"}
+                                className="text-xs gap-1.5 min-h-[36px]"
                                 disabled={isRetrying}
                                 onClick={() => handleRetry(
                                   reminder.id,
@@ -239,15 +281,15 @@ export default function RemindersPage() {
                                 )}
                               >
                                 {isRetrying
-                                  ? <Loader2 className="w-3 h-3 animate-spin" />
-                                  : <RefreshCw className="w-3 h-3" />
+                                  ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                  : (status === "failed" ? <RefreshCw className="w-3.5 h-3.5" /> : <Send className="w-3.5 h-3.5" />)
                                 }
-                                {status === "failed" ? "إعادة إرسال" : "إرسال الآن"}
+                                {status === "failed" ? "إعادة إرسال" : "إرسال واتساب"}
                               </Button>
                             )}
                             {status === "sent" && (
-                              <div className="flex items-center gap-1.5 text-xs text-green-600 bg-green-50 px-2.5 py-1.5 rounded-md font-medium">
-                                <Send className="w-3 h-3" />
+                              <div className="flex items-center gap-1.5 text-xs text-green-700 bg-green-50/50 px-3 py-2 rounded-md font-medium border border-green-200">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />
                                 تم التسليم
                               </div>
                             )}

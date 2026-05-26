@@ -10,7 +10,7 @@ import {
   Bot, DollarSign, Clock, ArrowUpRight, ArrowDownRight, RefreshCw, Download, Calendar
 } from "lucide-react";
 import { useState } from "react";
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 function StatCard({
   label,
@@ -19,7 +19,8 @@ function StatCard({
   icon: Icon,
   color,
   trend,
-  sparklineData
+  sparklineData,
+  explanation
 }: {
   label: string;
   value: string | number;
@@ -28,18 +29,24 @@ function StatCard({
   color: string;
   trend?: "up" | "down";
   sparklineData?: number[];
+  explanation?: string;
 }) {
   return (
-    <Card className="p-5 hover:shadow-md transition-shadow duration-200 flex flex-col justify-between">
+    <Card className="p-5 hover:shadow-md transition-shadow duration-200 flex flex-col justify-between min-w-0">
       <div>
         <div className="flex items-start justify-between gap-3">
-          <div className="flex-1">
-            <div className="text-sm font-medium text-muted-foreground">{label}</div>
-            <div className="text-3xl font-bold mt-1">{value}</div>
-            {sub && <div className="text-xs text-muted-foreground mt-1">{sub}</div>}
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-medium text-muted-foreground truncate" title={explanation || label}>{label}</div>
+            <div className="text-3xl font-bold mt-1 truncate">{value}</div>
+            {sub && <div className="text-xs text-muted-foreground mt-1 truncate">{sub}</div>}
           </div>
-          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${color}`}>
-            <Icon className="w-5 h-5" />
+          <div
+            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}
+            title={explanation || label}
+            role="img"
+            aria-label={explanation || label}
+          >
+            <Icon className="w-5 h-5" aria-hidden="true" />
           </div>
         </div>
       </div>
@@ -90,8 +97,8 @@ export default function ReportsPage() {
   const [period, setPeriod] = useState<"أسبوع" | "شهر" | "ربع سنة" | "سنة">("أسبوع");
 
   const handleExportCSV = () => {
-    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" 
-      + "اليوم,الحجوزات,العملاء المحتملين\n" 
+    const csvContent = "data:text/csv;charset=utf-8,\uFEFF"
+      + "اليوم,الحجوزات,العملاء المحتملين\n"
       + chartData.map(e => `${e.name},${e.bookings},${e.leads}`).join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -151,21 +158,23 @@ export default function ReportsPage() {
         />
         <StatCard
           label="إجمالي الإيرادات"
-          value={new Intl.NumberFormat('ar-SA', { notation: "compact", compactDisplay: "short" }).format(DEMO_REPORT_STATS.monthRevenue)}
-          sub="ريال سعودي"
+          value={new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR', maximumFractionDigits: 0 }).format(DEMO_REPORT_STATS.monthRevenue)}
+          sub="هذا الشهر"
           icon={DollarSign}
           color="bg-green-50 text-green-600"
           trend="up"
           sparklineData={[10, 15, 12, 18, 14, 20, 22]}
+          explanation="إجمالي المبالغ المحصلة من الحجوزات المكتملة"
         />
         <StatCard
-          label="محادثات AI"
+          label="محادثات الذكاء الاصطناعي"
           value={DEMO_REPORT_STATS.aiHandled}
           sub={`${DEMO_REPORT_STATS.humanNeeded} تحتاج موظف`}
           icon={Bot}
           color="bg-primary/10 text-primary"
           trend="up"
           sparklineData={[15, 20, 18, 25, 22, 30, 28]}
+          explanation="المحادثات التي تم التعامل معها تلقائياً بواسطة الذكاء الاصطناعي"
         />
         <StatCard
           label="عملاء جدد"
@@ -175,6 +184,7 @@ export default function ReportsPage() {
           color="bg-purple-50 text-purple-600"
           trend="up"
           sparklineData={[2, 3, 5, 4, 6, 8, 7]}
+          explanation="عدد العملاء الذين تواصلوا لأول مرة"
         />
       </div>
 
@@ -191,20 +201,21 @@ export default function ReportsPage() {
               {DEMO_METRICS.bookings.reduce((a, b) => a + b, 0)} إجمالي
             </Badge>
           </div>
-          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label={`رسم بياني يوضح حجوزات الفترة بإجمالي ${DEMO_METRICS.bookings.reduce((a, b) => a + b, 0)}`}>
+          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني يوضح عدد الحجوزات خلال الفترة المحددة">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                 <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
                 <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} />
-                <Tooltip 
+                <Tooltip
                   cursor={{ fill: '#f3f4f6' }}
                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: 'var(--color-primary)' }}
                   formatter={(value) => [value as React.ReactNode, 'الحجوزات']}
                   labelStyle={{ color: '#0f172a', marginBottom: '4px', fontWeight: 600 }}
                 />
-                <Bar dataKey="bookings" fill="var(--color-primary)" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                <Legend wrapperStyle={{ fontSize: '12px', fontFamily: 'inherit' }} />
+                <Bar dataKey="bookings" name="الحجوزات" fill="var(--color-primary)" radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
             </ResponsiveContainer></ChartWrapper>
           </div>
@@ -221,19 +232,20 @@ export default function ReportsPage() {
               {DEMO_METRICS.leads.reduce((a, b) => a + b, 0)} إجمالي
             </Badge>
           </div>
-          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label={`رسم بياني يوضح تفاعل العملاء المحتملين بإجمالي ${DEMO_METRICS.leads.reduce((a, b) => a + b, 0)}`}>
+          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني خطي يوضح تفاعل العملاء المحتملين والجدد">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                 <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
                 <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} />
-                <Tooltip 
+                <Tooltip
                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: 'var(--color-primary)' }}
                   formatter={(value) => [value as React.ReactNode, 'العملاء المحتملين']}
                   labelStyle={{ color: '#0f172a', marginBottom: '4px', fontWeight: 600 }}
                 />
-                <Line type="monotone" dataKey="leads" stroke="var(--color-primary)" strokeWidth={3} dot={{ r: 4, strokeWidth: 2, fill: '#fff' }} activeDot={{ r: 6, fill: 'var(--color-primary)' }} />
+                <Legend wrapperStyle={{ fontSize: '12px', fontFamily: 'inherit' }} />
+                <Line type="monotone" dataKey="leads" name="العملاء المحتملين" stroke="var(--color-primary)" strokeWidth={3} dot={{ r: 4, strokeWidth: 2, fill: '#fff' }} activeDot={{ r: 6, fill: 'var(--color-primary)' }} />
               </LineChart>
             </ResponsiveContainer></ChartWrapper>
           </div>
@@ -248,7 +260,7 @@ export default function ReportsPage() {
             <h2 className="text-base font-semibold">مصادر الحجوزات</h2>
             <p className="text-xs text-muted-foreground">توزيع القنوات التي يأتي منها العملاء</p>
           </div>
-          <div className="h-64 w-full min-w-0 flex items-center" dir="ltr" role="img" aria-label="رسم بياني دائري يوضح توزيع مصادر الحجوزات (واتساب، انستغرام، جوجل)">
+          <div className="h-64 w-full flex items-center min-w-0" dir="ltr" role="img" aria-label="رسم بياني دائري يوضح توزيع قنوات ومصادر الحجوزات">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -266,7 +278,7 @@ export default function ReportsPage() {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip 
+                <Tooltip
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: '#0f172a' }}
                   formatter={(value) => [`${value}%`, 'النسبة']}
@@ -279,22 +291,23 @@ export default function ReportsPage() {
         {/* Conversion Funnel Bar Chart */}
         <Card className="p-6">
           <div className="mb-6">
-            <h2 className="text-base font-semibold">قمع التحويل (Funnel)</h2>
-            <p className="text-xs text-muted-foreground">من أول رسالة حتى إكمال الموعد</p>
+            <h2 className="text-base font-semibold">مراحل تحويل العملاء</h2>
+            <p className="text-xs text-muted-foreground">تتبع العملاء من أول رسالة حتى إكمال الموعد</p>
           </div>
-          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني شريطي أفقي يوضح قمع التحويل من رسالة أولية إلى إكمال الموعد">
+          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني شريطي يوضح مراحل تحويل العملاء من أول رسالة حتى إكمال الموعد">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e5e7eb" />
                 <XAxis type="number" hide />
                 <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#0f172a', fontFamily: 'inherit' }} width={80} orientation="right" />
-                <Tooltip 
+                <Tooltip
                   cursor={{ fill: '#f3f4f6' }}
                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-chart-2)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: 'var(--color-chart-2)' }}
                   formatter={(value) => [value as React.ReactNode, 'العدد']}
                 />
-                <Bar dataKey="value" fill="var(--color-chart-2)" radius={[0, 4, 4, 0]} maxBarSize={30} label={{ position: 'insideLeft', fill: '#fff', fontSize: 12, fontFamily: 'inherit' }} />
+                <Legend wrapperStyle={{ fontSize: '12px', fontFamily: 'inherit' }} />
+                <Bar dataKey="value" name="العدد" fill="var(--color-chart-2)" radius={[0, 4, 4, 0]} maxBarSize={30} label={{ position: 'insideLeft', fill: '#fff', fontSize: 12, fontFamily: 'inherit' }} />
               </BarChart>
             </ResponsiveContainer></ChartWrapper>
           </div>
@@ -303,42 +316,42 @@ export default function ReportsPage() {
 
       {/* Bottom Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0">
-            <RefreshCw className="w-5 h-5" />
+        <Card className="p-5 flex items-center gap-4 min-w-0" title="إجمالي رسائل التذكير المرسلة بنجاح">
+          <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0" role="img" aria-label="تذكير مرسل">
+            <RefreshCw className="w-5 h-5" aria-hidden="true" />
           </div>
-          <div>
-            <div className="text-2xl font-bold">{DEMO_REPORT_STATS.remindersSent}</div>
-            <div className="text-xs text-muted-foreground">تذكير مرسل</div>
-          </div>
-        </Card>
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-            <Clock className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-2xl font-bold">{DEMO_REPORT_STATS.responseTimeMin} د</div>
-            <div className="text-xs text-muted-foreground">متوسط وقت الرد</div>
+          <div className="min-w-0">
+            <div className="text-2xl font-bold truncate">{new Intl.NumberFormat('ar-SA').format(DEMO_REPORT_STATS.remindersSent)}</div>
+            <div className="text-xs text-muted-foreground truncate">تذكير مرسل</div>
           </div>
         </Card>
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-            <Bot className="w-5 h-5" />
+        <Card className="p-5 flex items-center gap-4 min-w-0" title="متوسط الوقت المستغرق للرد على العملاء">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0" role="img" aria-label="متوسط وقت الرد">
+            <Clock className="w-5 h-5" aria-hidden="true" />
           </div>
-          <div>
-            <div className="text-2xl font-bold">
-              {Math.round((DEMO_REPORT_STATS.aiHandled / (DEMO_REPORT_STATS.aiHandled + DEMO_REPORT_STATS.humanNeeded)) * 100)}%
+          <div className="min-w-0">
+            <div className="text-2xl font-bold truncate">{new Intl.NumberFormat('ar-SA').format(DEMO_REPORT_STATS.responseTimeMin)} د</div>
+            <div className="text-xs text-muted-foreground truncate">متوسط وقت الرد</div>
+          </div>
+        </Card>
+        <Card className="p-5 flex items-center gap-4 min-w-0" title="نسبة المحادثات التي أدارها الذكاء الاصطناعي بالكامل">
+          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0" role="img" aria-label="نسبة تعامل الذكاء الاصطناعي">
+            <Bot className="w-5 h-5" aria-hidden="true" />
+          </div>
+          <div className="min-w-0">
+            <div className="text-2xl font-bold truncate">
+              {new Intl.NumberFormat('ar-SA', { style: 'percent' }).format(DEMO_REPORT_STATS.aiHandled / (DEMO_REPORT_STATS.aiHandled + DEMO_REPORT_STATS.humanNeeded))}
             </div>
-            <div className="text-xs text-muted-foreground">AI يتعامل تلقائياً</div>
+            <div className="text-xs text-muted-foreground truncate">AI يتعامل تلقائياً</div>
           </div>
         </Card>
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center shrink-0">
-            <TrendingUp className="w-5 h-5" />
+        <Card className="p-5 flex items-center gap-4 min-w-0" title="إجمالي الحجوزات المؤكدة لهذا الشهر">
+          <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center shrink-0" role="img" aria-label="حجوزات الشهر">
+            <TrendingUp className="w-5 h-5" aria-hidden="true" />
           </div>
-          <div>
-            <div className="text-2xl font-bold">{DEMO_REPORT_STATS.monthBookings}</div>
-            <div className="text-xs text-muted-foreground">حجز هذا الشهر</div>
+          <div className="min-w-0">
+            <div className="text-2xl font-bold truncate">{new Intl.NumberFormat('ar-SA').format(DEMO_REPORT_STATS.monthBookings)}</div>
+            <div className="text-xs text-muted-foreground truncate">حجز هذا الشهر</div>
           </div>
         </Card>
       </div>

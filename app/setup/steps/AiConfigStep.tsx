@@ -66,7 +66,7 @@ export default function AiConfigStep() {
               onChange={(e) => updateAiConfig({ apiKey: e.target.value })}
             />
             <p className="text-xs text-muted-foreground">
-              لن يتم حفظ هذا المفتاح في قاعدة البيانات في وضع العرض التجريبي.
+              سيتم حفظ المفتاح محلياً فقط ولن يتم تخزينه في خوادمنا خلال هذه التجربة.
             </p>
           </div>
         </div>

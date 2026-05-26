@@ -21,19 +21,19 @@ export default function LoginPage() {
 
         {/* Login Card */}
         <Card className="border-border/50 shadow-lg">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Lock className="w-4 h-4 text-muted-foreground" />
+          <CardHeader className="pb-4">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Lock className="w-5 h-5 text-primary" />
               تسجيل الدخول
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <LoginForm />
 
-            <p className="text-center text-xs text-muted-foreground">
-              للحصول على حساب حقيقي،{" "}
-              <Link href="/" className="text-primary hover:underline">
-                احجز ديمو
+            <p className="text-center text-sm text-muted-foreground border-t pt-4">
+              للحصول على حساب عيادة جديد،{" "}
+              <Link href="/" className="text-primary font-medium hover:underline">
+                تواصل معنا
               </Link>
             </p>
           </CardContent>
