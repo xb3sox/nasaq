@@ -9,9 +9,9 @@ import {
   Bot, DollarSign, Clock, ArrowUpRight, ArrowDownRight, RefreshCw,
 } from "lucide-react";
 import { useState } from "react";
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const MAX_BOOKINGS = Math.max(...DEMO_METRICS.bookings);
-const MAX_LEADS = Math.max(...DEMO_METRICS.leads);
+
 
 function StatCard({
   label,
@@ -50,8 +50,16 @@ function StatCard({
   );
 }
 
+const chartData = DEMO_METRICS.labels.map((label, index) => ({
+  name: label,
+  bookings: DEMO_METRICS.bookings[index],
+  leads: DEMO_METRICS.leads[index],
+}));
+
 export default function ReportsPage() {
   const [period, setPeriod] = useState<"week" | "month">("week");
+
+
 
   return (
     <div className="p-8 space-y-8">
@@ -116,7 +124,7 @@ export default function ReportsPage() {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Bookings Chart */}
+        {/* Bookings Bar Chart */}
         <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -127,27 +135,26 @@ export default function ReportsPage() {
               {DEMO_METRICS.bookings.reduce((a, b) => a + b, 0)} إجمالي
             </Badge>
           </div>
-          <div className="flex items-end gap-3 h-40">
-            {DEMO_METRICS.labels.map((day, i) => {
-              const val = DEMO_METRICS.bookings[i];
-              const pct = (val / MAX_BOOKINGS) * 100;
-              return (
-                <div key={day} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="w-full bg-muted rounded-lg relative" style={{ height: 140 }}>
-                    <div
-                      className="absolute bottom-0 inset-x-0 rounded-lg bg-primary/80 transition-all duration-500 hover:bg-primary"
-                      style={{ height: `${pct}%` }}
-                      title={`${val} حجز`}
-                    />
-                  </div>
-                  <span className="text-xs text-muted-foreground">{day}</span>
-                </div>
-              );
-            })}
+          <div className="h-64 w-full" dir="ltr">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
+                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                <Tooltip 
+                  cursor={{ fill: '#f3f4f6' }}
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ color: '#0f172a' }}
+                  formatter={(value) => [value as React.ReactNode, 'الحجوزات']}
+                  labelStyle={{ color: '#6b7280', marginBottom: '4px' }}
+                />
+                <Bar dataKey="bookings" fill="#3b82f6" radius={[4, 4, 0, 0]} maxBarSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </Card>
 
-        {/* Leads Chart */}
+        {/* Leads Line Chart */}
         <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -158,23 +165,21 @@ export default function ReportsPage() {
               {DEMO_METRICS.leads.reduce((a, b) => a + b, 0)} إجمالي
             </Badge>
           </div>
-          <div className="flex items-end gap-3 h-40">
-            {DEMO_METRICS.labels.map((day, i) => {
-              const val = DEMO_METRICS.leads[i];
-              const pct = (val / MAX_LEADS) * 100;
-              return (
-                <div key={day} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="w-full bg-muted rounded-lg relative" style={{ height: 140 }}>
-                    <div
-                      className="absolute bottom-0 inset-x-0 rounded-lg bg-green-500/80 transition-all duration-500 hover:bg-green-500"
-                      style={{ height: `${pct}%` }}
-                      title={`${val} عميل`}
-                    />
-                  </div>
-                  <span className="text-xs text-muted-foreground">{day}</span>
-                </div>
-              );
-            })}
+          <div className="h-64 w-full" dir="ltr">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} dy={10} />
+                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280' }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ color: '#0f172a' }}
+                  formatter={(value) => [value as React.ReactNode, 'العملاء المحتملين']}
+                  labelStyle={{ color: '#6b7280', marginBottom: '4px' }}
+                />
+                <Line type="monotone" dataKey="leads" stroke="#10b981" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </Card>
       </div>
