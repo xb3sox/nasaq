@@ -7,6 +7,10 @@ import {
   buildReminderDrafts,
   extractWhatsAppInbound,
   normalizeSaudiPhone,
+  generateAvailableSlots,
+  hasBookingConflict,
+  DEMO_DOCTOR_SCHEDULES,
+  type DoctorSchedule,
 } from "../lib/clinic-workflow.ts";
 
 test("normalizes local Saudi mobile numbers to E.164", () => {
@@ -85,4 +89,94 @@ test("builds confirmation and reminder drafts from booked slot", () => {
   assert.equal(reminders.length, 2);
   assert.equal(reminders[0].type, "24h_before");
   assert.equal(reminders[1].type, "2h_before");
+});
+
+test("generateAvailableSlots produces slots for working days", () => {
+  const slots = generateAvailableSlots(DEMO_DOCTOR_SCHEDULES, [], 5);
+  assert.ok(slots.length > 0, "should produce slots");
+  // All slots should have required fields
+  for (const s of slots) {
+    assert.ok(s.label.length > 0);
+    assert.ok(s.startsAt.length > 0);
+    assert.ok(s.endsAt.length > 0);
+    assert.ok(s.doctorName.length > 0);
+    assert.ok(s.doctorId.length > 0);
+    // startsAt should be before endsAt
+    assert.ok(new Date(s.startsAt) < new Date(s.endsAt));
+  }
+});
+
+test("generateAvailableSlots respects doctor working days", () => {
+  // Create a doctor that only works Monday (day 1)
+  const singleDayDoc: DoctorSchedule[] = [
+    {
+      doctorId: "dr-test",
+      doctorName: "د. اختبار",
+      workingDays: [1], // Monday only
+      startHour: 9,
+      endHour: 12,
+      slotMinutes: 30,
+    },
+  ];
+  const slots = generateAvailableSlots(singleDayDoc, [], 7);
+  // All slots must be on Monday
+  for (const s of slots) {
+    const d = new Date(s.startsAt);
+    assert.equal(d.getDay(), 1, `slot ${s.startsAt} should be Monday`);
+  }
+  assert.ok(slots.length > 0, "should have Monday slots");
+});
+
+test("generateAvailableSlots filters past slots", () => {
+  const slots = generateAvailableSlots(DEMO_DOCTOR_SCHEDULES, [], 3);
+  const now = new Date();
+  for (const s of slots) {
+    assert.ok(
+      new Date(s.startsAt) >= now,
+      `slot ${s.startsAt} should not be in the past`,
+    );
+  }
+});
+
+test("generateAvailableSlots excludes conflicted slots", () => {
+  const slots = generateAvailableSlots(DEMO_DOCTOR_SCHEDULES, [], 1);
+  if (slots.length === 0) return; // edge: no slots today
+  const bookedSlot = slots[0];
+  const afterBooking = generateAvailableSlots(
+    DEMO_DOCTOR_SCHEDULES,
+    [{ startsAt: bookedSlot.startsAt, doctorName: bookedSlot.doctorName }],
+    1,
+  );
+  const stillFree = afterBooking.some(
+    (s) =>
+      s.startsAt === bookedSlot.startsAt &&
+      s.doctorName === bookedSlot.doctorName,
+  );
+  assert.equal(stillFree, false, "conflicted slot should be excluded");
+});
+
+test("hasBookingConflict detects overlap", () => {
+  const existing = [
+    { startsAt: "2026-05-27T10:00:00+03:00", doctorName: "د. ريم السيف" },
+  ];
+  // Same time — conflict
+  assert.equal(
+    hasBookingConflict("2026-05-27T10:00:00+03:00", 30, existing, "د. ريم السيف"),
+    true,
+  );
+  // Overlapping — conflict
+  assert.equal(
+    hasBookingConflict("2026-05-27T10:15:00+03:00", 30, existing, "د. ريم السيف"),
+    true,
+  );
+  // Different doctor — no conflict
+  assert.equal(
+    hasBookingConflict("2026-05-27T10:00:00+03:00", 30, existing, "د. خالد المحسن"),
+    false,
+  );
+  // Non-overlapping — no conflict
+  assert.equal(
+    hasBookingConflict("2026-05-27T11:00:00+03:00", 30, existing, "د. ريم السيف"),
+    false,
+  );
 });

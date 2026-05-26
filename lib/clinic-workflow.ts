@@ -105,7 +105,7 @@ export const DEMO_DOCTOR_SCHEDULES: DoctorSchedule[] = [
 
 export function generateAvailableSlots(
   doctors: DoctorSchedule[],
-  existingBookings: Array<{ startsAt: string; doctorName: string }>,
+  existingBookings: Array<{ startsAt: string; doctorName: string; durationMin?: number }>,
   daysAhead = 3,
 ): TimeSlot[] {
   const now = new Date();
@@ -131,10 +131,13 @@ export function generateAvailableSlots(
 
           // conflict check
           const conflicted = existingBookings.some(
-            (b) =>
-              b.doctorName === doc.doctorName &&
-              new Date(b.startsAt).getTime() < end.getTime() &&
-              new Date(b.startsAt).getTime() + 30 * 60_000 > start.getTime(),
+            (b) => {
+              if (b.doctorName !== doc.doctorName) return false;
+              const bStart = new Date(b.startsAt).getTime();
+              const bDuration = b.durationMin ?? 30;
+              const bEnd = bStart + bDuration * 60_000;
+              return bStart < end.getTime() && bEnd > start.getTime();
+            },
           );
           if (conflicted) continue;
 
@@ -158,7 +161,7 @@ export function generateAvailableSlots(
 export function hasBookingConflict(
   requestedStart: string,
   durationMin: number,
-  existingBookings: Array<{ startsAt: string; doctorName: string }>,
+  existingBookings: Array<{ startsAt: string; doctorName: string; durationMin?: number }>,
   doctorName: string,
 ): boolean {
   const reqStart = new Date(requestedStart).getTime();
@@ -167,7 +170,8 @@ export function hasBookingConflict(
   return existingBookings.some((b) => {
     if (b.doctorName !== doctorName) return false;
     const bStart = new Date(b.startsAt).getTime();
-    const bEnd = bStart + 30 * 60_000; // default 30-min slots
+    const bDuration = b.durationMin ?? 30;
+    const bEnd = bStart + bDuration * 60_000;
     return bStart < reqEnd && bEnd > reqStart;
   });
 }
