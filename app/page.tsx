@@ -157,7 +157,7 @@ export default function RootPage() {
               <div key={index} className="relative flex flex-col items-center text-center space-y-4">
                 <div className="w-16 h-16 rounded-2xl bg-card border shadow-sm flex items-center justify-center z-10 text-primary font-bold text-xl relative group transition-transform hover:scale-110 duration-300">
                   <step.icon className="w-8 h-8 text-primary" />
-                  <div className="absolute -top-3 -end-3 w-7 h-7 rounded-full bg-foreground text-background flex items-center justify-center text-xs shadow-md">
+                  <div className="absolute -top-3 -start-3 w-7 h-7 rounded-full bg-foreground text-background flex items-center justify-center text-xs shadow-md">
                     {step.num}
                   </div>
                 </div>

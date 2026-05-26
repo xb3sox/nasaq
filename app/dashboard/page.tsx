@@ -71,7 +71,7 @@ function LiveDemoRunner() {
       <CardContent>
         <div className="space-y-2 relative">
           {/* Vertical connecting line for active/done steps */}
-          <div className="absolute end-[1.15rem] top-4 bottom-4 w-px bg-border/50 -z-10" />
+          <div className="absolute start-[1.15rem] top-4 bottom-4 w-px bg-border/50 -z-10" />
           
           {steps.map((step, i) => (
             <div
@@ -280,7 +280,7 @@ export default function DashboardPage() {
           <CardContent className="p-6">
             <div className="relative space-y-6">
               {/* Vertical timeline line */}
-              <div className="absolute top-2 bottom-2 end-3.5 w-0.5 bg-border -z-10" />
+              <div className="absolute top-2 bottom-2 start-3.5 w-0.5 bg-border -z-10" />
               
               {[
                 { label: "رسالة العميل", value: demoConversation.messages.at(-1)?.body ?? "", icon: MessageCircle, color: "text-blue-500", bg: "bg-blue-50" },

@@ -213,10 +213,10 @@ export default function BookingsPage() {
       {/* Filters */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="relative flex-1 min-w-[180px] max-w-sm">
-          <Search className="absolute end-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
-            className="h-10 sm:h-9 pe-9 border-border/50"
+            className="h-10 sm:h-9 ps-9 border-border/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -300,7 +300,7 @@ export default function BookingsPage() {
               <div className="space-y-3 relative">
                 {/* Timeline connector for default view */}
                 {!compactView && groupBookings.length > 1 && (
-                  <div className="absolute top-6 bottom-6 end-[19px] w-0.5 bg-border/50 hidden sm:block"></div>
+                  <div className="absolute top-6 bottom-6 start-[19px] w-0.5 bg-border/50 hidden sm:block"></div>
                 )}
                 
                 {groupBookings.map((booking) => {
@@ -351,7 +351,7 @@ export default function BookingsPage() {
                   return (
                     <Card key={booking.id} className="group p-4 hover:shadow-md transition-all relative overflow-hidden border-border/60 hover:border-border">
                       {/* Timeline Dot */}
-                      <div className={`absolute end-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
+                      <div className={`absolute start-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
                       
                       <div className="flex items-start justify-between gap-4 ps-12 rtl:pe-1 rtl:ps-12">
                         <div className="flex gap-4 items-start min-w-0 relative z-10">

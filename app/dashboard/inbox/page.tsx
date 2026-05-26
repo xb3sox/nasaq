@@ -180,10 +180,10 @@ export default function InboxPage() {
           <div className="flex flex-wrap gap-2 items-center">
             {showSearch && (
               <div className="relative">
-                <Search className="w-3.5 h-3.5 absolute end-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                <Search className="w-3.5 h-3.5 absolute start-2 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <Input 
                   placeholder="بحث في المحادثة..." 
-                  className="h-8 w-40 pe-7 text-xs" 
+                  className="h-8 w-40 ps-7 text-xs" 
                   autoFocus 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

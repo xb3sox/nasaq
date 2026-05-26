@@ -91,7 +91,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
               className={cn(
                 "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group",
                 isActive
-                  ? "bg-primary/5 text-primary border-s-2 border-primary rounded-s-none"
+                  ? "bg-primary/5 text-primary border-e-2 border-primary rounded-e-none"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
@@ -118,7 +118,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground text-sm font-bold shadow-sm">
               م
             </div>
-            <div className="absolute -bottom-1 -end-1 w-3.5 h-3.5 bg-green-500 border-2 border-card rounded-full"></div>
+            <div className="absolute -bottom-1 -start-1 w-3.5 h-3.5 bg-green-500 border-2 border-card rounded-full"></div>
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">المدير</p>
@@ -138,14 +138,14 @@ export function Sidebar() {
       {/* Hamburger — visible on mobile only */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 end-4 z-40 lg:hidden w-10 h-10 rounded-xl bg-card border border-border shadow-sm flex items-center justify-center hover:bg-muted transition-colors"
+        className="fixed top-4 start-4 z-40 lg:hidden w-10 h-10 rounded-xl bg-card border border-border shadow-sm flex items-center justify-center hover:bg-muted transition-colors"
         aria-label="فتح القائمة"
       >
         <Menu className="w-5 h-5" />
       </button>
 
       {/* Desktop sidebar — hidden on mobile */}
-      <aside className="hidden lg:flex w-64 border-s border-border/50 h-screen bg-card flex-col fixed end-0 top-0 z-30">
+      <aside className="hidden lg:flex w-64 border-e border-border/50 h-screen bg-card flex-col fixed start-0 top-0 z-30">
         <SidebarContent />
       </aside>
 
@@ -157,8 +157,8 @@ export function Sidebar() {
             className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
             onClick={() => setMobileOpen(false)}
           />
-          {/* Drawer: slide in from right (RTL: end-0) */}
-          <aside className="fixed end-0 top-0 h-full w-72 bg-card border-s border-border/50 z-50 flex flex-col shadow-2xl transition-transform duration-300 translate-x-0">
+          {/* Drawer: slide in from right (RTL: start-0) */}
+          <aside className="fixed start-0 top-0 h-full w-72 bg-card border-e border-border/50 z-50 flex flex-col shadow-2xl transition-transform duration-300 translate-x-0">
             <div className="flex justify-end p-3">
               <button
                 onClick={() => setMobileOpen(false)}
