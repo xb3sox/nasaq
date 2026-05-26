@@ -31,7 +31,7 @@ lib/          → Business logic (no UI, no framework coupling)
   runtime-config.ts     → Safe readiness flags (never exposes secrets)
   demo-data.ts          → Typed seed data
 components/   → shadcn/ui (RTL-aware)
-tests/        → Node.js test runner (43 tests), no framework
+tests/        → Node.js test runner (93+ tests), no framework
 supabase/     → Migrations + seed
 n8n/          → Workflow JSONs
 ```
@@ -40,10 +40,11 @@ n8n/          → Workflow JSONs
 
 ```bash
 npm install        # install deps
-npm run dev        # start dev server (port 3001)
+npm run dev        # start dev server (default port 3000; Next may choose another if busy)
 npm test           # run all tests
 npm run lint       # eslint
 npm run build      # production build
+npm run verify     # full local quality gate
 ```
 
 ## Conventions

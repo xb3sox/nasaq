@@ -25,8 +25,8 @@ jobs:
 
             for (const pr of prs) {
               const branch = pr.head.ref;
-              // Only auto-merge jules/* and sabi/* branches
-              if (!branch.startsWith('jules/') && !branch.startsWith('sabi/')) continue;
+              // Only auto-merge narrow Jules automation branches. sabi/* needs manual review.
+              if (!branch.startsWith('jules/')) continue;
 
               // Check all required status checks pass
               const { data: checks } = await github.rest.checks.listForRef({

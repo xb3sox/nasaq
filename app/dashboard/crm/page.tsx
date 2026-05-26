@@ -1,4 +1,5 @@
 "use client";
+import { ChartWrapper } from "@/components/ChartWrapper";
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
@@ -104,7 +105,7 @@ export default function CrmPage() {
         <Card className="p-4 flex flex-col justify-between">
           <span className="text-sm font-medium text-muted-foreground mb-4">مصادر العملاء</span>
           <div className="h-[72px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={[
                 { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: '#25D366' },
                 { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: '#E1306C' },
@@ -138,7 +139,7 @@ export default function CrmPage() {
                   }
                 </Bar>
               </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></ChartWrapper>
           </div>
         </Card>
       </div>

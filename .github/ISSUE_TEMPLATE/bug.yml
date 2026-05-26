@@ -1,0 +1,41 @@
+name: Bug report
+description: Something is broken or risky
+title: "fix: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What broke? Include route, environment, and visible error.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      value: |
+        1. Go to ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Logs, screenshots, failing command output, deployment URL.
+  - type: textarea
+    id: gate
+    attributes:
+      label: Required verification
+      value: |
+        - [ ] `npm test`
+        - [ ] `npm run lint`
+        - [ ] `npm run build`
