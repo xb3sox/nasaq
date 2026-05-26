@@ -1,4 +1,5 @@
 "use client";
+import { ChartWrapper } from "@/components/ChartWrapper";
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
@@ -114,7 +115,7 @@ export default function RemindersPage() {
         <Card className="p-5 lg:col-span-2">
           <h2 className="text-base font-semibold mb-4">ملخص الأسبوع</h2>
           <div className="h-48 w-full" dir="ltr">
-            <ResponsiveContainer width="100%" height="100%">
+            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                 <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
@@ -127,7 +128,7 @@ export default function RemindersPage() {
                 <Bar dataKey="sent" name="مرسلة" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} maxBarSize={30} />
                 <Bar dataKey="failed" name="فاشلة" fill="var(--color-chart-4)" radius={[4, 4, 0, 0]} maxBarSize={30} />
               </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></ChartWrapper>
           </div>
         </Card>
         

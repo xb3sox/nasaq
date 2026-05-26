@@ -1,4 +1,5 @@
 "use client";
+import { ChartWrapper } from "@/components/ChartWrapper";
 
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -51,11 +52,11 @@ function StatCard({
         )}
         {sparklineData && (
           <div className="h-full flex-1 max-w-[80px] ms-auto opacity-70" dir="ltr">
-            <ResponsiveContainer width="100%" height="100%">
+            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <LineChart data={sparklineData.map((val, i) => ({ val, i }))}>
                 <Line type="monotone" dataKey="val" stroke={trend === "up" ? "#16a34a" : "#dc2626"} strokeWidth={2} dot={false} isAnimationActive={false} />
               </LineChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></ChartWrapper>
           </div>
         )}
       </div>
@@ -191,7 +192,7 @@ export default function ReportsPage() {
             </Badge>
           </div>
           <div className="h-64 w-full" dir="ltr">
-            <ResponsiveContainer width="100%" height="100%">
+            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                 <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
@@ -205,7 +206,7 @@ export default function ReportsPage() {
                 />
                 <Bar dataKey="bookings" fill="var(--color-primary)" radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></ChartWrapper>
           </div>
         </Card>
 
@@ -221,7 +222,7 @@ export default function ReportsPage() {
             </Badge>
           </div>
           <div className="h-64 w-full" dir="ltr">
-            <ResponsiveContainer width="100%" height="100%">
+            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                 <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
@@ -234,7 +235,7 @@ export default function ReportsPage() {
                 />
                 <Line type="monotone" dataKey="leads" stroke="var(--color-primary)" strokeWidth={3} dot={{ r: 4, strokeWidth: 2, fill: '#fff' }} activeDot={{ r: 6, fill: 'var(--color-primary)' }} />
               </LineChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></ChartWrapper>
           </div>
         </Card>
       </div>
@@ -248,7 +249,7 @@ export default function ReportsPage() {
             <p className="text-xs text-muted-foreground">توزيع القنوات التي يأتي منها العملاء</p>
           </div>
           <div className="h-64 w-full flex items-center" dir="ltr">
-            <ResponsiveContainer width="100%" height="100%">
+            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={sourceData}
@@ -271,7 +272,7 @@ export default function ReportsPage() {
                   formatter={(value) => [`${value}%`, 'النسبة']}
                 />
               </PieChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></ChartWrapper>
           </div>
         </Card>
 
@@ -282,7 +283,7 @@ export default function ReportsPage() {
             <p className="text-xs text-muted-foreground">من أول رسالة حتى إكمال الموعد</p>
           </div>
           <div className="h-64 w-full" dir="ltr">
-            <ResponsiveContainer width="100%" height="100%">
+            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e5e7eb" />
                 <XAxis type="number" hide />
@@ -295,7 +296,7 @@ export default function ReportsPage() {
                 />
                 <Bar dataKey="value" fill="var(--color-chart-2)" radius={[0, 4, 4, 0]} maxBarSize={30} label={{ position: 'insideLeft', fill: '#fff', fontSize: 12, fontFamily: 'inherit' }} />
               </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer></ChartWrapper>
           </div>
         </Card>
       </div>

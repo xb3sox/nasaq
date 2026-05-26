@@ -23,7 +23,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3001/dashboard](http://localhost:3001/dashboard)
+Open [http://localhost:3000/dashboard](http://localhost:3000/dashboard)
 
 Demo mode is enabled by default. All features work with mock data.
 
@@ -178,12 +178,12 @@ Open **الإعدادات** first to check Supabase, WhatsApp, AI, and demo API 
 
 ## Architecture
 
-- **Frontend**: Next.js 16, App Router, Tailwind, shadcn/ui, Arabic RTL
+- **Frontend**: Next.js 15.5, React 19, App Router, Tailwind 4, shadcn/ui, Arabic RTL
 - **Database**: Supabase Postgres + RLS
 - **WhatsApp**: Meta Cloud API (no WhatsApp Web automation)
 - **AI**: Deterministic (demo) → OpenAI or Gemini (production)
-- **Reminders**: Queue in DB → n8n scheduler → WhatsApp send API
-- **Auth**: Supabase Auth (configure as needed)
+- **Reminders**: Queue in DB → scheduler/n8n-compatible worker → WhatsApp send API
+- **Auth**: NextAuth v5 credentials provider, demo-safe adapter path
 
 ---
 
@@ -209,6 +209,6 @@ Open **الإعدادات** first to check Supabase, WhatsApp, AI, and demo API 
 ## Support
 
 For technical setup or pilot inquiries:
-- Demo runs on `http://localhost:3001`
+- Demo runs on `http://localhost:3000`
 - Tests: `npm test`
-- Build: `npm run build`
+- Full gate: `npm run verify`
