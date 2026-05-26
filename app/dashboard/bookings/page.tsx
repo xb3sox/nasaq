@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/select";
 import { DEMO_BOOKINGS, DEMO_DOCTORS, DEMO_SERVICES } from "@/lib/demo-data";
 import {
-  Search, CalendarCheck, Phone, Bot, Plus,
+  Search, CalendarCheck, Bot, Plus,
   CheckCircle2, Clock, XCircle, Loader2, DollarSign,
-  CalendarX, CalendarCheck2,
+  CalendarX, CalendarCheck2, LayoutList, AlignJustify, MessageCircle, AlertCircle
 } from "lucide-react";
 
 type BookingStatus = "confirmed" | "pending" | "completed" | "cancelled";
@@ -123,11 +123,33 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
   );
 }
 
+function getDateGroup(dateStr: string) {
+  const date = new Date(dateStr);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  
+  const endOfWeek = new Date(today);
+  endOfWeek.setDate(today.getDate() + (7 - today.getDay()));
+
+  const dateMidnight = new Date(date);
+  dateMidnight.setHours(0, 0, 0, 0);
+
+  if (dateMidnight.getTime() === today.getTime()) return "اليوم";
+  if (dateMidnight.getTime() === tomorrow.getTime()) return "غداً";
+  if (dateMidnight > tomorrow && dateMidnight <= endOfWeek) return "هذا الأسبوع";
+  if (dateMidnight < today) return "سابقاً";
+  return "لاحقاً";
+}
+
 export default function BookingsPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
   const [added, setAdded] = useState(0);
+  const [compactView, setCompactView] = useState(false);
 
   const all = DEMO_BOOKINGS;
 
@@ -166,17 +188,26 @@ export default function BookingsPage() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {STAT_CARDS.map((s) => (
-          <Card key={s.label} className="p-5 hover:shadow-sm transition-shadow">
-            <div className="flex items-start justify-between mb-2">
-              <span className="text-sm font-medium text-muted-foreground">{s.label}</span>
-              <div className={`w-9 h-9 rounded-xl ${s.bg} flex items-center justify-center`}>
-                <s.icon className={`w-4 h-4 ${s.color}`} />
+        {STAT_CARDS.map((s) => {
+          const isPositive = s.label !== "معلقة" && s.label !== "ملغاة"; // Example logic
+          return (
+            <Card key={s.label} className="p-5 hover:shadow-sm transition-shadow relative overflow-hidden">
+              <div className="flex items-start justify-between mb-2 relative z-10">
+                <span className="text-sm font-medium text-muted-foreground">{s.label}</span>
+                <div className={`w-9 h-9 rounded-xl ${s.bg} flex items-center justify-center`}>
+                  <s.icon className={`w-4 h-4 ${s.color}`} />
+                </div>
               </div>
-            </div>
-            <div className={`text-2xl font-bold ${s.color}`}>{s.value + (s.label === "مؤكدة" ? added : 0)}</div>
-          </Card>
-        ))}
+              <div className={`text-2xl font-bold ${s.color} relative z-10`}>{s.value + (s.label === "مؤكدة" ? added : 0)}</div>
+              <div className="mt-2 text-xs text-muted-foreground relative z-10 flex items-center gap-1">
+                <span className={isPositive ? "text-green-600" : "text-amber-600"}>
+                  {isPositive ? "+" : "-"}{s.label === "مؤكدة" ? 12 : s.label === "مكتملة" ? 8 : 4}%
+                </span>
+                <span>عن الأسبوع الماضي</span>
+              </div>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Filters */}
@@ -214,70 +245,167 @@ export default function BookingsPage() {
             <SelectItem value="Referral">إحالة</SelectItem>
           </SelectContent>
         </Select>
-        <span className="text-xs text-muted-foreground mr-auto">
+        <span className="text-xs text-muted-foreground me-auto">
           {filtered.length} من {all.length} حجز
         </span>
+        <div className="flex bg-muted rounded-lg p-0.5 border">
+          <Button 
+            variant={!compactView ? "secondary" : "ghost"} 
+            size="sm" 
+            className="h-8 px-2"
+            onClick={() => setCompactView(false)}
+          >
+            <LayoutList className="w-4 h-4" />
+          </Button>
+          <Button 
+            variant={compactView ? "secondary" : "ghost"} 
+            size="sm" 
+            className="h-8 px-2"
+            onClick={() => setCompactView(true)}
+          >
+            <AlignJustify className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Booking Cards */}
       {filtered.length === 0 ? (
-        <Card className="p-12 flex flex-col items-center gap-3 text-muted-foreground">
-          <CalendarX className="w-10 h-10 text-muted-foreground/40" />
-          <span className="text-sm">لا توجد حجوزات مطابقة</span>
+        <Card className="p-16 flex flex-col items-center gap-4 text-muted-foreground bg-muted/20 border-dashed">
+          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+            <CalendarX className="w-8 h-8 text-muted-foreground/60" />
+          </div>
+          <div className="text-center space-y-1">
+            <h3 className="font-medium text-foreground">لا توجد حجوزات مطابقة</h3>
+            <p className="text-sm">جرب تغيير كلمات البحث أو الفلاتر للعثور على ما تبحث عنه.</p>
+          </div>
+          <Button variant="outline" onClick={() => { setSearch(""); setStatusFilter("all"); setSourceFilter("all"); }}>مسح الفلاتر</Button>
         </Card>
       ) : (
-        <div className="space-y-3">
-          {filtered.map((booking) => {
-            const statusCfg = STATUS_CONFIG[booking.status as BookingStatus] ?? STATUS_CONFIG.pending;
-            const paymentCfg = PAYMENT_CONFIG[booking.paymentStatus as PaymentStatus] ?? PAYMENT_CONFIG.unpaid;
-            const StatusIcon = statusCfg.icon;
-            return (
-              <Card key={booking.id} className="p-4 hover:shadow-sm transition-shadow">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex gap-3 items-start min-w-0">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-                      <CalendarCheck className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="font-bold truncate">{booking.customer}</div>
-                      <div className="text-sm text-muted-foreground truncate">
-                        {booking.service} · {booking.doctor}
+        <div className="space-y-8">
+          {Object.entries(
+            filtered.reduce((acc, booking) => {
+              const group = getDateGroup(booking.date);
+              if (!acc[group]) acc[group] = [];
+              acc[group].push(booking);
+              return acc;
+            }, {} as Record<string, typeof filtered>)
+          ).map(([group, groupBookings]) => (
+            <div key={group} className="space-y-4">
+              <div className="flex items-center gap-3">
+                <h3 className="font-semibold text-lg">{group}</h3>
+                <div className="h-px bg-border/60 flex-1"></div>
+                <Badge variant="secondary" className="text-xs bg-muted">{groupBookings.length}</Badge>
+              </div>
+              
+              <div className="space-y-3 relative">
+                {/* Timeline connector for default view */}
+                {!compactView && groupBookings.length > 1 && (
+                  <div className="absolute top-6 bottom-6 right-[19px] w-0.5 bg-border/50 hidden sm:block"></div>
+                )}
+                
+                {groupBookings.map((booking) => {
+                  const statusCfg = STATUS_CONFIG[booking.status as BookingStatus] ?? STATUS_CONFIG.pending;
+                  const paymentCfg = PAYMENT_CONFIG[booking.paymentStatus as PaymentStatus] ?? PAYMENT_CONFIG.unpaid;
+                  const StatusIcon = statusCfg.icon;
+                  
+                  const statusColors = {
+                    confirmed: "bg-green-500",
+                    completed: "bg-blue-500",
+                    pending: "bg-yellow-500",
+                    cancelled: "bg-red-500",
+                  };
+                  const dotColor = statusColors[booking.status as keyof typeof statusColors] || "bg-gray-400";
+
+                  if (compactView) {
+                    return (
+                      <div key={booking.id} className="group relative flex items-center justify-between p-3 rounded-lg border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors">
+                        <div className="flex items-center gap-4 flex-1 min-w-0">
+                          <div className={`w-2 h-2 rounded-full shrink-0 ${dotColor}`}></div>
+                          <div className="w-[120px] shrink-0 font-medium truncate">{booking.customer}</div>
+                          <div className="w-[140px] shrink-0 text-sm text-muted-foreground truncate hidden md:block">{booking.service}</div>
+                          <div className="w-[100px] shrink-0 text-sm text-muted-foreground truncate hidden lg:block">{booking.date}</div>
+                          <div className="w-[80px] shrink-0 text-sm text-muted-foreground font-mono truncate">{booking.time}</div>
+                          <div className="flex gap-2 shrink-0">
+                            <Badge className={`${statusCfg.color} scale-90 origin-right`}>{statusCfg.label}</Badge>
+                          </div>
+                        </div>
+                        <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1 shrink-0 bg-gradient-to-r from-transparent to-card rtl:to-card/0 rtl:from-card pl-2 rtl:pr-2 rtl:pl-0 absolute left-2 rtl:right-auto rtl:left-2">
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
+                            <MessageCircle className="w-4 h-4" />
+                          </Button>
+                          {booking.status === "pending" && (
+                            <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600 hover:text-green-600 hover:bg-green-50">
+                              <CheckCircle2 className="w-4 h-4" />
+                            </Button>
+                          )}
+                          {booking.status !== "cancelled" && booking.status !== "completed" && (
+                            <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10">
+                              <AlertCircle className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-                        <Phone className="w-3 h-3 shrink-0" />
-                        <span className="font-mono">{booking.phone}</span>
-                        <span className="mx-1 text-border">·</span>
-                        {booking.date} {booking.time}
+                    );
+                  }
+
+                  return (
+                    <Card key={booking.id} className="group p-4 hover:shadow-md transition-all relative overflow-hidden border-border/60 hover:border-border">
+                      {/* Timeline Dot */}
+                      <div className={`absolute right-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
+                      
+                      <div className="flex items-start justify-between gap-4 pl-12 rtl:pr-1 rtl:pl-12">
+                        <div className="flex gap-4 items-start min-w-0 relative z-10">
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 hidden sm:flex">
+                            <CalendarCheck className="w-5 h-5 text-primary" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="font-bold truncate text-base">{booking.customer}</div>
+                            <div className="text-sm text-muted-foreground truncate mt-0.5">
+                              {booking.service} · {booking.doctor}
+                            </div>
+                            <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-2">
+                              <span className="flex items-center gap-1 bg-muted px-2 py-0.5 rounded-md font-mono">{booking.phone}</span>
+                              <span className="text-border">·</span>
+                              <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {booking.time}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end gap-1.5 shrink-0 relative z-10">
+                          <Badge className={statusCfg.color}>
+                            <StatusIcon className="w-3 h-3 me-1" />
+                            {statusCfg.label}
+                          </Badge>
+                          <Badge variant="outline" className={`text-xs ${paymentCfg.color} border-0 bg-muted/50`}>
+                            <DollarSign className="w-3 h-3 me-0.5" />
+                            {paymentCfg.label}
+                          </Badge>
+                          <Badge variant="outline" className={`text-xs hidden sm:flex ${SOURCE_COLORS[booking.source] ?? ""}`}>
+                            {booking.source === "AI WhatsApp" && <Bot className="w-3 h-3 me-1" />}
+                            {booking.source}
+                          </Badge>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-1.5 shrink-0">
-                    <Badge className={statusCfg.color}>
-                      <StatusIcon className="w-3 h-3 me-1" />
-                      {statusCfg.label}
-                    </Badge>
-                    <Badge variant="outline" className={`text-xs ${paymentCfg.color} border-0`}>
-                      <DollarSign className="w-3 h-3 me-0.5" />
-                      {paymentCfg.label}
-                    </Badge>
-                    <Badge variant="outline" className={`text-xs hidden sm:flex ${SOURCE_COLORS[booking.source] ?? ""}`}>
-                      {booking.source === "AI WhatsApp" && <Bot className="w-3 h-3 me-1" />}
-                      {booking.source}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="mt-3 flex gap-2 justify-end">
-                  <Button size="sm" variant="outline" className="min-h-[40px] sm:min-h-0 sm:h-8 text-xs">تعديل</Button>
-                  {booking.status === "pending" && (
-                    <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-8 text-xs bg-green-600 hover:bg-green-700">تأكيد</Button>
-                  )}
-                  {booking.status !== "cancelled" && booking.status !== "completed" && (
-                    <Button size="sm" variant="outline" className="min-h-[40px] sm:min-h-0 sm:h-8 text-xs text-destructive hover:text-destructive">إلغاء</Button>
-                  )}
-                </div>
-              </Card>
-            );
-          })}
+
+                      {/* Hover Actions Overlay */}
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2 bg-card/90 backdrop-blur-sm p-2 rounded-lg shadow-sm border border-border/50 translate-x-4 group-hover:translate-x-0 rtl:-translate-x-4 rtl:group-hover:translate-x-0">
+                        <Button size="sm" variant="ghost" className="h-8 px-2 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
+                          <MessageCircle className="w-4 h-4 me-1.5" />
+                          مراسلة
+                        </Button>
+                        <div className="w-px h-4 bg-border"></div>
+                        {booking.status === "pending" && (
+                          <Button size="sm" className="h-8 px-3 bg-green-600 hover:bg-green-700">تأكيد</Button>
+                        )}
+                        {booking.status !== "cancelled" && booking.status !== "completed" && (
+                          <Button size="sm" variant="outline" className="h-8 px-3 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30">إلغاء</Button>
+                        )}
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

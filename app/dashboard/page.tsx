@@ -3,18 +3,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2 } from "lucide-react";
+import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2, ArrowUpRight, Bell, Inbox } from "lucide-react";
 import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type DemoStep = { label: string; detail: string; done: boolean; active: boolean };
 
 function LiveDemoRunner() {
   const [running, setRunning] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [steps, setSteps] = useState<DemoStep[]>([
     { label: "رسالة واتساب", detail: "بكم تنظيف الأسنان؟", done: false, active: false },
     { label: "قرار AI", detail: "intent: booking · 91%", done: false, active: false },
-    { label: "رد تلقائي", detail: "سعر تنظيف 250 ر.س · متاحالليوم", done: false, active: false },
+    { label: "رد تلقائي", detail: "سعر تنظيف 250 ر.س · متاح اليوم", done: false, active: false },
     { label: "تأكيد حجز", detail: "تنظيف مع د. ريم · 4:00 مساءً", done: false, active: false },
     { label: "تذكيران مجدولان", detail: "24h + 2h قبل الموعد", done: false, active: false },
     { label: "لوحة التحكم محدّثة", detail: "CRM + تقارير حية", done: false, active: false },
@@ -22,20 +24,30 @@ function LiveDemoRunner() {
 
   const runDemo = async () => {
     setRunning(true);
+    setProgress(0);
     setSteps((s) => s.map((st) => ({ ...st, done: false, active: false })));
 
     for (let i = 0; i < steps.length; i++) {
       setSteps((s) => s.map((st, idx) => ({ ...st, active: idx === i, done: idx < i })));
+      setProgress(((i) / steps.length) * 100);
       await new Promise((r) => setTimeout(r, i === 0 ? 600 : 700));
     }
     setSteps((s) => s.map((st) => ({ ...st, done: true, active: false })));
+    setProgress(100);
     setRunning(false);
   };
 
   const allDone = steps.every((s) => s.done);
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
+      {/* Progress bar at top */}
+      <div className="w-full h-1 bg-muted">
+        <div 
+          className="h-full bg-primary transition-all duration-500 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-base">عرض تجريبي حي</CardTitle>
@@ -56,33 +68,40 @@ function LiveDemoRunner() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
+        <div className="space-y-2 relative">
+          {/* Vertical connecting line for active/done steps */}
+          <div className="absolute end-[1.15rem] top-4 bottom-4 w-px bg-border/50 -z-10" />
+          
           {steps.map((step, i) => (
             <div
               key={step.label}
-              className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 text-sm ${
+              className={`flex items-center gap-3 p-2.5 rounded-lg transition-all duration-500 text-sm ${
                 step.active
-                  ? "bg-primary/10 border border-primary/20"
+                  ? "bg-primary/10 border border-primary/20 scale-[1.02] shadow-sm"
                   : step.done
-                  ? "bg-green-50 dark:bg-green-900/20"
-                  : "bg-muted/40"
+                  ? "bg-green-50 dark:bg-green-900/10 border border-transparent"
+                  : "bg-transparent border border-transparent opacity-60"
               }`}
             >
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold transition-colors ${
-                step.done ? "bg-green-500 text-white" : step.active ? "bg-primary text-primary-foreground" : "bg-muted-foreground/20 text-muted-foreground"
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold transition-all duration-300 ${
+                step.done 
+                  ? "bg-green-500 text-white scale-110 shadow-sm" 
+                  : step.active 
+                  ? "bg-primary text-primary-foreground ring-4 ring-primary/20" 
+                  : "bg-muted text-muted-foreground"
               }`}>
                 {step.done ? <CheckCircle2 className="w-3.5 h-3.5" /> : step.active ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : i + 1}
               </div>
               <div className="flex-1 min-w-0">
-                <div className={`font-medium truncate ${step.active ? "text-primary" : step.done ? "text-green-700 dark:text-green-400" : "text-muted-foreground"}`}>{step.label}</div>
+                <div className={`font-medium truncate transition-colors duration-300 ${step.active ? "text-primary" : step.done ? "text-green-700 dark:text-green-400" : "text-muted-foreground"}`}>{step.label}</div>
                 <div className="text-xs text-muted-foreground truncate">{step.detail}</div>
               </div>
             </div>
           ))}
         </div>
         {allDone && (
-          <div className="mt-3 text-xs text-center text-green-600 font-medium animate-fade-slide-up">
-            ✅ تم المسار بالكامل — العميل تلقى رداً، حجزاً، وتذكيرين بدون تدخل بشري
+          <div className="mt-4 text-xs text-center text-green-600 font-medium animate-fade-slide-up bg-green-50 dark:bg-green-900/20 p-2 rounded-md border border-green-200 dark:border-green-900 flex items-center justify-center gap-1.5">
+            <CheckCircle2 className="w-4 h-4" /> تم المسار بالكامل — العميل تلقى رداً، حجزاً، وتذكيرين
           </div>
         )}
       </CardContent>
@@ -109,10 +128,10 @@ function RiyadhClock() {
 
   if (!mounted) {
     return (
-      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Clock className="w-4 h-4" />
+      <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium bg-background/50 px-3 py-1.5 rounded-full border shadow-sm w-fit">
+        <Clock className="w-4 h-4 text-primary" />
         <span dir="ltr">--:--:--</span>
-        <span className="hidden sm:inline">— </span>
+        <span className="hidden sm:inline text-muted-foreground/60">| </span>
       </div>
     );
   }
@@ -129,102 +148,144 @@ function RiyadhClock() {
     timeZone: "Asia/Riyadh",
     weekday: "long",
     year: "numeric",
-    month: "long",
+    month: "short",
     day: "numeric",
   }) ?? "";
 
   return (
-    <div className="flex items-center gap-2 text-sm text-muted-foreground" suppressHydrationWarning>
-      <Clock className="w-4 h-4" />
-      <span dir="ltr" suppressHydrationWarning>{riyadh}</span>
-      <span className="hidden sm:inline" suppressHydrationWarning>— {date}</span>
+    <div className="flex items-center gap-2 text-sm text-foreground font-medium bg-background/80 backdrop-blur-sm px-3 py-1.5 rounded-full border shadow-sm w-fit" suppressHydrationWarning>
+      <Clock className="w-4 h-4 text-primary" />
+      <span dir="ltr" suppressHydrationWarning className="font-semibold">{riyadh}</span>
+      <span className="hidden sm:inline text-muted-foreground" suppressHydrationWarning>| {date}</span>
     </div>
   );
 }
 
 export default function DashboardPage() {
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-8">
-      <div className="flex items-start justify-between gap-4">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold">نظرة عامة — {demoClinic.name}</h1>
-          <p className="text-sm text-muted-foreground">مسار اليوم: واتساب → AI → حجز → تذكير → CRM → تقرير</p>
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 relative">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-background h-[300px] -z-10 rounded-b-3xl"></div>
+
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-10">
+        <div className="space-y-3">
+          <h1 className="text-3xl font-extrabold tracking-tight">مرحباً بك في {demoClinic.name}</h1>
           <RiyadhClock />
         </div>
-        <Badge className="badge-demo-ready text-green-800 border-green-300">
-          Demo Ready
+        <Badge className="badge-demo-ready text-green-800 border-green-300 bg-green-100 shadow-sm px-3 py-1 text-sm font-medium">
+          <CheckCircle2 className="w-4 h-4 me-1.5 inline" /> نظام ديمو جاهز
         </Badge>
       </div>
 
+      {/* Quick Actions */}
+      <div className="flex flex-wrap gap-3">
+        <Link href="/dashboard/reminders">
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[40px] sm:min-h-0 sm:h-9">
+            <Bell className="w-4 h-4" /> إرسال تذكير
+          </Button>
+        </Link>
+        <Link href="/dashboard/bookings">
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[40px] sm:min-h-0 sm:h-9">
+            <CalendarCheck className="w-4 h-4" /> عرض حجوزات اليوم
+          </Button>
+        </Link>
+        <Link href="/dashboard/inbox">
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[40px] sm:min-h-0 sm:h-9">
+            <Inbox className="w-4 h-4" /> فحص صندوق الواتساب
+          </Button>
+        </Link>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="card-hover-lift">
+        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">حجوزات اليوم</CardTitle>
-            <CalendarCheck className="w-4 h-4 text-muted-foreground" />
+            <div className="p-2 bg-primary/10 rounded-lg"><CalendarCheck className="w-4 h-4 text-primary" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{demoReportStats.todayBookings}</div>
-            <p className="text-xs text-muted-foreground">منها حجز AI مؤكد</p>
+            <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
+              <ArrowUpRight className="w-3 h-3" /> <span>+8% عن أمس</span>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="card-hover-lift">
+        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">محادثات تحتاج رد</CardTitle>
-            <MessageCircle className="w-4 h-4 text-muted-foreground" />
+            <div className="p-2 bg-destructive/10 rounded-lg"><MessageCircle className="w-4 h-4 text-destructive" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-destructive">{demoReportStats.humanNeeded}</div>
-            <p className="text-xs text-muted-foreground">AI تعامل مع {demoReportStats.aiHandled}</p>
+            <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
+              <span>AI تعامل مع {demoReportStats.aiHandled}</span>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="card-hover-lift">
+        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">عملاء جدد</CardTitle>
-            <Users className="w-4 h-4 text-muted-foreground" />
+            <div className="p-2 bg-blue-500/10 rounded-lg"><Users className="w-4 h-4 text-blue-500" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{demoReportStats.newLeads}</div>
-            <p className="text-xs text-muted-foreground">هذا الأسبوع</p>
+            <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
+              <ArrowUpRight className="w-3 h-3" /> <span>+15% هذا الأسبوع</span>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="card-hover-lift">
+        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">الإيرادات (الشهر)</CardTitle>
-            <TrendingUp className="w-4 h-4 text-muted-foreground" />
+            <div className="p-2 bg-green-500/10 rounded-lg"><TrendingUp className="w-4 h-4 text-green-500" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{demoReportStats.monthRevenue.toLocaleString()} ر.س</div>
-            <p className="text-xs text-muted-foreground">+12% عن الشهر الماضي</p>
+            <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
+              <ArrowUpRight className="w-3 h-3" /> <span>+12% عن الشهر الماضي</span>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <Card className="xl:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-base">آخر مسار حجز من واتساب</CardTitle>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+        <Card className="xl:col-span-2 shadow-sm">
+          <CardHeader className="border-b border-border/50 pb-4">
+            <CardTitle className="text-base flex items-center gap-2">
+              <MessageCircle className="w-5 h-5 text-primary" /> آخر مسار حجز من واتساب
+            </CardTitle>
           </CardHeader>
-          <div className="overflow-x-auto pb-4">
-            <CardContent className="pb-2 snap-x snap-mandatory flex lg:grid lg:grid-cols-5 text-sm w-max lg:w-auto min-w-full gap-4 lg:gap-0 px-4 sm:px-6">
+          <CardContent className="p-6">
+            <div className="relative space-y-6">
+              {/* Vertical timeline line */}
+              <div className="absolute top-2 bottom-2 end-3.5 w-0.5 bg-border -z-10" />
+              
               {[
-                ["رسالة", demoConversation.messages.at(-1)?.body ?? ""],
-                ["قرار AI", `${demoAiDecision.intent} · ${(demoAiDecision.confidence * 100).toFixed(0)}%`],
-                ["رد", demoAiDecision.reply],
-                ["حجز", `${demoBooking.serviceName} · ${demoBooking.doctorName}`],
-                ["تذكير", "24h + 2h queued"],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-lg border p-3 min-h-28 min-w-40 lg:min-w-0 shrink-0 lg:shrink card-hover-lift snap-start">
-                  <div className="text-xs text-muted-foreground mb-2">{label}</div>
-                  <div className="font-medium leading-relaxed">{value}</div>
+                { label: "رسالة العميل", value: demoConversation.messages.at(-1)?.body ?? "", icon: MessageCircle, color: "text-blue-500", bg: "bg-blue-50" },
+                { label: "تحليل AI", value: `${demoAiDecision.intent} · الثقة: ${(demoAiDecision.confidence * 100).toFixed(0)}%`, icon: Loader2, color: "text-purple-500", bg: "bg-purple-50" },
+                { label: "رد النظام", value: demoAiDecision.reply, icon: Play, color: "text-teal-500", bg: "bg-teal-50" },
+                { label: "تأكيد الحجز", value: `${demoBooking.serviceName} · ${demoBooking.doctorName}`, icon: CalendarCheck, color: "text-green-500", bg: "bg-green-50" },
+                { label: "التذكيرات المجدولة", value: "24h + 2h قبل الموعد", icon: Bell, color: "text-orange-500", bg: "bg-orange-50" },
+              ].map((item, idx) => (
+                <div key={idx} className="flex gap-4 group">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 border-background shadow-sm ${item.bg}`}>
+                    <item.icon className={`w-4 h-4 ${item.color}`} />
+                  </div>
+                  <div className="flex-1 bg-muted/30 border border-border/50 rounded-xl p-4 group-hover:bg-muted/50 transition-colors">
+                    <div className="text-xs font-semibold text-muted-foreground mb-1.5">{item.label}</div>
+                    <div className="text-sm font-medium leading-relaxed">{item.value}</div>
+                  </div>
                 </div>
               ))}
-            </CardContent>
-          </div>
+            </div>
+          </CardContent>
         </Card>
-        <LiveDemoRunner />
+        
+        <div className="sticky top-6">
+          <LiveDemoRunner />
+        </div>
       </div>
     </div>
   );
