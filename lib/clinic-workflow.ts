@@ -324,19 +324,21 @@ export function buildReminderDrafts(booking: BookingConfirmation): ReminderDraft
   const dayBefore = new Date(startsAt.getTime() - 24 * 60 * 60 * 1000);
   const twoHoursBefore = new Date(startsAt.getTime() - 2 * 60 * 60 * 1000);
 
+
   return [
     {
       type: "24h_before",
       sendAt: dayBefore.toISOString(),
-      message: `تذكير: موعدك غداً الساعة ${formatRiyadhTime(booking.startsAt)} في عيادات النخبة.`,
+      message: `تذكير: موعدك غداً مع ${booking.doctorName} الساعة ${formatRiyadhTime(booking.startsAt)} — ${booking.serviceName}`,
     },
     {
       type: "2h_before",
       sendAt: twoHoursBefore.toISOString(),
-      message: `تذكير سريع: موعدك بعد ساعتين مع ${booking.doctorName}.`,
+      message: `تذكير: موعدك خلال ساعتين مع ${booking.doctorName} الساعة ${formatRiyadhTime(booking.startsAt)}`,
     },
   ];
 }
+
 
 function containsAny(text: string, needles: string[]) {
   return needles.some((needle) => text.includes(needle.toLowerCase()));

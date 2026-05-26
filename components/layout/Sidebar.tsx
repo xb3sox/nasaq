@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
+import { useSetupStore } from "@/lib/setup-store";
 
 // Mock notification counts
 const notificationCounts: Record<string, number> = {
@@ -39,6 +40,7 @@ const routes = [
 
 function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
   const pathname = usePathname();
+  const { isSetupComplete } = useSetupStore();
 
   return (
     <>
@@ -65,6 +67,19 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+        {!isSetupComplete && (
+          <Link
+            href="/setup"
+            onClick={onNavClick}
+            className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border border-amber-500/20 mb-4"
+          >
+            <div className="flex items-center gap-3">
+              <Settings className="w-4 h-4 shrink-0 text-amber-600" />
+              <span>أكمل الإعداد</span>
+            </div>
+            <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+          </Link>
+        )}
         {routes.map((route) => {
           const isActive = pathname === route.href || (route.href !== "/dashboard" && pathname.startsWith(route.href));
           const count = notificationCounts[route.href];

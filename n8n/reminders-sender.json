@@ -1,0 +1,158 @@
+{
+  "name": "Reminder Sender",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerTimes": [
+          {
+            "mode": "every",
+            "hour": "*",
+            "minute": "*/15"
+          }
+        ]
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [200, 240]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/reminders?select=id,customer_id,template_message,customers(phone)&status=eq.pending&send_at=lte.now",
+        "method": "GET",
+        "options": {},
+        "responseFormat": "json",
+        "headerParametersJson": "={ \n  \"apikey\": \"{{$env.SUPABASE_SERVICE_ROLE_KEY}}\",\n  \"Authorization\": \"Bearer {{$env.SUPABASE_SERVICE_ROLE_KEY}}\"\n}"
+      },
+      "name": "Query Reminders",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [480, 240]
+    },
+    {
+      "parameters": {
+        "batchSize": 1
+      },
+      "name": "Split",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 1,
+      "position": [760, 240]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.APP_URL}}/api/messages/send",
+        "method": "POST",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"to\": \"{{$json.customers.phone}}\",\n  \"message\": \"{{$json.template_message}}\",\n  \"customerId\": \"{{$json.customer_id}}\"\n}"
+      },
+      "name": "Send WhatsApp",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1040, 240],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/reminders?id=eq.{{$node['Split'].json['id']}}",
+        "method": "PATCH",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"status\": \"sent\",\n  \"sent_at\": \"{{(new Date()).toISOString()}}\"\n}",
+        "headerParametersJson": "={ \n  \"apikey\": \"{{$env.SUPABASE_SERVICE_ROLE_KEY}}\",\n  \"Authorization\": \"Bearer {{$env.SUPABASE_SERVICE_ROLE_KEY}}\"\n}"
+      },
+      "name": "Mark Sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1320, 140]
+    },
+    {
+      "parameters": {
+        "url": "={{$env.NEXT_PUBLIC_SUPABASE_URL}}/rest/v1/reminders?id=eq.{{$node['Split'].json['id']}}",
+        "method": "PATCH",
+        "jsonParameters": true,
+        "bodyParametersJson": "={ \n  \"status\": \"failed\"\n}",
+        "headerParametersJson": "={ \n  \"apikey\": \"{{$env.SUPABASE_SERVICE_ROLE_KEY}}\",\n  \"Authorization\": \"Bearer {{$env.SUPABASE_SERVICE_ROLE_KEY}}\"\n}"
+      },
+      "name": "Mark Failed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1320, 340]
+    }
+  ],
+  "connections": {
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "Query Reminders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Reminders": {
+      "main": [
+        [
+          {
+            "node": "Split",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Mark Sent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Sent": {
+      "main": [
+        [
+          {
+            "node": "Split",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Failed": {
+      "main": [
+        [
+          {
+            "node": "Split",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

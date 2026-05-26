@@ -1,4 +1,4 @@
-import { analyzeClinicMessage, buildBookingConfirmation, buildReminderDrafts } from "./clinic-workflow";
+import { analyzeClinicMessage, buildBookingConfirmation, buildReminderDrafts } from "./clinic-workflow.ts";
 
 export const DEMO_CLINIC_ID = "00000000-0000-0000-0000-000000000001";
 

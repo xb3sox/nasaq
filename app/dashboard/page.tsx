@@ -3,10 +3,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2, ArrowUpRight, Bell, Inbox } from "lucide-react";
+import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2, ArrowUpRight, Bell, Inbox, Settings } from "lucide-react";
 import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSetupStore } from "@/lib/setup-store";
 
 type DemoStep = { label: string; detail: string; done: boolean; active: boolean };
 
@@ -162,10 +163,29 @@ function RiyadhClock() {
 }
 
 export default function DashboardPage() {
+  const { isSetupComplete } = useSetupStore();
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-8 relative">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-background h-[300px] -z-10 rounded-b-3xl"></div>
+
+      {!isSetupComplete && (
+        <div className="bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Settings className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <div>
+              <h3 className="font-bold text-sm">أكمل إعداد حسابك</h3>
+              <p className="text-xs opacity-80 mt-0.5">قم بإعداد بيانات العيادة والأطباء والخدمات للبدء.</p>
+            </div>
+          </div>
+          <Link href="/setup">
+            <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white border-0">
+              الذهاب للإعدادات
+            </Button>
+          </Link>
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-10">
         <div className="space-y-3">

@@ -158,8 +158,45 @@ export function createSupabaseClinicStore(client: SupabaseLike): ClinicStore {
           .single(),
       );
     },
+
+
+
+
+    async getDueReminders() {
+      const { data, error } = await client
+        .from("reminders")
+        .select("id, clinic_id, customer_id, template_message, customers(phone)")
+        .eq("status", "pending")
+        .lte("send_at", new Date().toISOString());
+
+      if (error) {
+        throw new Error(error.message ?? "Supabase request failed");
+      }
+
+      type RowType = { id: string; clinic_id: string; customer_id: string; template_message: string; customers: { phone: string } | { phone: string }[] | null };
+
+      return ((data as unknown as RowType[]) || []).map((row) => {
+        let phone: string | undefined;
+        if (Array.isArray(row.customers)) {
+           phone = row.customers[0]?.phone;
+        } else if (row.customers) {
+           phone = row.customers.phone;
+        }
+        return {
+          id: row.id,
+          clinic_id: row.clinic_id,
+          customer_id: row.customer_id,
+          template_message: row.template_message,
+          customer_phone: phone,
+        };
+      });
+    },
   };
 }
+
+
+
+
 
 async function single<T>(promise: PromiseLike<QueryResult<T>>) {
   const { data, error } = await promise;

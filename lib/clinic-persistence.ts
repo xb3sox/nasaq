@@ -9,6 +9,14 @@ export type CreatedRow = {
   id: string;
 };
 
+export type DueReminderRow = {
+  id: string;
+  clinic_id: string;
+  customer_id: string;
+  template_message: string;
+  customer_phone?: string;
+};
+
 export type ClinicStore = {
   recordWebhookEvent(input: {
     clinicId: string;
@@ -74,6 +82,7 @@ export type ClinicStore = {
     payload: unknown;
     error: string;
   }): Promise<CreatedRow>;
+  getDueReminders?: () => Promise<DueReminderRow[]>;
 };
 
 export async function persistInboundWorkflow(input: {
