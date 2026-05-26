@@ -57,7 +57,7 @@ export default function AiConfigStep() {
         <div className="space-y-4 pt-4 border-t animate-in fade-in duration-300">
           <div className="space-y-2">
             <Label htmlFor="apiKey">مفتاح API الخاص بـ {aiConfig.provider === 'openai' ? 'OpenAI' : 'Gemini'}</Label>
-            <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            <Input
               id="apiKey"
               type="password"
               placeholder="sk-..."

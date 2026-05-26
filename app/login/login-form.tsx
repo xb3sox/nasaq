@@ -21,6 +21,7 @@ export function LoginForm() {
           id="email"
           name="email"
           type="email"
+          inputMode="email"
           placeholder="owner@clinic.com"
           dir="ltr"
           autoComplete="email"
@@ -47,15 +48,17 @@ export function LoginForm() {
         <div dir="ltr" className="text-end font-mono">demo1234</div>
       </div>
 
-      <Button className="w-full" size="lg" type="submit" disabled={isPending}>
+      <Button className="w-full" size="lg" type="submit" disabled={isPending} aria-disabled={isPending}>
         {isPending ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
       </Button>
 
-      {errorMessage && (
-        <div className="text-sm text-destructive text-center" role="alert">
-          {errorMessage === 'Invalid credentials.' ? 'بيانات الدخول غير صحيحة' : 'حدث خطأ ما'}
-        </div>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {errorMessage && (
+          <div className="text-sm text-destructive text-center mt-2" role="alert">
+            {errorMessage === 'Invalid credentials.' ? 'بيانات الدخول غير صحيحة' : 'حدث خطأ ما'}
+          </div>
+        )}
+      </div>
     </form>
   )
 }

@@ -22,7 +22,7 @@ export default function WhatsappStep() {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="phoneNumberId">Phone Number ID</Label>
-          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+          <Input
             id="phoneNumberId"
             placeholder="مثال: 123456789012345"
             dir="ltr"
@@ -33,7 +33,7 @@ export default function WhatsappStep() {
 
         <div className="space-y-2">
           <Label htmlFor="accessToken">Access Token (الرمز الدائم)</Label>
-          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+          <Input
             id="accessToken"
             type="password"
             placeholder="EAAB..."
@@ -45,7 +45,7 @@ export default function WhatsappStep() {
 
         <div className="space-y-2">
           <Label htmlFor="verifyToken">Webhook Verify Token</Label>
-          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+          <Input
             id="verifyToken"
             placeholder="مثال: my_custom_verify_token"
             dir="ltr"

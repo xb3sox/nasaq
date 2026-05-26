@@ -34,12 +34,12 @@ function FaqAccordion({ q, a, isOpen, onClick }: { q: string, a: string, isOpen:
     <div className="border-b last:border-0 border-border/50">
       <button 
         onClick={onClick}
-        className="flex w-full items-center justify-between py-4 text-start transition-all hover:text-primary"
+        className="flex w-full items-center justify-between py-4 text-start transition-colors hover:text-primary"
       >
         <span className="font-semibold text-foreground">{q}</span>
         <ChevronDown className={`w-4 h-4 shrink-0 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
       </button>
-      <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-40 pb-4 opacity-100" : "max-h-0 opacity-0"}`}>
+      <div className={`overflow-hidden transition-colors duration-300 ${isOpen ? "max-h-40 pb-4 opacity-100" : "max-h-0 opacity-0"}`}>
         <p className="text-muted-foreground text-sm leading-relaxed">{a}</p>
       </div>
     </div>
@@ -56,7 +56,7 @@ export default function RootPage() {
   return (
     <div className="min-h-screen bg-background font-sans selection:bg-primary/20 selection:text-primary" dir="rtl">
       {/* Nav */}
-      <nav className="border-b sticky top-0 bg-background/80 backdrop-blur-md z-50 transition-all duration-300">
+      <nav className="border-b sticky top-0 bg-background/80 backdrop-blur-md z-50 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="font-bold text-xl tracking-tight text-primary flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection('hero')}>
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
@@ -66,11 +66,12 @@ export default function RootPage() {
           </div>
           <div className="flex gap-4 items-center">
             <Link href="/dashboard" className="hidden sm:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors me-4">لوحة التحكم</Link>
-            <Button variant="default" className="shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 rounded-full px-6" onClick={() => scrollToSection('pricing')}>احجز ديمو مجاني</Button>
+            <Button variant="default" className="shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-colors duration-200 rounded-full px-6" onClick={() => scrollToSection('pricing')}>احجز ديمو مجاني</Button>
           </div>
         </div>
       </nav>
 
+      <main id="main-content">
       {/* Hero */}
       <section id="hero" className="max-w-6xl mx-auto px-6 py-20 lg:py-32 overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -78,17 +79,17 @@ export default function RootPage() {
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium animate-fade-slide-up border border-primary/20">
               <Zap className="w-4 h-4" /> نظام ذكاء اصطناعي مخصص للعيادات السعودية
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight animate-fade-slide-up animate-delay-1 text-foreground">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight animate-fade-slide-up animate-delay-1 text-foreground text-balance">
               {BRAND.nameAr} ينظم واتساب العيادة،<br />
               <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-400">يحجز المواعيد</span>، ويقلل ضغط الاستقبال
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-fade-slide-up animate-delay-2">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed animate-fade-slide-up animate-delay-2 text-balance">
               خلال 7 أيام نجهز لك نظام ذكي يدير العملاء، الحجوزات، التذكيرات، والتقارير من لوحة واحدة، لتركز على رعاية مرضاك.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-slide-up animate-delay-3">
-              <Button size="lg" className="rounded-full px-8 h-14 text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200" onClick={() => scrollToSection('pricing')}>احجز ديمو مجاني</Button>
+              <Button size="lg" className="rounded-full px-8 h-14 text-lg shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-colors duration-200" onClick={() => scrollToSection('pricing')}>احجز ديمو مجاني</Button>
               <Link href="/dashboard">
-                <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg border-2 hover:bg-muted transition-all duration-200 w-full sm:w-auto">جرب النظام الآن</Button>
+                <Button size="lg" variant="outline" className="rounded-full px-8 h-14 text-lg border-2 hover:bg-muted transition-colors duration-200 w-full sm:w-auto">جرب النظام الآن</Button>
               </Link>
             </div>
             <div className="flex gap-6 justify-center lg:justify-start text-sm font-medium text-muted-foreground flex-wrap animate-fade-slide-up animate-delay-4">
@@ -206,9 +207,9 @@ export default function RootPage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {FEATURES.map((f) => (
-              <Card key={f.title} className="group hover:border-primary/50 transition-all duration-300 hover:shadow-md bg-background">
+              <Card key={f.title} className="group hover:border-primary/50 transition-colors duration-300 hover:shadow-md bg-background">
                 <CardContent className="p-6 space-y-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-primary transition-all duration-300">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-primary transition-colors duration-300">
                     <f.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
                   <h3 className="text-lg font-bold">{f.title}</h3>
@@ -229,7 +230,7 @@ export default function RootPage() {
           </div>
           <div className="grid md:grid-cols-3 gap-8 items-start lg:px-12">
             {PRICING.map((p) => (
-              <Card key={p.name} className={`relative transition-all duration-300 ${p.highlight ? "border-primary shadow-2xl scale-105 z-10" : "border-border/50 shadow-sm hover:shadow-md mt-0 md:mt-4"}`}>
+              <Card key={p.name} className={`relative transition-colors duration-300 ${p.highlight ? "border-primary shadow-2xl scale-105 z-10" : "border-border/50 shadow-sm hover:shadow-md mt-0 md:mt-4"}`}>
                 {p.highlight && (
                   <div className="absolute top-0 inset-x-0 -translate-y-1/2 flex justify-center">
                     <span className="bg-primary text-primary-foreground text-xs px-4 py-1.5 rounded-full font-bold uppercase tracking-wider shadow-sm">الأكثر شيوعاً</span>
@@ -253,7 +254,7 @@ export default function RootPage() {
                       </li>
                     ))}
                   </ul>
-                  <Button className="w-full rounded-full h-12 text-md shadow-sm hover:shadow-md transition-all duration-200" variant={p.highlight ? "default" : "outline"}>
+                  <Button className="w-full rounded-full h-12 text-md shadow-sm hover:shadow-md transition-colors duration-200" variant={p.highlight ? "default" : "outline"}>
                     اختر الباقة
                   </Button>
                 </CardContent>
@@ -288,13 +289,13 @@ export default function RootPage() {
         <div className="absolute inset-0 bg-[url('/bg-pattern.svg')] opacity-10 z-0"></div>
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-foreground/30 to-transparent"></div>
         <div className="max-w-4xl mx-auto px-6 text-center space-y-8 relative z-10">
-          <h2 className="text-4xl font-extrabold text-primary-foreground tracking-tight">مستعد لتغيير طريقة عمل عيادتك؟</h2>
-          <p className="text-primary-foreground/80 text-xl max-w-2xl mx-auto leading-relaxed">
+          <h2 className="text-4xl font-extrabold text-primary-foreground tracking-tight text-balance">مستعد لتغيير طريقة عمل عيادتك؟</h2>
+          <p className="text-primary-foreground/80 text-xl max-w-2xl mx-auto leading-relaxed text-balance">
             لا تحتاج لبطاقة ائتمانية. شاهد النظام وهو يعمل بشكل حي في أقل من 5 دقائق.
           </p>
           <div className="flex justify-center pt-4">
             <Link href="/dashboard">
-              <Button size="lg" variant="secondary" className="rounded-full px-10 h-16 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 gap-2">
+              <Button size="lg" variant="secondary" className="rounded-full px-10 h-16 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-colors duration-300 gap-2">
                 ابدأ الآن <ArrowRight className="w-5 h-5 rotate-180" />
               </Button>
             </Link>
@@ -339,6 +340,7 @@ export default function RootPage() {
           </div>
         </div>
       </footer>
+      </main>
     </div>
   );
 }

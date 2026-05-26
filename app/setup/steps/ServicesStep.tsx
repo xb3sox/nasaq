@@ -69,7 +69,7 @@ export default function ServicesStep() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2 md:col-span-3">
                   <Label>اسم الخدمة</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Input
                     placeholder="تنظيف أسنان"
                     value={service.name}
                     onChange={(e) => updateService(service.id, "name", e.target.value)}
@@ -77,7 +77,7 @@ export default function ServicesStep() {
                 </div>
                 <div className="space-y-2">
                   <Label>السعر (ر.س)</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Input
                     type="number"
                     placeholder="250"
                     value={service.price || ""}
@@ -86,7 +86,7 @@ export default function ServicesStep() {
                 </div>
                 <div className="space-y-2">
                   <Label>المدة (بالدقائق)</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Input
                     type="number"
                     placeholder="30"
                     value={service.duration || ""}

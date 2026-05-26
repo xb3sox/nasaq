@@ -52,7 +52,7 @@ export default function DoctorsStep() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>اسم الطبيب</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Input
                     placeholder="د. أحمد محمد"
                     value={doctor.name}
                     onChange={(e) => updateDoctor(doctor.id, "name", e.target.value)}
@@ -60,7 +60,7 @@ export default function DoctorsStep() {
                 </div>
                 <div className="space-y-2">
                   <Label>التخصص</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Input
                     placeholder="طب أسنان عام"
                     value={doctor.specialty}
                     onChange={(e) => updateDoctor(doctor.id, "specialty", e.target.value)}
@@ -68,7 +68,7 @@ export default function DoctorsStep() {
                 </div>
                 <div className="space-y-2 md:col-span-2">
                   <Label>جدول العمل</Label>
-                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                  <Input
                     placeholder="الأحد - الخميس (4م - 10م)"
                     value={doctor.schedule}
                     onChange={(e) => updateDoctor(doctor.id, "schedule", e.target.value)}

@@ -7,7 +7,7 @@ import { LoginForm } from "./login-form";
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4" dir="rtl">
-      <div className="w-full max-w-sm space-y-6">
+      <main id="main-content" className="w-full max-w-sm space-y-6">
         {/* Brand */}
         <div className="flex flex-col items-center gap-3 text-center">
           <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg">
@@ -42,7 +42,7 @@ export default function LoginPage() {
         <p className="text-center text-xs text-muted-foreground">
           © 2026 {BRAND.footer}
         </p>
-      </div>
+      </main>
     </div>
   );
 }

@@ -65,7 +65,7 @@ export default function SetupPage() {
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent -z-10" />
 
-      <div className="w-full max-w-4xl space-y-8">
+      <main id="main-content" className="w-full max-w-4xl space-y-8">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-extrabold tracking-tight">إعداد العيادة الذكية</h1>
           <p className="text-muted-foreground">خطوات بسيطة لتجهيز منصتك</p>
@@ -123,7 +123,7 @@ export default function SetupPage() {
             <CurrentStepComponent />
 
             <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-4 pt-4 border-t">
-              <Button variant="ghost" onClick={handleSkip} className="w-full sm:w-auto text-muted-foreground">
+              <Button variant="ghost" onClick={handleSkip} className="w-full sm:w-auto text-muted-foreground min-h-[44px]">
                 تخطي هذه الخطوة
               </Button>
               <div className="flex gap-3 w-full sm:w-auto">
@@ -131,14 +131,16 @@ export default function SetupPage() {
                   variant="outline" 
                   onClick={handleBack} 
                   disabled={currentStep === 0}
-                  className="w-full sm:w-auto min-h-[40px] sm:min-h-0 sm:h-9"
+                  className="w-full sm:w-auto min-h-[44px] sm:h-9"
+                  aria-label="الخطوة السابقة"
                 >
                   <ArrowRight className="w-4 h-4 me-2" />
                   السابق
                 </Button>
                 <Button 
                   onClick={handleNext} 
-                  className="w-full sm:w-auto min-h-[40px] sm:min-h-0 sm:h-9"
+                  className="w-full sm:w-auto min-h-[44px] sm:h-9"
+                  aria-label={currentStep === STEPS.length - 1 ? "إكمال الإعداد" : "الخطوة التالية"}
                 >
                   {currentStep === STEPS.length - 1 ? "إكمال الإعداد" : "التالي"}
                   {currentStep !== STEPS.length - 1 && <ArrowLeft className="w-4 h-4 ms-2" />}
@@ -147,7 +149,7 @@ export default function SetupPage() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </main>
     </div>
   );
 }

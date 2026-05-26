@@ -71,7 +71,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
           <Link
             href="/setup"
             onClick={onNavClick}
-            className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border border-amber-500/20 mb-4"
+            className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border border-amber-500/20 mb-4"
           >
             <div className="flex items-center gap-3">
               <Settings className="w-4 h-4 shrink-0 text-amber-600" />
@@ -91,7 +91,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
               aria-label={route.name}
               aria-current={isActive ? "page" : undefined}
               className={cn(
-                "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group",
+                "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group",
                 isActive
                   ? "bg-primary/5 text-primary border-e-2 border-primary rounded-e-none"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -153,18 +153,19 @@ export function Sidebar() {
 
       {/* Mobile overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للتنقل">
           {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
             onClick={() => setMobileOpen(false)}
+            aria-hidden="true"
           />
           {/* Drawer: slide in from right (RTL: start-0) */}
           <aside className="fixed start-0 top-0 h-full w-72 bg-card border-e border-border/50 z-50 flex flex-col shadow-2xl transition-transform duration-300 translate-x-0">
             <div className="flex justify-end p-3">
               <button
                 onClick={() => setMobileOpen(false)}
-                className="w-9 h-9 rounded-xl hover:bg-muted flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-xl hover:bg-muted flex items-center justify-center transition-colors focus:ring-2 focus:ring-primary focus:outline-none"
                 aria-label="إغلاق القائمة"
               >
                 <X className="w-5 h-5" />
