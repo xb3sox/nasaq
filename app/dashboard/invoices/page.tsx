@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+
 import {
   Search,
   Plus,
@@ -27,6 +30,44 @@ import { DEMO_INVOICES } from "@/lib/demo-data";
 
 type Invoice = typeof DEMO_INVOICES[number];
 
+
+
+async function generateZatcaPDF(inv: Invoice) {
+  const element = document.getElementById("invoice-modal-content");
+  if (!element) return;
+
+  // Wait for fonts to load and hide buttons
+  const buttons = element.querySelectorAll('button');
+  buttons.forEach(b => b.style.display = 'none');
+
+  try {
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      windowWidth: 800,
+    });
+    
+    buttons.forEach(b => b.style.display = '');
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`invoice-${inv.id}.pdf`);
+  } catch (error) {
+    console.error('PDF generation error:', error);
+    buttons.forEach(b => b.style.display = '');
+  }
+}
+
 function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => void }) {
   const vatRate = 0.15;
   const subtotal = inv.amount;
@@ -37,7 +78,7 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-md" dir="rtl">
         <DialogTitle>فاتورة زكاتية — {inv.id.toUpperCase()}</DialogTitle>
-        <div className="space-y-4 text-sm">
+        <div id="invoice-modal-content" className="space-y-4 text-sm bg-background p-4 rounded-xl">
           {/* Header */}
           <div className="p-4 rounded-xl bg-muted/50 border border-border/40 space-y-1">
             <div className="font-bold text-lg">عيادات النخبة</div>
@@ -103,7 +144,7 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
 
           {/* Actions */}
           <div className="flex gap-2 pt-1">
-            <Button size="sm" className="flex-1">تنزيل PDF</Button>
+            <Button size="sm" className="flex-1" onClick={() => generateZatcaPDF(inv)}>تنزيل PDF</Button>
             <Button size="sm" variant="outline" className="flex-1" onClick={onClose}>إغلاق</Button>
           </div>
         </div>
