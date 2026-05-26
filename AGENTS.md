@@ -16,8 +16,11 @@
 
 ## Architecture
 
+Read `docs/ARCHITECTURE.md` before structural work. Route files stay thin; feature UI belongs in `features/<domain>/`; generic primitives only in `components/ui/`.
+
 ```
-app/          → Next.js App Router (pages + API routes)
+app/          → Next.js App Router (thin route shells + API routes)
+features/     → Domain UI, hooks, view-models, selectors
 lib/          → Business logic (no UI, no framework coupling)
   brand.ts              → Product identity
   clinic-workflow.ts    → Intent detection, booking logic
