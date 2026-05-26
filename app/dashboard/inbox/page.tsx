@@ -295,10 +295,10 @@ export default function InboxPage() {
           {/* Reply Input */}
           <div className="flex gap-2 items-end">
             <div className="flex-1 flex items-center bg-white dark:bg-[#2a3942] rounded-3xl min-h-[44px] px-2 shadow-sm">
-              <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="Add emoji">
+              <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إضافة رمز تعبيري">
                 <Smile className="w-6 h-6" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="Attach file">
+              <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إرفاق ملف">
                 <Paperclip className="w-5 h-5" />
               </Button>
               <Input
@@ -319,7 +319,7 @@ export default function InboxPage() {
                onClick={handleSendReply} 
                disabled={sending || !replyText.trim()} 
                className="h-11 w-11 rounded-full bg-[#00a884] hover:bg-[#058b6f] text-white p-0 flex items-center justify-center shadow-sm shrink-0"
-               aria-label="Send message"
+               aria-label="إرسال"
             >
               {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : sent ? <Check className="w-5 h-5" /> : <Send className="w-5 h-5 rtl:rotate-180 rtl:ms-1" />}
             </Button>
