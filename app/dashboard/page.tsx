@@ -1,9 +1,10 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StatCard } from "@/components/ui/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2, ArrowUpRight, Bell, Inbox, Settings } from "lucide-react";
+import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2, Bell, Inbox, Settings } from "lucide-react";
 import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -168,7 +169,7 @@ export default function DashboardPage() {
   const { isSetupComplete } = useSetupStore();
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-8 relative">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 relative">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-background h-[300px] -z-10 rounded-b-3xl"></div>
 
@@ -203,76 +204,62 @@ export default function DashboardPage() {
       <div className="flex flex-wrap gap-3">
         <Link href="/dashboard/reminders">
           <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
-            <Bell className="w-4 h-4" aria-hidden="true" /> إرسال تذكير
+            <Bell className="w-4 h-4" aria-hidden="true" /> إرسال تذكير جديد
           </Button>
         </Link>
         <Link href="/dashboard/bookings">
           <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
-            <CalendarCheck className="w-4 h-4" aria-hidden="true" /> عرض حجوزات اليوم
+            <CalendarCheck className="w-4 h-4" aria-hidden="true" /> سجل حجوزات اليوم
           </Button>
         </Link>
         <Link href="/dashboard/inbox">
           <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
-            <Inbox className="w-4 h-4" aria-hidden="true" /> فحص صندوق الواتساب
+            <Inbox className="w-4 h-4" aria-hidden="true" /> مراجعة صندوق الوارد
           </Button>
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">حجوزات اليوم</CardTitle>
-            <div className="p-2 bg-primary/10 rounded-lg"><CalendarCheck className="w-4 h-4 text-primary" aria-hidden="true" /></div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{demoReportStats.todayBookings}</div>
-            <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
-              <ArrowUpRight className="w-3 h-3" aria-hidden="true" /> <span>+8% عن أمس</span>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-2">
+        <StatCard
+          title="حجوزات اليوم"
+          value={demoReportStats.todayBookings}
+          icon={CalendarCheck}
+          trend={8}
+          trendLabel="مقارنة بأمس"
+        />
 
-        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">محادثات تحتاج رد</CardTitle>
-            <div className="p-2 bg-destructive/10 rounded-lg"><MessageCircle className="w-4 h-4 text-destructive" aria-hidden="true" /></div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-destructive">{demoReportStats.humanNeeded}</div>
-            <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
-              <span>AI تعامل مع {demoReportStats.aiHandled}</span>
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="محادثات بانتظار الرد"
+          value={demoReportStats.humanNeeded}
+          icon={MessageCircle}
+          description={`تولى الذكاء الاصطناعي الرد على ${demoReportStats.aiHandled}`}
+          valueClassName="text-destructive"
+          iconClassName="text-destructive"
+          iconContainerClassName="bg-destructive/10"
+        />
 
-        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">عملاء جدد</CardTitle>
-            <div className="p-2 bg-blue-500/10 rounded-lg"><Users className="w-4 h-4 text-blue-500" aria-hidden="true" /></div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{demoReportStats.newLeads}</div>
-            <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
-              <ArrowUpRight className="w-3 h-3" aria-hidden="true" /> <span>+15% هذا الأسبوع</span>
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="عملاء جدد"
+          value={demoReportStats.newLeads}
+          icon={Users}
+          trend={15}
+          trendLabel="هذا الأسبوع"
+          iconClassName="text-blue-500"
+          iconContainerClassName="bg-blue-500/10"
+        />
 
-        <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">الإيرادات (الشهر)</CardTitle>
-            <div className="p-2 bg-green-500/10 rounded-lg"><TrendingUp className="w-4 h-4 text-green-500" aria-hidden="true" /></div>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{demoReportStats.monthRevenue.toLocaleString()} ر.س</div>
-            <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
-              <ArrowUpRight className="w-3 h-3" aria-hidden="true" /> <span>+12% عن الشهر الماضي</span>
-            </div>
-          </CardContent>
-        </Card>
+        <StatCard
+          title="إيرادات الشهر"
+          value={`${demoReportStats.monthRevenue.toLocaleString()} ر.س`}
+          icon={TrendingUp}
+          trend={12}
+          trendLabel="مقارنة بالشهر الماضي"
+          iconClassName="text-green-500"
+          iconContainerClassName="bg-green-500/10"
+        />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start pt-2">
         <Card className="xl:col-span-2 shadow-sm">
           <CardHeader className="border-b border-border/50 pb-4">
             <CardTitle className="text-base flex items-center gap-2">
