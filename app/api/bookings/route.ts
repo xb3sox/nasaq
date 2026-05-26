@@ -3,9 +3,19 @@ import { handleCreateBooking } from "@/lib/clinic-api";
 import { DEMO_CLINIC_ID } from "@/lib/demo-clinic";
 import { getSupabaseClinicStore } from "@/lib/supabase-admin";
 import { isUnauthenticatedDemoApiAllowed } from "@/lib/api-guards";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const { allowed } = rateLimit(`bookings-${ip}`, 10, 60 * 1000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'تم تجاوز حد المحاولات. حاول مرة أخرى لاحقاً' },
+        { status: 429 }
+      );
+    }
+
     if (!isUnauthenticatedDemoApiAllowed()) {
       return NextResponse.json({ error: "Authentication is required" }, { status: 401 });
     }

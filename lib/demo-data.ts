@@ -1,34 +1,83 @@
 /**
- * Fake Riyadh clinic seed data for demo.
+ * Fake clinic seed data for demo.
  * Used by dashboard pages and API routes.
  */
 
 export const DEMO_CLINIC_ID = "clinic_elite_riyadh";
 
+// ------------------------------------------------------------------
+// MULTI-CLINIC PROFILES
+// To add a new clinic profile:
+// 1. Add a new object to the DEMO_CLINICS array
+// 2. Give it a unique id, name, branchName, phone, etc.
+// 3. Define its specific doctors and services arrays
+// ------------------------------------------------------------------
+
 export const DEMO_CLINICS = [
   {
-    id: DEMO_CLINIC_ID,
+    id: DEMO_CLINIC_ID, // Default dental clinic
     name: "عيادات النخبة",
     branchName: "الفرع الرئيسي - حي الملقا",
     phone: "+966112345678",
     whatsappNumber: "+966501234567",
     address: "حي الملقا، الرياض، المملكة العربية السعودية",
+    doctors: [
+      { id: "dr-reem", name: "د. ريم السيف", specialty: "طب أسنان عام", available: true },
+      { id: "dr-khalid", name: "د. خالد المحسن", specialty: "تقويم الأسنان", available: true },
+      { id: "dr-sara", name: "د. سارة العتيبي", specialty: "طب أسنان الأطفال", available: false },
+    ],
+    services: [
+      { id: "svc-clean", code: "DENT_CLEAN", name: "تنظيف أسنان", price: 250, currency: "SAR", durationMin: 45 },
+      { id: "svc-checkup", code: "DENT_CHECKUP", name: "فحص أسنان", price: 150, currency: "SAR", durationMin: 30 },
+      { id: "svc-whitening", code: "DENT_WHITENING", name: "تبييض أسنان", price: 800, currency: "SAR", durationMin: 60 },
+      { id: "svc-filling", code: "DENT_FILLING", name: "حشوة أسنان", price: 300, currency: "SAR", durationMin: 30 },
+      { id: "svc-braces", code: "DENT_BRACES", name: "تقويم أسنان", price: 3500, currency: "SAR", durationMin: 45 },
+    ]
   },
+  {
+    id: "clinic_derma_riyadh",
+    name: "عيادات الجلدية",
+    branchName: "فرع التخصصي",
+    phone: "+966113456789",
+    whatsappNumber: "+966503456789",
+    address: "شارع التخصصي، الرياض، المملكة العربية السعودية",
+    doctors: [
+      { id: "dr-nora", name: "د. نورة اليوسف", specialty: "طب الجلدية والتجميل", available: true },
+      { id: "dr-ahmed", name: "د. أحمد طارق", specialty: "علاج الليزر", available: true },
+    ],
+    services: [
+      { id: "svc-laser", code: "DERM_LASER", name: "إزالة الشعر بالليزر", price: 400, currency: "SAR", durationMin: 60 },
+      { id: "svc-botox", code: "DERM_BOTOX", name: "حقن بوتوكس", price: 1200, currency: "SAR", durationMin: 30 },
+      { id: "svc-facial", code: "DERM_FACIAL", name: "تنظيف بشرة عميق", price: 350, currency: "SAR", durationMin: 45 },
+    ]
+  },
+  {
+    id: "clinic_general_riyadh",
+    name: "مركز الرعاية الطبية",
+    branchName: "فرع العليا",
+    phone: "+966114567890",
+    whatsappNumber: "+966504567890",
+    address: "حي العليا، الرياض، المملكة العربية السعودية",
+    doctors: [
+      { id: "dr-faisal", name: "د. فيصل العبدالله", specialty: "طب الأسرة", available: true },
+      { id: "dr-maha", name: "د. مها العتيبي", specialty: "باطنية", available: true },
+    ],
+    services: [
+      { id: "svc-consult", code: "GEN_CONSULT", name: "استشارة طبية", price: 200, currency: "SAR", durationMin: 30 },
+      { id: "svc-blood", code: "GEN_BLOOD", name: "تحليل دم شامل", price: 450, currency: "SAR", durationMin: 15 },
+      { id: "svc-vaccine", code: "GEN_VACCINE", name: "تطعيمات", price: 150, currency: "SAR", durationMin: 15 },
+    ]
+  }
 ];
 
-export const DEMO_DOCTORS = [
-  { id: "dr-reem", name: "د. ريم السيف", specialty: "طب أسنان عام", available: true },
-  { id: "dr-khalid", name: "د. خالد المحسن", specialty: "تقويم الأسنان", available: true },
-  { id: "dr-sara", name: "د. سارة العتيبي", specialty: "طب أسنان الأطفال", available: false },
-];
+export function getDemoClinic(clinicId: string) {
+  const clinic = DEMO_CLINICS.find(c => c.id === clinicId);
+  return clinic || DEMO_CLINICS[0];
+}
 
-export const DEMO_SERVICES = [
-  { id: "svc-clean", code: "DENT_CLEAN", name: "تنظيف أسنان", price: 250, currency: "SAR", durationMin: 45 },
-  { id: "svc-checkup", code: "DENT_CHECKUP", name: "فحص أسنان", price: 150, currency: "SAR", durationMin: 30 },
-  { id: "svc-whitening", code: "DENT_WHITENING", name: "تبييض أسنان", price: 800, currency: "SAR", durationMin: 60 },
-  { id: "svc-filling", code: "DENT_FILLING", name: "حشوة أسنان", price: 300, currency: "SAR", durationMin: 30 },
-  { id: "svc-braces", code: "DENT_BRACES", name: "تقويم أسنان", price: 3500, currency: "SAR", durationMin: 45 },
-];
+// Backward compatibility exports for existing codebase
+export const DEMO_DOCTORS = DEMO_CLINICS[0].doctors;
+export const DEMO_SERVICES = DEMO_CLINICS[0].services;
 
 export const DEMO_CUSTOMERS = [
   { id: "cust-1", name: "نورة المحمد", phone: "+966501234567", leadStatus: "new", tags: ["booking"] },

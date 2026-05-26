@@ -66,7 +66,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
         </button>
       </div>
 
-      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+      <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto" role="navigation" aria-label="القائمة الرئيسية">
         {!isSetupComplete && (
           <Link
             href="/setup"
@@ -88,6 +88,8 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
               key={route.href}
               href={route.href}
               onClick={onNavClick}
+              aria-label={route.name}
+              aria-current={isActive ? "page" : undefined}
               className={cn(
                 "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group",
                 isActive

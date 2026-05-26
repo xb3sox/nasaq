@@ -12,18 +12,18 @@ export default function ClinicInfoStep() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="nameAr">اسم العيادة (بالعربية)</Label>
-          <Input 
-            id="nameAr" 
-            placeholder="مثال: عيادات النخبة" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="nameAr"
+            placeholder="مثال: عيادات النخبة"
             value={clinicInfo.nameAr}
             onChange={(e) => updateClinicInfo({ nameAr: e.target.value })}
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="nameEn">اسم العيادة (بالإنجليزية)</Label>
-          <Input 
-            id="nameEn" 
-            placeholder="e.g. Elite Clinics" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="nameEn"
+            placeholder="e.g. Elite Clinics"
             dir="ltr"
             value={clinicInfo.nameEn}
             onChange={(e) => updateClinicInfo({ nameEn: e.target.value })}
@@ -31,18 +31,18 @@ export default function ClinicInfoStep() {
         </div>
         <div className="space-y-2">
           <Label htmlFor="city">المدينة</Label>
-          <Input 
-            id="city" 
-            placeholder="الرياض" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="city"
+            placeholder="الرياض"
             value={clinicInfo.city}
             onChange={(e) => updateClinicInfo({ city: e.target.value })}
           />
         </div>
         <div className="space-y-2">
           <Label htmlFor="phone">رقم الهاتف</Label>
-          <Input 
-            id="phone" 
-            placeholder="05X XXX XXXX" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="phone"
+            placeholder="05X XXX XXXX"
             dir="ltr"
             value={clinicInfo.phone}
             onChange={(e) => updateClinicInfo({ phone: e.target.value })}
@@ -50,18 +50,18 @@ export default function ClinicInfoStep() {
         </div>
         <div className="space-y-2 md:col-span-2">
           <Label htmlFor="address">العنوان بالتفصيل</Label>
-          <Input 
-            id="address" 
-            placeholder="حي الملقا، طريق الملك فهد" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="address"
+            placeholder="حي الملقا، طريق الملك فهد"
             value={clinicInfo.address}
             onChange={(e) => updateClinicInfo({ address: e.target.value })}
           />
         </div>
         <div className="space-y-2 md:col-span-2">
           <Label htmlFor="workingHours">ساعات العمل</Label>
-          <Input 
-            id="workingHours" 
-            placeholder="من الأحد إلى الخميس، 9 صباحاً - 9 مساءً" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="workingHours"
+            placeholder="من الأحد إلى الخميس، 9 صباحاً - 9 مساءً"
             value={clinicInfo.workingHours}
             onChange={(e) => updateClinicInfo({ workingHours: e.target.value })}
           />

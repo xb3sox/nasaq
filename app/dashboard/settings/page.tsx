@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { Building2, MessageCircle, Bot, Users, Stethoscope, Bell, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
+import { Building2, MessageCircle, Bot, Users, Briefcase, Bell, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
 import type { RuntimeConfigStatus } from "@/lib/runtime-config";
 
 export default function SettingsPage() {
@@ -21,16 +21,16 @@ export default function SettingsPage() {
       <ConfigReadinessPanel />
 
       <Tabs defaultValue="clinic" className="space-y-4">
-        <TabsList className="flex-wrap gap-1 h-auto p-1.5">
-          <TabsTrigger value="clinic" className="gap-1.5 py-2.5"><Building2 className="w-3.5 h-3.5" />العيادة</TabsTrigger>
-          <TabsTrigger value="whatsapp" className="gap-1.5 py-2.5"><MessageCircle className="w-3.5 h-3.5" />واتساب</TabsTrigger>
-          <TabsTrigger value="ai" className="gap-1.5 py-2.5"><Bot className="w-3.5 h-3.5" />الذكاء الاصطناعي</TabsTrigger>
-          <TabsTrigger value="team" className="gap-1.5 py-2.5"><Users className="w-3.5 h-3.5" />الفريق</TabsTrigger>
-          <TabsTrigger value="services" className="gap-1.5 py-2.5"><Stethoscope className="w-3.5 h-3.5" />الخدمات</TabsTrigger>
-          <TabsTrigger value="reminders" className="gap-1.5 py-2.5"><Bell className="w-3.5 h-3.5" />التذكيرات</TabsTrigger>
+        <TabsList className="flex-wrap gap-1 h-auto p-1.5" role="tablist">
+          <TabsTrigger role="tab" aria-selected={true} aria-controls="clinic" id="tab-clinic" value="clinic" className="gap-1.5 py-2.5"><Building2 className="w-3.5 h-3.5" />العيادة</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="whatsapp" id="tab-whatsapp" value="whatsapp" className="gap-1.5 py-2.5"><MessageCircle className="w-3.5 h-3.5" />واتساب</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="ai" id="tab-ai" value="ai" className="gap-1.5 py-2.5"><Bot className="w-3.5 h-3.5" />الذكاء الاصطناعي</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="team" id="tab-team" value="team" className="gap-1.5 py-2.5"><Users className="w-3.5 h-3.5" />الفريق</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="services" id="tab-services" value="services" className="gap-1.5 py-2.5"><Briefcase className="w-3.5 h-3.5" />الخدمات</TabsTrigger>
+          <TabsTrigger role="tab" aria-selected={false} aria-controls="reminders" id="tab-reminders" value="reminders" className="gap-1.5 py-2.5"><Bell className="w-3.5 h-3.5" />التذكيرات</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="clinic">
+        <TabsContent role="tabpanel" id="clinic" aria-labelledby="tab-clinic" value="clinic">
           <Card>
             <CardHeader><CardTitle>معلومات العيادة</CardTitle></CardHeader>
             <CardContent className="space-y-4">
@@ -45,7 +45,7 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="whatsapp">
+        <TabsContent role="tabpanel" id="whatsapp" aria-labelledby="tab-whatsapp" value="whatsapp">
           <Card>
             <CardHeader><CardTitle>إعدادات واتساب Cloud API</CardTitle></CardHeader>
             <CardContent className="space-y-4">
@@ -61,7 +61,7 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="ai">
+        <TabsContent role="tabpanel" id="ai" aria-labelledby="tab-ai" value="ai">
           <Card>
             <CardHeader><CardTitle>إعدادات الذكاء الاصطناعي</CardTitle></CardHeader>
             <CardContent className="space-y-4">
@@ -77,7 +77,7 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="team">
+        <TabsContent role="tabpanel" id="team" aria-labelledby="tab-team" value="team">
           <Card>
             <CardHeader><CardTitle>أعضاء الفريق</CardTitle></CardHeader>
             <CardContent className="space-y-4">
@@ -100,7 +100,7 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="services">
+        <TabsContent role="tabpanel" id="services" aria-labelledby="tab-services" value="services">
           <Card>
             <CardHeader><CardTitle>الخدمات والأسعار</CardTitle></CardHeader>
             <CardContent className="space-y-4">
@@ -123,7 +123,7 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="reminders">
+        <TabsContent role="tabpanel" id="reminders" aria-labelledby="tab-reminders" value="reminders">
           <Card>
             <CardHeader><CardTitle>قوالب التذكيرات</CardTitle></CardHeader>
             <CardContent className="space-y-4">

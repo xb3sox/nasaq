@@ -1,8 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,6 +27,13 @@ async function generateZatcaPDF(inv: Invoice) {
   buttons.forEach(b => b.style.display = 'none');
 
   try {
+    const [html2canvasMod, jsPDFMod] = await Promise.all([
+      import("html2canvas"),
+      import("jspdf")
+    ]);
+    const html2canvas = html2canvasMod.default;
+    const { jsPDF } = jsPDFMod;
+
     const canvas = await html2canvas(element, {
       scale: 2,
       useCORS: true,
@@ -91,14 +96,14 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
             <table className="w-full text-xs">
               <thead>
                 <tr className="bg-muted/50 border-b">
-                  <th className="text-right p-2.5 font-medium">الوصف</th>
-                  <th className="text-left p-2.5 font-medium">السعر</th>
+                  <th className="text-end p-2.5 font-medium">الوصف</th>
+                  <th className="text-start p-2.5 font-medium">السعر</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b">
                   <td className="p-2.5">{inv.serviceName}</td>
-                  <td className="p-2.5 text-left font-mono">{subtotal.toLocaleString()} SAR</td>
+                  <td className="p-2.5 text-start font-mono">{subtotal.toLocaleString()} SAR</td>
                 </tr>
               </tbody>
             </table>
@@ -137,7 +142,7 @@ function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: () => voi
 
           {/* Actions */}
           <div className="flex gap-2 pt-1">
-            <Button size="sm" className="flex-1" onClick={() => generateZatcaPDF(inv)}>تنزيل PDF</Button>
+            <Button size="sm" className="flex-1" onClick={async () => { await generateZatcaPDF(inv); }}>تنزيل PDF</Button>
             <Button size="sm" variant="outline" className="flex-1" onClick={onClose}>إغلاق</Button>
           </div>
         </div>
@@ -342,7 +347,7 @@ export default function InvoicesPage() {
       {/* Invoice Table */}
       <Card className="overflow-hidden border-border/50">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm" role="table" aria-label="الفواتير">
             <thead>
               <tr className="border-b bg-muted/40">
                 <th className="px-5 py-3.5 w-[50px]">
@@ -351,18 +356,18 @@ export default function InvoicesPage() {
                     onCheckedChange={toggleSelectAll} 
                   />
                 </th>
-                <th className="text-right font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("id")}>
+                <th scope="col" aria-sort={sortConfig?.key === "id" ? (sortConfig.direction === "asc" ? "ascending" : "descending") : "none"} className="text-end font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("id")}>
                   <div className="flex items-center gap-1">رقم الفاتورة <ArrowUpDown className="w-3 h-3" /></div>
                 </th>
-                <th className="text-right font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5">العميل</th>
-                <th className="text-right font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5">الخدمة</th>
-                <th className="text-right font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("amount")}>
+                <th scope="col" className="text-end font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5">العميل</th>
+                <th scope="col" className="text-end font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5">الخدمة</th>
+                <th scope="col" aria-sort={sortConfig?.key === "amount" ? (sortConfig.direction === "asc" ? "ascending" : "descending") : "none"} className="text-end font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("amount")}>
                   <div className="flex items-center gap-1">المبلغ (SAR) <ArrowUpDown className="w-3 h-3" /></div>
                 </th>
-                <th className="text-right font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("status")}>
+                <th scope="col" aria-sort={sortConfig?.key === "status" ? (sortConfig.direction === "asc" ? "ascending" : "descending") : "none"} className="text-end font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("status")}>
                   <div className="flex items-center gap-1">الحالة <ArrowUpDown className="w-3 h-3" /></div>
                 </th>
-                <th className="text-right font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("date")}>
+                <th scope="col" aria-sort={sortConfig?.key === "date" ? (sortConfig.direction === "asc" ? "ascending" : "descending") : "none"} className="text-end font-medium text-xs text-muted-foreground uppercase tracking-wider px-5 py-3.5 cursor-pointer hover:bg-muted/60 transition-colors" onClick={() => handleSort("date")}>
                   <div className="flex items-center gap-1">التاريخ <ArrowUpDown className="w-3 h-3" /></div>
                 </th>
                 <th className="w-[50px]"></th>

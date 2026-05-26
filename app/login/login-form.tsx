@@ -24,6 +24,7 @@ export function LoginForm() {
           placeholder="owner@clinic.com"
           dir="ltr"
           autoComplete="email"
+          aria-invalid={errorMessage ? "true" : "false"}
           required
         />
       </div>
@@ -35,14 +36,15 @@ export function LoginForm() {
           type="password"
           placeholder="••••••••"
           autoComplete="current-password"
+          aria-invalid={errorMessage ? "true" : "false"}
           required
         />
       </div>
 
       <div className="rounded-lg bg-muted/60 border border-border/40 p-3 text-xs text-muted-foreground space-y-1">
         <div className="font-medium text-foreground">معلومات الدخول (ديمو)</div>
-        <div dir="ltr" className="text-right font-mono mt-1">owner@clinic.com</div>
-        <div dir="ltr" className="text-right font-mono">demo1234</div>
+        <div dir="ltr" className="text-end font-mono mt-1">owner@clinic.com</div>
+        <div dir="ltr" className="text-end font-mono">demo1234</div>
       </div>
 
       <Button className="w-full" size="lg" type="submit" disabled={isPending}>
@@ -50,7 +52,7 @@ export function LoginForm() {
       </Button>
 
       {errorMessage && (
-        <div className="text-sm text-destructive text-center">
+        <div className="text-sm text-destructive text-center" role="alert">
           {errorMessage === 'Invalid credentials.' ? 'بيانات الدخول غير صحيحة' : 'حدث خطأ ما'}
         </div>
       )}

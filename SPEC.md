@@ -50,12 +50,16 @@ app/dashboard/
   inbox/page.tsx         # Interactive inbox — 3 conversations, send/confirm/handoff
   bookings/page.tsx      # Booking list with status + filters
   crm/page.tsx           # Lead list with source + status
+  setup/steps/           # Setup wizard steps
   reminders/page.tsx     # Reminder queue with status + retry
-  invoices/page.tsx      # Invoice list (stub)
-  reports/page.tsx       # Reports (stub)
+  invoices/page.tsx      # Invoice list
+  reports/page.tsx       # Reports
   settings/page.tsx      # Readiness panel + WhatsApp, AI, clinic settings
 
-tests/                   # 41 passing Node.js test runner tests
+n8n/                     # External automation workflows
+  reminders-sender.json  # Workflow for triggering reminders
+
+tests/                   # 88 passing Node.js test runner tests
   brand.test.ts
   runtime-config.test.ts
   clinic-workflow.test.ts
@@ -69,7 +73,7 @@ tests/                   # 41 passing Node.js test runner tests
 ```
 
 ### Review Gate Results
-- ✅ 48/48 tests passing
+- ✅ 88/88 tests passing
 - ✅ Lint clean
 - ✅ Build clean (no type errors)
 - ✅ Smoke test: `POST /api/messages/send` returns `{ success: true, messageId: "mock-..." }`

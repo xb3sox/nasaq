@@ -22,21 +22,21 @@ export default function WhatsappStep() {
       <div className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="phoneNumberId">Phone Number ID</Label>
-          <Input 
-            id="phoneNumberId" 
-            placeholder="مثال: 123456789012345" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="phoneNumberId"
+            placeholder="مثال: 123456789012345"
             dir="ltr"
             value={whatsapp.phoneNumberId}
             onChange={(e) => updateWhatsapp({ phoneNumberId: e.target.value })}
           />
         </div>
-        
+
         <div className="space-y-2">
           <Label htmlFor="accessToken">Access Token (الرمز الدائم)</Label>
-          <Input 
-            id="accessToken" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="accessToken"
             type="password"
-            placeholder="EAAB..." 
+            placeholder="EAAB..."
             dir="ltr"
             value={whatsapp.accessToken}
             onChange={(e) => updateWhatsapp({ accessToken: e.target.value })}
@@ -45,9 +45,9 @@ export default function WhatsappStep() {
 
         <div className="space-y-2">
           <Label htmlFor="verifyToken">Webhook Verify Token</Label>
-          <Input 
-            id="verifyToken" 
-            placeholder="مثال: my_custom_verify_token" 
+          <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+            id="verifyToken"
+            placeholder="مثال: my_custom_verify_token"
             dir="ltr"
             value={whatsapp.verifyToken}
             onChange={(e) => updateWhatsapp({ verifyToken: e.target.value })}

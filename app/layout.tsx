@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Arabic } from "next/font/google";
 import { BRAND } from "@/lib/brand";
 import "./globals.css";
@@ -23,6 +23,15 @@ export const metadata: Metadata = {
   title: BRAND.metadataTitle,
   description: BRAND.metadataDescription,
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: BRAND.metadataTitle,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0B7D72",
 };
 
 import { PWARegistry } from "@/components/pwa-registry";

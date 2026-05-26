@@ -24,11 +24,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Note: For demo/MVP, we'll check against a mock owner
         // In a real scenario you would check `profiles` and password hashes
-        if (email === "owner@clinic.com" && password === "demo1234") {
-          return { id: "demo-owner-id", name: "Demo Owner", email: "owner@clinic.com" };
+        if (
+          process.env.DEMO_EMAIL &&
+          process.env.DEMO_PASSWORD &&
+          email === process.env.DEMO_EMAIL &&
+          password === process.env.DEMO_PASSWORD
+        ) {
+          return { id: "demo-owner-id", name: "Demo Owner", email: process.env.DEMO_EMAIL };
         }
 
-        return null;
+        return null; // demo mode only
       },
     }),
   ],

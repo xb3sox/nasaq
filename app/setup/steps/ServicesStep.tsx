@@ -54,41 +54,41 @@ export default function ServicesStep() {
           {services.map((service, index) => (
             <div key={service.id} className="p-4 border rounded-xl space-y-4 relative bg-card">
               <div className="absolute top-4 end-4">
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={() => removeService(service.id)}
                   className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 w-8"
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
-              
+
               <h4 className="font-semibold text-sm">خدمة #{index + 1}</h4>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2 md:col-span-3">
                   <Label>اسم الخدمة</Label>
-                  <Input 
-                    placeholder="تنظيف أسنان" 
+                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
+                    placeholder="تنظيف أسنان"
                     value={service.name}
                     onChange={(e) => updateService(service.id, "name", e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label>السعر (ر.س)</Label>
-                  <Input 
+                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
                     type="number"
-                    placeholder="250" 
+                    placeholder="250"
                     value={service.price || ""}
                     onChange={(e) => updateService(service.id, "price", parseFloat(e.target.value) || 0)}
                   />
                 </div>
                 <div className="space-y-2">
                   <Label>المدة (بالدقائق)</Label>
-                  <Input 
+                  <Input aria-label="حقل إدخال" aria-invalid="false" aria-describedby=""
                     type="number"
-                    placeholder="30" 
+                    placeholder="30"
                     value={service.duration || ""}
                     onChange={(e) => updateService(service.id, "duration", parseInt(e.target.value) || 0)}
                   />

@@ -73,7 +73,7 @@ export default function SetupPage() {
 
         {/* Stepper Progress */}
         <div className="relative">
-          <div className="absolute top-1/2 left-4 right-4 h-0.5 bg-border -translate-y-1/2 -z-10 hidden sm:block" />
+          <div className="absolute inset-x-4 top-1/2 h-0.5 -translate-y-1/2 bg-border -z-10 hidden sm:block" />
           <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
             {STEPS.map((step, idx) => {
               const isPast = idx < currentStep;

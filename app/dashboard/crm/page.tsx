@@ -116,7 +116,7 @@ export default function CrmPage() {
                    content={({ active, payload }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="bg-background border rounded shadow-sm text-xs p-2 rtl:text-right">
+                          <div className="bg-background border rounded shadow-sm text-xs p-2 text-end">
                              <div className="font-semibold mb-1">{payload[0].payload.name}</div>
                              <div className="text-muted-foreground">{payload[0].value} عميل</div>
                           </div>

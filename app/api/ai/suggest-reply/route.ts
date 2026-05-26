@@ -1,9 +1,19 @@
 import { NextResponse } from 'next/server';
 import { analyzeClinicMessage } from '@/lib/clinic-workflow';
 import { extractLastMessageContent, isUnauthenticatedDemoApiAllowed } from '@/lib/api-guards';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const { allowed } = rateLimit(`ai-suggest-${ip}`, 20, 60 * 1000);
+    if (!allowed) {
+      return NextResponse.json(
+        { error: 'تم تجاوز حد المحاولات. حاول مرة أخرى لاحقاً' },
+        { status: 429 }
+      );
+    }
+
     if (!isUnauthenticatedDemoApiAllowed()) {
       return NextResponse.json({ error: 'Authentication is required' }, { status: 401 });
     }
