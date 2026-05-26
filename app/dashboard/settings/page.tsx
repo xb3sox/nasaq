@@ -9,8 +9,13 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Building2, MessageCircle, Bot, Users, Briefcase, Bell, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
 import type { RuntimeConfigStatus } from "@/lib/runtime-config";
+import { toast } from "sonner";
 
 export default function SettingsPage() {
+  const handleSave = () => {
+    toast.success("تم حفظ التغييرات بنجاح");
+  };
+
   return (
     <div className="p-6 space-y-6 max-w-4xl">
       <div className="space-y-2">
@@ -35,12 +40,12 @@ export default function SettingsPage() {
             <CardHeader><CardTitle>معلومات العيادة</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2"><Label>اسم العيادة</Label><Input defaultValue="عيادة النور الطبية" /></div>
-                <div className="space-y-2"><Label>رقم الجوال</Label><Input defaultValue="+966500000001" /></div>
-                <div className="space-y-2"><Label>العنوان</Label><Input defaultValue="الرياض، المالقا" /></div>
-                <div className="space-y-2"><Label>العملة</Label><Input defaultValue="SAR" /></div>
+                <div className="space-y-2"><Label htmlFor="clinicName">اسم العيادة</Label><Input id="clinicName" name="clinicName" defaultValue="عيادة النور الطبية" /></div>
+                <div className="space-y-2"><Label htmlFor="phone">رقم الجوال</Label><Input id="phone" name="phone" type="tel" inputMode="numeric" dir="ltr" className="text-start" defaultValue="+966500000001" /></div>
+                <div className="space-y-2"><Label htmlFor="address">العنوان</Label><Input id="address" name="address" defaultValue="الرياض، المالقا" /></div>
+                <div className="space-y-2"><Label htmlFor="currency">العملة</Label><Input id="currency" name="currency" dir="ltr" className="text-start" defaultValue="SAR" /></div>
               </div>
-              <Button>حفظ التغييرات</Button>
+              <Button onClick={handleSave}>حفظ التغييرات</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -49,14 +54,14 @@ export default function SettingsPage() {
           <Card>
             <CardHeader><CardTitle>إعدادات واتساب Cloud API</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2"><Label>WHATSAPP_ACCESS_TOKEN</Label><Input type="password" placeholder="توكن الوصول" /></div>
-              <div className="space-y-2"><Label>WHATSAPP_PHONE_NUMBER_ID</Label><Input placeholder="معرف رقم الهاتف" /></div>
-              <div className="space-y-2"><Label>WHATSAPP_VERIFY_TOKEN</Label><Input placeholder="توكن التحقق" /></div>
+              <div className="space-y-2"><Label htmlFor="wa_token">WHATSAPP_ACCESS_TOKEN</Label><Input id="wa_token" name="wa_token" type="password" dir="ltr" className="text-start" placeholder="توكن الوصول" /></div>
+              <div className="space-y-2"><Label htmlFor="wa_phone_id">WHATSAPP_PHONE_NUMBER_ID</Label><Input id="wa_phone_id" name="wa_phone_id" dir="ltr" className="text-start" placeholder="معرف رقم الهاتف" /></div>
+              <div className="space-y-2"><Label htmlFor="wa_verify">WHATSAPP_VERIFY_TOKEN</Label><Input id="wa_verify" name="wa_verify" dir="ltr" className="text-start" placeholder="توكن التحقق" /></div>
               <div className="flex items-center gap-3">
                 <Switch id="mock-mode" defaultChecked />
-                <Label htmlFor="mock-mode">وضع المحاكاة — يستخدم تلقائياً عند نقص إعدادات واتساب</Label>
+                <Label htmlFor="mock-mode" className="cursor-pointer">وضع المحاكاة — يستخدم تلقائياً عند نقص إعدادات واتساب</Label>
               </div>
-              <Button>حفظ</Button>
+              <Button onClick={handleSave}>حفظ</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -65,14 +70,14 @@ export default function SettingsPage() {
           <Card>
             <CardHeader><CardTitle>إعدادات الذكاء الاصطناعي</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2"><Label>OPENAI_API_KEY</Label><Input type="password" placeholder="مفتاح OpenAI" /></div>
-              <div className="space-y-2"><Label>النموذج المستخدم</Label><Input defaultValue="gpt-4o-mini" /></div>
+              <div className="space-y-2"><Label htmlFor="openai_key">OPENAI_API_KEY</Label><Input id="openai_key" name="openai_key" type="password" dir="ltr" className="text-start" placeholder="مفتاح OpenAI" /></div>
+              <div className="space-y-2"><Label htmlFor="ai_model">النموذج المستخدم</Label><Input id="ai_model" name="ai_model" dir="ltr" className="text-start" defaultValue="gpt-4o-mini" /></div>
               <div className="space-y-4">
-                <div className="flex items-center gap-3"><Switch id="ai-enabled" defaultChecked /><Label htmlFor="ai-enabled">تفعيل الردود التلقائية</Label></div>
-                <div className="flex items-center gap-3"><Switch id="ai-booking" defaultChecked /><Label htmlFor="ai-booking">تفعيل اكتشاف نية الحجز</Label></div>
-                <div className="flex items-center gap-3"><Switch id="ai-escalate" defaultChecked /><Label htmlFor="ai-escalate">تصعيد الحالات الطارئة للموظف</Label></div>
+                <div className="flex items-center gap-3"><Switch id="ai-enabled" defaultChecked /><Label htmlFor="ai-enabled" className="cursor-pointer">تفعيل الردود التلقائية</Label></div>
+                <div className="flex items-center gap-3"><Switch id="ai-booking" defaultChecked /><Label htmlFor="ai-booking" className="cursor-pointer">تفعيل اكتشاف نية الحجز</Label></div>
+                <div className="flex items-center gap-3"><Switch id="ai-escalate" defaultChecked /><Label htmlFor="ai-escalate" className="cursor-pointer">تصعيد الحالات الطارئة للموظف</Label></div>
               </div>
-              <Button>حفظ</Button>
+              <Button onClick={handleSave}>حفظ</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -87,7 +92,7 @@ export default function SettingsPage() {
                 { name: "د. علي الزهراني", role: "طبيب جلدية", email: "ali@alnoor.com" },
                 { name: "سارة الاستقبال", role: "موظفة استقبال", email: "sara@alnoor.com" },
               ].map(m => (
-                <div key={m.email} className="flex items-center justify-between p-3 rounded-lg border">
+                <div key={m.email} className="flex items-center justify-between p-3 rounded-lg border transition-colors hover:border-border">
                   <div>
                     <div className="font-medium">{m.name}</div>
                     <div className="text-xs text-muted-foreground">{m.email} · {m.role}</div>
@@ -110,7 +115,7 @@ export default function SettingsPage() {
                 { name: "قسطرة جلدية", price: "400 ر.س", duration: "60 دقيقة" },
                 { name: "فحص دوري", price: "100 ر.س", duration: "20 دقيقة" },
               ].map(s => (
-                <div key={s.name} className="flex items-center justify-between p-3 rounded-lg border">
+                <div key={s.name} className="flex items-center justify-between p-3 rounded-lg border transition-colors hover:border-border">
                   <div>
                     <div className="font-medium">{s.name}</div>
                     <div className="text-xs text-muted-foreground">{s.duration} · {s.price}</div>
@@ -133,12 +138,12 @@ export default function SettingsPage() {
                 { key: "no_show", label: "متابعة عدم الحضور", message: "مرحباً {{customer_name}}، لاحظنا أنك لم تتمكن من الحضور. هل تود إعادة جدولة موعدك؟" },
                 { key: "post_visit", label: "متابعة بعد الزيارة", message: "مرحباً {{customer_name}}، كيف تشعر بعد زيارتك؟ يسعدنا خدمتك مجدداً." },
               ].map(t => (
-                <div key={t.key} className="space-y-2 p-4 rounded-lg border">
-                  <Label className="font-medium">{t.label}</Label>
-                  <Input defaultValue={t.message} className="text-sm" />
+                <div key={t.key} className="space-y-2 p-4 rounded-lg border transition-colors hover:border-border">
+                  <Label htmlFor={`tpl-${t.key}`} className="font-medium">{t.label}</Label>
+                  <Input id={`tpl-${t.key}`} name={`tpl-${t.key}`} defaultValue={t.message} className="text-sm" />
                 </div>
               ))}
-              <Button>حفظ القوالب</Button>
+              <Button onClick={handleSave}>حفظ القوالب</Button>
             </CardContent>
           </Card>
         </TabsContent>

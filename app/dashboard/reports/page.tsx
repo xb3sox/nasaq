@@ -151,7 +151,7 @@ export default function ReportsPage() {
         />
         <StatCard
           label="إجمالي الإيرادات"
-          value={`${(DEMO_REPORT_STATS.monthRevenue / 1000).toFixed(1)}K`}
+          value={new Intl.NumberFormat('ar-SA', { notation: "compact", compactDisplay: "short" }).format(DEMO_REPORT_STATS.monthRevenue)}
           sub="ريال سعودي"
           icon={DollarSign}
           color="bg-green-50 text-green-600"
@@ -191,7 +191,7 @@ export default function ReportsPage() {
               {DEMO_METRICS.bookings.reduce((a, b) => a + b, 0)} إجمالي
             </Badge>
           </div>
-          <div className="h-64 w-full" dir="ltr">
+          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label={`رسم بياني يوضح حجوزات الفترة بإجمالي ${DEMO_METRICS.bookings.reduce((a, b) => a + b, 0)}`}>
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
@@ -221,7 +221,7 @@ export default function ReportsPage() {
               {DEMO_METRICS.leads.reduce((a, b) => a + b, 0)} إجمالي
             </Badge>
           </div>
-          <div className="h-64 w-full" dir="ltr">
+          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label={`رسم بياني يوضح تفاعل العملاء المحتملين بإجمالي ${DEMO_METRICS.leads.reduce((a, b) => a + b, 0)}`}>
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
@@ -248,7 +248,7 @@ export default function ReportsPage() {
             <h2 className="text-base font-semibold">مصادر الحجوزات</h2>
             <p className="text-xs text-muted-foreground">توزيع القنوات التي يأتي منها العملاء</p>
           </div>
-          <div className="h-64 w-full flex items-center" dir="ltr">
+          <div className="h-64 w-full min-w-0 flex items-center" dir="ltr" role="img" aria-label="رسم بياني دائري يوضح توزيع مصادر الحجوزات (واتساب، انستغرام، جوجل)">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -282,7 +282,7 @@ export default function ReportsPage() {
             <h2 className="text-base font-semibold">قمع التحويل (Funnel)</h2>
             <p className="text-xs text-muted-foreground">من أول رسالة حتى إكمال الموعد</p>
           </div>
-          <div className="h-64 w-full" dir="ltr">
+          <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني شريطي أفقي يوضح قمع التحويل من رسالة أولية إلى إكمال الموعد">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e5e7eb" />

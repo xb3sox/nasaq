@@ -114,7 +114,7 @@ export default function RemindersPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="p-5 lg:col-span-2">
           <h2 className="text-base font-semibold mb-4">ملخص الأسبوع</h2>
-          <div className="h-48 w-full" dir="ltr">
+          <div className="h-48 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني يوضح عدد التذكيرات المرسلة والفاشلة خلال الأسبوع">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
@@ -191,19 +191,19 @@ export default function RemindersPage() {
                           <div className="flex gap-4 items-start md:items-center min-w-0 flex-1">
                             {/* Visual Timeline */}
                             <div className="hidden sm:flex flex-col items-center justify-center min-w-[60px] text-xs text-muted-foreground">
-                              <span>{new Date(reminder.sendAt).toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" })}</span>
+                              <span>{new Intl.DateTimeFormat("ar-SA", { hour: "2-digit", minute: "2-digit" }).format(new Date(reminder.sendAt))}</span>
                               <div className="w-px h-6 bg-border my-1 relative">
-                                <div className={`absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${cfg.dotColor}`}></div>
+                                <div className={`absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full ${cfg.dotColor}`} aria-hidden="true"></div>
                               </div>
-                              <span className="font-medium text-foreground">{reminder.type === "24h_before" ? "24h" : "2h"}</span>
+                              <span className="font-medium text-foreground" aria-label={`تذكير قبل ${reminder.type === "24h_before" ? "24 ساعة" : "ساعتين"}`}>{reminder.type === "24h_before" ? "24h" : "2h"}</span>
                             </div>
 
                             <div className="min-w-0 space-y-1">
                               <div className="flex items-center gap-2">
-                                <User className="w-4 h-4 text-muted-foreground" />
+                                <User className="w-4 h-4 text-muted-foreground shrink-0" />
                                 <span className="font-bold text-base truncate">{reminder.customerName}</span>
-                                <Badge variant="outline" className="gap-1 bg-background">
-                                  <div className={`w-1.5 h-1.5 rounded-full ${cfg.dotColor}`}></div>
+                                <Badge variant="outline" className="gap-1 bg-background shrink-0">
+                                  {cfg.icon && <cfg.icon className="w-3 h-3" />}
                                   {cfg.label}
                                 </Badge>
                               </div>
