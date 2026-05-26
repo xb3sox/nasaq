@@ -69,7 +69,7 @@ tests/                   # 41 passing Node.js test runner tests
 ```
 
 ### Review Gate Results
-- ✅ 43/43 tests passing
+- ✅ 48/48 tests passing
 - ✅ Lint clean
 - ✅ Build clean (no type errors)
 - ✅ Smoke test: `POST /api/messages/send` returns `{ success: true, messageId: "mock-..." }`
@@ -196,3 +196,4 @@ tests/                   # 41 passing Node.js test runner tests
 - v1.2: RTL polish pass merged — import order fix, demoClinic name in header, eslint unused-vars rule, RTL/LTR sidebar/button/dialog/select/sheet/table/tabs components using logical CSS properties (pe/ps/me/ms/inset-x), mobile touch targets (min-h-[40px] sm breakpoint), horizontal scroll fix on dashboard flow card; deployed to production 2026-05-23
 - v1.3: Jules sentinel session applied — invoices ZATCA label fixed, PDF button label corrected, invoice modal open on row click; all previous patches reviewed and consolidated; build + 43 tests verified clean
 - v1.4: Doctor calendar — dynamic slot generation (Sun–Thu, 9AM–5PM), multi-doctor support (3 doctors), double-booking conflict detection, `generateAvailableSlots()` + `hasBookingConflict()`; ZATCA PDF + analytics charts + mobile PWA completed via Jules parallel sessions
+- v1.5: Auth fix — trustHost added to NextAuth config, AUTH_SECRET deployed to Vercel. SPEC test count corrected to 48. CORS origin updated to production URL.
