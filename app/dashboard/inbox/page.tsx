@@ -137,6 +137,9 @@ export default function InboxPage() {
           {DEMO_CONVERSATIONS.map((conv) => (
             <div
               key={conv.id}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if(e.key==="Enter"||e.key===" ") { setSelectedId(conv.id); setBookingConfirmed(false); setHandoffDone(false); setDismissSuggestion(false); } }}
               onClick={() => { setSelectedId(conv.id); setBookingConfirmed(false); setHandoffDone(false); setDismissSuggestion(false); }}
               className={`p-4 border-b cursor-pointer transition-colors ${selectedId === conv.id ? "bg-primary/5 border-s-4 border-s-primary" : "hover:bg-muted/50"}`}
             >
@@ -150,7 +153,7 @@ export default function InboxPage() {
                   {conv.humanNeeded ? (
                     <Badge className="bg-orange-100 text-orange-800 text-xs border-0 gap-1"><div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div> يحتاج موظف</Badge>
                   ) : (
-                    <Badge className="bg-green-100 text-green-800 text-xs border-0 gap-1"><Bot className="w-3 h-3" /> AI {conv.tags[0]}</Badge>
+                    <Badge className="bg-green-100 text-green-800 text-xs border-0 gap-1"><Bot className="w-3 h-3" aria-hidden="true" /> AI {conv.tags[0]}</Badge>
                   )}
                 </div>
                 {/* Unread badge mock */}
@@ -188,13 +191,13 @@ export default function InboxPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button variant="ghost" size="icon" className="h-6 w-6 absolute start-1 top-1/2 -translate-y-1/2" onClick={() => setShowSearch(false)}>
+                <Button aria-label="إغلاق البحث" variant="ghost" size="icon" className="h-6 w-6 min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 md:h-6 md:w-6 absolute start-1 top-1/2 -translate-y-1/2" onClick={() => setShowSearch(false)}>
                   <X className="w-3 h-3" />
                 </Button>
               </div>
             )}
             {!showSearch && (
-              <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={() => setShowSearch(true)}>
+              <Button aria-label="بحث" size="icon" variant="ghost" className="h-8 w-8 min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 md:h-8 md:w-8 text-muted-foreground" onClick={() => setShowSearch(true)}>
                 <Search className="w-4 h-4" />
               </Button>
             )}
@@ -206,7 +209,7 @@ export default function InboxPage() {
                 onClick={handleConfirmBooking}
                 className="min-h-[32px] h-8 text-xs bg-[#25D366] hover:bg-[#1EBE5D] text-white"
               >
-                <CalendarCheck className="w-3 h-3 me-1" />
+                <CalendarCheck className="w-3 h-3 me-1" aria-hidden="true" />
                 تأكيد الحجز
               </Button>
             )}
@@ -215,9 +218,9 @@ export default function InboxPage() {
                 size="sm"
                 variant="outline"
                 onClick={handleHumanHandoff}
-                className="min-h-[32px] h-8 text-xs"
+                className="min-h-[44px] sm:min-h-[32px] h-8 text-xs px-3"
               >
-                <Hand className="w-3 h-3 me-1" />
+                <Hand className="w-3 h-3 me-1" aria-hidden="true" />
                 تحويل لموظف
               </Button>
             )}
@@ -230,7 +233,7 @@ export default function InboxPage() {
           {bookingConfirmed && (
              <div className="flex justify-center mb-4">
                <div className="bg-yellow-100/80 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 text-xs px-3 py-1.5 rounded-lg shadow-sm border border-yellow-200/50 flex items-center gap-1.5">
-                 <CalendarCheck className="w-3.5 h-3.5" />
+                 <CalendarCheck className="w-3.5 h-3.5" aria-hidden="true" />
                  تم تأكيد الحجز: {booking.serviceName} مع {booking.doctorName}
                </div>
              </div>
@@ -239,7 +242,7 @@ export default function InboxPage() {
           {handoffDone && (
              <div className="flex justify-center mb-4">
                <div className="bg-blue-100/80 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1.5 rounded-lg shadow-sm border border-blue-200/50 flex items-center gap-1.5">
-                 <User className="w-3.5 h-3.5" />
+                 <User className="w-3.5 h-3.5" aria-hidden="true" />
                  تم تحويل المحادثة للموظف
                </div>
              </div>
@@ -252,7 +255,7 @@ export default function InboxPage() {
                 key={msg.id}
                 className={msg.sender === "bot" ? "flex justify-end" : "flex justify-start"}
               >
-                <div className={`relative p-2.5 max-w-[85%] sm:max-w-[70%] text-[15px] leading-relaxed shadow-sm ${
+                <div className={`relative p-2.5 max-w-[85%] sm:max-w-[70%] text-[15px] leading-relaxed shadow-sm min-w-0 break-words ${
                   msg.sender === "bot"
                     ? "bg-[#D9FDD3] dark:bg-[#005C4B] text-foreground rounded-2xl rounded-tr-sm rtl:rounded-tl-sm rtl:rounded-tr-2xl"
                     : "bg-white dark:bg-[#202C33] text-foreground rounded-2xl rounded-tl-sm rtl:rounded-tr-sm rtl:rounded-tl-2xl border dark:border-white/5"
@@ -260,7 +263,7 @@ export default function InboxPage() {
                   <div className={isHighlighted ? "bg-yellow-200 dark:bg-yellow-800" : ""}>{msg.body}</div>
                   <div className={`text-[10px] flex items-center gap-1 mt-1 justify-end ${msg.sender === "bot" ? "text-green-800/60 dark:text-green-200/50" : "text-muted-foreground"}`}>
                     10:42 ص
-                    {msg.sender === "bot" && <Check className="w-3 h-3 text-[#53bdeb] dark:text-[#53bdeb]" />}
+                    {msg.sender === "bot" && <Check className="w-3 h-3 text-[#53bdeb] dark:text-[#53bdeb]" aria-hidden="true" />}
                   </div>
                 </div>
               </div>
@@ -282,10 +285,10 @@ export default function InboxPage() {
         <div className="shrink-0 border-t bg-[#f0f2f5] dark:bg-[#202c33] p-3 flex flex-col gap-2">
           {!dismissSuggestion && (
             <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-xl p-2 px-3 shadow-sm text-sm">
-              <Bot className="w-4 h-4 text-primary shrink-0" />
+              <Bot className="w-4 h-4 text-primary shrink-0" aria-hidden="true" />
               <div className="flex-1 truncate text-primary/80">اقتراح: {ai.reply}</div>
               <Button size="sm" variant="ghost" className="h-7 text-xs text-primary hover:bg-primary/20 hover:text-primary px-2" onClick={() => setReplyText(ai.reply)}>استخدام</Button>
-              <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground" onClick={() => setDismissSuggestion(true)}><X className="w-3.5 h-3.5" /></Button>
+              <Button aria-label="رفض الاقتراح" size="icon" variant="ghost" className="h-7 w-7 min-h-[44px] min-w-[44px] md:min-h-0 md:min-w-0 md:h-7 md:w-7 text-muted-foreground" onClick={() => setDismissSuggestion(true)}><X className="w-3.5 h-3.5" /></Button>
             </div>
           )}
 
@@ -305,11 +308,13 @@ export default function InboxPage() {
               onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSendReply()}
             />
             <Button 
+               aria-live="polite"
                onClick={handleSendReply} 
                disabled={sending || !replyText.trim()} 
                className="min-h-[44px] min-w-[44px] rounded-full bg-[#00a884] hover:bg-[#058b6f] text-white p-0 flex items-center justify-center shadow-sm"
             >
-              {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : sent ? <Check className="w-5 h-5" /> : <Send className="w-5 h-5 rtl:rotate-180 rtl:me-1" />}
+              <span className="sr-only">{sending ? "جاري الإرسال" : sent ? "تم الإرسال" : "إرسال"}</span>
+              {sending ? <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" /> : sent ? <Check className="w-5 h-5" aria-hidden="true" /> : <Send className="w-5 h-5 rtl:rotate-180 rtl:me-1" aria-hidden="true" />}
             </Button>
           </div>
         </div>

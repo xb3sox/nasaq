@@ -56,15 +56,17 @@ function LiveDemoRunner() {
             size="sm"
             onClick={runDemo}
             disabled={running}
-            className="gap-1.5 min-h-[40px] sm:min-h-0 sm:h-8 text-xs"
+            aria-live="polite"
+            className="gap-1.5 min-h-[44px] sm:min-h-0 sm:h-8 text-xs px-3 focus-visible:ring-2 focus-visible:ring-offset-1"
           >
+            <span className="sr-only">{running ? "جاري التشغيل" : allDone ? "إعادة التشغيل" : "تشغيل العرض الحي"}</span>
             {running
-              ? <Loader2 className="w-3 h-3 animate-spin" />
+              ? <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" />
               : allDone
-              ? <CheckCircle2 className="w-3 h-3" />
-              : <Play className="w-3 h-3" />
+              ? <CheckCircle2 className="w-3 h-3" aria-hidden="true" />
+              : <Play className="w-3 h-3" aria-hidden="true" />
             }
-            {running ? "جاري…" : allDone ? "إعادة" : "تشغيل"}
+            <span aria-hidden="true">{running ? "جاري…" : allDone ? "إعادة" : "تشغيل"}</span>
           </Button>
         </div>
       </CardHeader>
@@ -91,7 +93,7 @@ function LiveDemoRunner() {
                   ? "bg-primary text-primary-foreground ring-4 ring-primary/20" 
                   : "bg-muted text-muted-foreground"
               }`}>
-                {step.done ? <CheckCircle2 className="w-3.5 h-3.5" /> : step.active ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : i + 1}
+                {step.done ? <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" /> : step.active ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : i + 1}
               </div>
               <div className="flex-1 min-w-0">
                 <div className={`font-medium truncate transition-colors duration-300 ${step.active ? "text-primary" : step.done ? "text-green-700 dark:text-green-400" : "text-muted-foreground"}`}>{step.label}</div>
@@ -102,7 +104,7 @@ function LiveDemoRunner() {
         </div>
         {allDone && (
           <div className="mt-4 text-xs text-center text-green-600 font-medium animate-fade-slide-up bg-green-50 dark:bg-green-900/20 p-2 rounded-md border border-green-200 dark:border-green-900 flex items-center justify-center gap-1.5">
-            <CheckCircle2 className="w-4 h-4" /> تم المسار بالكامل — العميل تلقى رداً، حجزاً، وتذكيرين
+            <CheckCircle2 className="w-4 h-4" aria-hidden="true" /> تم المسار بالكامل — العميل تلقى رداً، حجزاً، وتذكيرين
           </div>
         )}
       </CardContent>
@@ -130,7 +132,7 @@ function RiyadhClock() {
   if (!mounted) {
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium bg-background/50 px-3 py-1.5 rounded-full border shadow-sm w-fit">
-        <Clock className="w-4 h-4 text-primary" />
+        <Clock className="w-4 h-4 text-primary" aria-hidden="true" />
         <span dir="ltr">--:--:--</span>
         <span className="hidden sm:inline text-muted-foreground/60">| </span>
       </div>
@@ -155,7 +157,7 @@ function RiyadhClock() {
 
   return (
     <div className="flex items-center gap-2 text-sm text-foreground font-medium bg-background/80 backdrop-blur-sm px-3 py-1.5 rounded-full border shadow-sm w-fit" suppressHydrationWarning>
-      <Clock className="w-4 h-4 text-primary" />
+      <Clock className="w-4 h-4 text-primary" aria-hidden="true" />
       <span dir="ltr" suppressHydrationWarning className="font-semibold">{riyadh}</span>
       <span className="hidden sm:inline text-muted-foreground" suppressHydrationWarning>| {date}</span>
     </div>
@@ -193,25 +195,25 @@ export default function DashboardPage() {
           <RiyadhClock />
         </div>
         <Badge className="badge-demo-ready text-green-800 border-green-300 bg-green-100 shadow-sm px-3 py-1 text-sm font-medium">
-          <CheckCircle2 className="w-4 h-4 me-1.5 inline" /> نظام ديمو جاهز
+          <CheckCircle2 className="w-4 h-4 me-1.5 inline" aria-hidden="true" /> نظام ديمو جاهز
         </Badge>
       </div>
 
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-3">
         <Link href="/dashboard/reminders">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[40px] sm:min-h-0 sm:h-9">
-            <Bell className="w-4 h-4" /> إرسال تذكير
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+            <Bell className="w-4 h-4" aria-hidden="true" /> إرسال تذكير
           </Button>
         </Link>
         <Link href="/dashboard/bookings">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[40px] sm:min-h-0 sm:h-9">
-            <CalendarCheck className="w-4 h-4" /> عرض حجوزات اليوم
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+            <CalendarCheck className="w-4 h-4" aria-hidden="true" /> عرض حجوزات اليوم
           </Button>
         </Link>
         <Link href="/dashboard/inbox">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[40px] sm:min-h-0 sm:h-9">
-            <Inbox className="w-4 h-4" /> فحص صندوق الواتساب
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+            <Inbox className="w-4 h-4" aria-hidden="true" /> فحص صندوق الواتساب
           </Button>
         </Link>
       </div>
@@ -220,12 +222,12 @@ export default function DashboardPage() {
         <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">حجوزات اليوم</CardTitle>
-            <div className="p-2 bg-primary/10 rounded-lg"><CalendarCheck className="w-4 h-4 text-primary" /></div>
+            <div className="p-2 bg-primary/10 rounded-lg"><CalendarCheck className="w-4 h-4 text-primary" aria-hidden="true" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{demoReportStats.todayBookings}</div>
             <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
-              <ArrowUpRight className="w-3 h-3" /> <span>+8% عن أمس</span>
+              <ArrowUpRight className="w-3 h-3" aria-hidden="true" /> <span>+8% عن أمس</span>
             </div>
           </CardContent>
         </Card>
@@ -233,7 +235,7 @@ export default function DashboardPage() {
         <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">محادثات تحتاج رد</CardTitle>
-            <div className="p-2 bg-destructive/10 rounded-lg"><MessageCircle className="w-4 h-4 text-destructive" /></div>
+            <div className="p-2 bg-destructive/10 rounded-lg"><MessageCircle className="w-4 h-4 text-destructive" aria-hidden="true" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-destructive">{demoReportStats.humanNeeded}</div>
@@ -246,12 +248,12 @@ export default function DashboardPage() {
         <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">عملاء جدد</CardTitle>
-            <div className="p-2 bg-blue-500/10 rounded-lg"><Users className="w-4 h-4 text-blue-500" /></div>
+            <div className="p-2 bg-blue-500/10 rounded-lg"><Users className="w-4 h-4 text-blue-500" aria-hidden="true" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{demoReportStats.newLeads}</div>
             <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
-              <ArrowUpRight className="w-3 h-3" /> <span>+15% هذا الأسبوع</span>
+              <ArrowUpRight className="w-3 h-3" aria-hidden="true" /> <span>+15% هذا الأسبوع</span>
             </div>
           </CardContent>
         </Card>
@@ -259,12 +261,12 @@ export default function DashboardPage() {
         <Card className="card-hover-lift shadow-sm hover:shadow-md transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">الإيرادات (الشهر)</CardTitle>
-            <div className="p-2 bg-green-500/10 rounded-lg"><TrendingUp className="w-4 h-4 text-green-500" /></div>
+            <div className="p-2 bg-green-500/10 rounded-lg"><TrendingUp className="w-4 h-4 text-green-500" aria-hidden="true" /></div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{demoReportStats.monthRevenue.toLocaleString()} ر.س</div>
             <div className="flex items-center gap-1 mt-1 text-xs text-green-600 font-medium">
-              <ArrowUpRight className="w-3 h-3" /> <span>+12% عن الشهر الماضي</span>
+              <ArrowUpRight className="w-3 h-3" aria-hidden="true" /> <span>+12% عن الشهر الماضي</span>
             </div>
           </CardContent>
         </Card>
@@ -274,7 +276,7 @@ export default function DashboardPage() {
         <Card className="xl:col-span-2 shadow-sm">
           <CardHeader className="border-b border-border/50 pb-4">
             <CardTitle className="text-base flex items-center gap-2">
-              <MessageCircle className="w-5 h-5 text-primary" /> آخر مسار حجز من واتساب
+              <MessageCircle className="w-5 h-5 text-primary" aria-hidden="true" /> آخر مسار حجز من واتساب
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -291,7 +293,7 @@ export default function DashboardPage() {
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-4 group">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 border-background shadow-sm ${item.bg}`}>
-                    <item.icon className={`w-4 h-4 ${item.color}`} />
+                    <item.icon className={`w-4 h-4 ${item.color}`} aria-hidden="true" />
                   </div>
                   <div className="flex-1 bg-muted/30 border border-border/50 rounded-xl p-4 group-hover:bg-muted/50 transition-colors">
                     <div className="text-xs font-semibold text-muted-foreground mb-1.5">{item.label}</div>

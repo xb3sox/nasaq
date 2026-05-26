@@ -156,7 +156,7 @@ export default function CrmPage() {
           />
         </div>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? "all")}>
-          <SelectTrigger className="w-[140px] h-9 border-border/50">
+          <SelectTrigger className="w-[140px] min-h-[44px] sm:min-h-0 sm:h-9 border-border/50">
             <SelectValue placeholder="الحالة" />
           </SelectTrigger>
           <SelectContent>
@@ -167,7 +167,7 @@ export default function CrmPage() {
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v ?? "all")}>
-          <SelectTrigger className="w-[140px] h-9 border-border/50">
+          <SelectTrigger className="w-[140px] min-h-[44px] sm:min-h-0 sm:h-9 border-border/50">
             <SelectValue placeholder="المصدر" />
           </SelectTrigger>
           <SelectContent>
@@ -183,20 +183,24 @@ export default function CrmPage() {
         </span>
         <div className="flex bg-muted rounded-lg p-0.5 border">
           <Button 
+            aria-label="عرض كقائمة"
+            aria-pressed={view === "list"}
             variant={view === "list" ? "secondary" : "ghost"} 
             size="sm" 
-            className="h-8 px-2"
+            className="h-8 px-2 min-h-[44px] sm:min-h-0"
             onClick={() => setView("list")}
           >
-            <LayoutList className="w-4 h-4" />
+            <LayoutList className="w-4 h-4" aria-hidden="true" />
           </Button>
           <Button 
+            aria-label="عرض كلوحة"
+            aria-pressed={view === "kanban"}
             variant={view === "kanban" ? "secondary" : "ghost"} 
             size="sm" 
-            className="h-8 px-2"
+            className="h-8 px-2 min-h-[44px] sm:min-h-0"
             onClick={() => setView("kanban")}
           >
-            <KanbanSquare className="w-4 h-4" />
+            <KanbanSquare className="w-4 h-4" aria-hidden="true" />
           </Button>
         </div>
       </div>
@@ -205,13 +209,13 @@ export default function CrmPage() {
       {filtered.length === 0 ? (
         <Card className="p-16 flex flex-col items-center gap-4 text-muted-foreground bg-muted/20 border-dashed">
           <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-2">
-            <UserX className="w-8 h-8 text-muted-foreground/60" />
+            <UserX className="w-8 h-8 text-muted-foreground/60" aria-hidden="true" />
           </div>
           <div className="text-center space-y-1">
              <h3 className="font-medium text-foreground">لا يوجد عملاء مطابقون</h3>
              <p className="text-sm">قم بإضافة عميل جديد أو غير كلمات البحث.</p>
           </div>
-          <Button className="mt-2"><Plus className="w-4 h-4 me-2" /> أضف عميل جديد</Button>
+          <Button className="mt-2"><Plus className="w-4 h-4 me-2" aria-hidden="true" /> أضف عميل جديد</Button>
         </Card>
       ) : view === "list" ? (
         <div className="grid gap-3">
@@ -233,7 +237,7 @@ export default function CrmPage() {
                     <div className="min-w-0 space-y-1">
                       <div className="font-bold truncate text-base">{lead.name}</div>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-                        <span className="flex items-center gap-1 bg-muted px-2 py-0.5 rounded-md font-mono text-foreground/80"><Phone className="w-3 h-3" /> {lead.phone}</span>
+                        <span className="flex items-center gap-1 bg-muted px-2 py-0.5 rounded-md font-mono text-foreground/80"><Phone className="w-3 h-3" aria-hidden="true" /> {lead.phone}</span>
                         <span className="text-border">·</span>
                         <span>آخر نشاط: منذ ساعتين</span>
                         <span className="text-border hidden sm:inline">·</span>
@@ -243,7 +247,7 @@ export default function CrmPage() {
                   </div>
                   <div className="flex gap-2 items-center shrink-0">
                     <Badge variant="outline" className={`text-xs gap-1 hidden sm:flex ${sourceColorClass}`}>
-                      <SourceIcon className="w-3 h-3" />
+                      <SourceIcon className="w-3 h-3" aria-hidden="true" />
                       {lead.source}
                     </Badge>
                     <Badge className={STATUS_COLORS[lead.status] ?? "bg-muted text-muted-foreground"}>
@@ -251,14 +255,14 @@ export default function CrmPage() {
                     </Badge>
                     
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ms-2">
-                       <Button size="icon" variant="ghost" className="h-8 w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 rounded-full" title="مراسلة عبر واتساب">
-                         <MessageCircle className="w-4 h-4" />
+                       <Button aria-label="مراسلة عبر واتساب" size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 rounded-full" title="مراسلة عبر واتساب">
+                         <MessageCircle className="w-4 h-4" aria-hidden="true" />
                        </Button>
-                       <Button size="icon" variant="ghost" className="h-8 w-8 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-full" title="اتصال">
-                         <Phone className="w-4 h-4" />
+                       <Button aria-label="اتصال" size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-full" title="اتصال">
+                         <Phone className="w-4 h-4" aria-hidden="true" />
                        </Button>
-                       <Button size="icon" variant="ghost" className="h-8 w-8 text-primary hover:text-primary hover:bg-primary/10 rounded-full" title="حجز موعد">
-                         <CalendarCheck className="w-4 h-4" />
+                       <Button aria-label="حجز موعد" size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-primary hover:text-primary hover:bg-primary/10 rounded-full" title="حجز موعد">
+                         <CalendarCheck className="w-4 h-4" aria-hidden="true" />
                        </Button>
                     </div>
                   </div>
@@ -308,20 +312,20 @@ export default function CrmPage() {
                                        </div>
                                        <div className="font-semibold text-sm truncate max-w-[120px]">{lead.name}</div>
                                      </div>
-                                     <SourceIcon className="w-3.5 h-3.5 text-muted-foreground" />
+                                     <SourceIcon className="w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
                                   </div>
                                   <div className="text-xs text-muted-foreground font-mono bg-muted/50 p-1 rounded px-2 w-fit">
                                      {lead.phone}
                                   </div>
                                   <div className="flex gap-1 pt-1 opacity-0 group-hover:opacity-100 transition-opacity justify-end border-t border-border/50">
-                                    <Button size="icon" variant="ghost" className="h-7 w-7 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 rounded-full">
-                                      <MessageCircle className="w-3.5 h-3.5" />
+                                    <Button aria-label="مراسلة عبر واتساب" size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-7 sm:w-7 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 rounded-full">
+                                      <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
                                     </Button>
-                                    <Button size="icon" variant="ghost" className="h-7 w-7 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-full">
-                                      <Phone className="w-3.5 h-3.5" />
+                                    <Button aria-label="اتصال" size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-7 sm:w-7 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-full">
+                                      <Phone className="w-3.5 h-3.5" aria-hidden="true" />
                                     </Button>
-                                    <Button size="icon" variant="ghost" className="h-7 w-7 text-primary hover:text-primary hover:bg-primary/10 rounded-full">
-                                      <CalendarCheck className="w-3.5 h-3.5" />
+                                    <Button aria-label="حجز موعد" size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-7 sm:w-7 text-primary hover:text-primary hover:bg-primary/10 rounded-full">
+                                      <CalendarCheck className="w-3.5 h-3.5" aria-hidden="true" />
                                     </Button>
                                   </div>
                                </Card>
