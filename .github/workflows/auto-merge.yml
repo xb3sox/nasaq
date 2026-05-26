@@ -4,7 +4,7 @@ on:
   check_suite:
     types: [completed]
   workflow_run:
-    workflows: ["CI"]
+    workflows: ["Clinic AI OS CI"]
     types: [completed]
 
 jobs:
