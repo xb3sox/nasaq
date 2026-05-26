@@ -1,243 +1,74 @@
-# AGENTS.md - Your Workspace
+# Nasaq — Agent Rules
 
-This folder is home. Runtime context is source of truth unless missing, stale, or contradicted.
+**Product:** Nasaq / نسق — Arabic-first AI clinic flow for Riyadh clinics.
+**Flow:** WhatsApp → AI → Booking → Reminders → CRM → Reports.
 
-## Starter Preference
+## Stack
 
-- Prefer TurboStarter as the default starter for future product projects when it fits the request.
-- Treat TurboStarter as the first option for web apps, mobile apps, browser extensions, SaaS products, dashboards, admin panels, client portals, and AI-enabled products that benefit from shared auth, billing, API, database, and multi-platform structure.
-- If the project is intentionally small, static, highly custom, or a poor fit for TurboStarter's stack, say so plainly and choose a lighter setup instead of forcing it.
-- When using TurboStarter, favor the smallest viable starting surface and remove unneeded modules early.
+- **Runtime:** Node 24+, Next.js 15.5, React 19, TypeScript 5
+- **UI:** Tailwind 4, shadcn/ui, Arabic RTL (CSS logical properties: ps/pe/ms/me)
+- **DB:** Supabase Postgres + RLS (adapter pattern — mock in demo, Supabase in prod)
+- **API:** WhatsApp Meta Cloud API (official, no scraping)
+- **AI:** Deterministic (demo) → OpenAI / Gemini (prod), provider-swappable via env
+- **Auth:** NextAuth v5 beta, credentials provider, Supabase-backed (stubbed for demo)
+- **CI/CD:** GitHub Actions → Vercel
+- **Automation:** n8n workflows (reminders, CRM sync)
 
-## Startup
+## Architecture
 
-If `BOOTSTRAP.md` exists, follow it once, then delete it. Do not reread startup files unless the user asks, runtime context is missing, or deeper context is needed.
+```
+app/          → Next.js App Router (pages + API routes)
+lib/          → Business logic (no UI, no framework coupling)
+  brand.ts              → Product identity
+  clinic-workflow.ts    → Intent detection, booking logic
+  clinic-persistence.ts → Store interface (10 ops)
+  clinic-api.ts         → Webhook + booking + send handlers
+  supabase-store.ts     → Supabase adapter
+  supabase-admin.ts     → Service-role client
+  ai-provider.ts        → Deterministic / OpenAI / Gemini
+  whatsapp-send.ts      → Mock + Cloud API sender
+  api-guards.ts         → Webhook validation, demo API gates
+  runtime-config.ts     → Safe readiness flags (never exposes secrets)
+  demo-data.ts          → Typed seed data
+components/   → shadcn/ui (RTL-aware)
+tests/        → Node.js test runner (43 tests), no framework
+supabase/     → Migrations + seed
+n8n/          → Workflow JSONs
+```
 
-## Memory
+## Commands
 
-Continuity files:
+```bash
+npm install        # install deps
+npm run dev        # start dev server (port 3001)
+npm test           # run all tests
+npm run lint       # eslint
+npm run build      # production build
+```
 
-- `memory/YYYY-MM-DD.md` = raw daily notes
-- `MEMORY.md` = concise durable memory
+## Conventions
 
-Capture decisions and useful context. Skip secrets unless asked.
-
-### MEMORY.md
-
-- Load only in main direct sessions.
-- Do not load in shared contexts.
-- Read/edit only when it materially improves continuity.
-
-### Write It Down
-
-- "Remember this" → write `memory/YYYY-MM-DD.md` or relevant file.
-- Lessons → update `AGENTS.md`, `TOOLS.md`, or relevant skill.
-- Mistakes → document the fix so it does not repeat.
+- **Arabic-first:** All user-facing text in Arabic. Code/comments in English.
+- **Demo mode:** Runs without credentials. `MOCK_MODE` and `ENABLE_UNAUTHENTICATED_DEMO_API` control gates.
+- **Secrets:** Never in code. Runtime config exposes status flags only — never values.
+- **No medical advice:** AI routes symptoms to human. Compliant with Saudi regulations.
+- **RTL:** Use CSS logical properties (`padding-inline-start`, not `padding-left`). Test in Arabic.
+- **Store pattern:** `ClinicStore` interface → mock or Supabase adapter. Tests use mocks.
+- **Branch naming:** `sabi/*` for features, `jules/*` for fixes, prefix with agent name.
 
 ## Red Lines
 
-- Don't exfiltrate private data. Ever.
-- Don't run destructive commands without asking.
-- `trash` > `rm` (recoverable beats gone forever)
-- When in doubt, ask.
+- Never call WhatsApp Web / unofficial APIs — Meta Cloud API only.
+- Never log or expose WhatsApp tokens, Supabase keys, or patient data.
+- Never deploy to main without Beso review.
+- Never skip tests. Run `npm test` before every push.
+- Auth changes must pass `npm run build` (NextAuth Edge Runtime compat).
 
-## External vs Internal
+## Agent Workflow
 
-**Safe to do freely:**
-
-- Read files, explore, organize, learn
-- Read-only external lookup when it does not expose private data
-- Check calendars when the request or heartbeat rules call for it
-- Work within this workspace
-
-**Ask first:**
-
-- Sending emails, tweets, public posts
-- Spending money, changing accounts, publishing, or speaking for Basem
-- Sharing private context with people, services, agents, or public systems
-- Anything you're uncertain about
-
-## Group Chats
-
-Use Basem's context without leaking it. In groups, be a participant, not his voice or proxy.
-
-### Speak When Useful
-
-Respond when useful:
-
-- Directly mentioned or asked.
-- You can add real value: info, insight, help, correction, summary.
-- A brief joke fits naturally.
-
-Stay silent (`HEARTBEAT_OK`) when:
-
-- It's just casual banter between humans
-- Someone already answered the question
-- Your response would just be "yeah" or "nice"
-- The conversation is flowing fine without you
-- Adding a message would interrupt the vibe
-
-Avoid fragment spam. Use one natural reaction when acknowledgement is enough.
-
-## Tools
-
-Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
-
-**Voice Storytelling:** If `sag` (ElevenLabs TTS) is available, use voice for stories, movie summaries, and storytime moments.
-
-**Platform Formatting:**
-
-- **Discord/WhatsApp:** No markdown tables! Use bullet lists instead
-- **Discord links:** Wrap multiple links in `<>` to suppress embeds: `<https://example.com>`
-- **WhatsApp:** No headers — use **bold** or CAPS for emphasis
-
-## Heartbeats
-
-- `HEARTBEAT.md` owns heartbeat behavior, scheduled checks, and maintenance prompts.
-- Keep heartbeat rules there, not duplicated here.
-
-## Context Hygiene
-
-- Keep one source of truth per topic:
-  - `SOUL.md` = voice
-  - `IDENTITY.md` = compact identity metadata
-  - `USER.md` = Basem facts/goals
-  - `TOOLS.md` = tools/infra
-  - `MEMORY.md` = distilled long-term memory
-  - `COMMAND_CENTER.md` = active priorities, products, CRM, weekly review
-  - `FINANCE.md` = private finance ledger
-  - `AGENTS.md` = workspace operating rules
-- Avoid creating new context files unless Basem asks or a topic becomes too large for an existing source.
-- Use `/context list` or equivalent when auditing token overhead.
-- Trim duplicate generic rules before trimming useful personal or project context.
-
-## Sabi — Your Builder
-
-Sabi is Basem's Hermes agent (`~/.hermes/`). Sabi owns multi-step feature implementation, deploys, and Kanban-tracked work.
-
-Use Sabi when the decision tree says so (multi-step feature, durable work, Kanban needed). For quick fixes or async tasks, prefer Jules or OpenCode.
-
-When delegating to Sabi:
-
-```
-/acp spawn hermes --bind here --message "Caveman mode: terse, no fluff, direct output, no long explanation. Goal + constraints. Don't explain — just do it."
-```
-
-Beso may work directly for: strategy, research, user communication, financial/business judgment, workspace context edits, tiny local fixes, simple read-only terminal checks, or verification after an agent returns.
-
-Context diet: send only file paths, error messages, acceptance criteria, test commands. Never send `USER.md`, `MEMORY.md`, `FINANCE.md`, or full session history. Sabi has her own memory. Ask for results and summaries only.
-
-Beso owns: final review, approval gates, git merges to main, destructive actions, and shared context files.
-
----
-
-## Multi-Agent Routing
-
-### The Stack
-
-```
-Basem (decisions, approvals, direction)
-    ↕
-Beso (orchestrator — Telegram, context, review gate)
-    ├── Jules          → async GitHub (parallel, branch-based)
-    ├── Sabi/Hermes    → durable ACP build work (Kanban, multi-step)
-    ├── Claude Code    → deep local refactors (full codebase context)
-    ├── OpenCode       → fast local implementations
-    ├── Codex          → async OpenAI coding (ACP)
-    ├── Cursor         → IDE-bound inline/background (on-demand)
-    └── Antigravity    → local visual/component-level work
-```
-
-### Decision Tree — Which Agent Gets the Task?
-
-```
-Is it async-safe? (bounded scope, has tests, no judgment needed)
-  YES → Jules remote new --parallel 3 (non-blocking)
-  NO  → Needs deep reasoning or full-repo context?
-          YES → Claude Code local (exec pty, full context)
-          NO  → Quick single-file fix?
-                  YES → OpenCode local (exec pty, fast)
-                  NO  → Multi-step feature needing Kanban?
-                          YES → Sabi/Hermes ACP
-                          NO  → Basem is in IDE? → Cursor / Antigravity
-```
-
-### Agent Profiles
-
-| Agent | Mode | Best For | Rule |
-|-------|------|----------|------|
-| **Jules** | Async remote | Bug hunts, tests, polish, refactors | Always branch, never main |
-| **Sabi/Hermes** | ACP durable | Multi-step features, deploys, Kanban | Owns product impl |
-| **Claude Code** | Local pty | Architecture, complex multi-file changes | Full codebase context |
-| **OpenCode** | Local pty | Fast fixes, single module iteration | Daily workhorse |
-| **Codex** | Async ACP | Greenfield generation, spec → impl | ACP `agentId=codex` |
-| **Cursor** | IDE-bound | Inline + background agent in IDE | Install on-demand |
-| **Antigravity** | Local pty | Visual/component precision | exec pty |
-
-### Branch Naming Convention
-
-```
-jules/sentinel-bugfix
-jules/bolt-ux-polish
-sabi/auth-module
-claude/refactor-api-layer
-codex/zatca-invoice-pdf
-```
-
-Every agent works on a named branch. **Nothing auto-merges to main without Beso review.**
-
-### Auto-Merge Gate
-
-**Jules branches (`jules/*`):** Auto-merge when CI is green (build ✓ + tests ✓). No manual review needed for bug fixes, polish, test additions.
-**Sabi/Claude/Codex branches:** Beso reviews diff before merging. If the change touches auth, security, billing, or user-facing copy → Basem approves.
-**Rule of thumb:** fixes merge automatically; features need Beso review; anything sensitive needs Basem.
-
-### Context Packet (what to send each agent)
-
-Send only:
-- File paths and function names relevant to the task
-- Exact error messages
-- Acceptance criteria (what "done" looks like)
-- Test commands to run
-- Commit message format
-
-Never send:
-- `USER.md`, `MEMORY.md`, `FINANCE.md`
-- Full session history
-- Basem's personal context
-
-### Escalation Rules — When to Interrupt Basem
-
-**Auto-handle silently:**
-- Bug fixes that pass CI
-- UI polish with no breaking changes
-- Test coverage additions
-- Dependency patches
-- Lint/type fixes
-
-**Always ask Basem:**
-- New external service integrations (costs money)
-- Public-facing copy or branding changes
-- Auth, security, or data privacy changes
-- Ambiguous requirements with 2+ valid approaches
-- Anything touching `FINANCE.md` or private data
-
-### Autonomous Build Loop (SPEC-driven)
-
-```
-Heartbeat fires →
-  Read nasaq/SPEC.md task queue →
-  Pick next [ ] item →
-  Select agent via decision tree →
-  Dispatch with branch + acceptance criteria + test command →
-  Poll Jules/agent status →
-  On completion: pull branch, review diff, run CI →
-  Green → merge + deploy →
-  Update SPEC [ ] → [x] →
-  Notify Basem only if decision needed
-```
-
-The goal: Basem only receives a message when:
-1. Daily build summary
-2. A real decision is needed (auth, money, publishing)
-3. CI is broken and judgment is required
+1. Read `SPEC.md` for task queue and current state.
+2. Create a named branch.
+3. Implement. Write tests.
+4. Run `npm test && npm run lint && npm run build`.
+5. Open PR. Auto-merge only for `jules/*` branches on green CI.
+6. Beso reviews all non-Jules PRs before merge.

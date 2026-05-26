@@ -1,4 +1,4 @@
-name: Nasaq Jules Polish Pass
+name: Clinic AI OS — Jules Polish Pass
 
 on:
   issues:
@@ -8,28 +8,17 @@ on:
       prompt:
         description: "What should Jules do?"
         required: true
-        default: "Polish pass on the Nasaq MVP"
-  pull_request:
-    branches: [main]
-    paths:
-      - "clinic-ai-os/**"
-      - ".github/workflows/jules.yml"
-
-permissions:
-  contents: write
-  pull-requests: write
-  issues: read
-  id-token: write
+        default: "Polish pass on the Clinic AI OS MVP"
 
 jobs:
   jules:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
     steps:
-      - name: Run Jules
-        uses: google-labs/jules-action@v1
+      - uses: google-labs/jules-action@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number || '' }}
-          prompt: ${{ github.event.inputs.prompt || github.event.issue.title || 'Review and polish the Nasaq MVP in clinic-ai-os.' }}
-          max-steps: 10
