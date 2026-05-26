@@ -39,6 +39,22 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /* Brand accent — teal, the interaction driver per DESIGN.md */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-surface: var(--brand-surface);
+  /* WhatsApp brand tokens */
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-dark: var(--whatsapp-dark);
+  --color-whatsapp-muted: var(--whatsapp-muted);
+  /* Semantic status tokens */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-surface: var(--success-surface);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-surface: var(--warning-surface);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -82,6 +98,22 @@
   --sidebar-accent-foreground: oklch(0.3 0.03 180);
   --sidebar-border: oklch(0.9 0.02 180);
   --sidebar-ring: oklch(0.55 0.12 180);
+  /* Brand accent tokens */
+  --brand: oklch(0.55 0.12 180);
+  --brand-foreground: oklch(0.98 0.01 180);
+  --brand-muted: oklch(0.95 0.03 180);
+  --brand-surface: oklch(0.97 0.02 180);
+  /* WhatsApp tokens */
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --whatsapp-muted: #DCF8C6;
+  /* Semantic status tokens */
+  --success: oklch(0.6 0.15 150);
+  --success-foreground: oklch(0.98 0.01 150);
+  --success-surface: oklch(0.95 0.03 150);
+  --warning: oklch(0.65 0.15 85);
+  --warning-foreground: oklch(0.25 0.05 85);
+  --warning-surface: oklch(0.96 0.04 85);
 }
 
 .dark {
@@ -117,6 +149,22 @@
   --sidebar-accent-foreground: oklch(0.95 0.01 180);
   --sidebar-border: oklch(0.3 0.02 180);
   --sidebar-ring: oklch(0.6 0.1 180);
+  /* Brand accent tokens — dark */
+  --brand: oklch(0.6 0.1 180);
+  --brand-foreground: oklch(0.1 0.02 180);
+  --brand-muted: oklch(0.25 0.02 180);
+  --brand-surface: oklch(0.2 0.01 180);
+  /* WhatsApp tokens — dark */
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --whatsapp-muted: #1B4D3E;
+  /* Semantic status tokens — dark */
+  --success: oklch(0.5 0.1 150);
+  --success-foreground: oklch(0.95 0.01 150);
+  --success-surface: oklch(0.2 0.02 150);
+  --warning: oklch(0.55 0.12 85);
+  --warning-foreground: oklch(0.95 0.01 85);
+  --warning-surface: oklch(0.22 0.03 85);
 }
 
 /* ── Animations ─────────────────────── */
