@@ -91,7 +91,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
               aria-label={route.name}
               aria-current={isActive ? "page" : undefined}
               className={cn(
-                "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group",
+                "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                 isActive
                   ? "bg-primary/5 text-primary border-e-2 border-primary rounded-e-none"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -140,32 +140,34 @@ export function Sidebar() {
       {/* Hamburger — visible on mobile only */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="fixed top-4 start-4 z-40 lg:hidden w-10 h-10 rounded-xl bg-card border border-border shadow-sm flex items-center justify-center hover:bg-muted transition-colors"
+        aria-expanded={mobileOpen}
+        aria-controls="mobile-sidebar"
+        className="fixed top-4 start-4 z-40 lg:hidden w-10 h-10 rounded-xl bg-card border border-border shadow-sm flex items-center justify-center hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         aria-label="فتح القائمة"
       >
         <Menu className="w-5 h-5" />
       </button>
 
       {/* Desktop sidebar — hidden on mobile */}
-      <aside className="hidden lg:flex w-64 border-e border-border/50 h-screen bg-card flex-col fixed start-0 top-0 z-30">
+      <aside className="hidden lg:flex w-64 border-e border-border/50 h-dvh bg-card flex-col fixed start-0 top-0 z-30">
         <SidebarContent />
       </aside>
 
       {/* Mobile overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للتنقل">
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="القائمة الجانبية للتنقل" id="mobile-sidebar">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
           {/* Drawer: slide in from right (RTL: start-0) */}
-          <aside className="fixed start-0 top-0 h-full w-72 bg-card border-e border-border/50 z-50 flex flex-col shadow-2xl transition-transform duration-300 translate-x-0">
+          <aside className="fixed start-0 top-0 h-dvh w-72 bg-card border-e border-border/50 z-50 flex flex-col shadow-2xl animate-in slide-in-from-start duration-300">
             <div className="flex justify-end p-3">
               <button
                 onClick={() => setMobileOpen(false)}
-                className="w-9 h-9 rounded-xl hover:bg-muted flex items-center justify-center transition-colors focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-9 h-9 rounded-xl hover:bg-muted flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 aria-label="إغلاق القائمة"
               >
                 <X className="w-5 h-5" />

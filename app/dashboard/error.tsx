@@ -11,13 +11,17 @@ export default function DashboardError({
   reset: () => void;
 }) {
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-4rem)] p-8" dir="rtl">
-      <div className="flex flex-col items-center gap-4 max-w-md text-center">
-        <AlertTriangle className="w-12 h-12 text-destructive" />
-        <h2 className="text-xl font-bold">حدث خطأ</h2>
-        <p className="text-sm text-muted-foreground">
-          {error.message || "عذراً، حدث خطأ غير متوقع. حاول مرة أخرى."}
-        </p>
+    <div className="flex items-center justify-center min-h-[50vh] p-8" dir="rtl">
+      <div className="flex flex-col items-center gap-6 max-w-md text-center animate-in fade-in duration-500">
+        <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center">
+          <AlertTriangle className="w-8 h-8 text-destructive" />
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-xl font-bold">حدث خطأ</h2>
+          <p className="text-sm text-muted-foreground">
+            {error.message || "عذراً، حدث خطأ غير متوقع. حاول مرة أخرى."}
+          </p>
+        </div>
         <Button onClick={reset} variant="default">
           إعادة المحاولة
         </Button>
