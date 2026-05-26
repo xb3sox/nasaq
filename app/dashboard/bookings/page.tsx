@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,10 +52,16 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
 
   const handleSave = async () => {
     setSaving(true);
-    await new Promise((r) => setTimeout(r, 800)); // simulate
-    setSaving(false);
-    setOpen(false);
-    onAdd();
+    try {
+      await new Promise((r) => setTimeout(r, 800)); // simulate
+      toast.success("تم إضافة الحجز بنجاح");
+      setOpen(false);
+      onAdd();
+    } catch {
+      toast.error("حدث خطأ أثناء حفظ الحجز");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -69,18 +76,19 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
         <DialogTitle>إضافة حجز جديد</DialogTitle>
         <div className="space-y-4 mt-2">
           <div className="space-y-1.5">
-            <Label>اسم العميل</Label>
-            <Input placeholder="مثال: نورة المحمد" />
+            <Label htmlFor="customerName">اسم العميل</Label>
+            <Input id="customerName" name="customerName" autoComplete="name" placeholder="مثال: نورة المحمد" />
           </div>
           <div className="space-y-1.5">
-            <Label>رقم الجوال</Label>
-            <Input placeholder="+966 5XX XXX XXXX" dir="ltr" />
+            <Label htmlFor="customerPhone">رقم الجوال</Label>
+            <Input id="customerPhone" name="customerPhone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+966 5XX XXX XXXX" dir="ltr" />
+            <p className="text-[10px] text-muted-foreground">أدخل رقم الجوال بصيغة دولية (مثال: +966500000000)</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>الخدمة</Label>
+              <Label htmlFor="service">الخدمة</Label>
               <Select>
-                <SelectTrigger><SelectValue placeholder="اختر الخدمة" /></SelectTrigger>
+                <SelectTrigger id="service" aria-label="الخدمة"><SelectValue placeholder="اختر الخدمة" /></SelectTrigger>
                 <SelectContent>
                   {DEMO_SERVICES.map((s) => (
                     <SelectItem key={s.id} value={s.id}>{s.name} — {s.price} ر.س</SelectItem>
@@ -89,9 +97,9 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
               </Select>
             </div>
             <div className="space-y-1.5">
-              <Label>الطبيب</Label>
+              <Label htmlFor="doctor">الطبيب</Label>
               <Select>
-                <SelectTrigger><SelectValue placeholder="اختر الطبيب" /></SelectTrigger>
+                <SelectTrigger id="doctor" aria-label="الطبيب"><SelectValue placeholder="اختر الطبيب" /></SelectTrigger>
                 <SelectContent>
                   {DEMO_DOCTORS.map((d) => (
                     <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
@@ -102,12 +110,12 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>التاريخ</Label>
-              <Input type="date" />
+              <Label htmlFor="bookingDate">التاريخ</Label>
+              <Input id="bookingDate" name="bookingDate" type="date" />
             </div>
             <div className="space-y-1.5">
-              <Label>الوقت</Label>
-              <Input type="time" />
+              <Label htmlFor="bookingTime">الوقت</Label>
+              <Input id="bookingTime" name="bookingTime" type="time" />
             </div>
           </div>
           <div className="flex gap-2 pt-2">
@@ -215,6 +223,7 @@ export default function BookingsPage() {
         <div className="relative flex-1 min-w-[180px] max-w-sm">
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
+            aria-label="ابحث بالاسم أو الجوال أو الخدمة"
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
             className="h-10 sm:h-9 ps-9 border-border/50"
             value={search}
@@ -222,7 +231,7 @@ export default function BookingsPage() {
           />
         </div>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? "all")}>
-          <SelectTrigger className="w-[140px] h-10 sm:h-9 border-border/50">
+          <SelectTrigger className="w-[140px] h-10 sm:h-9 border-border/50" aria-label="الحالة">
             <SelectValue placeholder="الحالة" />
           </SelectTrigger>
           <SelectContent>
@@ -234,7 +243,7 @@ export default function BookingsPage() {
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v ?? "all")}>
-          <SelectTrigger className="w-[150px] h-9 border-border/50">
+          <SelectTrigger className="w-[150px] h-9 border-border/50" aria-label="المصدر">
             <SelectValue placeholder="المصدر" />
           </SelectTrigger>
           <SelectContent>
@@ -253,6 +262,7 @@ export default function BookingsPage() {
             variant={!compactView ? "secondary" : "ghost"} 
             size="sm" 
             className="h-8 px-2"
+            aria-label="عرض مفصل"
             onClick={() => setCompactView(false)}
           >
             <LayoutList className="w-4 h-4" />
@@ -261,6 +271,7 @@ export default function BookingsPage() {
             variant={compactView ? "secondary" : "ghost"} 
             size="sm" 
             className="h-8 px-2"
+            aria-label="عرض مضغوط"
             onClick={() => setCompactView(true)}
           >
             <AlignJustify className="w-4 h-4" />
@@ -318,28 +329,28 @@ export default function BookingsPage() {
 
                   if (compactView) {
                     return (
-                      <div key={booking.id} className="group relative flex items-center justify-between p-3 rounded-lg border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors">
-                        <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <div key={booking.id} className="group relative flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors gap-3">
+                        <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                           <div className={`w-2 h-2 rounded-full shrink-0 ${dotColor}`}></div>
                           <div className="w-[120px] shrink-0 font-medium truncate">{booking.customer}</div>
                           <div className="w-[140px] shrink-0 text-sm text-muted-foreground truncate hidden md:block">{booking.service}</div>
                           <div className="w-[100px] shrink-0 text-sm text-muted-foreground truncate hidden lg:block">{booking.date}</div>
                           <div className="w-[80px] shrink-0 text-sm text-muted-foreground font-mono truncate">{booking.time}</div>
-                          <div className="flex gap-2 shrink-0">
+                          <div className="flex gap-2 shrink-0 ms-auto sm:ms-0">
                             <Badge className={`${statusCfg.color} scale-90 origin-right`}>{statusCfg.label}</Badge>
                           </div>
                         </div>
-                        <div className="flex opacity-0 group-hover:opacity-100 transition-opacity gap-1 shrink-0 bg-gradient-to-r from-transparent to-card ps-2 absolute start-2 ">
-                          <Button size="icon" variant="ghost" className="h-8 w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
+                        <div className="flex items-center gap-1 shrink-0 justify-end sm:ps-2">
+                          <Button size="icon" variant="ghost" className="h-8 w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10" aria-label="مراسلة">
                             <MessageCircle className="w-4 h-4" />
                           </Button>
                           {booking.status === "pending" && (
-                            <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600 hover:text-green-600 hover:bg-green-50">
+                            <Button size="icon" variant="ghost" className="h-8 w-8 text-green-600 hover:text-green-600 hover:bg-green-50" aria-label="تأكيد">
                               <CheckCircle2 className="w-4 h-4" />
                             </Button>
                           )}
                           {booking.status !== "cancelled" && booking.status !== "completed" && (
-                            <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10">
+                            <Button size="icon" variant="ghost" className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10" aria-label="إلغاء">
                               <AlertCircle className="w-4 h-4" />
                             </Button>
                           )}
@@ -349,11 +360,11 @@ export default function BookingsPage() {
                   }
 
                   return (
-                    <Card key={booking.id} className="group p-4 hover:shadow-md transition-all relative overflow-hidden border-border/60 hover:border-border">
+                    <Card key={booking.id} className="group p-4 flex flex-col md:flex-row gap-4 justify-between transition-all relative overflow-hidden border-border/60 hover:border-border hover:shadow-md">
                       {/* Timeline Dot */}
                       <div className={`absolute start-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
                       
-                      <div className="flex items-start justify-between gap-4 ps-12 rtl:pe-1 rtl:ps-12">
+                      <div className="flex items-start justify-between md:justify-start gap-4 ps-3 rtl:ps-3 w-full md:w-auto">
                         <div className="flex gap-4 items-start min-w-0 relative z-10">
                           <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 hidden sm:flex">
                             <CalendarCheck className="w-5 h-5 text-primary" />
@@ -370,7 +381,19 @@ export default function BookingsPage() {
                             </div>
                           </div>
                         </div>
-                        <div className="flex flex-col items-end gap-1.5 shrink-0 relative z-10">
+                        <div className="flex flex-col items-end gap-1.5 shrink-0 relative z-10 md:hidden">
+                          <Badge className={statusCfg.color}>
+                            <StatusIcon className="w-3 h-3 me-1" />
+                            {statusCfg.label}
+                          </Badge>
+                          <Badge variant="outline" className={`text-xs ${paymentCfg.color} border-0 bg-muted/50`}>
+                            <DollarSign className="w-3 h-3 me-0.5" />
+                            {paymentCfg.label}
+                          </Badge>
+                        </div>
+                      </div>
+
+                      <div className="hidden md:flex flex-col items-end gap-1.5 shrink-0 relative z-10">
                           <Badge className={statusCfg.color}>
                             <StatusIcon className="w-3 h-3 me-1" />
                             {statusCfg.label}
@@ -384,20 +407,18 @@ export default function BookingsPage() {
                             {booking.source}
                           </Badge>
                         </div>
-                      </div>
 
-                      {/* Hover Actions Overlay */}
-                      <div className="absolute start-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all flex items-center gap-2 bg-card/90 backdrop-blur-sm p-2 rounded-lg shadow-sm border border-border/50 translate-x-4 group-hover:translate-x-0 ">
-                        <Button size="sm" variant="ghost" className="h-8 px-2 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
+                      {/* Actions */}
+                      <div className="flex items-center gap-2 mt-2 md:mt-0 pt-3 md:pt-0 border-t border-border/30 md:border-t-0 shrink-0 self-start w-full md:w-auto justify-end">
+                        <Button size="sm" variant="outline" className="h-8 px-2 text-[#25D366] border-[#25D366]/30 hover:text-[#25D366] hover:bg-[#25D366]/10">
                           <MessageCircle className="w-4 h-4 me-1.5" />
                           مراسلة
                         </Button>
-                        <div className="w-px h-4 bg-border"></div>
                         {booking.status === "pending" && (
                           <Button size="sm" className="h-8 px-3 bg-green-600 hover:bg-green-700">تأكيد</Button>
                         )}
                         {booking.status !== "cancelled" && booking.status !== "completed" && (
-                          <Button size="sm" variant="outline" className="h-8 px-3 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30">إلغاء</Button>
+                          <Button size="sm" variant="ghost" className="h-8 px-3 text-destructive hover:text-destructive hover:bg-destructive/10">إلغاء</Button>
                         )}
                       </div>
                     </Card>
