@@ -180,9 +180,9 @@ export default function RootPage() {
           
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { title: "غرق في واتساب", desc: "موظف الاستقبال يقضي 70% من وقته يجاوب نفس الأسئلة مراراً", icon: MessageCircle, color: "text-blue-500", bg: "bg-blue-500/10" },
-              { title: "حجوزات فائتة", desc: "عملاء يسألون عن الأسعار والمواعيد ثم يختفون لعدم متابعتهم", icon: Calendar, color: "text-orange-500", bg: "bg-orange-500/10" },
-              { title: "لا رؤية واضحة", desc: "بدون بيانات يصعب معرفة ما يعمل وما لا يعمل في العيادة", icon: BarChart3, color: "text-rose-500", bg: "bg-rose-500/10" },
+              { title: "غرق في واتساب", desc: "موظف الاستقبال يقضي 70% من وقته يجاوب نفس الأسئلة مراراً", icon: MessageCircle, color: "text-brand", bg: "bg-brand/10" },
+              { title: "حجوزات فائتة", desc: "عملاء يسألون عن الأسعار والمواعيد ثم يختفون لعدم متابعتهم", icon: Calendar, color: "text-warning", bg: "bg-warning/10" },
+              { title: "لا رؤية واضحة", desc: "بدون بيانات يصعب معرفة ما يعمل وما لا يعمل في العيادة", icon: BarChart3, color: "text-destructive", bg: "bg-destructive/10" },
             ].map((p) => (
               <Card key={p.title} className="text-start border-none bg-muted/40 shadow-none hover:bg-muted/80 transition-colors duration-300">
                 <CardContent className="p-8 space-y-4">
