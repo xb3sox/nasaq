@@ -135,7 +135,7 @@ export function InboxPage() {
 
             {/* Reply Input */}
             <div className="flex gap-2 items-end">
-              <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm">
+              <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm"> {/* chat-input-exempt */}
                 <Button
                   variant="ghost"
                   size="touch-icon"

@@ -5,6 +5,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
+import { PageShell } from "@/components/ui/page-shell";
 import { Users, CalendarCheck, MessageCircle, TrendingUp, Play, CheckCircle2, Loader2, Bell, Settings } from "lucide-react";
 import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 import Link from "next/link";
@@ -17,7 +18,7 @@ export function OverviewPage() {
   const { isSetupComplete } = useSetupStore();
 
   return (
-    <>
+    <PageShell surface="gradient" size="wide">
       {!isSetupComplete && (
         <div className="bg-warning-surface border border-warning/20 text-warning dark:text-warning rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -131,6 +132,6 @@ export function OverviewPage() {
           <LiveDemoRunner />
         </div>
       </div>
-    </>
+    </PageShell>
   );
 }
