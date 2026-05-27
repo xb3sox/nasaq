@@ -54,11 +54,10 @@ function LiveDemoRunner() {
         <div className="flex items-center justify-between">
           <CardTitle className="text-base">عرض تجريبي حي</CardTitle>
           <Button
-            size="sm"
             onClick={runDemo}
             disabled={running}
             aria-live="polite"
-            className="gap-1.5 min-h-[44px] sm:min-h-0 sm:h-8 text-xs px-3 focus-visible:ring-2 focus-visible:ring-offset-1"
+            size="touch" className="gap-1.5 text-xs px-3 focus-visible:ring-2 focus-visible:ring-offset-1"
           >
             <span className="sr-only">{running ? "جاري التشغيل" : allDone ? "إعادة التشغيل" : "تشغيل العرض الحي"}</span>
             {running
@@ -190,6 +189,7 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {/* Intentionally different layout: keeps dashboard home page mostly as-is since it's uniquely styled and does not use PageShell/PageHeader */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-10">
         <div className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight">مرحباً بك في {demoClinic.name}</h1>
@@ -203,17 +203,17 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-3">
         <Link href="/dashboard/reminders">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+          <Button variant="outline" size="touch" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-offset-1">
             <Bell className="w-4 h-4" aria-hidden="true" /> إرسال تذكير جديد
           </Button>
         </Link>
         <Link href="/dashboard/bookings">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+          <Button variant="outline" size="touch" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-offset-1">
             <CalendarCheck className="w-4 h-4" aria-hidden="true" /> سجل حجوزات اليوم
           </Button>
         </Link>
         <Link href="/dashboard/inbox">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+          <Button variant="outline" size="touch" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-offset-1">
             <Inbox className="w-4 h-4" aria-hidden="true" /> مراجعة صندوق الوارد
           </Button>
         </Link>
@@ -234,8 +234,7 @@ export default function DashboardPage() {
           icon={MessageCircle}
           description={`تولى الذكاء الاصطناعي الرد على ${demoReportStats.aiHandled}`}
           valueClassName="text-destructive"
-          iconClassName="text-destructive"
-          iconContainerClassName="bg-destructive/10"
+          iconColor="danger"
         />
 
         <StatCard
@@ -244,8 +243,7 @@ export default function DashboardPage() {
           icon={Users}
           trend={15}
           trendLabel="هذا الأسبوع"
-          iconClassName="text-brand"
-          iconContainerClassName="bg-brand/10"
+          iconColor="brand"
         />
 
         <StatCard
@@ -254,8 +252,7 @@ export default function DashboardPage() {
           icon={TrendingUp}
           trend={12}
           trendLabel="مقارنة بالشهر الماضي"
-          iconClassName="text-success"
-          iconContainerClassName="bg-success/10"
+          iconColor="success"
         />
       </div>
 

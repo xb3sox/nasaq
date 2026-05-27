@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +15,7 @@ import { toast } from "sonner";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { DEMO_INVOICES } from "@/lib/demo-data";
 import { cn } from "@/lib/utils";
+import { EmptyState } from "@/components/ui/empty-state";
 
 
 type Invoice = typeof DEMO_INVOICES[number];
@@ -283,27 +286,27 @@ export default function InvoicesPage() {
   })();
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
+    <PageShell>
       {selectedInvoice && (
         <InvoiceDetailModal inv={selectedInvoice} onClose={() => setSelectedInvoice(null)} />
       )}
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight">الفواتير</h1>
-          <p className="text-sm text-muted-foreground">إدارة وتتبع فواتير العيادة</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
-            <Download className="w-3.5 h-3.5" />
-            تصدير
-          </Button>
-          <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
-            <Plus className="w-3.5 h-3.5" />
-            فاتورة جديدة
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title="الفواتير"
+        subtitle="إدارة وتتبع فواتير العيادة"
+        actions={
+          <>
+            <Button variant="outline" size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
+              <Download className="w-3.5 h-3.5" />
+              تصدير
+            </Button>
+            <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
+              <Plus className="w-3.5 h-3.5" />
+              فاتورة جديدة
+            </Button>
+          </>
+        }
+      />
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -396,11 +399,8 @@ export default function InvoicesPage() {
             <tbody className="divide-y divide-border/30">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center py-16 text-muted-foreground">
-                    <div className="flex flex-col items-center gap-2">
-                      <FileText className="w-8 h-8 text-muted-foreground/50" />
-                      <span>لا توجد فواتير مطابقة</span>
-                    </div>
+                  <td colSpan={8} className="p-4">
+                    <EmptyState title="لا توجد فواتير" description="لا توجد فواتير تطابق معايير البحث الحالية" />
                   </td>
                 </tr>
               ) : (
@@ -449,6 +449,6 @@ export default function InvoicesPage() {
           </table>
         </div>
       </Card>
-    </div>
+    </PageShell>
   );
 }

@@ -3,33 +3,35 @@ version: alpha
 name: Nasaq
 description: Arabic-first AI clinic management dashboard — warm, professional, and data-dense with a human touch.
 colors:
-  primary: "#0F172A"
-  primary-foreground: "#FFFFFF"
-  brand: "#0B7D72"
-  brand-hover: "#096B60"
-  brand-muted: "#CCFBF1"
-  brand-surface: "#F0FDFA"
-  surface: "#FFFFFF"
-  surface-elevated: "#F8FAFC"
-  muted: "#F1F5F9"
-  muted-foreground: "#64748B"
-  border: "#E2E8F0"
-  border-light: "#F1F5F9"
-  text: "#0F172A"
-  text-secondary: "#475569"
-  success: "#059669"
-  success-surface: "#ECFDF5"
-  warning: "#D97706"
-  warning-surface: "#FEF3C7"
-  danger: "#DC2626"
-  danger-surface: "#FEF2F2"
+  primary: "oklch(0.55 0.12 180)"
+  primary-foreground: "oklch(0.98 0.01 180)"
+  brand: "oklch(0.55 0.12 180)"
+  brand-hover: "oklch(0.5 0.11 180)"
+  brand-muted: "oklch(0.95 0.03 180)"
+  brand-surface: "oklch(0.97 0.02 180)"
+  surface: "oklch(1 0 0)"
+  surface-elevated: "oklch(0.99 0.005 180)"
+  muted: "oklch(0.96 0.01 180)"
+  muted-foreground: "oklch(0.5 0.02 180)"
+  border: "oklch(0.9 0.02 180)"
+  border-light: "oklch(0.96 0.01 180)"
+  text: "oklch(0.2 0.02 180)"
+  text-secondary: "oklch(0.3 0.03 180)"
+  success: "oklch(0.6 0.15 150)"
+  success-surface: "oklch(0.95 0.03 150)"
+  warning: "oklch(0.65 0.15 85)"
+  warning-surface: "oklch(0.96 0.04 85)"
+  danger: "oklch(0.6 0.15 20)"
+  danger-surface: "oklch(0.96 0.03 20)"
+  info: "oklch(0.55 0.12 240)"
+  info-surface: "oklch(0.95 0.02 240)"
   whatsapp: "#25D366"
   whatsapp-dark: "#128C7E"
-  chart-1: "#0D9488"
-  chart-2: "#6366F1"
-  chart-3: "#F59E0B"
-  chart-4: "#EF4444"
-  chart-5: "#8B5CF6"
+  chart-1: "oklch(0.55 0.12 180)"
+  chart-2: "oklch(0.65 0.15 160)"
+  chart-3: "oklch(0.55 0.2 25)"
+  chart-4: "oklch(0.7 0.12 280)"
+  chart-5: "oklch(0.65 0.14 50)"
 typography:
   h1:
     fontFamily: "Noto Sans Arabic"
@@ -120,15 +122,36 @@ Arabic text uses Noto Sans Arabic for legibility at all sizes. English labels (c
 
 ## Colors
 
-- **Primary (#0F172A):** Slate ink — headlines, core text, high-contrast surfaces.
-- **Brand (#0D9488):** Teal — the sole interaction driver. Used for primary buttons, active nav items, chart accents, and key CTAs.
-- **Brand Surface (#F0FDFA):** Ultra-light teal for highlighted backgrounds and AI-identified content.
+- **Primary (oklch(0.2 0.02 180)):** Slate ink — headlines, core text, high-contrast surfaces.
+- **Brand (oklch(0.55 0.12 180)):** Teal — the sole interaction driver. Used for primary buttons, active nav items, chart accents, and key CTAs.
+- **Brand Surface (oklch(0.97 0.02 180)):** Ultra-light teal for highlighted backgrounds and AI-identified content.
 - **WhatsApp (#25D366):** For WhatsApp-specific UI elements — chat headers, message indicators, source badges.
-- **Success (#059669):** Confirmed bookings, completed actions, healthy metrics.
-- **Warning (#D97706):** Pending items, human-needed flags, attention states.
-- **Danger (#DC2626):** Cancelled items, errors, failed deliveries.
-- **Surface (#FFFFFF):** Card and page backgrounds.
-- **Muted (#F1F5F9):** Secondary surfaces, chat bubbles (user), subtle backgrounds.
+- **Success (oklch(0.6 0.15 150)):** Confirmed bookings, completed actions, healthy metrics.
+- **Warning (oklch(0.65 0.15 85)):** Pending items, human-needed flags, attention states.
+- **Danger (oklch(0.6 0.15 20)):** Cancelled items, errors, failed deliveries.
+- **Info (oklch(0.55 0.12 240)):** Blue accent for informational states.
+- **Surface (oklch(1 0 0)):** Card and page backgrounds.
+- **Muted (oklch(0.96 0.01 180)):** Secondary surfaces, chat bubbles (user), subtle backgrounds.
+
+## Dark Mode
+
+All tokens have dark variants defined in `app/globals.css`. Dark mode uses the same semantic tokens but with inverted luminosity and adjusted chroma to ensure accessibility and readability in low-light conditions.
+
+## Token Reference
+
+| Semantic | Light | Dark | Tailwind |
+|----------|-------|------|----------|
+| Brand | oklch(0.55 0.12 180) | oklch(0.6 0.1 180) | `bg-brand`, `text-brand`, `border-brand` |
+| Brand Surface | oklch(0.97 0.02 180) | oklch(0.2 0.01 180) | `bg-brand-surface` |
+| Brand Hover | oklch(0.5 0.11 180) | oklch(0.55 0.09 180) | `hover:bg-brand-hover` |
+| Success | oklch(0.6 0.15 150) | oklch(0.5 0.1 150) | `bg-success`, `text-success` |
+| Success Surface | oklch(0.95 0.03 150) | oklch(0.2 0.02 150) | `bg-success-surface` |
+| Warning | oklch(0.65 0.15 85) | oklch(0.55 0.12 85) | `bg-warning`, `text-warning` |
+| Warning Surface | oklch(0.96 0.04 85) | oklch(0.22 0.03 85) | `bg-warning-surface` |
+| Danger | oklch(0.6 0.15 20) | oklch(0.4 0.15 20) | `bg-destructive`, `text-destructive` |
+| Danger Surface | oklch(0.96 0.03 20) | (same as dark surface) | `bg-destructive/10` |
+| Info | oklch(0.55 0.12 240) | oklch(0.65 0.1 240) | `bg-info`, `text-info` |
+| Info Surface | oklch(0.95 0.02 240) | oklch(0.22 0.03 240) | `bg-info-surface` |
 
 ## Typography
 

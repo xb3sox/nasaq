@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,8 +20,9 @@ import { DEMO_BOOKINGS, DEMO_DOCTORS, DEMO_SERVICES } from "@/lib/demo-data";
 import {
   Search, CalendarCheck, Bot, Plus,
   CheckCircle2, Clock, XCircle, Loader2, DollarSign,
-  CalendarX, CalendarCheck2, LayoutList, AlignJustify, MessageCircle, AlertCircle
+  CalendarCheck2, LayoutList, AlignJustify, MessageCircle, AlertCircle
 } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 
 type BookingStatus = "confirmed" | "pending" | "completed" | "cancelled";
 type PaymentStatus = "paid" | "unpaid" | "partial";
@@ -60,7 +63,7 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={
-        <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
+        <Button  className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
           <Plus className="w-3.5 h-3.5" />
           حجز جديد
         </Button>
@@ -70,17 +73,17 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
         <div className="space-y-4 mt-2">
           <div className="space-y-1.5">
             <Label>اسم العميل</Label>
-            <Input placeholder="مثال: نورة المحمد" className="min-h-[44px] sm:min-h-0 sm:h-9" />
+            <Input placeholder="مثال: نورة المحمد" size="touch" />
           </div>
           <div className="space-y-1.5">
             <Label>رقم الجوال</Label>
-            <Input placeholder="+966 5XX XXX XXXX" dir="ltr" className="min-h-[44px] sm:min-h-0 sm:h-9" />
+            <Input placeholder="+966 5XX XXX XXXX" dir="ltr" size="touch" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>الخدمة</Label>
               <Select>
-                <SelectTrigger className="min-h-[44px] sm:min-h-0 sm:h-9"><SelectValue placeholder="اختر الخدمة" /></SelectTrigger>
+                <SelectTrigger size="touch"><SelectValue placeholder="اختر الخدمة" /></SelectTrigger>
                 <SelectContent>
                   {DEMO_SERVICES.map((s) => (
                     <SelectItem key={s.id} value={s.id}>{s.name} — {s.price} ر.س</SelectItem>
@@ -91,7 +94,7 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
             <div className="space-y-1.5">
               <Label>الطبيب</Label>
               <Select>
-                <SelectTrigger className="min-h-[44px] sm:min-h-0 sm:h-9"><SelectValue placeholder="اختر الطبيب" /></SelectTrigger>
+                <SelectTrigger size="touch"><SelectValue placeholder="اختر الطبيب" /></SelectTrigger>
                 <SelectContent>
                   {DEMO_DOCTORS.map((d) => (
                     <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>
@@ -103,19 +106,19 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>التاريخ</Label>
-              <Input type="date" className="min-h-[44px] sm:min-h-0 sm:h-9" />
+              <Input type="date" size="touch" />
             </div>
             <div className="space-y-1.5">
               <Label>الوقت</Label>
-              <Input type="time" className="min-h-[44px] sm:min-h-0 sm:h-9" />
+              <Input type="time" size="touch" />
             </div>
           </div>
           <div className="flex gap-2 pt-2">
-            <Button className="flex-1 min-h-[44px] sm:min-h-0 sm:h-9" onClick={handleSave} disabled={saving}>
+            <Button size="touch" className="flex-1" onClick={handleSave} disabled={saving}>
               {saving ? <Loader2 className="w-4 h-4 animate-spin ms-1" /> : null}
               حفظ الحجز
             </Button>
-            <Button variant="outline" className="flex-1 min-h-[44px] sm:min-h-0 sm:h-9" onClick={() => setOpen(false)}>إلغاء</Button>
+            <Button variant="outline" size="touch" className="flex-1" onClick={() => setOpen(false)}>إلغاء</Button>
           </div>
         </div>
       </DialogContent>
@@ -165,15 +168,13 @@ export default function BookingsPage() {
   ];
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
+    <PageShell>
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">الحجوزات</h1>
-          <p className="text-sm text-muted-foreground">جميع الحجوزات من واتساب والاستقبال</p>
-        </div>
-        <NewBookingDialog onAdd={() => setAdded((n) => n + 1)} />
-      </div>
+      <PageHeader
+        title="الحجوزات"
+        subtitle="جميع الحجوزات من واتساب والاستقبال"
+        actions={<NewBookingDialog onAdd={() => setAdded((n) => n + 1)} />}
+      />
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -205,13 +206,13 @@ export default function BookingsPage() {
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
-            className="min-h-[44px] sm:min-h-0 h-10 sm:h-9 ps-9 border-border/50"
+            size="touch" className="ps-9 border-border/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? "all")}>
-          <SelectTrigger className="min-h-[44px] sm:min-h-0 w-[140px] h-10 sm:h-9 border-border/50">
+          <SelectTrigger size="touch" className="w-[140px] border-border/50">
             <SelectValue placeholder="الحالة" />
           </SelectTrigger>
           <SelectContent>
@@ -223,7 +224,7 @@ export default function BookingsPage() {
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v ?? "all")}>
-          <SelectTrigger className="min-h-[44px] sm:min-h-0 w-[150px] h-10 sm:h-9 border-border/50">
+          <SelectTrigger size="touch" className="w-[150px] border-border/50">
             <SelectValue placeholder="المصدر" />
           </SelectTrigger>
           <SelectContent>
@@ -240,8 +241,8 @@ export default function BookingsPage() {
         <div className="flex bg-muted rounded-lg p-0.5 border">
           <Button
             variant={!compactView ? "secondary" : "ghost"}
-            size="sm"
-            className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:px-2"
+
+            size="touch-icon" className="sm:px-2"
             onClick={() => setCompactView(false)}
             aria-label="عرض افتراضي"
           >
@@ -249,8 +250,8 @@ export default function BookingsPage() {
           </Button>
           <Button
             variant={compactView ? "secondary" : "ghost"}
-            size="sm"
-            className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:px-2"
+
+            size="touch-icon" className="sm:px-2"
             onClick={() => setCompactView(true)}
             aria-label="عرض مضغوط"
           >
@@ -261,16 +262,7 @@ export default function BookingsPage() {
 
       {/* Booking Cards */}
       {filtered.length === 0 ? (
-        <Card className="p-16 flex flex-col items-center gap-4 text-muted-foreground bg-muted/20 border-dashed">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-            <CalendarX className="w-8 h-8 text-muted-foreground/60" />
-          </div>
-          <div className="text-center space-y-1">
-            <h3 className="font-medium text-foreground">لا توجد حجوزات مطابقة</h3>
-            <p className="text-sm">جرب تغيير كلمات البحث أو الفلاتر للعثور على ما تبحث عنه.</p>
-          </div>
-          <Button variant="outline" onClick={() => { setSearch(""); setStatusFilter("all"); setSourceFilter("all"); }}>مسح الفلاتر</Button>
-        </Card>
+        <EmptyState title="لا توجد حجوزات" description="لا توجد حجوزات تطابق معايير البحث الحالية" />
       ) : (
         <div className="space-y-8">
           {Object.entries(
@@ -322,16 +314,16 @@ export default function BookingsPage() {
                           </div>
                         </div>
                         <div className="flex gap-1 shrink-0 ps-2 items-center">
-                          <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10" aria-label="مراسلة">
+                          <Button variant="ghost" size="touch-icon" className="sm:w-8 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10" aria-label="مراسلة">
                             <MessageCircle className="w-4 h-4" aria-hidden="true" />
                           </Button>
                           {booking.status === "pending" && (
-                            <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-success hover:text-success hover:bg-success-surface" aria-label="تأكيد الحجز">
+                            <Button variant="ghost" size="touch-icon" className="sm:w-8 text-success hover:text-success hover:bg-success-surface" aria-label="تأكيد الحجز">
                               <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
                             </Button>
                           )}
                           {booking.status !== "cancelled" && booking.status !== "completed" && (
-                            <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-destructive hover:text-destructive hover:bg-destructive/10" aria-label="إلغاء الحجز">
+                            <Button variant="ghost" size="touch-icon" className="sm:w-8 text-destructive hover:text-destructive hover:bg-destructive/10" aria-label="إلغاء الحجز">
                               <AlertCircle className="w-4 h-4" aria-hidden="true" />
                             </Button>
                           )}
@@ -378,15 +370,15 @@ export default function BookingsPage() {
                             </Badge>
                           </div>
                           <div className="flex items-center gap-2 mt-auto">
-                            <Button size="sm" variant="ghost" className="min-h-[44px] sm:min-h-0 sm:h-8 px-2 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10">
+                            <Button variant="ghost" size="touch" className="px-2 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10">
                               <MessageCircle className="w-4 h-4 me-1.5" />
                               مراسلة
                             </Button>
                             {booking.status === "pending" && (
-                              <Button size="sm" variant="default" className="min-h-[44px] sm:min-h-0 sm:h-8 px-3">تأكيد</Button>
+                              <Button variant="default" size="touch" className="px-3">تأكيد</Button>
                             )}
                             {booking.status !== "cancelled" && booking.status !== "completed" && (
-                              <Button size="sm" variant="outline" className="min-h-[44px] sm:min-h-0 sm:h-8 px-3 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30">إلغاء</Button>
+                              <Button variant="outline" size="touch" className="px-3 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30">إلغاء</Button>
                             )}
                           </div>
                         </div>
@@ -399,6 +391,6 @@ export default function BookingsPage() {
           ))}
         </div>
       )}
-    </div>
+    </PageShell>
   );
 }

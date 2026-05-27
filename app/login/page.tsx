@@ -7,6 +7,7 @@ import { LoginForm } from "./login-form";
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4" dir="rtl">
+      {/* Intentionally different layout: login page has unique layout needs and doesn't fit PageShell */}
       <main id="main-content" className="w-full max-w-sm space-y-6">
         {/* Brand */}
         <div className="flex flex-col items-center gap-3 text-center">

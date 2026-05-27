@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Send, Bot, User, CalendarCheck, Check, Hand, Search, X, Loader2, Paperclip, Smile } from "lucide-react";
 import { demoAiDecision, demoBooking } from "@/lib/demo-clinic";
+import { EmptyState } from "@/components/ui/empty-state";
 
 type Conversation = {
   id: string;
@@ -127,11 +130,11 @@ export default function InboxPage() {
   }
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight">صندوق الوارد</h1>
-        <p className="text-sm text-muted-foreground">إدارة المحادثات واستفسارات العملاء</p>
-      </div>
+    <PageShell>
+      <PageHeader
+        title="صندوق الوارد"
+        subtitle="إدارة المحادثات واستفسارات العملاء"
+      />
       <div className="flex flex-col gap-4 h-[calc(100vh-12rem)] lg:flex-row">
       {/* Sidebar */}
       <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col lg:max-h-none lg:w-80">
@@ -140,7 +143,11 @@ export default function InboxPage() {
           <Badge variant="secondary" className="bg-primary/10 text-primary">{DEMO_CONVERSATIONS.length}</Badge>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {DEMO_CONVERSATIONS.map((conv) => {
+          {DEMO_CONVERSATIONS.length === 0 ? (
+            <div className="p-4">
+              <EmptyState title="لا توجد محادثات" description="لا توجد محادثات تطابق معايير البحث الحالية" />
+            </div>
+          ) : DEMO_CONVERSATIONS.map((conv) => {
             const isUnread = conv.id === "conv-2";
             return (
             <div
@@ -300,7 +307,7 @@ export default function InboxPage() {
 
           {/* Reply Input */}
           <div className="flex gap-2 items-end">
-            <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm">
+            <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm"> {/* chat-input-exempt — custom compose container, not a component */}
               <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إضافة رمز تعبيري">
                 <Smile className="w-6 h-6" />
               </Button>
@@ -333,6 +340,6 @@ export default function InboxPage() {
         </div>
       </Card>
       </div>
-    </div>
+    </PageShell>
   );
 }

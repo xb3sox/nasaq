@@ -4,6 +4,8 @@ import { ChartWrapper } from "@/components/ChartWrapper";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,8 +20,9 @@ import { DEMO_LEADS } from "@/lib/demo-data";
 import { BarChart, Bar, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import {
   Users, Phone, Tag, Search, Plus,
-  MessageCircle, TrendingUp, UserCheck, UserX, LayoutList, KanbanSquare, CalendarCheck, Clock
+  MessageCircle, TrendingUp, UserCheck, LayoutList, KanbanSquare, CalendarCheck, Clock
 } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 
 
 const STATUS_LABELS: Record<string, string> = {
@@ -63,20 +66,18 @@ export default function CrmPage() {
   const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
+    <PageShell>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">العملاء والعلاقات</h1>
-          <p className="text-sm text-muted-foreground">عملاء من جميع القنوات</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
+      <PageHeader
+        title="العملاء والعلاقات"
+        subtitle="عملاء من جميع القنوات"
+        actions={
+          <Button size="touch" className="gap-1.5">
             <Plus className="w-3.5 h-3.5" />
             عميل جديد
           </Button>
-        </div>
-      </div>
+        }
+      />
 
             {/* Stat Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
@@ -85,8 +86,7 @@ export default function CrmPage() {
             title="عملاء جدد"
             value={newCount}
             icon={Plus}
-            iconClassName="text-muted-foreground"
-            iconContainerClassName="bg-muted"
+            iconColor="neutral"
             description={`${newCount} من ${DEMO_LEADS.length} — ${Math.round((newCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-muted-foreground"
           />
@@ -94,8 +94,7 @@ export default function CrmPage() {
             title="تم التواصل"
             value={contactedCount}
             icon={Phone}
-            iconClassName="text-warning"
-            iconContainerClassName="bg-warning-surface"
+            iconColor="warning"
             description={`${contactedCount} من ${DEMO_LEADS.length} — ${Math.round((contactedCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-warning"
           />
@@ -103,8 +102,7 @@ export default function CrmPage() {
             title="تم الحجز"
             value={bookedCount}
             icon={UserCheck}
-            iconClassName="text-success"
-            iconContainerClassName="bg-success-surface"
+            iconColor="success"
             description={`${bookedCount} من ${DEMO_LEADS.length} — ${Math.round((bookedCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-success"
           />
@@ -112,8 +110,7 @@ export default function CrmPage() {
             title="من واتساب"
             value={whatsappCount}
             icon={MessageCircle}
-            iconClassName="text-whatsapp"
-            iconContainerClassName="bg-whatsapp-muted"
+            iconColor="success"
             description={`${whatsappCount} من ${DEMO_LEADS.length} — ${Math.round((whatsappCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-whatsapp"
           />
@@ -219,16 +216,7 @@ export default function CrmPage() {
 
       {/* Lead Cards */}
       {filtered.length === 0 ? (
-        <Card className="p-16 flex flex-col items-center gap-4 text-muted-foreground bg-muted/20 border-dashed">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-2">
-            <UserX className="w-8 h-8 text-muted-foreground/60" />
-          </div>
-          <div className="text-center space-y-1">
-             <h3 className="font-medium text-foreground">لا يوجد عملاء مطابقون</h3>
-             <p className="text-sm">قم بإضافة عميل جديد أو غير كلمات البحث.</p>
-          </div>
-          <Button className="mt-2"><Plus className="w-4 h-4 me-2" /> أضف عميل جديد</Button>
-        </Card>
+        <EmptyState title="لا يوجد عملاء" description="لا يوجد عملاء يطابقون معايير البحث الحالية" />
       ) : view === "list" ? (
         <div className="grid gap-3">
           {filtered.map((lead) => {
@@ -345,13 +333,13 @@ export default function CrmPage() {
                                     </div>
                                   </div>
                                   <div className="flex gap-1 pt-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity justify-end border-t border-border/40">
-                                    <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10 rounded-full" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
+                                    <Button variant="ghost" size="touch-icon" className="text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10 rounded-full" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
                                       <MessageCircle className="w-3.5 h-3.5" />
                                     </Button>
-                                    <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-brand hover:text-brand hover:bg-brand/10 rounded-full" aria-label={`اتصال بـ ${lead.name}`}>
+                                    <Button variant="ghost" size="touch-icon" className="text-brand hover:text-brand hover:bg-brand/10 rounded-full" aria-label={`اتصال بـ ${lead.name}`}>
                                       <Phone className="w-3.5 h-3.5" />
                                     </Button>
-                                    <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-primary hover:text-primary hover:bg-primary/10 rounded-full" aria-label={`حجز موعد لـ ${lead.name}`}>
+                                    <Button variant="ghost" size="touch-icon" className="text-primary hover:text-primary hover:bg-primary/10 rounded-full" aria-label={`حجز موعد لـ ${lead.name}`}>
                                       <CalendarCheck className="w-3.5 h-3.5" />
                                     </Button>
                                   </div>
@@ -364,6 +352,6 @@ export default function CrmPage() {
              ))}
            </div>
       )}
-    </div>
+    </PageShell>
   );
 }
