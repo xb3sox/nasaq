@@ -6,13 +6,14 @@ import { PageShell } from "@/components/ui/page-shell";
 import { PageHeader } from "@/components/ui/page-header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, Download, Plus, FileText, CheckCircle2, Clock, TrendingUp, Receipt, MoreHorizontal, ArrowUpDown, CreditCard, Send } from "lucide-react";
+import { Search, Download, Plus, FileText, CheckCircle2, Clock, Receipt, MoreHorizontal, ArrowUpDown, CreditCard, Send, DollarSign } from "lucide-react";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { StatCard } from "@/components/ui/stat-card";
 import { DEMO_INVOICES } from "@/lib/demo-data";
 import { cn } from "@/lib/utils";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -194,38 +195,6 @@ const pendingRevenue = DEMO_INVOICES
   .filter((i) => i.status === "pending")
   .reduce((sum, i) => sum + i.amount, 0);
 
-const STAT_CARDS = [
-  {
-    label: "إجمالي الفواتير",
-    value: DEMO_INVOICES.length,
-    icon: Receipt,
-    color: "text-primary",
-    bg: "bg-primary/10",
-  },
-  {
-    label: "مدفوعة",
-    value: paidInvoices,
-    icon: CheckCircle2,
-    color: "text-success",
-    bg: "bg-success/10",
-  },
-  {
-    label: "معلقة",
-    value: pendingInvoices,
-    icon: Clock,
-    color: "text-warning",
-    bg: "bg-warning/10",
-  },
-  {
-    label: "إجمالي الإيرادات",
-    value: new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(totalRevenue),
-    icon: TrendingUp,
-    color: "text-primary",
-    bg: "bg-primary/10",
-    subtitle: `${new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(pendingRevenue)} معلق`,
-  },
-];
-
 export default function InvoicesPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -311,22 +280,39 @@ export default function InvoicesPage() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {STAT_CARDS.map((stat) => (
-          <Card key={stat.label} className="p-5 border-border/50 hover:shadow-sm transition-shadow">
-            <div className="flex items-start justify-between mb-3">
-              <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
-              <div className={`w-9 h-9 rounded-xl ${stat.bg} flex items-center justify-center`}>
-                <stat.icon className={`w-4.5 h-4.5 ${stat.color}`} />
-              </div>
-            </div>
-            <div className="space-y-0.5">
-              <div className={`text-2xl font-bold tracking-tight ${stat.color}`}>{stat.value}</div>
-              {"subtitle" in stat && stat.subtitle && (
-                <p className="text-xs text-muted-foreground">{stat.subtitle}</p>
-              )}
-            </div>
-          </Card>
-        ))}
+        <StatCard
+          title="إجمالي الفواتير"
+          value={DEMO_INVOICES.length}
+          icon={Receipt}
+          iconClassName="text-primary"
+          iconContainerClassName="bg-primary/10"
+          description="جميع الفواتير"
+        />
+        <StatCard
+          title="مدفوعة"
+          value={paidInvoices}
+          icon={CheckCircle2}
+          iconClassName="text-success"
+          iconContainerClassName="bg-success/10"
+          trendDirection="up"
+        />
+        <StatCard
+          title="معلقة"
+          value={pendingInvoices}
+          icon={Clock}
+          iconClassName="text-warning"
+          iconContainerClassName="bg-warning/10"
+          trendDirection="down"
+        />
+        <StatCard
+          title="إجمالي الإيرادات"
+          value={new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(totalRevenue)}
+          icon={DollarSign}
+          iconClassName="text-brand"
+          iconContainerClassName="bg-brand-surface"
+          trendDirection="up"
+          sub={`${new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(pendingRevenue)} معلق`}
+        />
       </div>
 
       {/* Filters */}

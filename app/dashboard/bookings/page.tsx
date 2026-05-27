@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { StatCard } from "@/components/ui/stat-card";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import {
   Select,
@@ -161,13 +162,6 @@ export default function BookingsPage() {
     aiSource:  all.filter((b) => b.source === "AI WhatsApp").length,
   };
 
-  const STAT_CARDS = [
-    { label: "مؤكدة",   value: counts.confirmed, color: "text-success",  bg: "bg-success-surface",  icon: CheckCircle2 },
-    { label: "مكتملة",  value: counts.completed, color: "text-muted-foreground",   bg: "bg-muted",   icon: CalendarCheck2 },
-    { label: "معلقة",   value: counts.pending,   color: "text-warning", bg: "bg-warning-surface", icon: Clock },
-    { label: "عبر AI",  value: counts.aiSource,  color: "text-brand",    bg: "bg-brand-surface",icon: Bot },
-  ];
-
   return (
     <PageShell>
       {/* Header */}
@@ -178,27 +172,46 @@ export default function BookingsPage() {
       />
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {STAT_CARDS.map((s) => {
-          const isPositive = s.label !== "معلقة" && s.label !== "ملغاة"; // Example logic
-          return (
-            <Card key={s.label} className="p-5 hover:shadow-sm transition-shadow relative overflow-hidden">
-              <div className="flex items-start justify-between mb-2 relative z-10">
-                <span className="text-sm font-medium text-muted-foreground">{s.label}</span>
-                <div className={`w-9 h-9 rounded-xl ${s.bg} flex items-center justify-center`}>
-                  <s.icon className={`w-4 h-4 ${s.color}`} />
-                </div>
-              </div>
-              <div className={`text-2xl font-bold ${s.color} relative z-10`}>{s.value + (s.label === "مؤكدة" ? added : 0)}</div>
-              <div className="mt-2 text-xs text-muted-foreground relative z-10 flex items-center gap-1">
-                <span className={isPositive ? "text-success" : "text-warning"}>
-                  {isPositive ? "+" : "-"}{s.label === "مؤكدة" ? 12 : s.label === "مكتملة" ? 8 : 4}%
-                </span>
-                <span>عن الأسبوع الماضي</span>
-              </div>
-            </Card>
-          );
-        })}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <StatCard
+          title="مؤكدة"
+          value={counts.confirmed + added}
+          icon={CheckCircle2}
+          iconClassName="text-success"
+          iconContainerClassName="bg-success-surface"
+          trendDirection="up"
+          description="نسبة التأكيد"
+          valueClassName="text-success"
+        />
+        <StatCard
+          title="مكتملة"
+          value={counts.completed}
+          icon={CalendarCheck2}
+          iconClassName="text-muted-foreground"
+          iconContainerClassName="bg-muted"
+          trendDirection="up"
+          description="نسبة الإكمال"
+          valueClassName="text-muted-foreground"
+        />
+        <StatCard
+          title="معلقة"
+          value={counts.pending}
+          icon={Clock}
+          iconClassName="text-warning"
+          iconContainerClassName="bg-warning-surface"
+          trendDirection="down"
+          description="بانتظار التأكيد"
+          valueClassName="text-warning"
+        />
+        <StatCard
+          title="عبر AI"
+          value={counts.aiSource}
+          icon={Bot}
+          iconClassName="text-brand"
+          iconContainerClassName="bg-brand-surface"
+          description="حجوزات عبر الذكاء الاصطناعي"
+          valueClassName="text-brand"
+        />
       </div>
 
       {/* Filters */}
