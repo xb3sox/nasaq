@@ -37,6 +37,108 @@
 
 ---
 
+## Best-practice rules before implementation
+
+These rules are mandatory for every phase. If a task conflicts with them, stop and fix the plan first.
+
+### Next.js App Router boundaries
+
+Source-checked against current Next.js App Router docs via Context7 (`/vercel/next.js`):
+
+- `app/**/page.tsx` files should default to Server Components and stay as thin route shells.
+- Add `"use client"` only to the smallest component/hook that needs React state, effects, event handlers, browser APIs, `toast`, dialogs, charts, drag/drop, or PDF/export behavior.
+- Server Components may read demo/domain data, build view models, and pass plain serializable props into Client Components.
+- Client Components should not import large demo datasets unless the interaction truly needs local mutation.
+- Route files depend inward on `features/*`; `features/*` must never import from `app/*`.
+- `lib/*` must stay UI/framework-free: no imports from `@/components`, `@/features`, `react`, or `next/*` unless explicitly allowlisted for a server integration module.
+
+### Content/config boundaries
+
+- Content modules should be plain serializable config where practical: ids, slugs, strings, numbers, status keys.
+- Do not put Lucide/React components into `content.ts`; use icon keys in content and map them to components in render code.
+- Extract repeated/structured Arabic content arrays, status maps, pricing, FAQ, and field configs.
+- Keep one-off headings close to JSX if extracting them makes the code less readable.
+
+### Safety and verification
+
+- Start every implementation PR from a clean tree and named branch.
+- Before destructive deletes/moves, prove files are identical or intentionally superseded.
+- Use `git mv` / `git rm` for tracked moves/deletes.
+- Use narrow staging. Avoid broad `git add app`, `git add lib`, `git add tests`, or `git add components/ui` unless `git diff --name-only` proves only intended files changed.
+- Before every commit:
+  ```bash
+  git diff --stat
+  git diff --check
+  git status --short
+  ```
+- After every TypeScript/React extraction:
+  ```bash
+  npm test
+  npm run lint
+  npm run build
+  ```
+- After docs-only tasks:
+  ```bash
+  npm run check-docs
+  ```
+- After architecture-script tasks:
+  ```bash
+  npm run check-architecture
+  npm run verify
+  ```
+
+### Guardrail ratchet
+
+`check-architecture.sh` starts permissive only for current known debt. It must fail on:
+
+- any new route page over target LOC,
+- any existing fat route growing above baseline,
+- any extracted route regressing above target LOC,
+- `app/**/page.tsx` containing `"use client"` after extraction unless allowlisted,
+- `features/**` importing `app/**`,
+- `lib/**` importing UI/framework/client-only modules,
+- root `.jules/`,
+- duplicate plan files in `.hermes/plans/*.md` and `.hermes/plans/archive/*.md`,
+- new `@/lib/demo-clinic` imports outside the temporary compatibility shim/test.
+
+### Review gate before implementation
+
+This plan was reviewed by two independent agents:
+
+- Architecture review: aligned with repo architecture, but required stronger Server/Client Component rules, plain content modules, and dependency-boundary guardrails.
+- Execution review: required preflight safety, hash checks before deletions, narrower staging, per-task verification, and splitting oversized refactors.
+
+The edits below incorporate those findings.
+
+---
+
+## Phase -1 — Preflight safety
+
+### Task -1.1: Confirm branch, clean tree, and baseline quality
+
+**Objective:** Start from known-good state before touching structure.
+
+**Commands:**
+```bash
+git status --short
+git branch --show-current
+npm test
+npm run lint
+npm run build
+npm run check-tokens
+npm run check-docs
+```
+
+**Expected:**
+- `git status --short` is empty.
+- Branch is an implementation branch, not `main`.
+- Quality baseline is green before refactor work starts.
+
+**Stop if:**
+- unrelated local changes exist,
+- baseline fails for reasons unrelated to the planned task,
+- branch is `main`.
+
 ## Phase 0 — Repo hygiene first
 
 ### Task 0.1: Remove duplicate plan files from hot path
@@ -64,7 +166,27 @@
 2. Update `.hermes/plans/README.md` active section:
    - mark docs roadmap as completed/archived if done.
    - add this plan as active until implemented.
-3. Run duplicate check:
+3. Before deleting, verify every top-level/archive duplicate is byte-identical:
+   ```bash
+   python3 - <<'PY'
+   from pathlib import Path
+   import hashlib
+
+   root = Path(".hermes/plans")
+   archive = root / "archive"
+   for top in sorted(root.glob("*.md")):
+       if top.name == "README.md":
+           continue
+       archived = archive / top.name
+       if archived.exists():
+           a = hashlib.sha256(top.read_bytes()).hexdigest()
+           b = hashlib.sha256(archived.read_bytes()).hexdigest()
+           if a != b:
+               raise SystemExit(f"Non-identical duplicate requires manual review: {top.name}")
+   PY
+   ```
+4. Delete confirmed identical duplicates with `git rm`.
+5. Run duplicate check:
    ```bash
    python3 - <<'PY'
    from pathlib import Path
@@ -75,9 +197,12 @@
    assert not dup, dup
    PY
    ```
-4. Commit:
+6. Verify and commit:
    ```bash
-   git add .hermes/plans
+   git diff --stat
+   git diff --check
+   git status --short
+   git add <exact removed plan files> .hermes/plans/README.md
    git commit -m "chore: remove duplicated archived plans from hot path"
    ```
 
@@ -95,7 +220,11 @@
   - `.hermes/jules/bolt.md`
   - `.hermes/jules/palette.md`
 
-**Decision:** If the notes are still useful, move them under `.hermes/jules/`. If they are one-off PR notes already captured in PR reviews, delete them. Prefer delete unless there is reusable workflow value.
+**Decision:** Do not delete `.jules/*` until content is reviewed.
+
+- If content has reusable workflow/design value: move it with `git mv` under `.hermes/jules/`.
+- If content is already captured elsewhere: document where it is captured, then delete with `git rm`.
+- Commit message body should state which option was chosen and why.
 
 **Guardrail candidate:** Add `.jules/` to a repo hygiene check so it cannot come back.
 
@@ -140,23 +269,16 @@ git commit -m "docs: fix remaining structure cleanup drift"
 
 **Files:**
 - Create: `features/README.md`
-- Create dirs:
-  - `features/marketing/`
-  - `features/dashboard/overview/`
-  - `features/dashboard/inbox/`
-  - `features/dashboard/bookings/`
-  - `features/dashboard/invoices/`
-  - `features/dashboard/crm/`
-  - `features/dashboard/reminders/`
-  - `features/dashboard/reports/`
-  - `features/dashboard/settings/`
-  - `features/setup/`
+- Do **not** create empty directories just to satisfy architecture. Git does not track them, and `.gitkeep` noise is not architecture.
+- Create each feature directory with its first real file during the extraction task that needs it.
 
 **Rules to document:**
 - `app/**/page.tsx` imports one page component from `features/*`.
+- `app/**/page.tsx` defaults to a Server Component and should not contain `"use client"` after extraction unless explicitly allowlisted.
+- Feature page components default to Server Components. Put `"use client"` only on the smallest component/hook that needs state/effects/event handlers/browser APIs.
 - `features/*/components` may use UI primitives and domain view models.
-- `features/*/view-models` can transform demo/domain data.
-- `features/*/content.ts` owns page-local Arabic copy/config arrays.
+- `features/*/view-models` can transform demo/domain data and should be pure/testable where possible.
+- `features/*/content.ts` owns structured Arabic copy/config arrays and should stay serializable when practical.
 - `lib/*` stays framework-free business logic/integrations.
 
 **Commit:**
@@ -174,15 +296,18 @@ git commit -m "docs: establish feature boundary conventions"
 - Modify: `package.json`
 
 **Checks:**
-- Warn if `app/**/page.tsx` exceeds 120 LOC.
-- Fail only if a route grows above current LOC baseline before extraction.
-- Baseline file: `scripts/architecture-baseline.json` with current route LOC.
+- Generate `scripts/architecture-baseline.json` once from current source.
+- Warn for current routes over target LOC.
+- Fail if any existing route grows above its baseline.
+- Fail if any new route page exceeds target LOC.
+- Fail if an extracted route later regresses above target LOC.
+- Baseline updates are allowed only in the same commit as intentional extraction/LOC reduction.
 
 **Reason:** Prevent worsening before extraction is complete.
 
 **Commit:**
 ```bash
-git add scripts package.json
+git add scripts/check-architecture.sh scripts/architecture-baseline.json package.json
 git commit -m "test: add route size architecture guardrail baseline"
 ```
 
@@ -203,7 +328,9 @@ git commit -m "test: add route size architecture guardrail baseline"
 - `FEATURES`
 - `PRICING`
 - `FAQS`
-- other section copy/config that is not JSX structure.
+- other structured section copy/config that is not JSX structure.
+
+**Content rule:** Use plain serializable config where practical. If current arrays reference Lucide icon components, convert those to icon keys in `content.ts` and map keys to React components inside render code.
 
 **Target:**
 - `app/page.tsx` under 30 LOC:
@@ -219,7 +346,7 @@ git commit -m "test: add route size architecture guardrail baseline"
 
 **Commit:**
 ```bash
-git add app/page.tsx features/marketing tests/marketing-content.test.ts
+git add app/page.tsx features/marketing/content.ts features/marketing/landing-page.tsx tests/marketing-content.test.ts
 git commit -m "refactor: extract marketing landing content and page"
 ```
 
@@ -257,10 +384,11 @@ git commit -m "refactor: centralize dashboard navigation content"
 - `app/dashboard/settings/page.tsx` under 30 LOC.
 - Arabic field labels live in `content.ts`.
 - `ConfigReadinessPanel` isolated and testable.
+- Runtime readiness should be read in a Server Component/server-safe helper where possible and passed as safe flags only. Never expose env values; only readiness/missing variable names.
 
 **Commit:**
 ```bash
-git add app/dashboard/settings/page.tsx features/dashboard/settings
+git add app/dashboard/settings/page.tsx features/dashboard/settings/settings-page.tsx features/dashboard/settings/content.ts features/dashboard/settings/config-readiness-panel.tsx
 git commit -m "refactor: extract settings page content and readiness panel"
 ```
 
@@ -288,31 +416,77 @@ git commit -m "refactor: extract settings page content and readiness panel"
 - Create temporary audit notes inside this plan or a short `docs` note only if needed.
 - Do not commit audit-only junk unless it has lasting value.
 
-### Task 3.2: Make `lib/demo-data.ts` the canonical demo dataset
+### Task 3.2a: Add canonical demo exports without changing consumers
 
-**Objective:** End split-brain demo data.
+**Objective:** Prepare `lib/demo-data.ts` as the canonical source while preserving behavior.
 
 **Files:**
 - Modify: `lib/demo-data.ts`
-- Modify or deprecate: `lib/demo-clinic.ts`
-- Modify consumers listed above.
+- Test: `tests/demo-data.test.ts` or new focused demo export test
 
-**Approach:**
-- Move missing `demo-clinic` exports into `demo-data.ts` or derive them from it.
-- Keep `lib/demo-clinic.ts` as a compatibility shim for one PR if needed:
-  ```ts
-  export { demoClinic, demoAiDecision, ... } from "./demo-data";
-  ```
-- Add comment: `// Deprecated compatibility exports. New code imports from demo-data.`
+**Rules:**
+- Do not change demo object values, IDs, dates, phone masks, or API response shapes.
+- Add missing exports by deriving from existing canonical data where possible.
 
-**Tests:**
-- Existing demo-data tests must pass.
-- Add test proving legacy shim exports match canonical exports if shim remains.
+**Verification:**
+```bash
+npm test -- tests/demo-data.test.ts
+npm run lint
+npm run build
+```
 
 **Commit:**
 ```bash
-git add lib/demo-data.ts lib/demo-clinic.ts app lib/reminder-sender.ts tests
-git commit -m "refactor: make demo-data canonical demo source"
+git diff --name-only
+git add lib/demo-data.ts tests/demo-data.test.ts
+git commit -m "refactor: add canonical demo-data exports"
+```
+
+### Task 3.2b: Convert consumers from `demo-clinic` to `demo-data`
+
+**Objective:** Move app/API/lib consumers to the canonical demo source one layer at a time.
+
+**Files:**
+- Modify: `app/dashboard/page.tsx`
+- Modify: `app/dashboard/inbox/page.tsx`
+- Modify: `app/api/demo/flow/route.ts`
+- Modify: `app/api/messages/send/route.ts`
+- Modify: `app/api/bookings/route.ts`
+- Modify: `app/api/webhooks/whatsapp/route.ts`
+- Modify: `lib/reminder-sender.ts`
+- Modify/add related tests
+
+**Verification:**
+```bash
+npm test -- tests/clinic-api.test.ts tests/reminder-sender.test.ts tests/demo-data.test.ts
+npm run lint
+npm run build
+```
+
+**Commit:**
+```bash
+git diff --name-only
+git add <exact intended files only>
+git commit -m "refactor: migrate demo consumers to canonical demo-data"
+```
+
+### Task 3.2c: Keep or remove `demo-clinic` compatibility shim
+
+**Objective:** Retire split-brain data without breaking remaining imports.
+
+**Files:**
+- Modify/delete: `lib/demo-clinic.ts`
+- Test: compatibility test only if shim remains
+
+**Rules:**
+- If zero consumers remain, prefer deleting `lib/demo-clinic.ts`.
+- If shim remains, it must only re-export from `demo-data.ts` and include a removal deadline in this plan/PR body.
+- Phase 7 final guardrail should fail if shim remains without explicit allowlist.
+
+**Commit:**
+```bash
+git add <exact intended files only>
+git commit -m "refactor: retire legacy demo-clinic source"
 ```
 
 ### Task 3.3: Guard against new `demo-clinic` imports
@@ -338,6 +512,12 @@ git commit -m "test: block new legacy demo-clinic imports"
 
 Do these one page per PR or one commit per page. No behavior changes. Each step: extract, import shell, run tests/build.
 
+### Client-boundary rule for all Phase 4 tasks
+
+- Route shell stays server-safe and under target LOC.
+- If extracted feature code uses React state/effects/browser APIs, put `"use client"` at the top of the smallest owning component/hook.
+- `npm run build` is mandatory after every extraction; server/client boundary bugs like to hide until build time.
+
 ### Task 4.1: Extract invoices page
 
 **Why first:** largest dashboard route and highest inline handler count.
@@ -351,7 +531,7 @@ Do these one page per PR or one commit per page. No behavior changes. Each step:
 
 **Move:**
 - `InvoiceDetailModal`
-- PDF export handler if UI-specific, or move pure PDF helpers to `lib/invoice-pdf.ts` if reusable.
+- PDF/export handler stays in a Client Component/hook because it uses DOM/browser libraries. Only pure invoice math/formatting may move to `lib/invoice-pdf.ts`.
 - sorting/filtering/select/bulk-selection state into `use-invoices-table.ts`.
 - labels/status copy into `content.ts`.
 
@@ -362,7 +542,7 @@ Do these one page per PR or one commit per page. No behavior changes. Each step:
 
 **Commit:**
 ```bash
-git add app/dashboard/invoices/page.tsx features/dashboard/invoices lib tests
+git add app/dashboard/invoices/page.tsx features/dashboard/invoices/invoices-page.tsx features/dashboard/invoices/invoice-detail-modal.tsx features/dashboard/invoices/use-invoices-table.ts features/dashboard/invoices/content.ts <exact new/modified test files>
 git commit -m "refactor: extract invoices feature page and table logic"
 ```
 
@@ -386,7 +566,7 @@ git commit -m "refactor: extract invoices feature page and table logic"
 
 **Commit:**
 ```bash
-git add app/dashboard/bookings/page.tsx features/dashboard/bookings tests
+git add app/dashboard/bookings/page.tsx features/dashboard/bookings/bookings-page.tsx features/dashboard/bookings/new-booking-dialog.tsx features/dashboard/bookings/use-bookings-table.ts features/dashboard/bookings/content.ts <exact new/modified test files>
 git commit -m "refactor: extract bookings feature page and dialog"
 ```
 
@@ -411,34 +591,77 @@ git commit -m "refactor: extract bookings feature page and dialog"
 
 **Commit:**
 ```bash
-git add app/dashboard/inbox/page.tsx features/dashboard/inbox tests
+git add app/dashboard/inbox/page.tsx features/dashboard/inbox/inbox-page.tsx features/dashboard/inbox/conversation-list.tsx features/dashboard/inbox/chat-thread.tsx features/dashboard/inbox/ai-suggestion.tsx features/dashboard/inbox/use-inbox-state.ts <exact new/modified test files>
 git commit -m "refactor: extract inbox feature state and panels"
 ```
 
-### Task 4.4: Extract CRM, reminders, reports, overview pages
+### Task 4.4: Extract CRM page
 
 **Files:**
-- `features/dashboard/crm/*`
-- `features/dashboard/reminders/*`
-- `features/dashboard/reports/*`
-- `features/dashboard/overview/*`
-- Modify corresponding route shells.
+- Create: `features/dashboard/crm/crm-page.tsx`
+- Create supporting `components/`, `content.ts`, or `view-models/` only if needed
+- Modify: `app/dashboard/crm/page.tsx`
 
-**Order:**
-1. CRM — filters/status cards.
-2. Reminders — date helpers and filter cards.
-3. Reports — charts and export CSV handler.
-4. Overview — `LiveDemoRunner`, `RiyadhClock`, golden-flow sections.
-
-**Commit per page:**
+**Verification:**
 ```bash
-git commit -m "refactor: extract crm feature page"
-git commit -m "refactor: extract reminders feature page"
-git commit -m "refactor: extract reports feature page"
-git commit -m "refactor: extract dashboard overview feature page"
+npm test
+npm run lint
+npm run build
 ```
 
-### Task 4.5: Turn route-size guardrail from warning to fail
+**Commit:** `refactor: extract crm feature page`
+
+### Task 4.5: Extract reminders page
+
+**Files:**
+- Create: `features/dashboard/reminders/reminders-page.tsx`
+- Create supporting `components/`, `content.ts`, or `view-models/` only if needed
+- Modify: `app/dashboard/reminders/page.tsx`
+
+**Verification:**
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+**Commit:** `refactor: extract reminders feature page`
+
+### Task 4.6: Extract reports page
+
+**Files:**
+- Create: `features/dashboard/reports/reports-page.tsx`
+- Keep chart/export code inside client boundary as needed
+- Create supporting `components/`, `content.ts`, or `view-models/` only if needed
+- Modify: `app/dashboard/reports/page.tsx`
+
+**Verification:**
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+**Commit:** `refactor: extract reports feature page`
+
+### Task 4.7: Extract dashboard overview page
+
+**Files:**
+- Create: `features/dashboard/overview/overview-page.tsx`
+- Create: `features/dashboard/overview/live-demo-runner.tsx`
+- Create: `features/dashboard/overview/riyadh-clock.tsx`
+- Modify: `app/dashboard/page.tsx`
+
+**Verification:**
+```bash
+npm test
+npm run lint
+npm run build
+```
+
+**Commit:** `refactor: extract dashboard overview feature page`
+
+### Task 4.8: Turn route-size guardrail from warning to fail
 
 **Objective:** Enforce architecture once extraction is complete.
 
@@ -477,9 +700,17 @@ git commit -m "test: enforce thin route page guardrail"
 - Reminder draft construction → `clinic-reminders.ts`.
 - Existing public exports preserved from `clinic-workflow.ts` to avoid breaking imports.
 
+**Verification:**
+```bash
+npm test -- tests/clinic-workflow.test.ts
+npm run lint
+npm run build
+```
+
 **Commit:**
 ```bash
-git add lib tests
+git diff --name-only
+git add <exact intended lib/test files only>
 git commit -m "refactor: split clinic workflow into intent scheduling and reminders"
 ```
 
@@ -497,9 +728,16 @@ git commit -m "refactor: split clinic workflow into intent scheduling and remind
 - Domain decisions come from split modules.
 - Persistence only through `ClinicStore`.
 
+**Verification:**
+```bash
+npm test -- tests/clinic-api.test.ts tests/clinic-persistence.test.ts
+npm run lint
+npm run build
+```
+
 **Commit:**
 ```bash
-git add lib/clinic-api.ts tests/clinic-api.test.ts
+git add lib/clinic-api.ts tests/clinic-api.test.ts tests/clinic-persistence.test.ts
 git commit -m "refactor: clarify clinic api orchestration boundary"
 ```
 
@@ -518,9 +756,16 @@ git commit -m "refactor: clarify clinic api orchestration boundary"
 
 **Guard:** Do not over-abstract. Only extract if the same structure appears in 3+ feature pages.
 
+Before extracting any shared component, document:
+- the 3+ exact duplicated call sites,
+- the props needed,
+- confirmation that visual output remains unchanged.
+
+If fewer than 3 call sites share the same structure, skip this task.
+
 **Commit:**
 ```bash
-git add components/ui features/dashboard
+git add <exact shared component files> <exact feature files updated to use them>
 git commit -m "refactor: extract shared dashboard toolbar patterns"
 ```
 
@@ -603,6 +848,8 @@ npm run check-tokens
 npm run check-docs
 npm run check-architecture
 npm run verify
+git status --short
+git log --oneline --decorate -n 10
 ```
 
 ### Manual review checklist
