@@ -140,23 +140,23 @@ export default function InboxPage() {
             <div
               key={conv.id}
               onClick={() => { setSelectedId(conv.id); setBookingConfirmed(false); setHandoffDone(false); setDismissSuggestion(false); }}
-              className={`p-4 border-b cursor-pointer transition-colors ${selectedId === conv.id ? "bg-[#f0f2f5] dark:bg-[#202c33]" : "hover:bg-muted/50"}`}
+              className={`p-4 border-b cursor-pointer transition-colors ${selectedId === conv.id ? "bg-muted dark:bg-muted" : "hover:bg-muted/50"}`}
             >
               <div className="flex justify-between items-start mb-1">
                 <div className="font-semibold text-sm truncate">{conv.customerName}</div>
-                <div className={`text-xs whitespace-nowrap ${isUnread ? "text-[#25D366] font-semibold" : "text-muted-foreground"}`}>{conv.lastMessageAt}</div>
+                <div className={`text-xs whitespace-nowrap ${isUnread ? "text-whatsapp font-semibold" : "text-muted-foreground"}`}>{conv.lastMessageAt}</div>
               </div>
               <div className={`text-xs truncate mb-2 ${isUnread ? "text-foreground font-semibold" : "text-muted-foreground"}`}>{conv.lastMessage}</div>
               <div className="flex items-center justify-between">
                 <div>
                   {conv.humanNeeded ? (
-                    <Badge className="bg-orange-100 text-orange-800 text-xs border-0 gap-1"><div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div> يحتاج موظف</Badge>
+                    <Badge className="bg-warning-surface text-warning text-xs border-0 gap-1"><div className="w-1.5 h-1.5 rounded-full bg-warning"></div> يحتاج موظف</Badge>
                   ) : (
-                    <Badge className="bg-green-100 text-green-800 text-xs border-0 gap-1"><Bot className="w-3 h-3" /> AI {conv.tags[0]}</Badge>
+                    <Badge className="bg-success-surface text-success text-xs border-0 gap-1"><Bot className="w-3 h-3" /> AI {conv.tags[0]}</Badge>
                   )}
                 </div>
                 {/* Unread badge mock */}
-                {isUnread && <Badge className="bg-[#25D366] text-white hover:bg-[#25D366] h-5 min-w-5 flex items-center justify-center p-0 rounded-full text-[10px]">1</Badge>}
+                {isUnread && <Badge className="bg-whatsapp text-white hover:bg-whatsapp h-5 min-w-5 flex items-center justify-center p-0 rounded-full text-[10px]">1</Badge>}
               </div>
             </div>
             );
@@ -175,7 +175,7 @@ export default function InboxPage() {
             <div className="min-w-0">
               <div className="font-bold text-sm">{selected.customerName}</div>
               <div className="text-xs text-muted-foreground flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"></span>
+                <span className="w-1.5 h-1.5 rounded-full bg-success inline-block"></span>
                 متصل · آخر ظهور اليوم
               </div>
             </div>
@@ -207,7 +207,7 @@ export default function InboxPage() {
                 size="sm"
                 variant="default"
                 onClick={handleConfirmBooking}
-                className="min-h-[32px] h-8 text-xs bg-[#25D366] hover:bg-[#1EBE5D] text-white"
+                className="min-h-[32px] h-8 text-xs bg-success hover:bg-success/80 text-success-foreground"
               >
                 <CalendarCheck className="w-3 h-3 me-1" />
                 تأكيد الحجز
@@ -228,11 +228,11 @@ export default function InboxPage() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#E5DDD5]/10 dark:bg-muted/10 relative" style={{ backgroundImage: 'url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png")', backgroundSize: '400px', opacity: 0.9, backgroundBlendMode: 'overlay' }}>
-          <div className="absolute inset-0 bg-background/95 -z-10"></div>
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-muted/30 relative">
+          
           {bookingConfirmed && (
              <div className="flex justify-center mb-4">
-               <div className="bg-yellow-100/80 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 text-xs px-3 py-1.5 rounded-lg shadow-sm border border-yellow-200/50 flex items-center gap-1.5">
+               <div className="bg-warning-surface dark:bg-warning/20 text-warning dark:text-warning text-xs px-3 py-1.5 rounded-lg shadow-sm border border-warning/20 flex items-center gap-1.5">
                  <CalendarCheck className="w-3.5 h-3.5" />
                  تم تأكيد الحجز: {booking.serviceName} مع {booking.doctorName}
                </div>
@@ -241,7 +241,7 @@ export default function InboxPage() {
           
           {handoffDone && (
              <div className="flex justify-center mb-4">
-               <div className="bg-blue-100/80 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs px-3 py-1.5 rounded-lg shadow-sm border border-blue-200/50 flex items-center gap-1.5">
+               <div className="bg-muted dark:bg-muted text-foreground dark:text-foreground text-xs px-3 py-1.5 rounded-lg shadow-sm border border-muted-foreground/20 flex items-center gap-1.5">
                  <User className="w-3.5 h-3.5" />
                  تم تحويل المحادثة للموظف
                </div>
@@ -257,13 +257,13 @@ export default function InboxPage() {
               >
                 <div className={`relative px-3 py-2 max-w-[85%] sm:max-w-[70%] text-[15px] leading-relaxed shadow-sm flex flex-wrap items-end gap-2 ${
                   msg.sender === "bot"
-                    ? "bg-[#D9FDD3] dark:bg-[#005C4B] text-foreground rounded-2xl rounded-se-sm"
-                    : "bg-white dark:bg-[#202C33] text-foreground rounded-2xl rounded-ss-sm border dark:border-white/5"
+                    ? "bg-brand-muted dark:bg-brand/20 text-foreground rounded-2xl rounded-se-sm"
+                    : "bg-card dark:bg-muted text-foreground rounded-2xl rounded-ss-sm border dark:border-white/5"
                 }`}>
-                  <div className={isHighlighted ? "bg-yellow-200 dark:bg-yellow-800" : ""}>{msg.body}</div>
-                  <div className={`text-[10px] flex items-center gap-1 shrink-0 ms-auto ${msg.sender === "bot" ? "text-green-800/60 dark:text-green-200/50" : "text-muted-foreground"}`}>
+                  <div className={isHighlighted ? "bg-warning/20 rounded" : ""}>{msg.body}</div>
+                  <div className={`text-[10px] flex items-center gap-1 shrink-0 ms-auto ${msg.sender === "bot" ? "text-success/60 dark:text-success/30" : "text-muted-foreground"}`}>
                     10:42 ص
-                    {msg.sender === "bot" && <Check className="w-3.5 h-3.5 text-[#53bdeb] dark:text-[#53bdeb]" />}
+                    {msg.sender === "bot" && <Check className="w-3.5 h-3.5 text-brand/60 dark:text-brand/60" />}
                   </div>
                 </div>
               </div>
@@ -272,7 +272,7 @@ export default function InboxPage() {
           
           {typing && (
              <div className="flex justify-start">
-                <div className="bg-white dark:bg-[#202C33] text-foreground rounded-2xl rounded-ss-sm px-4 py-3 shadow-sm border dark:border-white/5 flex items-center gap-1.5 h-10 w-16">
+                <div className="bg-card dark:bg-muted text-foreground rounded-2xl rounded-ss-sm px-4 py-3 shadow-sm border dark:border-white/5 flex items-center gap-1.5 h-10 w-16">
                   <div className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce"></div>
                   <div className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce delay-75"></div>
                   <div className="w-2 h-2 rounded-full bg-muted-foreground/40 animate-bounce delay-150"></div>
@@ -282,7 +282,7 @@ export default function InboxPage() {
         </div>
 
         {/* Action Panel */}
-        <div className="shrink-0 border-t bg-[#f0f2f5] dark:bg-[#202c33] p-3 flex flex-col gap-2">
+        <div className="shrink-0 border-t bg-muted dark:bg-muted p-3 flex flex-col gap-2">
           {!dismissSuggestion && (
             <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-xl p-2 px-3 shadow-sm text-sm">
               <Bot className="w-4 h-4 text-primary shrink-0" />
@@ -294,7 +294,7 @@ export default function InboxPage() {
 
           {/* Reply Input */}
           <div className="flex gap-2 items-end">
-            <div className="flex-1 flex items-center bg-white dark:bg-[#2a3942] rounded-3xl min-h-[44px] px-2 shadow-sm">
+            <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm">
               <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إضافة رمز تعبيري">
                 <Smile className="w-6 h-6" />
               </Button>
@@ -318,7 +318,7 @@ export default function InboxPage() {
             <Button 
                onClick={handleSendReply} 
                disabled={sending || !replyText.trim()} 
-               className="h-11 w-11 rounded-full bg-[#00a884] hover:bg-[#058b6f] text-white p-0 flex items-center justify-center shadow-sm shrink-0"
+               className="h-11 w-11 rounded-full bg-brand hover:bg-brand/80 text-white p-0 flex items-center justify-center shadow-sm shrink-0"
                aria-label="إرسال"
             >
               {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : sent ? <Check className="w-5 h-5" /> : <Send className="w-5 h-5 rtl:rotate-180 rtl:ms-1" />}

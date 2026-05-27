@@ -71,13 +71,13 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
           <Link
             href="/setup"
             onClick={onNavClick}
-            className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group bg-amber-500/10 text-amber-600 hover:bg-amber-500/20 border border-amber-500/20 mb-4"
+            className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group bg-warning-surface text-warning hover:bg-warning-surface/80 border border-warning/20 mb-4"
           >
             <div className="flex items-center gap-3">
-              <Settings className="w-4 h-4 shrink-0 text-amber-600" />
+              <Settings className="w-4 h-4 shrink-0 text-warning" />
               <span>أكمل الإعداد</span>
             </div>
-            <div className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></div>
+            <div className="w-2 h-2 rounded-full bg-warning animate-pulse"></div>
           </Link>
         )}
         {routes.map((route) => {
@@ -120,7 +120,7 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground text-sm font-bold shadow-sm">
               م
             </div>
-            <div className="absolute -bottom-1 -start-1 w-3.5 h-3.5 bg-green-500 border-2 border-card rounded-full"></div>
+            <div className="absolute -bottom-1 -start-1 w-3.5 h-3.5 bg-success border-2 border-card rounded-full"></div>
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">المدير</p>
