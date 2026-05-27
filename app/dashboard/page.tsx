@@ -234,7 +234,6 @@ export default function DashboardPage() {
           icon={MessageCircle}
           description={`تولى الذكاء الاصطناعي الرد على ${demoReportStats.aiHandled}`}
           valueClassName="text-destructive"
-          
           iconColor="danger"
         />
 
@@ -244,7 +243,6 @@ export default function DashboardPage() {
           icon={Users}
           trend={15}
           trendLabel="هذا الأسبوع"
-          
           iconColor="brand"
         />
 
@@ -254,7 +252,6 @@ export default function DashboardPage() {
           icon={TrendingUp}
           trend={12}
           trendLabel="مقارنة بالشهر الماضي"
-          
           iconColor="success"
         />
       </div>
