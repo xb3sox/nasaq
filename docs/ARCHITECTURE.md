@@ -9,7 +9,7 @@
 
 ```
 app/              → Next.js App Router — thin route shells + API routes only
-features/         → Target architecture: domain UI, hooks, view-models, selectors
+features/         → Domain UI, hooks, view-models, content modules
 components/ui/    → Generic UI primitives (shadcn/ui, RTL-aware)
 lib/              → Pure business logic, adapters, config, integrations
 tests/            → Node.js test runner, module-level tests
@@ -19,16 +19,14 @@ supabase/         → Migrations + seed
 n8n/              → External n8n workflow JSONs
 ```
 
-> **Note:** `features/` is the target architecture. Current route files in `app/` are still fat and will be extracted to `features/` in future PRs.
+> **Note:** Route extraction to `features/` is in progress. Extracted routes (marketing, settings) are live. Dashboard route extraction is in-flight. Guardrail: `check-architecture` warns on fat routes, fails on regressions.
 
 ## Route thinness rule
 
-- Route `page.tsx` files must stay under ~80 LOC unless the page is static marketing material.
+- Route `page.tsx` files must stay under 80 LOC. Landing page under 40 LOC.
 - Route files import from `features/<domain>/` or `components/ui/` — they do not contain inline data fetching, inline business logic, or inline demo data.
-- Route files that exceed this limit should have their logic extracted into:
-  - `features/<domain>/components/` — page-specific UI blocks
-  - `features/<domain>/hooks/` — custom hooks
-  - `features/<domain>/view-models/` — data transformations
+- Route files default to Server Components. `"use client"` only on the smallest component/hook that needs state, effects, or browser APIs.
+- Enforced by `scripts/check-architecture.sh` (wired into `npm run verify`).
 
 ## Source-of-truth data flow
 
@@ -41,12 +39,14 @@ WhatsApp Meta Cloud API
         ▼
   lib/clinic-api.ts                     ← webhook handler (dispatch)
         │
-        ├──► lib/clinic-workflow.ts      ← intent detection, booking logic
+        ├──► lib/clinic-intent.ts        ← intent detection, WhatsApp parsing
+        ├──► lib/clinic-scheduling.ts    ← slot generation, conflict detection
+        ├──► lib/clinic-reminders.ts     ← booking confirmation, reminder drafts
         ├──► lib/whatsapp-send.ts        ← response sender (mock or Cloud API)
         └──► lib/clinic-persistence.ts   ← store interface (10 operations)
                  │
                  ├──► lib/supabase-store.ts   ← production adapter
-                 └──► lib/demo-data.ts        ← demo adapter (in-memory)
+                 └──► lib/demo-data.ts        ← canonical demo data
 ```
 
 ## Adapter boundaries
@@ -62,6 +62,7 @@ WhatsApp Meta Cloud API
   - Mock sender (demo)
   - Meta Cloud API sender (production)
 - **Auth:** `NextAuth v5` with credentials provider. Supabase-backed in production, demo-safe stub in demo mode.
+- **Demo data:** `lib/demo-data.ts` is canonical. `lib/demo-clinic.ts` is a deprecated compatibility shim.
 
 ## Test placement
 
@@ -79,3 +80,4 @@ WhatsApp Meta Cloud API
 - **RTL layout:** Use CSS logical properties (`padding-inline-start`, not `padding-left`; `margin-inline-end`, not `margin-right`; `inset-inline-start`, not `left`).
 - **No secrets in code.** Runtime status endpoints expose readiness flags and missing variable names only — never values.
 - **No medical advice.** AI routes symptoms and diagnosis requests to a human. Always.
+- **Guardrails:** `npm run verify` runs tests + lint + build + check-tokens + check-docs + check-architecture before push.
