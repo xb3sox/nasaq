@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BRAND } from "@/lib/brand";
 import { Check, MessageCircle, Calendar, BarChart3, Bell, Users, Bot, Zap, ChevronDown, CheckCircle2, ArrowRight } from "lucide-react";
+import { LandingSection } from "@/components/landing";
 
 const FEATURES = [
   { icon: MessageCircle, title: "واتساب ذكي", desc: "يرد على العملاء تلقائياً بالعربية على مدار الساعة" },
@@ -73,7 +74,7 @@ export default function RootPage() {
 
       <main id="main-content">
       {/* Hero */}
-      <section id="hero" className="max-w-6xl mx-auto px-6 py-20 lg:py-32 overflow-hidden">
+      <LandingSection id="hero" maxWidth="6xl" padded={false} className="py-20 lg:py-32 overflow-hidden" background="transparent">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 text-center lg:text-start z-10">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium animate-fade-slide-up border border-primary/20">
@@ -136,11 +137,10 @@ export default function RootPage() {
             </Card>
           </div>
         </div>
-      </section>
+      </LandingSection>
 
       {/* How it works */}
-      <section className="py-24 bg-muted/30 border-y border-border/50">
-        <div className="max-w-6xl mx-auto px-6">
+      <LandingSection maxWidth="6xl" background="muted" className="border-y border-border/50">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold animate-fade-slide-up tracking-tight">كيف يعمل النظام؟</h2>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">ثلاث خطوات بسيطة لأتمتة عيادتك بالكامل.</p>
@@ -167,12 +167,10 @@ export default function RootPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+      </LandingSection>
 
       {/* Problem */}
-      <section className="py-24">
-        <div className="max-w-5xl mx-auto px-6 text-center space-y-12">
+      <LandingSection maxWidth="5xl" className="text-center space-y-12">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold animate-fade-slide-up tracking-tight">التحديات التي نواجهها في العيادات</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">نحن نفهم معاناتك اليومية مع إدارة المواعيد والردود.</p>
@@ -195,12 +193,10 @@ export default function RootPage() {
               </Card>
             ))}
           </div>
-        </div>
-      </section>
+      </LandingSection>
 
       {/* Features */}
-      <section className="py-24 bg-card border-y border-border/50">
-        <div className="max-w-6xl mx-auto px-6">
+      <LandingSection maxWidth="6xl" background="card" className="border-y border-border/50">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold animate-fade-slide-up tracking-tight">كل ما تحتاجه في مكان واحد</h2>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">منصة متكاملة تدير كل تفاصيل علاقتك مع المراجعين.</p>
@@ -215,20 +211,18 @@ export default function RootPage() {
                   <h3 className="text-lg font-bold">{f.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
                 </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+                </Card>
+                ))}
+                </div>
+                </LandingSection>
 
-      {/* Pricing */}
-      <section id="pricing" className="bg-muted/30 py-24">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold animate-fade-slide-up tracking-tight">باقات تناسب نمو عيادتك</h2>
-            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">اختر الباقة المناسبة لك، ويمكنك الترقية في أي وقت.</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 items-start lg:px-12">
+                {/* Pricing */}
+                <LandingSection id="pricing" maxWidth="6xl" background="muted">
+                <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold animate-fade-slide-up tracking-tight">باقات تناسب نمو عيادتك</h2>
+                <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">اختر الباقة المناسبة لك، ويمكنك الترقية في أي وقت.</p>
+                </div>
+                <div className="grid md:grid-cols-3 gap-8 items-start lg:px-12">
             {PRICING.map((p) => (
               <Card key={p.name} className={`relative transition-colors duration-300 ${p.highlight ? "border-primary shadow-2xl scale-105 z-10" : "border-border/50 shadow-sm hover:shadow-md mt-0 md:mt-4"}`}>
                 {p.highlight && (
@@ -255,40 +249,38 @@ export default function RootPage() {
                     ))}
                   </ul>
                   <Button className="w-full rounded-full h-12 text-md shadow-sm hover:shadow-md transition-colors duration-200" variant={p.highlight ? "default" : "outline"}>
-                    اختر الباقة
-                  </Button>
+                    اختر الباقة\n                  </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </div>
-      </section>
+      </LandingSection>
 
       {/* FAQ */}
-      <section className="py-24 max-w-3xl mx-auto px-6">
+      <LandingSection maxWidth="3xl">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold animate-fade-slide-up tracking-tight">الأسئلة الشائعة</h2>
         </div>
         <div className="bg-card border border-border/50 rounded-2xl p-2 shadow-sm">
           {FAQS.map((faq, i) => (
             <div key={i} className="px-4">
-              <FaqAccordion 
-                q={faq.q} 
-                a={faq.a} 
-                isOpen={openFaq === i} 
-                onClick={() => setOpenFaq(openFaq === i ? null : i)} 
-              />
+            <FaqAccordion
+              q={faq.q}
+              a={faq.a}
+              isOpen={openFaq === i}
+              onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            />
             </div>
-          ))}
-        </div>
-      </section>
+            ))}
+            </div>
+            </LandingSection>
 
-      {/* CTA */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-primary z-0"></div>
-        <div className="absolute inset-0 bg-[url('/bg-pattern.svg')] opacity-10 z-0"></div>
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-foreground/30 to-transparent"></div>
-        <div className="max-w-4xl mx-auto px-6 text-center space-y-8 relative z-10">
+            {/* CTA */}
+            <LandingSection maxWidth="4xl" background="primary" className="relative overflow-hidden" padded={false}>
+            <div className="absolute inset-0 bg-primary z-0"></div>
+            <div className="absolute inset-0 bg-[url('/bg-pattern.svg')] opacity-10 z-0"></div>
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-primary-foreground/30 to-transparent"></div>
+            <div className="text-center space-y-8 relative z-10 py-24">
           <h2 className="text-4xl font-extrabold text-primary-foreground tracking-tight text-balance">مستعد لتغيير طريقة عمل عيادتك؟</h2>
           <p className="text-primary-foreground/80 text-xl max-w-2xl mx-auto leading-relaxed text-balance">
             لا تحتاج لبطاقة ائتمانية. شاهد النظام وهو يعمل بشكل حي في أقل من 5 دقائق.
@@ -301,11 +293,11 @@ export default function RootPage() {
             </Link>
           </div>
         </div>
-      </section>
+      </LandingSection>
 
       {/* Footer */}
       <footer className="bg-background border-t border-border/50 pt-16 pb-8">
-        <div className="max-w-6xl mx-auto px-6">
+        <LandingSection maxWidth="6xl" padded={false}>
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div className="md:col-span-2 space-y-4">
               <div className="font-bold text-xl text-primary flex items-center gap-2">
@@ -338,7 +330,7 @@ export default function RootPage() {
               {/* Social icons can go here */}
             </div>
           </div>
-        </div>
+        </LandingSection>
       </footer>
       </main>
     </div>
