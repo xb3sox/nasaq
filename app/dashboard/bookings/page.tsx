@@ -25,24 +25,24 @@ type BookingStatus = "confirmed" | "pending" | "completed" | "cancelled";
 type PaymentStatus = "paid" | "unpaid" | "partial";
 
 const STATUS_CONFIG: Record<BookingStatus, { label: string; color: string; icon: React.ElementType }> = {
-  confirmed:  { label: "مؤكد",    color: "bg-green-100 text-green-800",  icon: CheckCircle2 },
-  pending:    { label: "معلق",    color: "bg-yellow-100 text-yellow-800", icon: Clock },
-  completed:  { label: "مكتمل",   color: "bg-blue-100 text-blue-800",    icon: CalendarCheck2 },
-  cancelled:  { label: "ملغي",    color: "bg-red-100 text-red-800",      icon: XCircle },
+  confirmed:  { label: "مؤكد",    color: "bg-success-surface text-success",  icon: CheckCircle2 },
+  pending:    { label: "معلق",    color: "bg-warning-surface text-warning", icon: Clock },
+  completed:  { label: "مكتمل",   color: "bg-muted text-muted-foreground",    icon: CalendarCheck2 },
+  cancelled:  { label: "ملغي",    color: "bg-destructive/10 text-destructive",      icon: XCircle },
 };
 
 const PAYMENT_CONFIG: Record<PaymentStatus, { label: string; color: string }> = {
-  paid:     { label: "مدفوع",      color: "bg-emerald-100 text-emerald-800" },
-  unpaid:   { label: "غير مدفوع",  color: "bg-orange-100 text-orange-700" },
-  partial:  { label: "جزئي",       color: "bg-purple-100 text-purple-800" },
+  paid:     { label: "مدفوع",      color: "bg-success-surface text-success" },
+  unpaid:   { label: "غير مدفوع",  color: "bg-warning-surface text-warning" },
+  partial:  { label: "جزئي",       color: "bg-muted text-muted-foreground" },
 };
 
 const SOURCE_COLORS: Record<string, string> = {
-  "AI WhatsApp": "bg-green-50 text-green-700 border-green-200",
-  "WhatsApp":    "bg-blue-50 text-blue-700 border-blue-200",
-  "Reception":   "bg-gray-100 text-gray-700",
-  "Referral":    "bg-purple-50 text-purple-700",
-  "Instagram":   "bg-pink-50 text-pink-700",
+  "AI WhatsApp": "bg-brand-surface text-brand border-brand/20",
+  "WhatsApp":    "bg-whatsapp-muted text-whatsapp-dark border-whatsapp/20",
+  "Reception":   "bg-muted text-muted-foreground border-border",
+  "Referral":    "bg-muted text-muted-foreground border-border",
+  "Instagram":   "bg-muted text-muted-foreground border-border",
 };
 
 function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
@@ -158,10 +158,10 @@ export default function BookingsPage() {
   };
 
   const STAT_CARDS = [
-    { label: "مؤكدة",   value: counts.confirmed, color: "text-green-600",  bg: "bg-green-50",  icon: CheckCircle2 },
-    { label: "مكتملة",  value: counts.completed, color: "text-blue-600",   bg: "bg-blue-50",   icon: CalendarCheck2 },
-    { label: "معلقة",   value: counts.pending,   color: "text-yellow-600", bg: "bg-yellow-50", icon: Clock },
-    { label: "عبر AI",  value: counts.aiSource,  color: "text-primary",    bg: "bg-primary/10",icon: Bot },
+    { label: "مؤكدة",   value: counts.confirmed, color: "text-success",  bg: "bg-success-surface",  icon: CheckCircle2 },
+    { label: "مكتملة",  value: counts.completed, color: "text-muted-foreground",   bg: "bg-muted",   icon: CalendarCheck2 },
+    { label: "معلقة",   value: counts.pending,   color: "text-warning", bg: "bg-warning-surface", icon: Clock },
+    { label: "عبر AI",  value: counts.aiSource,  color: "text-brand",    bg: "bg-brand-surface",icon: Bot },
   ];
 
   return (
@@ -189,7 +189,7 @@ export default function BookingsPage() {
               </div>
               <div className={`text-2xl font-bold ${s.color} relative z-10`}>{s.value + (s.label === "مؤكدة" ? added : 0)}</div>
               <div className="mt-2 text-xs text-muted-foreground relative z-10 flex items-center gap-1">
-                <span className={isPositive ? "text-green-600" : "text-amber-600"}>
+                <span className={isPositive ? "text-success" : "text-warning"}>
                   {isPositive ? "+" : "-"}{s.label === "مؤكدة" ? 12 : s.label === "مكتملة" ? 8 : 4}%
                 </span>
                 <span>عن الأسبوع الماضي</span>
@@ -301,12 +301,12 @@ export default function BookingsPage() {
                   const StatusIcon = statusCfg.icon;
 
                   const statusColors = {
-                    confirmed: "bg-green-500",
-                    completed: "bg-blue-500",
-                    pending: "bg-yellow-500",
-                    cancelled: "bg-red-500",
+                    confirmed: "bg-success",
+                    completed: "bg-muted-foreground",
+                    pending: "bg-warning",
+                    cancelled: "bg-destructive",
                   };
-                  const dotColor = statusColors[booking.status as keyof typeof statusColors] || "bg-gray-400";
+                  const dotColor = statusColors[booking.status as keyof typeof statusColors] || "bg-muted";
 
                   if (compactView) {
                     return (
@@ -322,11 +322,11 @@ export default function BookingsPage() {
                           </div>
                         </div>
                         <div className="flex gap-1 shrink-0 ps-2 items-center">
-                          <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10" aria-label="مراسلة">
+                          <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10" aria-label="مراسلة">
                             <MessageCircle className="w-4 h-4" aria-hidden="true" />
                           </Button>
                           {booking.status === "pending" && (
-                            <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-green-600 hover:text-green-600 hover:bg-green-50" aria-label="تأكيد الحجز">
+                            <Button size="icon" variant="ghost" className="min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:h-8 sm:w-8 text-success hover:text-success hover:bg-success-surface" aria-label="تأكيد الحجز">
                               <CheckCircle2 className="w-4 h-4" aria-hidden="true" />
                             </Button>
                           )}
@@ -378,12 +378,12 @@ export default function BookingsPage() {
                             </Badge>
                           </div>
                           <div className="flex items-center gap-2 mt-auto">
-                            <Button size="sm" variant="ghost" className="min-h-[44px] sm:min-h-0 sm:h-8 px-2 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10">
+                            <Button size="sm" variant="ghost" className="min-h-[44px] sm:min-h-0 sm:h-8 px-2 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10">
                               <MessageCircle className="w-4 h-4 me-1.5" />
                               مراسلة
                             </Button>
                             {booking.status === "pending" && (
-                              <Button size="sm" className="min-h-[44px] sm:min-h-0 sm:h-8 px-3 bg-green-600 hover:bg-green-700">تأكيد</Button>
+                              <Button size="sm" variant="default" className="min-h-[44px] sm:min-h-0 sm:h-8 px-3">تأكيد</Button>
                             )}
                             {booking.status !== "cancelled" && booking.status !== "completed" && (
                               <Button size="sm" variant="outline" className="min-h-[44px] sm:min-h-0 sm:h-8 px-3 text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/30">إلغاء</Button>

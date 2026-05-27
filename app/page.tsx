@@ -108,7 +108,7 @@ export default function RootPage() {
                 </div>
                 <div>
                   <div className="font-semibold text-sm">المساعد الذكي - نسق</div>
-                  <div className="text-xs text-muted-foreground flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500 block"></span> متصل الآن</div>
+                  <div className="text-xs text-muted-foreground flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-success block"></span> متصل الآن</div>
                 </div>
               </div>
               <div className="p-4 space-y-4 bg-[url('/bg-pattern.svg')] bg-opacity-5">

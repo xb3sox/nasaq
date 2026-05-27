@@ -1,34 +1,32 @@
-import { FileQuestion, Plus } from "lucide-react";
-import { Button } from "./button";
+import { FileQuestion } from "lucide-react";
+import { Card } from "./card";
+import { ReactNode } from "react";
 
-interface EmptyStateProps {
+export interface EmptyStateProps {
   title: string;
   description: string;
   icon?: React.ElementType;
-  actionLabel?: string;
-  onAction?: () => void;
+  action?: ReactNode;
 }
 
 export function EmptyState({
   title,
   description,
   icon: Icon = FileQuestion,
-  actionLabel,
-  onAction,
+  action,
 }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center p-8 text-center border rounded-xl bg-card border-dashed min-h-[300px]">
-      <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-primary/10 text-primary">
-        <Icon className="w-6 h-6" />
+    <Card className="flex flex-col items-center justify-center p-8 text-center border-dashed rounded-xl bg-muted/20 min-h-[300px] shadow-none">
+      <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-muted">
+        <Icon className="w-8 h-8 text-muted-foreground/60" aria-hidden="true" />
       </div>
-      <h3 className="text-lg font-semibold">{title}</h3>
+      <h3 className="text-lg font-medium text-foreground">{title}</h3>
       <p className="mt-2 text-sm text-muted-foreground max-w-[250px]">{description}</p>
-      {actionLabel && onAction && (
-        <Button onClick={onAction} className="mt-6">
-          <Plus className="w-4 h-4 me-2" />
-          {actionLabel}
-        </Button>
+      {action && (
+        <div className="mt-6">
+          {action}
+        </div>
       )}
-    </div>
+    </Card>
   );
 }

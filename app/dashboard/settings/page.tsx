@@ -215,10 +215,10 @@ function ConfigReadinessPanel() {
     : [];
 
   return (
-    <Card className="border-teal-100 dark:border-teal-900 shadow-sm">
-      <CardHeader className="pb-3 bg-teal-50/50 dark:bg-teal-950/20">
+    <Card className="border-brand/20 dark:border-brand/30 shadow-sm">
+      <CardHeader className="pb-3 bg-brand-surface dark:bg-brand/10">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle className="text-base text-teal-900 dark:text-teal-100">حالة الربط والجاهزية</CardTitle>
+          <CardTitle className="text-base text-brand dark:text-brand">حالة الربط والجاهزية</CardTitle>
           <Badge variant={status?.environment === "production" ? "default" : "secondary"} className="w-fit">
             {status ? (status.environment === "production" ? "إنتاج" : "تطوير") : "جاري التحميل..."}
           </Badge>
@@ -229,11 +229,11 @@ function ConfigReadinessPanel() {
           ? rows.map((row) => (
               <div key={row.label} className="flex min-h-20 items-start gap-3 rounded-lg border p-3 bg-card transition-colors hover:bg-muted/50">
                 {row.ready ? (
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-500" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success dark:text-success" />
                 ) : row.caution ? (
-                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-500" />
+                  <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-warning dark:text-warning" />
                 ) : (
-                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-500" />
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning dark:text-warning" />
                 )}
                 <div className="min-w-0 space-y-1">
                   <div className="font-medium text-sm">{row.label}</div>

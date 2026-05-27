@@ -28,9 +28,9 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  new: "bg-blue-100 text-blue-800",
-  contacted: "bg-orange-100 text-orange-800",
-  booked: "bg-green-100 text-green-800",
+  new: "bg-muted text-muted-foreground",
+  contacted: "bg-warning-surface text-warning",
+  booked: "bg-success-surface text-success",
 };
 
 const SOURCE_ICON: Record<string, React.ElementType> = {
@@ -41,10 +41,10 @@ const SOURCE_ICON: Record<string, React.ElementType> = {
 };
 
 const STAT_CARDS = [
-  { label: "عملاء جدد", statusFilter: "new", color: "text-blue-600", bg: "bg-blue-50", icon: Plus },
-  { label: "تم التواصل", statusFilter: "contacted", color: "text-orange-600", bg: "bg-orange-50", icon: Phone },
-  { label: "تم الحجز", statusFilter: "booked", color: "text-green-600", bg: "bg-green-50", icon: UserCheck },
-  { label: "من واتساب", sourceFilter: "whatsapp", color: "text-primary", bg: "bg-primary/10", icon: MessageCircle },
+  { label: "عملاء جدد", statusFilter: "new", color: "text-muted-foreground", bg: "bg-muted", icon: Plus },
+  { label: "تم التواصل", statusFilter: "contacted", color: "text-warning", bg: "bg-warning-surface", icon: Phone },
+  { label: "تم الحجز", statusFilter: "booked", color: "text-success", bg: "bg-success-surface", icon: UserCheck },
+  { label: "من واتساب", sourceFilter: "whatsapp", color: "text-whatsapp", bg: "bg-whatsapp-muted", icon: MessageCircle },
 ];
 
 export default function CrmPage() {
@@ -107,10 +107,10 @@ export default function CrmPage() {
           <div className="h-[72px] w-full">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={[
-                { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: '#25D366' },
-                { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: '#E1306C' },
-                { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: '#4285F4' },
-                { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: '#00a884' }
+                { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
+                { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
+                { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
+                { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
               ]}>
                 <Tooltip
                    cursor={{fill: 'transparent'}}
@@ -129,10 +129,10 @@ export default function CrmPage() {
                 <Bar dataKey="value" radius={[4, 4, 4, 4]}>
                   {
                     [
-                      { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: '#25D366' },
-                      { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: '#E1306C' },
-                      { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: '#4285F4' },
-                      { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: '#0f766e' }
+                      { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
+                      { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
+                      { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
+                      { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
                     ].map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))
@@ -218,10 +218,10 @@ export default function CrmPage() {
           {filtered.map((lead) => {
             const SourceIcon = SOURCE_ICON[lead.source] ?? Tag;
 
-            const sourceColorClass = lead.source === "whatsapp" ? "text-[#25D366] bg-[#25D366]/10 border-[#25D366]/30" :
-                                     lead.source === "instagram" ? "text-pink-600 bg-pink-100 border-pink-200" :
-                                     lead.source === "google" ? "text-blue-600 bg-blue-100 border-blue-200" :
-                                     "text-primary bg-primary/10 border-primary/20";
+            const sourceColorClass = lead.source === "whatsapp" ? "text-whatsapp bg-whatsapp-muted" :
+                                     lead.source === "instagram" ? "text-muted-foreground bg-muted" :
+                                     lead.source === "google" ? "text-muted-foreground bg-muted" :
+                                     "text-brand bg-brand-surface";
 
             return (
               <Card key={lead.id} className="p-4 hover:shadow-md transition-shadow group relative overflow-hidden border-border/60 hover:border-border">
@@ -257,10 +257,10 @@ export default function CrmPage() {
                     </div>
 
                     <div className="flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity ms-2">
-                       <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 rounded-full" title="مراسلة عبر واتساب" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
+                       <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10 rounded-full" title="مراسلة عبر واتساب" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
                          <MessageCircle className="w-4 h-4 sm:w-4 sm:h-4" />
                        </Button>
-                       <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-full" title="اتصال" aria-label={`اتصال بـ ${lead.name}`}>
+                       <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-brand hover:text-brand hover:bg-brand/10 rounded-full" title="اتصال" aria-label={`اتصال بـ ${lead.name}`}>
                          <Phone className="w-4 h-4 sm:w-4 sm:h-4" />
                        </Button>
                        <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-primary hover:text-primary hover:bg-primary/10 rounded-full" title="حجز موعد" aria-label={`حجز موعد لـ ${lead.name}`}>
@@ -300,10 +300,10 @@ export default function CrmPage() {
                    <div className="flex-1 space-y-2">
                       {filtered.filter(l => l.status === columnStatus).map((lead) => {
                          const SourceIcon = SOURCE_ICON[lead.source] ?? Tag;
-                         const sourceColorClass = lead.source === "whatsapp" ? "text-[#25D366]" :
-                                                  lead.source === "instagram" ? "text-pink-600" :
-                                                  lead.source === "google" ? "text-blue-600" :
-                                                  "text-primary";
+                         const sourceColorClass = lead.source === "whatsapp" ? "text-whatsapp" :
+                                                  lead.source === "instagram" ? "text-muted-foreground" :
+                                                  lead.source === "google" ? "text-muted-foreground" :
+                                                  "text-brand";
                          return (
                             <div
                                key={lead.id}
@@ -329,10 +329,10 @@ export default function CrmPage() {
                                     </div>
                                   </div>
                                   <div className="flex gap-1 pt-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity justify-end border-t border-border/40">
-                                    <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/10 rounded-full" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
+                                    <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10 rounded-full" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
                                       <MessageCircle className="w-3.5 h-3.5" />
                                     </Button>
-                                    <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-blue-600 hover:text-blue-600 hover:bg-blue-50 rounded-full" aria-label={`اتصال بـ ${lead.name}`}>
+                                    <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-brand hover:text-brand hover:bg-brand/10 rounded-full" aria-label={`اتصال بـ ${lead.name}`}>
                                       <Phone className="w-3.5 h-3.5" />
                                     </Button>
                                     <Button size="icon" variant="ghost" className="h-8 w-8 min-w-[44px] sm:min-w-0 sm:h-7 sm:w-7 text-primary hover:text-primary hover:bg-primary/10 rounded-full" aria-label={`حجز موعد لـ ${lead.name}`}>

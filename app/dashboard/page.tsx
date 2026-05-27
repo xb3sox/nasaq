@@ -83,13 +83,13 @@ function LiveDemoRunner() {
                 step.active
                   ? "bg-primary/10 border border-primary/20 scale-[1.02] shadow-sm"
                   : step.done
-                  ? "bg-green-50 dark:bg-green-900/10 border border-transparent"
+                  ? "bg-success-surface dark:bg-success/10 border border-transparent"
                   : "bg-transparent border border-transparent opacity-60"
               }`}
             >
               <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold transition-all duration-300 ${
                 step.done 
-                  ? "bg-green-500 text-white scale-110 shadow-sm" 
+                  ? "bg-success text-success-foreground scale-110 shadow-sm" 
                   : step.active 
                   ? "bg-primary text-primary-foreground ring-4 ring-primary/20" 
                   : "bg-muted text-muted-foreground"
@@ -97,14 +97,14 @@ function LiveDemoRunner() {
                 {step.done ? <CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" /> : step.active ? <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" /> : i + 1}
               </div>
               <div className="flex-1 min-w-0">
-                <div className={`font-medium truncate transition-colors duration-300 ${step.active ? "text-primary" : step.done ? "text-green-700 dark:text-green-400" : "text-muted-foreground"}`}>{step.label}</div>
+                <div className={`font-medium truncate transition-colors duration-300 ${step.active ? "text-primary" : step.done ? "text-success" : "text-muted-foreground"}`}>{step.label}</div>
                 <div className="text-xs text-muted-foreground truncate">{step.detail}</div>
               </div>
             </div>
           ))}
         </div>
         {allDone && (
-          <div className="mt-4 text-xs text-center text-green-600 font-medium animate-fade-slide-up bg-green-50 dark:bg-green-900/20 p-2 rounded-md border border-green-200 dark:border-green-900 flex items-center justify-center gap-1.5">
+          <div className="mt-4 text-xs text-center text-success font-medium animate-fade-slide-up bg-success-surface dark:bg-success/10 p-2 rounded-md border border-success/20 flex items-center justify-center gap-1.5">
             <CheckCircle2 className="w-4 h-4" aria-hidden="true" /> تم المسار بالكامل — العميل تلقى رداً، حجزاً، وتذكيرين
           </div>
         )}
@@ -174,16 +174,16 @@ export default function DashboardPage() {
       <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-background h-[300px] -z-10 rounded-b-3xl"></div>
 
       {!isSetupComplete && (
-        <div className="bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-warning-surface border border-warning/20 text-warning dark:text-warning rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <Settings className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+            <Settings className="w-5 h-5 text-warning" />
             <div>
               <h3 className="font-bold text-sm">أكمل إعداد حسابك</h3>
               <p className="text-xs opacity-80 mt-0.5">قم بإعداد بيانات العيادة والأطباء والخدمات للبدء.</p>
             </div>
           </div>
           <Link href="/setup">
-            <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white border-0">
+            <Button size="sm" className="bg-warning hover:bg-warning/80 text-warning-foreground border-0">
               الذهاب للإعدادات
             </Button>
           </Link>
@@ -195,7 +195,7 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-extrabold tracking-tight">مرحباً بك في {demoClinic.name}</h1>
           <RiyadhClock />
         </div>
-        <Badge className="badge-demo-ready text-green-800 border-green-300 bg-green-100 shadow-sm px-3 py-1 text-sm font-medium">
+        <Badge className="badge-demo-ready text-success shadow-sm px-3 py-1 text-sm font-medium">
           <CheckCircle2 className="w-4 h-4 me-1.5 inline" aria-hidden="true" /> نظام ديمو جاهز
         </Badge>
       </div>
@@ -203,17 +203,17 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-3">
         <Link href="/dashboard/reminders">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
             <Bell className="w-4 h-4" aria-hidden="true" /> إرسال تذكير جديد
           </Button>
         </Link>
         <Link href="/dashboard/bookings">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
             <CalendarCheck className="w-4 h-4" aria-hidden="true" /> سجل حجوزات اليوم
           </Button>
         </Link>
         <Link href="/dashboard/inbox">
-          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-full hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
+          <Button variant="outline" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors min-h-[44px] focus-visible:ring-2 focus-visible:ring-offset-1 sm:min-h-0 sm:h-9">
             <Inbox className="w-4 h-4" aria-hidden="true" /> مراجعة صندوق الوارد
           </Button>
         </Link>
@@ -272,11 +272,11 @@ export default function DashboardPage() {
               <div className="absolute top-2 bottom-2 start-3.5 w-0.5 bg-border -z-10" />
               
               {[
-                { label: "رسالة العميل", value: demoConversation.messages.at(-1)?.body ?? "", icon: MessageCircle, color: "text-blue-500", bg: "bg-blue-50" },
-                { label: "تحليل AI", value: `${demoAiDecision.intent} · الثقة: ${(demoAiDecision.confidence * 100).toFixed(0)}%`, icon: Loader2, color: "text-purple-500", bg: "bg-purple-50" },
-                { label: "رد النظام", value: demoAiDecision.reply, icon: Play, color: "text-teal-500", bg: "bg-teal-50" },
-                { label: "تأكيد الحجز", value: `${demoBooking.serviceName} · ${demoBooking.doctorName}`, icon: CalendarCheck, color: "text-green-500", bg: "bg-green-50" },
-                { label: "التذكيرات المجدولة", value: "24h + 2h قبل الموعد", icon: Bell, color: "text-orange-500", bg: "bg-orange-50" },
+                { label: "رسالة العميل", value: demoConversation.messages.at(-1)?.body ?? "", icon: MessageCircle, color: "text-whatsapp-dark", bg: "bg-whatsapp-muted" },
+                { label: "تحليل AI", value: `${demoAiDecision.intent} · الثقة: ${(demoAiDecision.confidence * 100).toFixed(0)}%`, icon: Loader2, color: "text-primary", bg: "bg-primary/10" },
+                { label: "رد النظام", value: demoAiDecision.reply, icon: Play, color: "text-brand", bg: "bg-brand-surface" },
+                { label: "تأكيد الحجز", value: `${demoBooking.serviceName} · ${demoBooking.doctorName}`, icon: CalendarCheck, color: "text-success", bg: "bg-success-surface" },
+                { label: "التذكيرات المجدولة", value: "24h + 2h قبل الموعد", icon: Bell, color: "text-warning", bg: "bg-warning-surface" },
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-4 group">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 border-background shadow-sm ${item.bg}`}>

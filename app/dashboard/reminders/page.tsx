@@ -15,10 +15,10 @@ const STATUS_CONFIG: Record<
   ReminderStatus,
   { label: string; color: string; icon: React.ElementType; dotColor: string; bg: string; text: string; border: string }
 > = {
-  sent:    { label: "تم الإرسال",  color: "bg-green-100 text-green-800", bg: "bg-green-100", text: "text-green-800", border: "border-green-200",  icon: CheckCircle2, dotColor: "bg-green-500" },
-  queued:  { label: "في الانتظار", color: "bg-blue-100 text-blue-800", bg: "bg-blue-100", text: "text-blue-800", border: "border-blue-200",   icon: Clock, dotColor: "bg-blue-500" },
-  pending: { label: "معلق",        color: "bg-yellow-100 text-yellow-800", bg: "bg-yellow-100", text: "text-yellow-800", border: "border-yellow-200", icon: Clock, dotColor: "bg-yellow-500" },
-  failed:  { label: "فشل الإرسال", color: "bg-red-100 text-red-800", bg: "bg-red-100", text: "text-red-800", border: "border-red-200",     icon: XCircle, dotColor: "bg-red-500" },
+  sent:    { label: "تم الإرسال",  color: "bg-success-surface text-success", bg: "bg-success-surface", text: "text-success", border: "border-success/20",  icon: CheckCircle2, dotColor: "bg-success" },
+  queued:  { label: "في الانتظار", color: "bg-brand-surface text-brand", bg: "bg-brand-surface", text: "text-brand", border: "border-brand/20",   icon: Clock, dotColor: "bg-brand" },
+  pending: { label: "معلق",        color: "bg-warning-surface text-warning", bg: "bg-warning-surface", text: "text-warning", border: "border-warning/20", icon: Clock, dotColor: "bg-warning" },
+  failed:  { label: "فشل الإرسال", color: "bg-destructive/10 text-destructive", bg: "bg-destructive/10", text: "text-destructive", border: "border-destructive/20",     icon: XCircle, dotColor: "bg-destructive" },
 };
 
 export default function RemindersPage() {
@@ -149,13 +149,13 @@ export default function RemindersPage() {
           <div className="h-48 w-full" dir="ltr">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
-                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--muted-foreground)', fontFamily: 'inherit' }} dy={10} />
+                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--muted-foreground)', fontFamily: 'inherit' }} />
                 <Tooltip
-                  cursor={{ fill: '#f3f4f6' }}
+                  cursor={{ fill: 'var(--muted)' }}
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
-                  itemStyle={{ color: '#0f172a' }}
+                  itemStyle={{ color: 'var(--foreground)' }}
                 />
                 <Bar dataKey="sent" name="مرسلة" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} maxBarSize={30} />
                 <Bar dataKey="failed" name="فاشلة" fill="var(--color-chart-4)" radius={[4, 4, 0, 0]} maxBarSize={30} />
@@ -262,7 +262,7 @@ export default function RemindersPage() {
                                 <Button size="sm" variant="outline" className="text-xs gap-1 min-h-[36px] px-2" aria-label="تأجيل" disabled>
                                   <BellOff className="w-4 h-4" />
                                 </Button>
-                                <Button size="sm" variant="outline" className="text-xs gap-1 min-h-[36px] px-2 text-destructive hover:text-destructive border-red-200 bg-red-50" aria-label="إلغاء" disabled>
+                                <Button size="sm" variant="outline" className="text-xs gap-1 min-h-[36px] px-2 text-destructive hover:text-destructive border-destructive/20 bg-destructive/5" aria-label="إلغاء" disabled>
                                   <X className="w-4 h-4" />
                                 </Button>
                               </div>
@@ -288,8 +288,8 @@ export default function RemindersPage() {
                               </Button>
                             )}
                             {status === "sent" && (
-                              <div className="flex items-center gap-1.5 text-xs text-green-700 bg-green-50/50 px-3 py-2 rounded-md font-medium border border-green-200">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-green-600" />
+                              <div className="flex items-center gap-1.5 text-xs text-success bg-success-surface px-3 py-2 rounded-md font-medium border border-success/20">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                                 تم التسليم
                               </div>
                             )}
