@@ -160,17 +160,17 @@ export default function CrmPage() {
 
       {/* Filters */}
       <div className="flex items-center gap-3 flex-wrap">
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
+        <div className="relative flex-1 min-w-[200px] w-full sm:w-auto max-w-md">
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال..."
-            className="h-9 ps-9 border-border/50"
+            size="touch" className="ps-9 border-border/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? "all")}>
-          <SelectTrigger className="w-[140px] h-9 border-border/50">
+          <SelectTrigger size="touch" className="w-full sm:w-[140px] border-border/50">
             <SelectValue placeholder="الحالة" />
           </SelectTrigger>
           <SelectContent>
@@ -181,7 +181,7 @@ export default function CrmPage() {
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v ?? "all")}>
-          <SelectTrigger className="w-[140px] h-9 border-border/50">
+          <SelectTrigger size="touch" className="w-full sm:w-[140px] border-border/50">
             <SelectValue placeholder="المصدر" />
           </SelectTrigger>
           <SelectContent>
@@ -294,7 +294,7 @@ export default function CrmPage() {
                 >
                    <div className="flex items-center justify-between mb-2">
                       <div className="font-semibold">{STATUS_LABELS[columnStatus]}</div>
-                      <Badge variant="secondary" className="bg-background">{filtered.filter(l => l.status === columnStatus).length}</Badge>
+                      <Badge variant="count">{filtered.filter(l => l.status === columnStatus).length}</Badge>
                    </div>
 
                    <div className="flex-1 space-y-2">

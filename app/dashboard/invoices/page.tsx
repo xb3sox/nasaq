@@ -266,11 +266,11 @@ export default function InvoicesPage() {
         subtitle="إدارة وتتبع فواتير العيادة"
         actions={
           <>
-            <Button variant="outline" size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
+            <Button variant="outline" size="touch" className="gap-1.5">
               <Download className="w-3.5 h-3.5" />
               تصدير
             </Button>
-            <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
+            <Button size="touch" className="gap-1.5">
               <Plus className="w-3.5 h-3.5" />
               فاتورة جديدة
             </Button>
@@ -331,7 +331,7 @@ export default function InvoicesPage() {
             <Input
               aria-label="ابحث بالاسم أو رقم الفاتورة"
               placeholder="ابحث بالاسم أو رقم الفاتورة..."
-              className="h-9 ps-9 border-border/50 focus-visible:ring-primary/30"
+              size="touch" className="ps-9 border-border/50 focus-visible:ring-primary/30"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />

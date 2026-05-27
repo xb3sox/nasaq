@@ -68,7 +68,7 @@ export function StatCard({
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
             <div className="text-sm font-medium text-muted-foreground truncate" title={typeof description === 'string' ? description : title}>{title}</div>
-            <div className={cn("text-3xl font-bold mt-1 truncate", valueClassName)}>{value}</div>
+            <div className={cn("text-3xl font-bold tracking-tight mt-1 truncate", valueClassName)}>{value}</div>
             {sub && <div className="text-xs text-muted-foreground mt-1 truncate">{sub}</div>}
             {description && !sub && <div className="text-xs text-muted-foreground mt-1 truncate">{description}</div>}
           </div>

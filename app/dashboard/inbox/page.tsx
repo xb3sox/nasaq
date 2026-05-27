@@ -140,7 +140,7 @@ export default function InboxPage() {
       <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col overflow-hidden lg:max-h-none lg:w-80">
         <div className="p-4 border-b font-bold text-sm flex justify-between items-center bg-muted/30">
           المحادثات
-          <Badge variant="secondary" className="bg-primary/10 text-primary">{DEMO_CONVERSATIONS.length}</Badge>
+          <Badge variant="secondary">{DEMO_CONVERSATIONS.length}</Badge>
         </div>
         <div className="flex-1 overflow-y-auto">
           {DEMO_CONVERSATIONS.length === 0 ? (
@@ -169,7 +169,7 @@ export default function InboxPage() {
                   )}
                 </div>
                 {/* Unread badge mock */}
-                {isUnread && <StatusBadge variant="whatsapp" className="text-white hover:bg-whatsapp h-5 min-w-5 flex items-center justify-center p-0 rounded-full text-[10px]">1</StatusBadge>}
+                {isUnread && <Badge variant="whatsapp">1</Badge>}
               </div>
             </div>
             );
@@ -210,17 +210,17 @@ export default function InboxPage() {
               </div>
             )}
             {!showSearch && (
-              <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={() => setShowSearch(true)}>
+              <Button size="touch-icon" variant="ghost" className="text-muted-foreground" onClick={() => setShowSearch(true)}>
                 <Search className="w-4 h-4" />
               </Button>
             )}
             
             {bookingConfirmed ? null : (
               <Button
-                size="sm"
+                size="touch"
                 variant="default"
                 onClick={handleConfirmBooking}
-                className="min-h-[32px] h-8 text-xs bg-success hover:bg-success/80 text-success-foreground"
+                className="text-xs bg-success hover:bg-success/80 text-success-foreground"
               >
                 <CalendarCheck className="w-3 h-3 me-1" />
                 تأكيد الحجز
@@ -228,10 +228,10 @@ export default function InboxPage() {
             )}
             {handoffDone ? null : (
               <Button
-                size="sm"
+                size="touch"
                 variant="outline"
                 onClick={handleHumanHandoff}
-                className="min-h-[32px] h-8 text-xs"
+                className="text-xs"
               >
                 <Hand className="w-3 h-3 me-1" />
                 تحويل لموظف
@@ -300,18 +300,18 @@ export default function InboxPage() {
             <div className="flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-xl p-2 px-3 shadow-sm text-sm">
               <Bot className="w-4 h-4 text-primary shrink-0" />
               <div className="flex-1 truncate text-primary/80">اقتراح: {ai.reply}</div>
-              <Button size="sm" variant="ghost" className="h-7 text-xs text-primary hover:bg-primary/20 hover:text-primary px-2" onClick={() => setReplyText(ai.reply)}>استخدام</Button>
-              <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground" onClick={() => setDismissSuggestion(true)}><X className="w-3.5 h-3.5" /></Button>
+              <Button size="touch" variant="ghost" className="text-xs text-primary hover:bg-primary/20 hover:text-primary px-2" onClick={() => setReplyText(ai.reply)}>استخدام</Button>
+              <Button size="touch-icon" variant="ghost" className="text-muted-foreground" onClick={() => setDismissSuggestion(true)}><X className="w-3.5 h-3.5" /></Button>
             </div>
           )}
 
           {/* Reply Input */}
           <div className="flex gap-2 items-end">
             <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm"> {/* chat-input-exempt — custom compose container, not a component */}
-              <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إضافة رمز تعبيري">
+              <Button variant="ghost" size="touch-icon" className="text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إضافة رمز تعبيري">
                 <Smile className="w-6 h-6" />
               </Button>
-              <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إرفاق ملف">
+              <Button variant="ghost" size="touch-icon" className="text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إرفاق ملف">
                 <Paperclip className="w-5 h-5" />
               </Button>
               <Input

@@ -199,7 +199,7 @@ export default function RootPage() {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight animate-fade-slide-up animate-delay-1 text-foreground text-balance">
                 {BRAND.nameAr} ينظم واتساب العيادة،
                 <br />
-                <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-teal-400">
+                <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-brand">
                   يحجز المواعيد
                 </span>
                 ، ويقلل ضغط الاستقبال
@@ -243,7 +243,7 @@ export default function RootPage() {
             </div>
 
             <div className="relative animate-fade-slide-up animate-delay-2 mx-auto lg:mx-0 w-full max-w-md">
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-teal-400/20 rounded-3xl blur-3xl -z-10 transform translate-x-4 translate-y-4"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-brand/20 rounded-3xl blur-3xl -z-10 transform translate-x-4 translate-y-4"></div>
               <Card className="border-border/50 shadow-2xl overflow-hidden rounded-3xl bg-card/80 backdrop-blur-xl">
                 <div className="bg-muted px-4 py-3 border-b flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
@@ -342,7 +342,7 @@ export default function RootPage() {
                     {step.num}
                   </div>
                 </div>
-                <h3 className="text-xl font-bold">{step.title}</h3>
+                <h3 className="text-xl font-bold tracking-tight">{step.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
                   {step.desc}
                 </p>
@@ -399,7 +399,7 @@ export default function RootPage() {
                   >
                     <p.icon className={`w-6 h-6 ${p.color}`} />
                   </div>
-                  <h3 className="text-xl font-bold text-foreground">
+                  <h3 className="text-xl font-bold tracking-tight text-foreground">
                     {p.title}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
@@ -435,7 +435,7 @@ export default function RootPage() {
                   <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-primary transition-colors duration-300">
                     <f.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
                   </div>
-                  <h3 className="text-lg font-bold">{f.title}</h3>
+                  <h3 className="text-lg font-bold tracking-tight">{f.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {f.desc}
                   </p>
@@ -470,7 +470,7 @@ export default function RootPage() {
                 )}
                 <CardContent className="p-8 space-y-8">
                   <div className="text-center">
-                    <h3 className="text-2xl font-bold">{p.name}</h3>
+                    <h3 className="text-2xl font-bold tracking-tight">{p.name}</h3>
                     <div className="mt-4 flex items-baseline justify-center gap-1">
                       <span className="text-4xl font-extrabold">{p.setup}</span>
                     </div>
@@ -569,7 +569,7 @@ export default function RootPage() {
                 </p>
               </div>
               <div>
-                <h4 className="font-bold mb-4 text-foreground">روابط سريعة</h4>
+                <h4 className="font-bold tracking-tight mb-4 text-foreground">روابط سريعة</h4>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li>
                     <button
@@ -598,7 +598,7 @@ export default function RootPage() {
                 </ul>
               </div>
               <div>
-                <h4 className="font-bold mb-4 text-foreground">قانوني</h4>
+                <h4 className="font-bold tracking-tight mb-4 text-foreground">قانوني</h4>
                 <ul className="space-y-3 text-sm text-muted-foreground">
                   <li>
                     <Link
