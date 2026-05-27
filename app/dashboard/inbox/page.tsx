@@ -169,7 +169,7 @@ export default function InboxPage() {
                   )}
                 </div>
                 {/* Unread badge mock */}
-                {isUnread && <Badge variant="default" className="bg-whatsapp hover:bg-whatsapp/90 text-white h-5 min-w-5 flex items-center justify-center p-0 rounded-full text-[10px]">1</Badge>}
+                {isUnread && <Badge variant="whatsapp">1</Badge>}
               </div>
             </div>
             );

@@ -67,6 +67,19 @@ else
 fi
 
 echo ""
+echo "🔍 Checking for inline Badge color styling..."
+
+BADGE_INLINE_COLORS=$(grep -rnE '<Badge[^>]*className="[^"]*\b(bg|text|border|hover:bg|hover:text)-' app/dashboard/ --include='*.tsx' 2>/dev/null || true)
+
+if [ -n "$BADGE_INLINE_COLORS" ]; then
+  echo -e "${RED}✗ Badge inline color styling found (add/use a typed Badge or StatusBadge variant):${NC}"
+  echo "$BADGE_INLINE_COLORS"
+  EXIT=1
+else
+  echo -e "${GREEN}✓ No inline Badge color styling${NC}"
+fi
+
+echo ""
 echo "🔍 Checking for copy-pasted page wrappers..."
 
 PASTE_WRAPPERS=$(grep -rn 'className="p-6 space-y-8 max-w-4xl"' app/ --include='*.tsx' 2>/dev/null | \

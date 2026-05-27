@@ -206,7 +206,7 @@ export default function RemindersPage() {
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors" />
                   <h3 className="font-semibold">{date}</h3>
-                  <Badge variant="secondary" className="me-2">{reminders.length}</Badge>
+                  <Badge variant="count" className="me-2">{reminders.length}</Badge>
                 </div>
                 {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
               </div>

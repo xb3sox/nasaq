@@ -294,7 +294,7 @@ export default function CrmPage() {
                 >
                    <div className="flex items-center justify-between mb-2">
                       <div className="font-semibold">{STATUS_LABELS[columnStatus]}</div>
-                      <Badge variant="secondary" className="bg-background">{filtered.filter(l => l.status === columnStatus).length}</Badge>
+                      <Badge variant="count">{filtered.filter(l => l.status === columnStatus).length}</Badge>
                    </div>
 
                    <div className="flex-1 space-y-2">

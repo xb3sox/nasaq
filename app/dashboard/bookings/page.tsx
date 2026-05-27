@@ -292,7 +292,7 @@ export default function BookingsPage() {
               <div className="flex items-center gap-3">
                 <h3 className="font-semibold text-lg">{getFormattedDate(dateKey)}</h3>
                 <div className="h-px bg-border/60 flex-1"></div>
-                <Badge variant="secondary" className="text-xs bg-muted">{groupBookings.length}</Badge>
+                <Badge variant="count">{groupBookings.length}</Badge>
               </div>
 
               <div className="space-y-3 relative">
