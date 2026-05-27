@@ -249,7 +249,8 @@ export default function RootPage() {
                     ))}
                   </ul>
                   <Button className="w-full rounded-full h-12 text-md shadow-sm hover:shadow-md transition-colors duration-200" variant={p.highlight ? "default" : "outline"}>
-                    اختر الباقة\n                  </Button>
+                    اختر الباقة
+                  </Button>
                 </CardContent>
               </Card>
             ))}
