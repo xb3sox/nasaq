@@ -2,7 +2,7 @@
 import { ChartWrapper } from "@/components/ChartWrapper";
 
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { DEMO_METRICS, DEMO_REPORT_STATS } from "@/lib/demo-data";
 import {
@@ -141,9 +141,9 @@ export default function ReportsPage() {
               <h2 className="text-base font-semibold">الحجوزات</h2>
               <p className="text-xs text-muted-foreground">خلال {period}</p>
             </div>
-            <Badge className="bg-primary/10 text-primary">
+            <StatusBadge variant="default">
               {DEMO_METRICS.bookings.reduce((a, b) => a + b, 0)} إجمالي
-            </Badge>
+            </StatusBadge>
           </div>
           <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني يوضح عدد الحجوزات خلال الفترة المحددة">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
@@ -172,9 +172,9 @@ export default function ReportsPage() {
               <h2 className="text-base font-semibold">العملاء المحتملين</h2>
               <p className="text-xs text-muted-foreground">تفاعل العملاء الجدد</p>
             </div>
-            <Badge className="bg-primary/10 text-primary">
+            <StatusBadge variant="default">
               {DEMO_METRICS.leads.reduce((a, b) => a + b, 0)} إجمالي
-            </Badge>
+            </StatusBadge>
           </div>
           <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني خطي يوضح تفاعل العملاء المحتملين والجدد">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">

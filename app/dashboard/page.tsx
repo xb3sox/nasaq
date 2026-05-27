@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2, Bell, Inbox, Settings } from "lucide-react";
 import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
@@ -195,9 +195,9 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-extrabold tracking-tight">مرحباً بك في {demoClinic.name}</h1>
           <RiyadhClock />
         </div>
-        <Badge className="badge-demo-ready text-success shadow-sm px-3 py-1 text-sm font-medium">
+        <StatusBadge variant="success" className="shadow-sm px-3 py-1 text-sm font-medium">
           <CheckCircle2 className="w-4 h-4 me-1.5 inline" aria-hidden="true" /> نظام ديمو جاهز
-        </Badge>
+        </StatusBadge>
       </div>
 
       {/* Quick Actions */}
