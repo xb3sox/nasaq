@@ -18,9 +18,9 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-4xl">
+    <div className="p-6 space-y-8 max-w-4xl">
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold">الإعدادات</h1>
+        <h1 className="text-2xl font-bold tracking-tight">الإعدادات</h1>
         <p className="text-sm text-muted-foreground">جاهزية الربط الحقيقي بدون عرض أي أسرار أو مفاتيح.</p>
       </div>
 

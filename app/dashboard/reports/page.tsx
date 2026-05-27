@@ -52,11 +52,11 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-6 lg:p-8 space-y-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">التقارير</h1>
+          <h1 className="text-2xl font-bold tracking-tight">التقارير</h1>
           <p className="text-sm text-muted-foreground mt-1">نظرة شاملة على أداء العيادة</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">

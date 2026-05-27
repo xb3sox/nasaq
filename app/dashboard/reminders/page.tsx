@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { StatCard } from "@/components/ui/stat-card";
 import { DEMO_REMINDERS } from "@/lib/demo-data";
 import { Bell, Clock, Send, RefreshCw, CheckCircle2, XCircle, Loader2, Calendar, ChevronDown, ChevronUp, User, Activity, BellOff, X } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
@@ -130,7 +129,7 @@ export default function RemindersPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="space-y-1">
-          <h1 className="text-2xl font-bold">التذكيرات</h1>
+          <h1 className="text-2xl font-bold tracking-tight">التذكيرات</h1>
           <p className="text-sm text-muted-foreground">تذكيرات WhatsApp آلية للحجوزات</p>
         </div>
         <div className="flex gap-2 flex-wrap items-center">
@@ -168,17 +167,17 @@ export default function RemindersPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
           {(["sent", "queued", "pending", "failed"] as ReminderStatus[]).map((s) => {
             const cfg = STATUS_CONFIG[s];
+            const Icon = cfg.icon;
             return (
-              <div key={s} onClick={() => setFilter(filter === s ? "all" : s)}>
-                <StatCard
-                  title={cfg.label}
-                  value={counts[s]}
-                  icon={cfg.icon}
-                  className={`cursor-pointer transition-all border-2 ${filter === s ? "border-primary" : "border-transparent hover:border-border"}`}
-                  iconContainerClassName={cfg.bg}
-                  iconClassName={cfg.text}
-                />
-              </div>
+              <Card key={s} className="p-4 hover:shadow-sm transition-shadow flex items-center justify-between cursor-pointer border-transparent hover:border-border" onClick={() => setFilter(filter === s ? "all" : s)}>
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${cfg.color}`}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <span className={`text-sm font-medium ${filter === s ? "text-primary" : "text-muted-foreground"}`}>{cfg.label}</span>
+                </div>
+                <div className="text-xl font-bold">{counts[s]}</div>
+              </Card>
             );
           })}
         </div>
