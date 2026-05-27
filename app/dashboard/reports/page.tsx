@@ -52,7 +52,7 @@ function StatCard({
       </div>
       <div className="mt-4 flex items-end justify-between h-10 gap-4">
         {trend && (
-          <div className={`flex items-center gap-1 text-xs font-medium mb-1 ${trend === "up" ? "text-green-600" : "text-destructive"}`}>
+          <div className={`flex items-center gap-1 text-xs font-medium mb-1 ${trend === "up" ? "text-success" : "text-destructive"}`}>
             {trend === "up" ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
             <span>{trend === "up" ? "+12%" : "-3%"}</span>
           </div>
