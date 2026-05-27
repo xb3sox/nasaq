@@ -65,7 +65,7 @@ function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={
-        <Button  className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
+        <Button size="touch" className="gap-1.5">
           <Plus className="w-3.5 h-3.5" />
           حجز جديد
         </Button>
@@ -216,7 +216,7 @@ export default function BookingsPage() {
 
       {/* Filters */}
       <div className="flex items-center gap-3 flex-wrap">
-        <div className="relative flex-1 min-w-[180px] max-w-sm">
+        <div className="relative flex-1 min-w-[200px] w-full sm:w-auto max-w-sm">
           <Search className="absolute start-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث بالاسم أو الجوال أو الخدمة..."
@@ -226,7 +226,7 @@ export default function BookingsPage() {
           />
         </div>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? "all")}>
-          <SelectTrigger size="touch" className="w-[140px] border-border/50">
+          <SelectTrigger size="touch" className="w-full sm:w-[140px] border-border/50">
             <SelectValue placeholder="الحالة" />
           </SelectTrigger>
           <SelectContent>
@@ -238,7 +238,7 @@ export default function BookingsPage() {
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={(v) => setSourceFilter(v ?? "all")}>
-          <SelectTrigger size="touch" className="w-[150px] border-border/50">
+          <SelectTrigger size="touch" className="w-full sm:w-[150px] border-border/50">
             <SelectValue placeholder="المصدر" />
           </SelectTrigger>
           <SelectContent>
@@ -316,8 +316,8 @@ export default function BookingsPage() {
 
                   if (compactView) {
                     return (
-                      <div key={booking.id} className="group relative flex items-center justify-between p-3 rounded-lg border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors">
-                        <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <div key={booking.id} className="group relative flex items-center justify-between p-3 rounded-lg border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors overflow-x-auto">
+                        <div className="flex items-center gap-4 flex-1 min-w-max pr-2">
                           <div className={`w-2 h-2 rounded-full shrink-0 ${dotColor}`}></div>
                           <div className="w-[120px] shrink-0 font-medium truncate">{booking.customer}</div>
                           <div className="w-[140px] shrink-0 text-sm text-muted-foreground truncate hidden md:block">{booking.service}</div>
