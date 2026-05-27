@@ -85,8 +85,8 @@ export default function CrmPage() {
             title="عملاء جدد"
             value={newCount}
             icon={Plus}
-            iconClassName="text-muted-foreground"
-            iconContainerClassName="bg-muted"
+            
+            iconColor="neutral"
             description={`${newCount} من ${DEMO_LEADS.length} — ${Math.round((newCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-muted-foreground"
           />
@@ -94,8 +94,8 @@ export default function CrmPage() {
             title="تم التواصل"
             value={contactedCount}
             icon={Phone}
-            iconClassName="text-warning"
-            iconContainerClassName="bg-warning-surface"
+            
+            iconColor="warning"
             description={`${contactedCount} من ${DEMO_LEADS.length} — ${Math.round((contactedCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-warning"
           />
@@ -103,8 +103,8 @@ export default function CrmPage() {
             title="تم الحجز"
             value={bookedCount}
             icon={UserCheck}
-            iconClassName="text-success"
-            iconContainerClassName="bg-success-surface"
+            
+            iconColor="success"
             description={`${bookedCount} من ${DEMO_LEADS.length} — ${Math.round((bookedCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-success"
           />
@@ -112,8 +112,8 @@ export default function CrmPage() {
             title="من واتساب"
             value={whatsappCount}
             icon={MessageCircle}
-            iconClassName="text-whatsapp"
-            iconContainerClassName="bg-whatsapp-muted"
+            
+            iconColor="success"
             description={`${whatsappCount} من ${DEMO_LEADS.length} — ${Math.round((whatsappCount / DEMO_LEADS.length) * 100)}%`}
             valueClassName="text-whatsapp"
           />

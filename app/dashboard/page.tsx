@@ -234,8 +234,8 @@ export default function DashboardPage() {
           icon={MessageCircle}
           description={`تولى الذكاء الاصطناعي الرد على ${demoReportStats.aiHandled}`}
           valueClassName="text-destructive"
-          iconClassName="text-destructive"
-          iconContainerClassName="bg-destructive/10"
+          
+          iconColor="danger"
         />
 
         <StatCard
@@ -244,8 +244,8 @@ export default function DashboardPage() {
           icon={Users}
           trend={15}
           trendLabel="هذا الأسبوع"
-          iconClassName="text-brand"
-          iconContainerClassName="bg-brand/10"
+          
+          iconColor="brand"
         />
 
         <StatCard
@@ -254,8 +254,8 @@ export default function DashboardPage() {
           icon={TrendingUp}
           trend={12}
           trendLabel="مقارنة بالشهر الماضي"
-          iconClassName="text-success"
-          iconContainerClassName="bg-success/10"
+          
+          iconColor="success"
         />
       </div>
 

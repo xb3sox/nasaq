@@ -96,7 +96,7 @@ export default function ReportsPage() {
           value={DEMO_REPORT_STATS.todayBookings}
           sub={`${DEMO_REPORT_STATS.todayConfirmed} مؤكد`}
           icon={CalendarCheck}
-          color="bg-brand-surface text-brand"
+          iconColor="brand"
           trendDirection="up"
           sparklineData={[3, 4, 2, 5, 4, 6, 5]}
         />
@@ -105,7 +105,7 @@ export default function ReportsPage() {
           value={new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR', maximumFractionDigits: 0 }).format(DEMO_REPORT_STATS.monthRevenue)}
           sub="هذا الشهر"
           icon={DollarSign}
-          color="bg-success-surface text-success"
+          iconColor="success"
           trendDirection="up"
           sparklineData={[10, 15, 12, 18, 14, 20, 22]}
           description="إجمالي المبالغ المحصلة من الحجوزات المكتملة"
@@ -115,7 +115,7 @@ export default function ReportsPage() {
           value={DEMO_REPORT_STATS.aiHandled}
           sub={`${DEMO_REPORT_STATS.humanNeeded} تحتاج موظف`}
           icon={Bot}
-          color="bg-primary/10 text-primary"
+          iconColor="primary"
           trendDirection="up"
           sparklineData={[15, 20, 18, 25, 22, 30, 28]}
           description="المحادثات التي تم التعامل معها تلقائياً بواسطة الذكاء الاصطناعي"
@@ -125,7 +125,7 @@ export default function ReportsPage() {
           value={DEMO_REPORT_STATS.newLeads}
           sub="هذا الأسبوع"
           icon={Users}
-          color="bg-muted text-muted-foreground"
+          iconColor="muted"
           trendDirection="up"
           sparklineData={[2, 3, 5, 4, 6, 8, 7]}
           description="عدد العملاء الذين تواصلوا لأول مرة"
