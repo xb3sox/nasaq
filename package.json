@@ -11,10 +11,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "verify": "npm test && npm run lint && npm run build && npm run check-tokens",
+    "verify": "npm test && npm run lint && npm run build && npm run check-tokens && npm run check-docs",
     "test": "node --experimental-transform-types --experimental-specifier-resolution=node --test tests/*.test.ts",
     "lint": "eslint",
-    "check-tokens": "bash scripts/check-design-tokens.sh"
+    "check-tokens": "bash scripts/check-design-tokens.sh",
+    "check-docs": "bash scripts/check-docs.sh"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
