@@ -131,14 +131,14 @@ export default function SetupPage() {
                   variant="outline" 
                   onClick={handleBack} 
                   disabled={currentStep === 0}
-                  className="w-full sm:w-auto min-h-[44px] sm:min-h-0 sm:h-10"
+                  size="touch" className="w-full sm:w-auto sm:h-10"
                 >
                   <ArrowRight className="w-4 h-4 me-2" />
                   السابق
                 </Button>
                 <Button 
                   onClick={handleNext} 
-                  className="w-full sm:w-auto min-h-[44px] sm:min-h-0 sm:h-10"
+                  size="touch" className="w-full sm:w-auto sm:h-10"
                 >
                   {currentStep === STEPS.length - 1 ? "حفظ وإنهاء الإعداد" : "متابعة والتالي"}
                   {currentStep !== STEPS.length - 1 && <ArrowLeft className="w-4 h-4 ms-2" />}
