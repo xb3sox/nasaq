@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { Badge } from "@/components/ui/badge";
 import { Send, Bot, User, CalendarCheck, Check, Hand, Search, X, Loader2, Paperclip, Smile } from "lucide-react";
 import { demoAiDecision, demoBooking } from "@/lib/demo-clinic";
 
