@@ -57,7 +57,7 @@ export function PWAInstallButton() {
       <button
         type="button"
         onClick={handleInstallClick}
-        className="flex items-center gap-2 rounded-full bg-[#0B7D72] px-4 py-2 text-white shadow-lg transition-colors hover:bg-[#09665d]"
+        className="flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-white shadow-lg transition-colors hover:bg-brand-hover"
         aria-label="تثبيت تطبيق نسق"
       >
         <Download className="size-4" aria-hidden="true" />

@@ -52,7 +52,7 @@ function StatCard({
       </div>
       <div className="mt-4 flex items-end justify-between h-10 gap-4">
         {trend && (
-          <div className={`flex items-center gap-1 text-xs font-medium mb-1 ${trend === "up" ? "text-green-600" : "text-red-500"}`}>
+          <div className={`flex items-center gap-1 text-xs font-medium mb-1 ${trend === "up" ? "text-green-600" : "text-destructive"}`}>
             {trend === "up" ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
             <span>{trend === "up" ? "+12%" : "-3%"}</span>
           </div>
@@ -61,7 +61,7 @@ function StatCard({
           <div className="h-full flex-1 max-w-[80px] ms-auto opacity-70" dir="ltr">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <LineChart data={sparklineData.map((val, i) => ({ val, i }))}>
-                <Line type="monotone" dataKey="val" stroke={trend === "up" ? "#16a34a" : "#dc2626"} strokeWidth={2} dot={false} isAnimationActive={false} />
+                <Line type="monotone" dataKey="val" stroke={trend === "up" ? "var(--success)" : "var(--destructive)"} strokeWidth={2} dot={false} isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer></ChartWrapper>
           </div>
@@ -152,7 +152,7 @@ export default function ReportsPage() {
           value={DEMO_REPORT_STATS.todayBookings}
           sub={`${DEMO_REPORT_STATS.todayConfirmed} مؤكد`}
           icon={CalendarCheck}
-          color="bg-blue-50 text-blue-600"
+          color="bg-brand-surface text-brand"
           trend="up"
           sparklineData={[3, 4, 2, 5, 4, 6, 5]}
         />
@@ -161,7 +161,7 @@ export default function ReportsPage() {
           value={new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR', maximumFractionDigits: 0 }).format(DEMO_REPORT_STATS.monthRevenue)}
           sub="هذا الشهر"
           icon={DollarSign}
-          color="bg-green-50 text-green-600"
+          color="bg-success-surface text-success"
           trend="up"
           sparklineData={[10, 15, 12, 18, 14, 20, 22]}
           explanation="إجمالي المبالغ المحصلة من الحجوزات المكتملة"
@@ -181,7 +181,7 @@ export default function ReportsPage() {
           value={DEMO_REPORT_STATS.newLeads}
           sub="هذا الأسبوع"
           icon={Users}
-          color="bg-purple-50 text-purple-600"
+          color="bg-muted text-muted-foreground"
           trend="up"
           sparklineData={[2, 3, 5, 4, 6, 8, 7]}
           explanation="عدد العملاء الذين تواصلوا لأول مرة"
@@ -204,15 +204,15 @@ export default function ReportsPage() {
           <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني يوضح عدد الحجوزات خلال الفترة المحددة">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
-                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--muted-foreground)', fontFamily: 'inherit' }} dy={10} />
+                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--muted-foreground)', fontFamily: 'inherit' }} />
                 <Tooltip
-                  cursor={{ fill: '#f3f4f6' }}
+                  cursor={{ fill: 'var(--muted)' }}
                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: 'var(--color-primary)' }}
                   formatter={(value) => [value as React.ReactNode, 'الحجوزات']}
-                  labelStyle={{ color: '#0f172a', marginBottom: '4px', fontWeight: 600 }}
+                  labelStyle={{ color: 'var(--foreground)', marginBottom: '4px', fontWeight: 600 }}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px', fontFamily: 'inherit' }} />
                 <Bar dataKey="bookings" name="الحجوزات" fill="var(--color-primary)" radius={[4, 4, 0, 0]} maxBarSize={40} />
@@ -235,17 +235,17 @@ export default function ReportsPage() {
           <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني خطي يوضح تفاعل العملاء المحتملين والجدد">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} dy={10} />
-                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6b7280', fontFamily: 'inherit' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" />
+                <XAxis reversed={true} dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--muted-foreground)', fontFamily: 'inherit' }} dy={10} />
+                <YAxis orientation="right" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--muted-foreground)', fontFamily: 'inherit' }} />
                 <Tooltip
                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-primary)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: 'var(--color-primary)' }}
                   formatter={(value) => [value as React.ReactNode, 'العملاء المحتملين']}
-                  labelStyle={{ color: '#0f172a', marginBottom: '4px', fontWeight: 600 }}
+                  labelStyle={{ color: 'var(--foreground)', marginBottom: '4px', fontWeight: 600 }}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px', fontFamily: 'inherit' }} />
-                <Line type="monotone" dataKey="leads" name="العملاء المحتملين" stroke="var(--color-primary)" strokeWidth={3} dot={{ r: 4, strokeWidth: 2, fill: '#fff' }} activeDot={{ r: 6, fill: 'var(--color-primary)' }} />
+                <Line type="monotone" dataKey="leads" name="العملاء المحتملين" stroke="var(--color-primary)" strokeWidth={3} dot={{ r: 4, strokeWidth: 2, fill: 'var(--card)' }} activeDot={{ r: 6, fill: 'var(--color-primary)' }} />
               </LineChart>
             </ResponsiveContainer></ChartWrapper>
           </div>
@@ -280,7 +280,7 @@ export default function ReportsPage() {
                 </Pie>
                 <Tooltip
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
-                  itemStyle={{ color: '#0f172a' }}
+                  itemStyle={{ color: 'var(--foreground)' }}
                   formatter={(value) => [`${value}%`, 'النسبة']}
                 />
               </PieChart>
@@ -297,17 +297,17 @@ export default function ReportsPage() {
           <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني شريطي يوضح مراحل تحويل العملاء من أول رسالة حتى إكمال الموعد">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
               <BarChart data={funnelData} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e5e7eb" />
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="var(--border)" />
                 <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#0f172a', fontFamily: 'inherit' }} width={80} orientation="right" />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--foreground)', fontFamily: 'inherit' }} width={80} orientation="right" />
                 <Tooltip
-                  cursor={{ fill: '#f3f4f6' }}
+                  cursor={{ fill: 'var(--muted)' }}
                   contentStyle={{ borderRadius: '8px', border: '1px solid var(--color-chart-2)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', fontFamily: 'inherit', textAlign: 'right' }}
                   itemStyle={{ color: 'var(--color-chart-2)' }}
                   formatter={(value) => [value as React.ReactNode, 'العدد']}
                 />
                 <Legend wrapperStyle={{ fontSize: '12px', fontFamily: 'inherit' }} />
-                <Bar dataKey="value" name="العدد" fill="var(--color-chart-2)" radius={[0, 4, 4, 0]} maxBarSize={30} label={{ position: 'insideLeft', fill: '#fff', fontSize: 12, fontFamily: 'inherit' }} />
+                <Bar dataKey="value" name="العدد" fill="var(--color-chart-2)" radius={[0, 4, 4, 0]} maxBarSize={30} label={{ position: 'insideLeft', fill: 'var(--card)', fontSize: 12, fontFamily: 'inherit' }} />
               </BarChart>
             </ResponsiveContainer></ChartWrapper>
           </div>
@@ -317,7 +317,7 @@ export default function ReportsPage() {
       {/* Bottom Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="p-5 flex items-center gap-4 min-w-0" title="إجمالي رسائل التذكير المرسلة بنجاح">
-          <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0" role="img" aria-label="تذكير مرسل">
+          <div className="w-10 h-10 rounded-xl bg-warning-surface text-warning flex items-center justify-center shrink-0" role="img" aria-label="تذكير مرسل">
             <RefreshCw className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="min-w-0">
@@ -326,7 +326,7 @@ export default function ReportsPage() {
           </div>
         </Card>
         <Card className="p-5 flex items-center gap-4 min-w-0" title="متوسط الوقت المستغرق للرد على العملاء">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0" role="img" aria-label="متوسط وقت الرد">
+          <div className="w-10 h-10 rounded-xl bg-brand-surface text-brand flex items-center justify-center shrink-0" role="img" aria-label="متوسط وقت الرد">
             <Clock className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="min-w-0">
@@ -335,7 +335,7 @@ export default function ReportsPage() {
           </div>
         </Card>
         <Card className="p-5 flex items-center gap-4 min-w-0" title="نسبة المحادثات التي أدارها الذكاء الاصطناعي بالكامل">
-          <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0" role="img" aria-label="نسبة تعامل الذكاء الاصطناعي">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0" role="img" aria-label="نسبة تعامل الذكاء الاصطناعي">
             <Bot className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="min-w-0">
@@ -346,7 +346,7 @@ export default function ReportsPage() {
           </div>
         </Card>
         <Card className="p-5 flex items-center gap-4 min-w-0" title="إجمالي الحجوزات المؤكدة لهذا الشهر">
-          <div className="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center shrink-0" role="img" aria-label="حجوزات الشهر">
+          <div className="w-10 h-10 rounded-xl bg-success-surface text-success flex items-center justify-center shrink-0" role="img" aria-label="حجوزات الشهر">
             <TrendingUp className="w-5 h-5" aria-hidden="true" />
           </div>
           <div className="min-w-0">
