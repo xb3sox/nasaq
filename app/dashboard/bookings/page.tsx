@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -165,15 +167,13 @@ export default function BookingsPage() {
   ];
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
+    <PageShell>
       {/* Header */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">الحجوزات</h1>
-          <p className="text-sm text-muted-foreground">جميع الحجوزات من واتساب والاستقبال</p>
-        </div>
-        <NewBookingDialog onAdd={() => setAdded((n) => n + 1)} />
-      </div>
+      <PageHeader
+        title="الحجوزات"
+        subtitle="جميع الحجوزات من واتساب والاستقبال"
+        actions={<NewBookingDialog onAdd={() => setAdded((n) => n + 1)} />}
+      />
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -399,6 +399,6 @@ export default function BookingsPage() {
           ))}
         </div>
       )}
-    </div>
+    </PageShell>
   );
 }

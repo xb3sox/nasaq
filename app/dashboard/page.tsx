@@ -189,6 +189,7 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {/* Intentionally different layout: keeps dashboard home page mostly as-is since it's uniquely styled and does not use PageShell/PageHeader */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-10">
         <div className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight">مرحباً بك في {demoClinic.name}</h1>

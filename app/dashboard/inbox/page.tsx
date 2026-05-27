@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -127,11 +129,11 @@ export default function InboxPage() {
   }
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight">صندوق الوارد</h1>
-        <p className="text-sm text-muted-foreground">إدارة المحادثات واستفسارات العملاء</p>
-      </div>
+    <PageShell>
+      <PageHeader
+        title="صندوق الوارد"
+        subtitle="إدارة المحادثات واستفسارات العملاء"
+      />
       <div className="flex flex-col gap-4 h-[calc(100vh-12rem)] lg:flex-row">
       {/* Sidebar */}
       <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col lg:max-h-none lg:w-80">
@@ -333,6 +335,6 @@ export default function InboxPage() {
         </div>
       </Card>
       </div>
-    </div>
+    </PageShell>
   );
 }

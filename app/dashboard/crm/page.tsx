@@ -4,6 +4,8 @@ import { ChartWrapper } from "@/components/ChartWrapper";
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,20 +65,18 @@ export default function CrmPage() {
   const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
+    <PageShell>
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">العملاء والعلاقات</h1>
-          <p className="text-sm text-muted-foreground">عملاء من جميع القنوات</p>
-        </div>
-        <div className="flex items-center gap-2">
+      <PageHeader
+        title="العملاء والعلاقات"
+        subtitle="عملاء من جميع القنوات"
+        actions={
           <Button size="sm" className="min-h-[40px] sm:min-h-0 sm:h-9 gap-1.5">
             <Plus className="w-3.5 h-3.5" />
             عميل جديد
           </Button>
-        </div>
-      </div>
+        }
+      />
 
             {/* Stat Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
@@ -364,6 +364,6 @@ export default function CrmPage() {
              ))}
            </div>
       )}
-    </div>
+    </PageShell>
   );
 }

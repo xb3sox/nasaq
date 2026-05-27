@@ -12,6 +12,8 @@ import {
 import { useState } from "react";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { StatCard } from "@/components/ui/stat-card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 
 const chartData = DEMO_METRICS.labels.map((label, index) => ({
   name: label,
@@ -52,40 +54,40 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="p-6 lg:p-8 space-y-8 max-w-6xl">
+    <PageShell maxWidth="6xl" className="lg:p-8">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">التقارير</h1>
-          <p className="text-sm text-muted-foreground">نظرة شاملة على أداء العيادة</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex bg-muted/50 p-1 rounded-lg border border-border/50">
-            {(["أسبوع", "شهر", "ربع سنة", "سنة"] as const).map(p => (
-              <Button
-                key={p}
-                size="sm"
-                variant={period === p ? "secondary" : "ghost"}
-                onClick={() => setPeriod(p)}
-                className={`text-xs px-3 h-7 ${period === p ? "shadow-sm bg-background" : ""}`}
-              >
-                {p}
-              </Button>
-            ))}
-          </div>
-          <div className="flex items-center gap-2 border rounded-md px-3 h-9 bg-background">
-            <Calendar className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">01/05 - 07/05</span>
-          </div>
-          <Button size="sm" variant="outline" className="gap-2 h-9" onClick={handleExportCSV}>
-            <Download className="w-4 h-4" />
-            تصدير CSV
-          </Button>
-          <Button size="sm" className="gap-2 h-9">
-            توليد تقرير
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title="التقارير"
+        subtitle="نظرة شاملة على أداء العيادة"
+        actions={
+          <>
+            <div className="flex bg-muted/50 p-1 rounded-lg border border-border/50">
+              {(["أسبوع", "شهر", "ربع سنة", "سنة"] as const).map(p => (
+                <Button
+                  key={p}
+                  size="sm"
+                  variant={period === p ? "secondary" : "ghost"}
+                  onClick={() => setPeriod(p)}
+                  className={`text-xs px-3 h-7 ${period === p ? "shadow-sm bg-background" : ""}`}
+                >
+                  {p}
+                </Button>
+              ))}
+            </div>
+            <div className="flex items-center gap-2 border rounded-md px-3 h-9 bg-background">
+              <Calendar className="w-4 h-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">01/05 - 07/05</span>
+            </div>
+            <Button size="sm" variant="outline" className="gap-2 h-9" onClick={handleExportCSV}>
+              <Download className="w-4 h-4" />
+              تصدير CSV
+            </Button>
+            <Button size="sm" className="gap-2 h-9">
+              توليد تقرير
+            </Button>
+          </>
+        }
+      />
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -297,6 +299,6 @@ export default function ReportsPage() {
           </div>
         </Card>
       </div>
-    </div>
+    </PageShell>
   );
 }

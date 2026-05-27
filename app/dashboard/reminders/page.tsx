@@ -3,6 +3,8 @@ import { ChartWrapper } from "@/components/ChartWrapper";
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DEMO_REMINDERS } from "@/lib/demo-data";
@@ -125,22 +127,20 @@ export default function RemindersPage() {
   ];
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
+    <PageShell>
       {/* Header */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">التذكيرات</h1>
-          <p className="text-sm text-muted-foreground">تذكيرات WhatsApp آلية للحجوزات</p>
-        </div>
-        <div className="flex gap-2 flex-wrap items-center">
-          {counts.failed > 0 && (
+      <PageHeader
+        title="التذكيرات"
+        subtitle="تذكيرات WhatsApp آلية للحجوزات"
+        actions={
+          counts.failed > 0 && (
             <Button size="sm" variant="destructive" onClick={handleResendAllFailed} className="gap-2">
               <RefreshCw className="w-4 h-4" />
               إعادة إرسال الكل ({counts.failed})
             </Button>
-          )}
-        </div>
-      </div>
+          )
+        }
+      />
 
       {/* Summary Chart & Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -310,6 +310,6 @@ export default function RemindersPage() {
            </div>
         )}
       </div>
-    </div>
+    </PageShell>
   );
 }

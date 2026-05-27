@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { toast } from "sonner";
 import { Building2, MessageCircle, Bot, Users, Briefcase, Bell, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
 import type { RuntimeConfigStatus } from "@/lib/runtime-config";
@@ -18,11 +20,11 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold tracking-tight">الإعدادات</h1>
-        <p className="text-sm text-muted-foreground">جاهزية الربط الحقيقي بدون عرض أي أسرار أو مفاتيح.</p>
-      </div>
+    <PageShell>
+      <PageHeader
+        title="الإعدادات"
+        subtitle="جاهزية الربط الحقيقي بدون عرض أي أسرار أو مفاتيح."
+      />
 
       <ConfigReadinessPanel />
 
@@ -149,7 +151,7 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </PageShell>
   );
 }
 

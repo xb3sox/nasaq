@@ -65,6 +65,7 @@ export default function SetupPage() {
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent -z-10" />
 
+      {/* Intentionally different layout: setup page has unique layout needs and background */}
       <div className="w-full max-w-4xl space-y-8">
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-extrabold tracking-tight">إعداد العيادة الذكية</h1>
