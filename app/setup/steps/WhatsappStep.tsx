@@ -11,8 +11,8 @@ export default function WhatsappStep() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <Alert className="bg-primary/5 border-primary/20 text-primary">
-        <Info className="w-4 h-4 text-primary" />
+      <Alert className="bg-brand-surface border-brand/20 text-brand">
+        <Info className="w-4 h-4 text-brand" />
         <AlertTitle className="text-sm font-bold mb-1">WhatsApp Cloud API</AlertTitle>
         <AlertDescription className="text-xs leading-relaxed">
           يتطلب الربط الفعلي حساب مطور موثق في Meta. للتجربة السريعة، يمكنك تخطي هذه الخطوة وسنستخدم نظام محاكاة (Mock) داخلي للرسائل.
