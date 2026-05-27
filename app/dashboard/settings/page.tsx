@@ -20,7 +20,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <PageShell>
+    <PageShell size="wide">
       <PageHeader
         title="الإعدادات"
         subtitle="جاهزية الربط الحقيقي بدون عرض أي أسرار أو مفاتيح."

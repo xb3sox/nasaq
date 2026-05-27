@@ -130,14 +130,14 @@ export default function InboxPage() {
   }
 
   return (
-    <PageShell>
+    <PageShell size="full" height="viewport" className="flex flex-col">
       <PageHeader
         title="صندوق الوارد"
         subtitle="إدارة المحادثات واستفسارات العملاء"
       />
-      <div className="flex flex-col gap-4 h-[calc(100vh-12rem)] lg:flex-row">
+      <div className="flex flex-col gap-4 min-h-0 flex-1 lg:flex-row">
       {/* Sidebar */}
-      <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col lg:max-h-none lg:w-80">
+      <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col overflow-hidden lg:max-h-none lg:w-80">
         <div className="p-4 border-b font-bold text-sm flex justify-between items-center bg-muted/30">
           المحادثات
           <Badge variant="secondary" className="bg-primary/10 text-primary">{DEMO_CONVERSATIONS.length}</Badge>

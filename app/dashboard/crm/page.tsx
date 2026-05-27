@@ -67,7 +67,7 @@ export default function CrmPage() {
   const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
 
   return (
-    <PageShell>
+    <PageShell size="wide">
       {/* Header */}
       <PageHeader
         title="العملاء والعلاقات"

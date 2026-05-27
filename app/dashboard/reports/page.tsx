@@ -54,7 +54,7 @@ export default function ReportsPage() {
   };
 
   return (
-    <PageShell maxWidth="6xl" className="lg:p-8">
+    <PageShell size="wide">
       {/* Header */}
       <PageHeader
         title="التقارير"

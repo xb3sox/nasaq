@@ -163,7 +163,7 @@ export default function BookingsPage() {
   };
 
   return (
-    <PageShell>
+    <PageShell size="wide">
       {/* Header */}
       <PageHeader
         title="الحجوزات"
