@@ -7,7 +7,7 @@ import { CenteredPage } from "@/components/ui/centered-page";
 
 export default function LoginPage() {
   return (
-    <CenteredPage maxWidth="sm">
+    <CenteredPage maxWidth="sm" surface="muted">
       {/* Brand */}
       <div className="flex flex-col items-center gap-3 text-center">
         <div className="w-12 h-12 rounded-2xl bg-primary flex items-center justify-center shadow-lg">
