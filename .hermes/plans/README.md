@@ -7,14 +7,13 @@
 
 ## Active plans
 
-- `2026-05-27-docs-repo-structure-roadmap.md` — Documentation cleanup, README rewrite, roadmap alignment. In progress on `sabi/docs-roadmap-plan`.
-
-Completed plans are archived in `archive/`.
+- `2026-05-28-structure-content-logic-cleanup.md` — Structure, content, and business-logic cleanup plan. In progress on `sabi/structure-content-logic-cleanup-plan`.
 
 ## Completed / superseded plans (archived)
 
 These are kept for reference. They are not default reading for new agent sessions.
 
+- `2026-05-27-docs-repo-structure-roadmap.md` — Documentation cleanup, README rewrite, roadmap alignment. Merged in PR #19.
 - `2026-05-27-design-consistency-v3.md` — Design consistency v3: typed Badge variants, LandingSection, CenteredPage guardrails. Merged in PR #18.
 - `2026-05-27-design-system-consolidation.md` — Initial design system audit. Superseded by v2 and v3 work.
 - `2026-05-27-layout-consistency.md` — Layout framework v2. LandingSection, CenteredPage, login alignment. Merged in PR #17.
