@@ -244,8 +244,8 @@ export default function DashboardPage() {
           icon={Users}
           trend={15}
           trendLabel="هذا الأسبوع"
-          iconClassName="text-blue-500"
-          iconContainerClassName="bg-blue-500/10"
+          iconClassName="text-brand"
+          iconContainerClassName="bg-brand/10"
         />
 
         <StatCard
@@ -254,8 +254,8 @@ export default function DashboardPage() {
           icon={TrendingUp}
           trend={12}
           trendLabel="مقارنة بالشهر الماضي"
-          iconClassName="text-green-500"
-          iconContainerClassName="bg-green-500/10"
+          iconClassName="text-success"
+          iconContainerClassName="bg-success/10"
         />
       </div>
 

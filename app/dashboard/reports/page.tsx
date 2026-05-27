@@ -7,69 +7,11 @@ import { Button } from "@/components/ui/button";
 import { DEMO_METRICS, DEMO_REPORT_STATS } from "@/lib/demo-data";
 import {
   TrendingUp, Users, CalendarCheck,
-  Bot, DollarSign, Clock, ArrowUpRight, ArrowDownRight, RefreshCw, Download, Calendar
+  Bot, DollarSign, Clock, RefreshCw, Download, Calendar
 } from "lucide-react";
 import { useState } from "react";
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-
-function StatCard({
-  label,
-  value,
-  sub,
-  icon: Icon,
-  color,
-  trend,
-  sparklineData,
-  explanation
-}: {
-  label: string;
-  value: string | number;
-  sub?: string;
-  icon: React.ElementType;
-  color: string;
-  trend?: "up" | "down";
-  sparklineData?: number[];
-  explanation?: string;
-}) {
-  return (
-    <Card className="p-5 hover:shadow-md transition-shadow duration-200 flex flex-col justify-between min-w-0">
-      <div>
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium text-muted-foreground truncate" title={explanation || label}>{label}</div>
-            <div className="text-3xl font-bold mt-1 truncate">{value}</div>
-            {sub && <div className="text-xs text-muted-foreground mt-1 truncate">{sub}</div>}
-          </div>
-          <div
-            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${color}`}
-            title={explanation || label}
-            role="img"
-            aria-label={explanation || label}
-          >
-            <Icon className="w-5 h-5" aria-hidden="true" />
-          </div>
-        </div>
-      </div>
-      <div className="mt-4 flex items-end justify-between h-10 gap-4">
-        {trend && (
-          <div className={`flex items-center gap-1 text-xs font-medium mb-1 ${trend === "up" ? "text-success" : "text-destructive"}`}>
-            {trend === "up" ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-            <span>{trend === "up" ? "+12%" : "-3%"}</span>
-          </div>
-        )}
-        {sparklineData && (
-          <div className="h-full flex-1 max-w-[80px] ms-auto opacity-70" dir="ltr">
-            <ChartWrapper><ResponsiveContainer width="100%" height="100%">
-              <LineChart data={sparklineData.map((val, i) => ({ val, i }))}>
-                <Line type="monotone" dataKey="val" stroke={trend === "up" ? "var(--success)" : "var(--destructive)"} strokeWidth={2} dot={false} isAnimationActive={false} />
-              </LineChart>
-            </ResponsiveContainer></ChartWrapper>
-          </div>
-        )}
-      </div>
-    </Card>
-  );
-}
+import { StatCard } from "@/components/ui/stat-card";
 
 const chartData = DEMO_METRICS.labels.map((label, index) => ({
   name: label,
@@ -110,12 +52,12 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-6 lg:p-8 space-y-8 max-w-6xl">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold">التقارير</h1>
-          <p className="text-sm text-muted-foreground mt-1">نظرة شاملة على أداء العيادة</p>
+        <div className="space-y-2">
+          <h1 className="text-2xl font-bold tracking-tight">التقارير</h1>
+          <p className="text-sm text-muted-foreground">نظرة شاملة على أداء العيادة</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex bg-muted/50 p-1 rounded-lg border border-border/50">
@@ -148,43 +90,43 @@ export default function ReportsPage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          label="حجوزات اليوم"
+          title="حجوزات اليوم"
           value={DEMO_REPORT_STATS.todayBookings}
           sub={`${DEMO_REPORT_STATS.todayConfirmed} مؤكد`}
           icon={CalendarCheck}
           color="bg-brand-surface text-brand"
-          trend="up"
+          trendDirection="up"
           sparklineData={[3, 4, 2, 5, 4, 6, 5]}
         />
         <StatCard
-          label="إجمالي الإيرادات"
+          title="إجمالي الإيرادات"
           value={new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR', maximumFractionDigits: 0 }).format(DEMO_REPORT_STATS.monthRevenue)}
           sub="هذا الشهر"
           icon={DollarSign}
           color="bg-success-surface text-success"
-          trend="up"
+          trendDirection="up"
           sparklineData={[10, 15, 12, 18, 14, 20, 22]}
-          explanation="إجمالي المبالغ المحصلة من الحجوزات المكتملة"
+          description="إجمالي المبالغ المحصلة من الحجوزات المكتملة"
         />
         <StatCard
-          label="محادثات الذكاء الاصطناعي"
+          title="محادثات الذكاء الاصطناعي"
           value={DEMO_REPORT_STATS.aiHandled}
           sub={`${DEMO_REPORT_STATS.humanNeeded} تحتاج موظف`}
           icon={Bot}
           color="bg-primary/10 text-primary"
-          trend="up"
+          trendDirection="up"
           sparklineData={[15, 20, 18, 25, 22, 30, 28]}
-          explanation="المحادثات التي تم التعامل معها تلقائياً بواسطة الذكاء الاصطناعي"
+          description="المحادثات التي تم التعامل معها تلقائياً بواسطة الذكاء الاصطناعي"
         />
         <StatCard
-          label="عملاء جدد"
+          title="عملاء جدد"
           value={DEMO_REPORT_STATS.newLeads}
           sub="هذا الأسبوع"
           icon={Users}
           color="bg-muted text-muted-foreground"
-          trend="up"
+          trendDirection="up"
           sparklineData={[2, 3, 5, 4, 6, 8, 7]}
-          explanation="عدد العملاء الذين تواصلوا لأول مرة"
+          description="عدد العملاء الذين تواصلوا لأول مرة"
         />
       </div>
 

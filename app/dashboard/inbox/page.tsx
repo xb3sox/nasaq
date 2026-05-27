@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Send, Bot, User, CalendarCheck, Check, Hand, Search, X, Loader2, Paperclip, Smile } from "lucide-react";
 import { demoAiDecision, demoBooking } from "@/lib/demo-clinic";
@@ -126,7 +127,12 @@ export default function InboxPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4 lg:h-[calc(100vh-2rem)] lg:flex-row">
+    <div className="p-6 space-y-8 max-w-4xl">
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight">صندوق الوارد</h1>
+        <p className="text-sm text-muted-foreground">إدارة المحادثات واستفسارات العملاء</p>
+      </div>
+      <div className="flex flex-col gap-4 h-[calc(100vh-12rem)] lg:flex-row">
       {/* Sidebar */}
       <Card className="flex max-h-[34dvh] w-full shrink-0 flex-col lg:max-h-none lg:w-80">
         <div className="p-4 border-b font-bold text-sm flex justify-between items-center bg-muted/30">
@@ -150,13 +156,13 @@ export default function InboxPage() {
               <div className="flex items-center justify-between">
                 <div>
                   {conv.humanNeeded ? (
-                    <Badge className="bg-warning-surface text-warning text-xs border-0 gap-1"><div className="w-1.5 h-1.5 rounded-full bg-warning"></div> يحتاج موظف</Badge>
+                    <StatusBadge variant="warning" className="text-xs gap-1"><div className="w-1.5 h-1.5 rounded-full bg-warning"></div> يحتاج موظف</StatusBadge>
                   ) : (
-                    <Badge className="bg-success-surface text-success text-xs border-0 gap-1"><Bot className="w-3 h-3" /> AI {conv.tags[0]}</Badge>
+                    <StatusBadge variant="success" className="text-xs gap-1"><Bot className="w-3 h-3" /> AI {conv.tags[0]}</StatusBadge>
                   )}
                 </div>
                 {/* Unread badge mock */}
-                {isUnread && <Badge className="bg-whatsapp text-white hover:bg-whatsapp h-5 min-w-5 flex items-center justify-center p-0 rounded-full text-[10px]">1</Badge>}
+                {isUnread && <StatusBadge variant="whatsapp" className="text-white hover:bg-whatsapp h-5 min-w-5 flex items-center justify-center p-0 rounded-full text-[10px]">1</StatusBadge>}
               </div>
             </div>
             );
@@ -326,6 +332,7 @@ export default function InboxPage() {
           </div>
         </div>
       </Card>
+      </div>
     </div>
   );
 }
