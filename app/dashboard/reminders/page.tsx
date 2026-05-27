@@ -125,13 +125,13 @@ export default function RemindersPage() {
   ];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-8 max-w-4xl">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold tracking-tight">التذكيرات</h1>
-          <p className="text-sm text-muted-foreground">تذكيرات WhatsApp آلية للحجوزات</p>
-        </div>
+        <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight">التذكيرات</h1>
+        <p className="text-sm text-muted-foreground">تذكيرات WhatsApp آلية للحجوزات</p>
+      </div>
         <div className="flex gap-2 flex-wrap items-center">
           {counts.failed > 0 && (
             <Button size="sm" variant="destructive" onClick={handleResendAllFailed} className="gap-2">

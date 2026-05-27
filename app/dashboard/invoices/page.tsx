@@ -283,7 +283,7 @@ export default function InvoicesPage() {
   })();
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-8 max-w-4xl">
       {selectedInvoice && (
         <InvoiceDetailModal inv={selectedInvoice} onClose={() => setSelectedInvoice(null)} />
       )}

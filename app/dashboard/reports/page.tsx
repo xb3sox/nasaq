@@ -110,13 +110,13 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-6 space-y-8 max-w-6xl">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold">التقارير</h1>
-          <p className="text-sm text-muted-foreground mt-1">نظرة شاملة على أداء العيادة</p>
-        </div>
+        <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight">التقارير</h1>
+        <p className="text-sm text-muted-foreground">نظرة شاملة على أداء العيادة</p>
+      </div>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex bg-muted/50 p-1 rounded-lg border border-border/50">
             {(["أسبوع", "شهر", "ربع سنة", "سنة"] as const).map(p => (
