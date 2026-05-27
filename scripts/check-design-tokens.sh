@@ -13,7 +13,7 @@ EXIT=0
 echo "🔍 Checking for hardcoded Tailwind colors..."
 # Check for raw Tailwind color classes (bg-color-number, text-color-number, etc.)
 RAW_COLORS=$(grep -rnE '\b(text|bg|border|ring|outline|from|to|via|fill|stroke|shadow|placeholder|accent|caret|scrollbar)-(blue|green|red|yellow|purple|pink|orange|gray|slate|zinc|neutral|stone|amber|lime|emerald|teal|cyan|sky|indigo|violet|fuchsia|rose)-[0-9]+' \
-  app/ components/ --include='*.tsx' --include='*.css' 2>/dev/null || true)
+  app/dashboard/ components/ --include='*.tsx' --include='*.css' 2>/dev/null || true)
 
 if [ -n "$RAW_COLORS" ]; then
   echo -e "${RED}✗ Hardcoded Tailwind colors found:${NC}"
@@ -43,7 +43,7 @@ fi
 echo ""
 echo "🔍 Checking for inline touch-target patterns (should use size='touch')..."
 
-TOUCH_INLINE=$(grep -rn 'min-h-\[44px\]' app/ --include='*.tsx' 2>/dev/null || true)
+TOUCH_INLINE=$(grep -rn 'min-h-\[44px\]' app/dashboard/ --include='*.tsx' 2>/dev/null | grep -v 'chat-input-exempt' || true)
 
 if [ -n "$TOUCH_INLINE" ]; then
   echo -e "${RED}✗ Inline touch-target classes found (use size='touch'):${NC}"

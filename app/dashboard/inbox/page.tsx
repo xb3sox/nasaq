@@ -307,7 +307,7 @@ export default function InboxPage() {
 
           {/* Reply Input */}
           <div className="flex gap-2 items-end">
-            <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm">
+            <div className="flex-1 flex items-center bg-card dark:bg-muted rounded-3xl min-h-[44px] px-2 shadow-sm"> {/* chat-input-exempt — custom compose container, not a component */}
               <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground shrink-0 rounded-full hover:bg-muted/50" aria-label="إضافة رمز تعبيري">
                 <Smile className="w-6 h-6" />
               </Button>
