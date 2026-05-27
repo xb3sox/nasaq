@@ -204,13 +204,13 @@ export default function InboxPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button variant="ghost" size="icon" className="h-6 w-6 absolute start-1 top-1/2 -translate-y-1/2" onClick={() => setShowSearch(false)}>
+                <Button variant="ghost" size="icon" className="h-6 w-6 absolute start-1 top-1/2 -translate-y-1/2" onClick={() => setShowSearch(false)} aria-label="إغلاق البحث">
                   <X className="w-3 h-3" />
                 </Button>
               </div>
             )}
             {!showSearch && (
-              <Button size="touch-icon" variant="ghost" className="text-muted-foreground" onClick={() => setShowSearch(true)}>
+              <Button size="touch-icon" variant="ghost" className="text-muted-foreground" onClick={() => setShowSearch(true)} aria-label="بحث في المحادثة">
                 <Search className="w-4 h-4" />
               </Button>
             )}
@@ -301,7 +301,7 @@ export default function InboxPage() {
               <Bot className="w-4 h-4 text-primary shrink-0" />
               <div className="flex-1 truncate text-primary/80">اقتراح: {ai.reply}</div>
               <Button size="touch" variant="ghost" className="text-xs text-primary hover:bg-primary/20 hover:text-primary px-2" onClick={() => setReplyText(ai.reply)}>استخدام</Button>
-              <Button size="touch-icon" variant="ghost" className="text-muted-foreground" onClick={() => setDismissSuggestion(true)}><X className="w-3.5 h-3.5" /></Button>
+              <Button size="touch-icon" variant="ghost" className="text-muted-foreground" onClick={() => setDismissSuggestion(true)} aria-label="إغلاق الاقتراح"><X className="w-3.5 h-3.5" /></Button>
             </div>
           )}
 
