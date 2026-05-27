@@ -114,6 +114,16 @@ else
 fi
 
 echo ""
+echo "🔍 Checking scrollbar-gutter is set..."
+
+if ! grep -q "scrollbar-gutter" app/globals.css 2>/dev/null; then
+  echo -e "${RED}✗ scrollbar-gutter not found in globals.css (add 'html { scrollbar-gutter: stable; }')${NC}"
+  EXIT=1
+else
+  echo -e "${GREEN}✓ scrollbar-gutter configured${NC}"
+fi
+
+echo ""
 if [ $EXIT -eq 0 ]; then
   echo -e "${GREEN}✅ All design token checks passed${NC}"
 else
