@@ -15,7 +15,7 @@ Target: demoable, pilot-able with 1-2 clinics, sellable within 2 days.
 ## What Was Built
 
 ### Architecture
-- **Frontend**: Next.js 16 (App Router), Tailwind, Arabic RTL
+- **Frontend**: Next.js 15.5 (App Router), Tailwind 4, Arabic RTL
 - **AI**: Deterministic (demo) + OpenAI + Gemini providers — switchable via env
 - **WhatsApp**: Mock sender (demo) + official Meta Cloud API sender — no WhatsApp Web automation
 - **Database**: Supabase Postgres (store adapter wired, requires live Supabase)
@@ -73,7 +73,7 @@ tests/                   # 88 passing Node.js test runner tests
 ```
 
 ### Review Gate Results
-- ✅ 88/88 tests passing
+- ✅ 93/93 tests passing
 - ✅ Lint clean
 - ✅ Build clean (no type errors)
 - ✅ Smoke test: `POST /api/messages/send` returns `{ success: true, messageId: "mock-..." }`
@@ -86,7 +86,7 @@ tests/                   # 88 passing Node.js test runner tests
 
 **Clinic**: عيادات النخبة — حي الملقا، الرياض
 
-**Open dashboard at**: `http://localhost:3001/dashboard`
+**Open dashboard at**: `http://localhost:3000/dashboard`
 
 ### Step 1 — WhatsApp Lead (Inbox)
 - Show "نورة المحمد" conversation in inbox
@@ -187,17 +187,12 @@ tests/                   # 88 passing Node.js test runner tests
 
 ## Spec Change Log
 
-- v0.1: Initial build — 6 modules, mock data, deterministic AI
-- v0.2: Added WhatsApp send adapter (mock + Cloud API), dead letter handling
-- v0.3: Added AI provider abstraction (Deterministic + OpenAI + Gemini)
-- v0.4: Interactive inbox with send/confirm/handoff actions wired to API
-- v0.5: Typed demo data, all pages wired to demo-data, build clean
-- v0.6: Added production DB hardening — idempotent conversation upsert + dead letter schema alignment
-- v0.7: Rebranded product identity to Nasaq and centralized brand metadata
-- v0.9: Repo setup hardening — Node engine contract (.nvmrc/.node-version/package.json engines), lazy Supabase client (no crash in demo mode), vercel.json installCommand+CORS fixes, migration cleanup (renamed legacy files, sequential numbering), RLS-aligned seed
-- v1.0: Demo data enrichment — 12 bookings, 10 leads, 8 invoices, 7 reminders; reminders page rebuilt with live retry/send API wired; CRM rebuilt with search+filter+empty state; custom 404 page; README fix
-- v1.1: Repo cleanup — workflows moved into clinic-ai-os repo, legacy .bak migration removed, stale local branches deleted, Next.js 15.3.9 confirmed stable, auto-merge workflow added, autonomous build cron active, SPEC task queue formalized
-- v1.2: RTL polish pass merged — import order fix, demoClinic name in header, eslint unused-vars rule, RTL/LTR sidebar/button/dialog/select/sheet/table/tabs components using logical CSS properties (pe/ps/me/ms/inset-x), mobile touch targets (min-h-[40px] sm breakpoint), horizontal scroll fix on dashboard flow card; deployed to production 2026-05-23
-- v1.3: Jules sentinel session applied — invoices ZATCA label fixed, PDF button label corrected, invoice modal open on row click; all previous patches reviewed and consolidated; build + 43 tests verified clean
-- v1.4: Doctor calendar — dynamic slot generation (Sun–Thu, 9AM–5PM), multi-doctor support (3 doctors), double-booking conflict detection, `generateAvailableSlots()` + `hasBookingConflict()`; ZATCA PDF + analytics charts + mobile PWA completed via Jules parallel sessions
-- v1.5: Auth fix — trustHost added to NextAuth config, AUTH_SECRET deployed to Vercel. SPEC test count corrected to 48. CORS origin updated to production URL.
+- v1.5: Auth fix — trustHost added to NextAuth config, AUTH_SECRET deployed to Vercel. SPEC test count updated to 93.
+- v1.4: Doctor calendar — dynamic slot generation, multi-doctor support, double-booking conflict detection.
+- v1.3: Jules sentinel session applied — invoices ZATCA label fix, PDF button label.
+- v1.2: RTL polish pass — import order fix, RTL/LTR components using logical CSS properties.
+- v1.1: Repo cleanup — Next.js 15.3.9 confirmed stable, auto-merge workflow added, SPEC task queue formalized.
+- v1.0: Demo data enrichment — 12 bookings, 10 leads, 8 invoices, 7 reminders; CRM rebuild, custom 404.
+- v0.1: Initial build — 6 modules, mock data, deterministic AI.
+
+> Note: Full build history with per-version details is in `CHANGELOG.md`. This section will be retired as the roadmap moves into `README.md`.
