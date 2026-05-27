@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { PageShell } from "@/components/ui/page-shell";
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,25 +28,25 @@ import { EmptyState } from "@/components/ui/empty-state";
 type BookingStatus = "confirmed" | "pending" | "completed" | "cancelled";
 type PaymentStatus = "paid" | "unpaid" | "partial";
 
-const STATUS_CONFIG: Record<BookingStatus, { label: string; color: string; icon: React.ElementType }> = {
-  confirmed:  { label: "مؤكد",    color: "bg-success-surface text-success",  icon: CheckCircle2 },
-  pending:    { label: "معلق",    color: "bg-warning-surface text-warning", icon: Clock },
-  completed:  { label: "مكتمل",   color: "bg-muted text-muted-foreground",    icon: CalendarCheck2 },
-  cancelled:  { label: "ملغي",    color: "bg-destructive/10 text-destructive",      icon: XCircle },
+const STATUS_CONFIG: Record<BookingStatus, { label: string; variant: "success" | "warning" | "neutral" | "danger"; icon: React.ElementType }> = {
+  confirmed:  { label: "مؤكد",    variant: "success",  icon: CheckCircle2 },
+  pending:    { label: "معلق",    variant: "warning",  icon: Clock },
+  completed:  { label: "مكتمل",   variant: "neutral",  icon: CalendarCheck2 },
+  cancelled:  { label: "ملغي",    variant: "danger",   icon: XCircle },
 };
 
-const PAYMENT_CONFIG: Record<PaymentStatus, { label: string; color: string }> = {
-  paid:     { label: "مدفوع",      color: "bg-success-surface text-success" },
-  unpaid:   { label: "غير مدفوع",  color: "bg-warning-surface text-warning" },
-  partial:  { label: "جزئي",       color: "bg-muted text-muted-foreground" },
+const PAYMENT_CONFIG: Record<PaymentStatus, { label: string; variant: "success" | "warning" | "neutral" }> = {
+  paid:     { label: "مدفوع",      variant: "success" },
+  unpaid:   { label: "غير مدفوع",  variant: "warning" },
+  partial:  { label: "جزئي",       variant: "neutral" },
 };
 
-const SOURCE_COLORS: Record<string, string> = {
-  "AI WhatsApp": "bg-brand-surface text-brand border-brand/20",
-  "WhatsApp":    "bg-whatsapp-muted text-whatsapp-dark border-whatsapp/20",
-  "Reception":   "bg-muted text-muted-foreground border-border",
-  "Referral":    "bg-muted text-muted-foreground border-border",
-  "Instagram":   "bg-muted text-muted-foreground border-border",
+const SOURCE_COLORS: Record<string, "info" | "whatsapp" | "neutral"> = {
+  "AI WhatsApp": "info",
+  "WhatsApp":    "whatsapp",
+  "Reception":   "neutral",
+  "Referral":    "neutral",
+  "Instagram":   "neutral",
 };
 
 function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
@@ -310,7 +311,7 @@ export default function BookingsPage() {
                           <div className="w-[100px] shrink-0 text-sm text-muted-foreground truncate hidden lg:block">{booking.date}</div>
                           <div className="w-[80px] shrink-0 text-sm text-muted-foreground font-mono truncate">{booking.time}</div>
                           <div className="flex gap-2 shrink-0">
-                            <Badge className={`${statusCfg.color} scale-90 origin-right`}>{statusCfg.label}</Badge>
+                            <StatusBadge variant={statusCfg.variant} className="scale-90 origin-right">{statusCfg.label}</StatusBadge>
                           </div>
                         </div>
                         <div className="flex gap-1 shrink-0 ps-2 items-center">
@@ -356,18 +357,18 @@ export default function BookingsPage() {
                         </div>
                         <div className="flex flex-col items-start sm:items-end gap-3 shrink-0 relative z-10 mt-3 sm:mt-0">
                           <div className="flex flex-wrap items-center gap-1.5">
-                            <Badge className={statusCfg.color}>
+                            <StatusBadge variant={statusCfg.variant}>
                               <StatusIcon className="w-3 h-3 me-1" />
                               {statusCfg.label}
-                            </Badge>
-                            <Badge variant="outline" className={`text-xs ${paymentCfg.color} border-0 bg-muted/50`}>
+                            </StatusBadge>
+                            <StatusBadge variant={paymentCfg.variant} className="text-xs border-0 bg-muted/50">
                               <DollarSign className="w-3 h-3 me-0.5" />
                               {paymentCfg.label}
-                            </Badge>
-                            <Badge variant="outline" className={`text-xs hidden sm:flex ${SOURCE_COLORS[booking.source] ?? ""}`}>
+                            </StatusBadge>
+                            <StatusBadge variant={SOURCE_COLORS[booking.source] ?? "neutral"} className="text-xs hidden sm:flex">
                               {booking.source === "AI WhatsApp" && <Bot className="w-3 h-3 me-1" />}
                               {booking.source}
-                            </Badge>
+                            </StatusBadge>
                           </div>
                           <div className="flex items-center gap-2 mt-auto">
                             <Button variant="ghost" size="touch" className="px-2 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10">
