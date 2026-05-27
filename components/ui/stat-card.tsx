@@ -50,6 +50,11 @@ export function StatCard({
   className,
   valueClassName,
 }: StatCardProps) {
+  // ⚡ Bolt: Memoize chart data to prevent unnecessary Recharts re-renders
+  // Impact: Reduces CPU cycles by reusing the data array reference across renders
+  // unless sparklineData actually changes.
+  const chartData = React.useMemo(() => sparklineData?.map((val, i) => ({ val, i })), [sparklineData]);
+
   const iconContainerClasses = cn(
     "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
     COLOR_MAP[iconColor].container,
@@ -113,7 +118,7 @@ export function StatCard({
             <div className="h-full flex-1 max-w-[80px] ms-auto opacity-70" dir="ltr">
               <ChartWrapper>
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={sparklineData.map((val, i) => ({ val, i }))}>
+                  <LineChart data={chartData}>
                     <Line type="monotone" dataKey="val" stroke={trendDirection === "up" ? "var(--success)" : "var(--destructive)"} strokeWidth={2} dot={false} isAnimationActive={false} />
                   </LineChart>
                 </ResponsiveContainer>
