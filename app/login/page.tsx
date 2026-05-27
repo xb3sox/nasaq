@@ -14,7 +14,7 @@ export default function LoginPage() {
           <Activity className="w-6 h-6 text-primary-foreground" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold">{BRAND.name}</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{BRAND.name}</h1>
           <p className="text-sm text-muted-foreground">{BRAND.nameAr} — لوحة التحكم</p>
         </div>
       </div>

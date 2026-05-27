@@ -22,7 +22,7 @@ export function StatusBadge({ className, variant = "default", ...props }: Status
         },
         className
       )}
-      variant={variant === "default" ? "default" : "outline"}
+      variant={variant === "default" ? "default" : variant === "neutral" ? "neutral" : "outline"}
       {...props}
     />
   )
