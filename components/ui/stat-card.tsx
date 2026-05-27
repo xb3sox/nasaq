@@ -5,7 +5,7 @@ import { ResponsiveContainer, LineChart, Line } from "recharts";
 import { ChartWrapper } from "../ChartWrapper";
 import React from "react";
 
-export interface StatCardProps {
+interface StatCardProps {
   title: string;
   value: React.ReactNode;
   icon: React.ElementType;
@@ -43,16 +43,6 @@ export function StatCard({
 }: StatCardProps) {
   const hasExtendedProps = trendDirection !== undefined || sparklineData !== undefined || sub !== undefined || color !== undefined;
 
-  // Use old rendering structure from reports/page.tsx inline StatCard if extended props are used, or merge gracefully.
-  // Actually, to make it backwards compatible with both usages, we can adapt the rendering.
-  // The original StatCard structure:
-  // Card -> CardHeader(CardTitle, icon) -> CardContent(value, trend/desc)
-  
-  // Reports StatCard structure:
-  // Card(flex-col) -> div(flex row, title, value, sub, icon) -> div(flex row, trendDirection, sparklineData)
-  
-  // We can merge them smoothly:
-
   const resolvedColor = color || "bg-primary/10 text-primary";
   const iconContainerClasses = color ? cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", color) : cn("p-2 rounded-lg", resolvedColor, iconContainerClassName);
   const iconClasses = color ? "w-5 h-5" : cn("w-4 h-4", iconClassName);
@@ -84,14 +74,14 @@ export function StatCard({
             {trendDirection ? (
               <div className={cn("flex items-center gap-1 text-xs font-medium mb-1", trendDirection === "up" ? "text-success" : "text-destructive")}>
                 {trendDirection === "up" ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                <span>{trendDirection === "up" ? "+12%" : "-3%"}</span>
+                <span>{trendLabel || (trendDirection === "up" ? "↑" : "↓")}</span>
               </div>
             ) : trend !== undefined ? (
               <div className="flex items-center gap-1 text-xs text-muted-foreground font-medium mb-1">
                 <span
                   className={cn(
                     "flex items-center",
-                    trend > 0 ? "text-green-600" : trend < 0 ? "text-rose-500" : "text-muted-foreground"
+                    trend > 0 ? "text-success" : trend < 0 ? "text-destructive" : "text-muted-foreground"
                   )}
                 >
                   {trend > 0 ? (
