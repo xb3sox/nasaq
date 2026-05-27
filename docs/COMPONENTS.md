@@ -6,20 +6,53 @@ Which component to use when. If it's not here, ask before building your own.
 
 ### Page shell
 
-**Use** `<PageShell>` for every dashboard page. Wraps content with standard padding, spacing, and max-width.
+**Use** `<PageShell>` for every dashboard page. Wraps content with standard padding, spacing, and max-width (default `max-w-6xl`).
 
 ```tsx
 import { PageShell } from "@/components/ui/page-shell";
 
-<PageShell>
+<PageShell size="wide">
   <PageHeader title="..." subtitle="..." />
   {/* content */}
 </PageShell>
 ```
 
-Props: `maxWidth="4xl"` (default), `"6xl"` (reports/charts), `"full"` (no constraint).
+Props: `size="wide"` (default for dashboard), `"full"` (no max-width constraint).
 
-### Page header
+### Landing section
+
+**Use** `<LandingSection>` for marketing/landing page sections. Provides alternating background surfaces with centered max-width container.
+
+```tsx
+import { LandingSection } from "@/components/landing/landing-section";
+
+<LandingSection
+  background="muted"
+  maxWidth="6xl"
+  padded={true}
+>
+  {/* section content */}
+</LandingSection>
+```
+
+Props:
+- `background` — `"plain"` (default) | `"muted"` | `"gradient"`
+- `maxWidth` — `"4xl"` | `"6xl"` (default) | `"7xl"` | `"full"`
+- `padded` — boolean, adds vertical padding (default `true`)
+- `className` — applied to the outer `<section>` (background, borders, positioning)
+- `containerClassName` — applied to the inner max-width container (text alignment, `space-y-*`, grid layout)
+
+### Centered page
+
+**Use** `<CenteredPage>` for auth and setup pages. Centers content both vertically and horizontally.
+
+```tsx
+import { CenteredPage } from "@/components/ui/centered-page";
+
+<CenteredPage surface="muted">
+  {/* centered content */}
+</CenteredPage>
+```
 
 **Use** `<PageHeader>` for every page title + optional subtitle + action buttons.
 
@@ -88,11 +121,18 @@ Variants: `"success" | "warning" | "danger" | "info" | "whatsapp" | "neutral" | 
 
 ### Badge (raw shadcn)
 
-**Only** use the raw `<Badge>` for numeric counts:
+**Use** the raw `<Badge>` with typed variants:
 
 ```tsx
-<Badge variant="secondary">5</Badge>
+<Badge variant="count">5</Badge>        {/* numeric count pill */}
+<Badge variant="whatsapp">1</Badge>     {/* WhatsApp notification pill */}
+<Badge variant="secondary">منتج</Badge> {/* generic secondary label */}
+<Badge variant="neutral">مكتمل</Badge>  {/* neutral state */}
 ```
+
+Variants: `"default" | "secondary" | "destructive" | "outline" | "neutral" | "count" | "whatsapp"`
+
+**Never** use `<Badge className="bg-... text-...">` — use a variant instead.
 
 ### EmptyState
 
@@ -191,4 +231,10 @@ Run `npm run check-tokens` before committing. It catches:
 - Raw string color props on StatCard
 - Copy-pasted page wrappers
 
-Run `npm run verify` for full gate: tests + lint + build + tokens check.
+Run `npm run check-docs` before committing. It catches:
+- Stale framework version strings
+- Stale test counts
+- Stale localhost ports
+- Doc files over their line budget
+
+Run `npm run verify` for full gate: tests + lint + build + check-tokens + check-docs.
