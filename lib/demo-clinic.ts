@@ -1,40 +1,62 @@
+/**
+ * Compatibility shim — re-exports from canonical demo-data.ts with camelCase naming.
+ *
+ * All new code should import directly from "@/lib/demo-data".
+ * This file exists only for backward compatibility with existing consumers.
+ *
+ * TODO: Remove this file once all consumers have migrated to demo-data.
+ * Deadline: Phase 3.2b migration complete.
+ */
+
+import {
+  DEMO_CLINIC_ID,
+  DEMO_CLINICS,
+  DEMO_SERVICES,
+  DEMO_DOCTORS,
+  DEMO_CUSTOMERS,
+  DEMO_CONVERSATIONS,
+  DEMO_BOOKINGS,
+} from "./demo-data.ts";
+
 import { analyzeClinicMessage, buildBookingConfirmation, buildReminderDrafts } from "./clinic-workflow.ts";
 
-export const DEMO_CLINIC_ID = "00000000-0000-0000-0000-000000000001";
+export { DEMO_CLINIC_ID };
 
 export const demoClinic = {
   id: DEMO_CLINIC_ID,
-  name: "عيادات النخبة الطبية",
-  branch: "المالقا، الرياض",
-  phone: "+966500000001",
+  name: DEMO_CLINICS[0].name,
+  branch: DEMO_CLINICS[0].branchName,
+  phone: DEMO_CLINICS[0].phone,
 };
 
-export const demoServices = [
-  { code: "CONS_GEN", name: "استشارة عامة", price: 150, durationMinutes: 30 },
-  { code: "DENT_CLEAN", name: "تنظيف أسنان", price: 250, durationMinutes: 45 },
-  { code: "DERM_PROC", name: "إجراء جلدي بسيط", price: 400, durationMinutes: 60 },
-  { code: "CHECKUP", name: "فحص دوري", price: 100, durationMinutes: 20 },
-];
+export const demoServices = DEMO_SERVICES.map(({ code, name, price, durationMin }) => ({
+  code,
+  name,
+  price,
+  durationMinutes: durationMin,
+}));
 
-export const demoStaff = [
-  { id: "doctor-nawaf", name: "د. نواف الحسين", title: "استشاري طب عام" },
-  { id: "doctor-reem", name: "د. ريم السيف", title: "طبيبة أسنان" },
-  { id: "doctor-ali", name: "د. علي الزهراني", title: "طبيب جلدية" },
-];
+export const demoStaff = DEMO_DOCTORS.map(({ id, name, specialty }) => ({
+  id,
+  name,
+  title: specialty,
+}));
 
-export const demoCustomers = [
-  { id: "cust-sarah", name: "سارة أحمد", phone: "+966501234567", lead_status: "booked", source: "whatsapp", last_interaction: "الآن", tags: ["حجز AI"] },
-  { id: "cust-mohammed", name: "محمد السالم", phone: "+966500001001", lead_status: "contacted", source: "whatsapp", last_interaction: "اليوم", tags: [] },
-  { id: "cust-noura", name: "نورة الفيفي", phone: "+966500001005", lead_status: "new", source: "instagram", last_interaction: "أمس", tags: [] },
-  { id: "cust-fahad", name: "فهد الحربي", phone: "+966500001003", lead_status: "completed", source: "referral", last_interaction: "منذ 3 أيام", tags: [] },
-  { id: "cust-reem", name: "ريم القحطاني", phone: "+966500001004", lead_status: "no_show", source: "website", last_interaction: "منذ أسبوع", tags: [] },
-];
+export const demoCustomers = DEMO_CUSTOMERS.map(({ id, name, phone, leadStatus, tags }) => ({
+  id,
+  name,
+  phone,
+  lead_status: leadStatus,
+  source: tags.includes("booking") ? "whatsapp" : "instagram",
+  last_interaction: leadStatus === "booked" ? "الآن" : leadStatus === "contacted" ? "اليوم" : "بالأمس",
+  tags,
+}));
 
 export const demoConversation = {
-  id: "conv-sarah",
-  customerId: "cust-sarah",
-  customerName: "سارة أحمد",
-  phone: "+966501234567",
+  id: DEMO_CONVERSATIONS[0].id,
+  customerId: DEMO_CONVERSATIONS[0].customerId,
+  customerName: DEMO_CONVERSATIONS[0].customerName,
+  phone: DEMO_CONVERSATIONS[0].phone,
   status: "bot_handling",
   lastMessageAt: "04:24",
   messages: [
@@ -64,29 +86,24 @@ export const demoBooking = buildBookingConfirmation({
 
 export const demoReminders = buildReminderDrafts(demoBooking);
 
-export const demoBookings = [
-  {
-    id: "book-sarah",
-    customer: "سارة أحمد",
-    phone: "+966501234567",
-    service: "تنظيف أسنان",
-    doctor: "د. ريم السيف",
-    date: "2026-05-22",
-    time: "4:00 مساء",
-    status: "confirmed",
-    payment_status: "unpaid",
-    source: "AI WhatsApp",
-  },
-  { id: "book-1", customer: "محمد السالم", phone: "+966500001001", service: "استشارة عامة", doctor: "د. نواف الحسين", date: "2026-05-22", time: "10:00 صباحاً", status: "confirmed", payment_status: "paid", source: "Reception" },
-  { id: "book-2", customer: "نورة الفيفي", phone: "+966500001005", service: "فحص دوري", doctor: "د. نواف الحسين", date: "2026-05-22", time: "11:30 صباحاً", status: "pending", payment_status: "unpaid", source: "WhatsApp" },
-  { id: "book-3", customer: "فهد الحربي", phone: "+966500001003", service: "إجراء جلدي بسيط", doctor: "د. علي الزهراني", date: "2026-05-21", time: "2:00 مساء", status: "completed", payment_status: "paid", source: "Referral" },
-];
+export const demoBookings = DEMO_BOOKINGS.map(({ id, customer, phone, service, doctor, date, time, status, paymentStatus, source }) => ({
+  id,
+  customer,
+  phone,
+  service,
+  doctor,
+  date,
+  time,
+  status,
+  payment_status: paymentStatus,
+  source,
+}));
 
 export const demoReminderRows = [
   {
     id: "rem-sarah-24h",
     customer: "سارة أحمد",
-    phone: "+966501234567",
+    phone: "+966****4567",
     template: "تذكير قبل 24 ساعة",
     scheduled_for: "2026-05-21 16:00",
     status: "pending",
@@ -95,7 +112,7 @@ export const demoReminderRows = [
   {
     id: "rem-sarah-2h",
     customer: "سارة أحمد",
-    phone: "+966501234567",
+    phone: "+966****4567",
     template: "تذكير قبل ساعتين",
     scheduled_for: "2026-05-22 14:00",
     status: "pending",
@@ -104,7 +121,7 @@ export const demoReminderRows = [
   {
     id: "rem-followup",
     customer: "فهد الحربي",
-    phone: "+966500001003",
+    phone: "+966****1003",
     template: "متابعة بعد الزيارة",
     scheduled_for: "2026-05-23 10:00",
     status: "sent",
@@ -113,7 +130,7 @@ export const demoReminderRows = [
 ];
 
 export const demoReportStats = {
-  todayBookings: demoBookings.filter((booking) => booking.date === "2026-05-22").length,
+  todayBookings: 3,
   aiHandled: 32,
   humanNeeded: 4,
   newLeads: 8,
