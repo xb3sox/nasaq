@@ -42,6 +42,7 @@ export default function DoctorsStep() {
                   size="icon"
                   onClick={() => removeDoctor(doctor.id)}
                   className="text-destructive hover:bg-destructive/10 hover:text-destructive h-8 w-8"
+                  aria-label="حذف الطبيب"
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
