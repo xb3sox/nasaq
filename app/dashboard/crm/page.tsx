@@ -7,6 +7,7 @@ import { StatCard } from "@/components/ui/stat-card";
 import { PageShell } from "@/components/ui/page-shell";
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,10 +32,10 @@ const STATUS_LABELS: Record<string, string> = {
   booked: "تم الحجز",
 };
 
-const STATUS_COLORS: Record<string, string> = {
-  new: "bg-muted text-muted-foreground",
-  contacted: "bg-warning-surface text-warning",
-  booked: "bg-success-surface text-success",
+const STATUS_COLORS: Record<string, "neutral" | "warning" | "success"> = {
+  new: "neutral",
+  contacted: "warning",
+  booked: "success",
 };
 
 const SOURCE_ICON: Record<string, React.ElementType> = {
@@ -222,11 +223,6 @@ export default function CrmPage() {
           {filtered.map((lead) => {
             const SourceIcon = SOURCE_ICON[lead.source] ?? Tag;
 
-            const sourceColorClass = lead.source === "whatsapp" ? "text-whatsapp bg-whatsapp-muted" :
-                                     lead.source === "instagram" ? "text-muted-foreground bg-muted" :
-                                     lead.source === "google" ? "text-muted-foreground bg-muted" :
-                                     "text-brand bg-brand-surface";
-
             return (
               <Card key={lead.id} className="p-4 hover:shadow-md transition-shadow group relative overflow-hidden border-border/60 hover:border-border">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -251,13 +247,13 @@ export default function CrmPage() {
                   </div>
                   <div className="flex gap-2 items-center justify-between w-full sm:w-auto shrink-0 border-t sm:border-0 pt-3 sm:pt-0">
                     <div className="flex gap-2">
-                      <Badge variant="outline" className={`text-xs gap-1 hidden sm:flex ${sourceColorClass}`}>
+                      <StatusBadge variant={lead.source === "whatsapp" ? "whatsapp" : "neutral"} className="text-xs gap-1 hidden sm:flex">
                         <SourceIcon className="w-3 h-3" />
                         {lead.source}
-                      </Badge>
-                      <Badge className={STATUS_COLORS[lead.status] ?? "bg-muted text-muted-foreground"}>
+                      </StatusBadge>
+                      <StatusBadge variant={STATUS_COLORS[lead.status] ?? "neutral"}>
                         {STATUS_LABELS[lead.status] ?? lead.status}
-                      </Badge>
+                      </StatusBadge>
                     </div>
 
                     <div className="flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity ms-2">

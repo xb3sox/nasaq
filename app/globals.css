@@ -214,12 +214,6 @@
 .animate-delay-5 { animation-delay: 250ms; }
 .animate-delay-6 { animation-delay: 300ms; }
 
-/* ── Demo Ready badge ───────────────── */
-.badge-demo-ready {
-  background: linear-gradient(135deg, #d1fae5, #a7f3d0, #d1fae5);
-  background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
-}
 
 /* ── Card hover lift ─────────────────── */
 .card-hover-lift {

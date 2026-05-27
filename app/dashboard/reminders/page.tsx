@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { PageShell } from "@/components/ui/page-shell";
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
 import { DEMO_REMINDERS } from "@/lib/demo-data";
 import { Clock, Send, RefreshCw, CheckCircle2, XCircle, Loader2, Calendar, ChevronDown, ChevronUp, User, Activity, BellOff, X } from "lucide-react";
@@ -16,12 +17,12 @@ type ReminderStatus = "queued" | "pending" | "sent" | "failed";
 
 const STATUS_CONFIG: Record<
   ReminderStatus,
-  { label: string; color: string; icon: React.ElementType; dotColor: string; bg: string; text: string; border: string }
+  { label: string; variant: "success" | "default" | "warning" | "danger"; icon: React.ElementType; dotColor: string }
 > = {
-  sent:    { label: "تم الإرسال",  color: "bg-success-surface text-success", bg: "bg-success-surface", text: "text-success", border: "border-success/20",  icon: CheckCircle2, dotColor: "bg-success" },
-  queued:  { label: "في الانتظار", color: "bg-brand-surface text-brand", bg: "bg-brand-surface", text: "text-brand", border: "border-brand/20",   icon: Clock, dotColor: "bg-brand" },
-  pending: { label: "معلق",        color: "bg-warning-surface text-warning", bg: "bg-warning-surface", text: "text-warning", border: "border-warning/20", icon: Clock, dotColor: "bg-warning" },
-  failed:  { label: "فشل الإرسال", color: "bg-destructive/10 text-destructive", bg: "bg-destructive/10", text: "text-destructive", border: "border-destructive/20",     icon: XCircle, dotColor: "bg-destructive" },
+  sent:    { label: "تم الإرسال",  variant: "success", icon: CheckCircle2, dotColor: "bg-success" },
+  queued:  { label: "في الانتظار", variant: "default", icon: Clock, dotColor: "bg-brand" },
+  pending: { label: "معلق",        variant: "warning", icon: Clock, dotColor: "bg-warning" },
+  failed:  { label: "فشل الإرسال", variant: "danger",  icon: XCircle, dotColor: "bg-destructive" },
 };
 
 export default function RemindersPage() {
@@ -172,9 +173,9 @@ export default function RemindersPage() {
             return (
               <Card key={s} className="p-4 hover:shadow-sm transition-shadow flex items-center justify-between cursor-pointer border-transparent hover:border-border" onClick={() => setFilter(filter === s ? "all" : s)}>
                 <div className="flex items-center gap-3">
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${cfg.color}`}>
+                  <StatusBadge variant={cfg.variant} className="w-8 h-8 rounded-lg flex items-center justify-center p-0">
                     <Icon className="w-4 h-4" />
-                  </div>
+                  </StatusBadge>
                   <span className={`text-sm font-medium ${filter === s ? "text-primary" : "text-muted-foreground"}`}>{cfg.label}</span>
                 </div>
                 <div className="text-xl font-bold">{counts[s]}</div>
@@ -235,10 +236,10 @@ export default function RemindersPage() {
                               <div className="flex items-center gap-2">
                                 <User className="w-4 h-4 text-muted-foreground" />
                                 <span className="font-bold text-base truncate">{reminder.customerName}</span>
-                                <Badge variant="outline" className={`gap-1 bg-background ${cfg.text} ${cfg.border}`}>
+                                <StatusBadge variant={cfg.variant} className="gap-1 bg-background">
                                   <cfg.icon className="w-3 h-3" />
                                   {cfg.label}
-                                </Badge>
+                                </StatusBadge>
                               </div>
                               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground mt-1">
                                 <span className="flex items-center gap-1.5">

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { PageShell } from "@/components/ui/page-shell";
 import { PageHeader } from "@/components/ui/page-header";
 import { toast } from "sonner";
@@ -221,9 +221,9 @@ function ConfigReadinessPanel() {
       <CardHeader className="pb-3 bg-brand-surface dark:bg-brand/10">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="text-base text-brand dark:text-brand">حالة الربط والجاهزية</CardTitle>
-          <Badge variant={status?.environment === "production" ? "default" : "secondary"} className="w-fit">
+          <StatusBadge variant={status?.environment === "production" ? "success" : "warning"} className="w-fit">
             {status ? (status.environment === "production" ? "إنتاج" : "تطوير") : "جاري التحميل..."}
-          </Badge>
+          </StatusBadge>
         </div>
       </CardHeader>
       <CardContent className="grid gap-3 sm:grid-cols-2 pt-4">
