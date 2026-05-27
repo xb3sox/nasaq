@@ -94,7 +94,7 @@ echo "🔍 Checking dashboard pages use PageShell (route OR feature)..."
 MISSING_SHELL=""
 for route in app/dashboard/*/page.tsx app/dashboard/page.tsx; do
   page_name=$(basename "$(dirname "$route")" 2>/dev/null || echo "overview")
-  [[ "$page_name" == "app" ]] && page_name="overview"
+  [[ "$page_name" == "app" || "$page_name" == "dashboard" ]] && page_name="overview"
   # Check route shell
   has_route=0
   grep -q "<PageShell" "$route" 2>/dev/null && has_route=1
