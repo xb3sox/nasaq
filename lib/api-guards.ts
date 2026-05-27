@@ -1,3 +1,5 @@
+import cryptoNode from "node:crypto";
+
 const DEFAULT_DEV_WEBHOOK_VERIFY_TOKEN = "mock_verify_token";
 
 export function asObject(value: unknown): Record<string, unknown> | null {
@@ -87,14 +89,14 @@ export async function verifyMetaWebhookSignature(input: {
 }
 
 function timingSafeEqual(a: string, b: string) {
-  if (a.length !== b.length) {
+  try {
+    const aBuf = Buffer.from(a);
+    const bBuf = Buffer.from(b);
+    if (aBuf.length !== bBuf.length) {
+      return false;
+    }
+    return cryptoNode.timingSafeEqual(aBuf, bBuf);
+  } catch {
     return false;
   }
-
-  let result = 0;
-  for (let i = 0; i < a.length; i += 1) {
-    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-
-  return result === 0;
 }
