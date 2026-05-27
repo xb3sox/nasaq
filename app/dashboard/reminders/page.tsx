@@ -129,7 +129,7 @@ export default function RemindersPage() {
   ];
 
   return (
-    <PageShell>
+    <PageShell size="wide">
       {/* Header */}
       <PageHeader
         title="التذكيرات"

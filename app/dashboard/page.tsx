@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";
+import { PageShell } from "@/components/ui/page-shell";
+import { PageHeader } from "@/components/ui/page-header";
 import { Users, CalendarCheck, MessageCircle, TrendingUp, Clock, Play, CheckCircle2, Loader2, Bell, Inbox, Settings } from "lucide-react";
 import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
 import { useEffect, useState } from "react";
@@ -168,10 +170,7 @@ export default function DashboardPage() {
   const { isSetupComplete } = useSetupStore();
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8 relative">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-background h-[300px] -z-10 rounded-b-3xl"></div>
-
+    <PageShell surface="gradient" size="wide">
       {!isSetupComplete && (
         <div className="bg-warning-surface border border-warning/20 text-warning dark:text-warning rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -189,16 +188,16 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Intentionally different layout: keeps dashboard home page mostly as-is since it's uniquely styled and does not use PageShell/PageHeader */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 relative z-10">
-        <div className="space-y-3">
-          <h1 className="text-3xl font-extrabold tracking-tight">مرحباً بك في {demoClinic.name}</h1>
-          <RiyadhClock />
-        </div>
-        <StatusBadge variant="success" className="shadow-sm px-3 py-1 text-sm font-medium">
-          <CheckCircle2 className="w-4 h-4 me-1.5 inline" aria-hidden="true" /> نظام ديمو جاهز
-        </StatusBadge>
-      </div>
+      <PageHeader
+        title={`مرحباً بك في ${demoClinic.name}`}
+        eyebrow={<RiyadhClock />}
+        size="hero"
+        actions={
+          <StatusBadge variant="success" className="shadow-sm px-3 py-1 text-sm font-medium">
+            <CheckCircle2 className="w-4 h-4 me-1.5 inline" aria-hidden="true" /> نظام ديمو جاهز
+          </StatusBadge>
+        }
+      />
 
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-3">
@@ -293,6 +292,6 @@ export default function DashboardPage() {
           <LiveDemoRunner />
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 }

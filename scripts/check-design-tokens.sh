@@ -81,6 +81,39 @@ else
 fi
 
 echo ""
+echo "🔍 Checking for layout drift in dashboard pages..."
+
+# Check for banned root-level layout classes in dashboard pages
+DRIFT_CLASSES=$(grep -rn 'className="p-4 sm:p-6 lg:p-8\|className="p-6 space-y-8\|max-w-4xl mx-auto\|max-w-6xl mx-auto\|h-\[calc(100vh-' app/dashboard/*/page.tsx 2>/dev/null || true)
+
+if [ -n "$DRIFT_CLASSES" ]; then
+  echo -e "${RED}✗ Layout drift classes found in dashboard pages (use PageShell variants):${NC}"
+  echo "$DRIFT_CLASSES"
+  EXIT=1
+else
+  echo -e "${GREEN}✓ No layout drift in dashboard pages${NC}"
+fi
+
+echo ""
+echo "🔍 Checking dashboard pages use PageShell..."
+
+DASHBOARD_PAGES=$(find app/dashboard -name "page.tsx" -type f)
+MISSING_SHELL=""
+for page in $DASHBOARD_PAGES; do
+  if ! grep -q "<PageShell" "$page"; then
+    MISSING_SHELL="$MISSING_SHELL$page\n"
+  fi
+done
+
+if [ -n "$MISSING_SHELL" ]; then
+  echo -e "${RED}✗ Dashboard pages missing PageShell:${NC}"
+  echo -e "$MISSING_SHELL"
+  EXIT=1
+else
+  echo -e "${GREEN}✓ All dashboard pages use PageShell${NC}"
+fi
+
+echo ""
 if [ $EXIT -eq 0 ]; then
   echo -e "${GREEN}✅ All design token checks passed${NC}"
 else

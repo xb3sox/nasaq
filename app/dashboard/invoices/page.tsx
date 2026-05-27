@@ -256,7 +256,7 @@ export default function InvoicesPage() {
   })();
 
   return (
-    <PageShell>
+    <PageShell size="wide">
       {selectedInvoice && (
         <InvoiceDetailModal inv={selectedInvoice} onClose={() => setSelectedInvoice(null)} />
       )}
