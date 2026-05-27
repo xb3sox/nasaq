@@ -3,6 +3,7 @@ import { ChartWrapper } from "@/components/ChartWrapper";
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { StatCard } from "@/components/ui/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,13 +41,6 @@ const SOURCE_ICON: Record<string, React.ElementType> = {
   referral: Users,
 };
 
-const STAT_CARDS = [
-  { label: "عملاء جدد", statusFilter: "new", color: "text-muted-foreground", bg: "bg-muted", icon: Plus },
-  { label: "تم التواصل", statusFilter: "contacted", color: "text-warning", bg: "bg-warning-surface", icon: Phone },
-  { label: "تم الحجز", statusFilter: "booked", color: "text-success", bg: "bg-success-surface", icon: UserCheck },
-  { label: "من واتساب", sourceFilter: "whatsapp", color: "text-whatsapp", bg: "bg-whatsapp-muted", icon: MessageCircle },
-];
-
 export default function CrmPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -62,6 +56,11 @@ export default function CrmPage() {
     const matchSource = sourceFilter === "all" || lead.source === sourceFilter;
     return matchSearch && matchStatus && matchSource;
   });
+
+  const newCount = DEMO_LEADS.filter((l) => l.status === "new").length;
+  const contactedCount = DEMO_LEADS.filter((l) => l.status === "contacted").length;
+  const bookedCount = DEMO_LEADS.filter((l) => l.status === "booked").length;
+  const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
 
   return (
     <div className="p-6 space-y-6">
@@ -82,25 +81,42 @@ export default function CrmPage() {
             {/* Stat Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {STAT_CARDS.map((stat) => {
-            const count = "statusFilter" in stat
-              ? DEMO_LEADS.filter((l) => l.status === stat.statusFilter).length
-              : DEMO_LEADS.filter((l) => l.source === (stat as { sourceFilter: string }).sourceFilter).length;
-            return (
-              <Card key={stat.label} className="p-4 hover:shadow-sm transition-shadow">
-                <div className="flex items-start justify-between mb-2">
-                  <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
-                  <div className={`w-8 h-8 rounded-lg ${stat.bg} flex items-center justify-center`}>
-                    <stat.icon className={`w-4 h-4 ${stat.color}`} />
-                  </div>
-                </div>
-                <div className={`text-2xl font-bold ${stat.color}`}>{count}</div>
-                <div className="text-xs text-muted-foreground mt-1">
-                  {count} من {DEMO_LEADS.length} — {Math.round((count / DEMO_LEADS.length) * 100)}%
-                </div>
-              </Card>
-            );
-          })}
+          <StatCard
+            title="عملاء جدد"
+            value={newCount}
+            icon={Plus}
+            iconClassName="text-muted-foreground"
+            iconContainerClassName="bg-muted"
+            description={`${newCount} من ${DEMO_LEADS.length} — ${Math.round((newCount / DEMO_LEADS.length) * 100)}%`}
+            valueClassName="text-muted-foreground"
+          />
+          <StatCard
+            title="تم التواصل"
+            value={contactedCount}
+            icon={Phone}
+            iconClassName="text-warning"
+            iconContainerClassName="bg-warning-surface"
+            description={`${contactedCount} من ${DEMO_LEADS.length} — ${Math.round((contactedCount / DEMO_LEADS.length) * 100)}%`}
+            valueClassName="text-warning"
+          />
+          <StatCard
+            title="تم الحجز"
+            value={bookedCount}
+            icon={UserCheck}
+            iconClassName="text-success"
+            iconContainerClassName="bg-success-surface"
+            description={`${bookedCount} من ${DEMO_LEADS.length} — ${Math.round((bookedCount / DEMO_LEADS.length) * 100)}%`}
+            valueClassName="text-success"
+          />
+          <StatCard
+            title="من واتساب"
+            value={whatsappCount}
+            icon={MessageCircle}
+            iconClassName="text-whatsapp"
+            iconContainerClassName="bg-whatsapp-muted"
+            description={`${whatsappCount} من ${DEMO_LEADS.length} — ${Math.round((whatsappCount / DEMO_LEADS.length) * 100)}%`}
+            valueClassName="text-whatsapp"
+          />
         </div>
         <Card className="p-4 flex flex-col justify-between">
           <span className="text-sm font-medium text-muted-foreground mb-4">مصادر العملاء</span>
