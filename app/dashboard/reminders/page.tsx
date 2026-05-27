@@ -17,12 +17,12 @@ type ReminderStatus = "queued" | "pending" | "sent" | "failed";
 
 const STATUS_CONFIG: Record<
   ReminderStatus,
-  { label: string; variant: "success" | "default" | "warning" | "danger"; icon: React.ElementType; dotColor: string }
+  { label: string; variant: "success" | "default" | "warning" | "danger"; icon: React.ElementType; dotColor: string; borderColor: string }
 > = {
-  sent:    { label: "تم الإرسال",  variant: "success", icon: CheckCircle2, dotColor: "bg-success" },
-  queued:  { label: "في الانتظار", variant: "default", icon: Clock, dotColor: "bg-brand" },
-  pending: { label: "معلق",        variant: "warning", icon: Clock, dotColor: "bg-warning" },
-  failed:  { label: "فشل الإرسال", variant: "danger",  icon: XCircle, dotColor: "bg-destructive" },
+  sent:    { label: "تم الإرسال",  variant: "success", icon: CheckCircle2, dotColor: "bg-success", borderColor: "border-s-success" },
+  queued:  { label: "في الانتظار", variant: "default", icon: Clock, dotColor: "bg-brand", borderColor: "border-s-brand" },
+  pending: { label: "معلق",        variant: "warning", icon: Clock, dotColor: "bg-warning", borderColor: "border-s-warning" },
+  failed:  { label: "فشل الإرسال", variant: "danger",  icon: XCircle, dotColor: "bg-destructive", borderColor: "border-s-destructive" },
 };
 
 export default function RemindersPage() {
@@ -219,7 +219,7 @@ export default function RemindersPage() {
                     const isRetrying = retrying[reminder.id];
 
                     return (
-                      <Card key={reminder.id} className="p-5 hover:shadow-sm transition-all border-s-4" style={{ borderInlineStartColor: cfg.dotColor }}>
+                      <Card key={reminder.id} className={`p-5 hover:shadow-sm transition-all border-s-4 ${cfg.borderColor}`}>
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
 
                           <div className="flex gap-4 items-start md:items-center min-w-0 flex-1">
@@ -261,19 +261,19 @@ export default function RemindersPage() {
                           <div className="flex items-center justify-end gap-2 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 flex-wrap">
                             {(status === "pending" || status === "queued") && (
                               <div className="flex gap-2">
-                                <Button size="sm" variant="outline" className="text-xs gap-1 min-h-[36px] px-2" aria-label="تأجيل" disabled>
+                                <Button size="touch" variant="outline" className="text-xs gap-1 px-2" aria-label="تأجيل" disabled>
                                   <BellOff className="w-4 h-4" />
                                 </Button>
-                                <Button size="sm" variant="outline" className="text-xs gap-1 min-h-[36px] px-2 text-destructive hover:text-destructive border-destructive/20 bg-destructive/5" aria-label="إلغاء" disabled>
+                                <Button size="touch" variant="outline" className="text-xs gap-1 px-2 text-destructive hover:text-destructive border-destructive/20 bg-destructive/5" aria-label="إلغاء" disabled>
                                   <X className="w-4 h-4" />
                                 </Button>
                               </div>
                             )}
                             {(status === "pending" || status === "failed" || status === "queued") && (
                               <Button
-                                size="sm"
+                                size="touch"
                                 variant={status === "failed" ? "destructive" : "default"}
-                                className="text-xs gap-1.5 min-h-[36px]"
+                                className="text-xs gap-1.5"
                                 disabled={isRetrying}
                                 onClick={() => handleRetry(
                                   reminder.id,
