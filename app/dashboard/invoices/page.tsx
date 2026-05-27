@@ -6,8 +6,8 @@ import { PageShell } from "@/components/ui/page-shell";
 import { PageHeader } from "@/components/ui/page-header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Search, Download, Plus, FileText, CheckCircle2, Clock, TrendingUp, Receipt, MoreHorizontal, ArrowUpDown, CreditCard, Send } from "lucide-react";
+import { StatusBadge } from "@/components/ui/status-badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -178,10 +178,11 @@ const STATUS_LABELS: Record<string, string> = {
   cancelled: "ملغي",
 };
 
-const STATUS_BADGE_VARIANTS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
-  paid: "default",
-  pending: "secondary",
-  cancelled: "destructive",
+const STATUS_VARIANTS: Record<string, "success" | "warning" | "danger" | "neutral"> = {
+  paid: "success",
+  pending: "warning",
+  cancelled: "neutral",
+  overdue: "danger",
 };
 
 const paidInvoices = DEMO_INVOICES.filter((i) => i.status === "paid").length;
@@ -421,9 +422,9 @@ export default function InvoicesPage() {
                     <td className="px-5 py-4 text-muted-foreground cursor-pointer max-w-[150px] sm:max-w-[200px] truncate" onClick={() => setSelectedInvoice(inv)} title={inv.serviceName}>{inv.serviceName}</td>
                     <td className="px-5 py-4 font-semibold tabular-nums cursor-pointer" onClick={() => setSelectedInvoice(inv)}>{new Intl.NumberFormat('ar-SA', { style: 'currency', currency: 'SAR' }).format(inv.amount)}</td>
                     <td className="px-5 py-4 cursor-pointer" onClick={() => setSelectedInvoice(inv)}>
-                      <Badge variant={STATUS_BADGE_VARIANTS[inv.status] ?? "outline"}>
+                      <StatusBadge variant={STATUS_VARIANTS[inv.status] ?? "neutral"}>
                         {STATUS_LABELS[inv.status] ?? inv.status}
-                      </Badge>
+                      </StatusBadge>
                     </td>
                     <td className="px-5 py-4 text-muted-foreground tabular-nums cursor-pointer" onClick={() => setSelectedInvoice(inv)}>{inv.date}</td>
                     <td className="px-5 py-4">
