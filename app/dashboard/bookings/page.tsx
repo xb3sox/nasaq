@@ -165,10 +165,10 @@ export default function BookingsPage() {
   ];
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-6 space-y-8 max-w-4xl">
       {/* Header */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        <div className="space-y-1">
+        <div className="space-y-2">
           <h1 className="text-2xl font-bold tracking-tight">الحجوزات</h1>
           <p className="text-sm text-muted-foreground">جميع الحجوزات من واتساب والاستقبال</p>
         </div>

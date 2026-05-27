@@ -63,10 +63,10 @@ export default function CrmPage() {
   const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-6 space-y-8 max-w-4xl">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="space-y-1">
+        <div className="space-y-2">
           <h1 className="text-2xl font-bold tracking-tight">العملاء والعلاقات</h1>
           <p className="text-sm text-muted-foreground">عملاء من جميع القنوات</p>
         </div>
