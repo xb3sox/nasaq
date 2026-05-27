@@ -130,7 +130,7 @@ export default function InboxPage() {
   }
 
   return (
-    <PageShell size="full" height="viewport" className="flex flex-col">
+    <PageShell size="wide" height="viewport" className="flex flex-col">
       <PageHeader
         title="صندوق الوارد"
         subtitle="إدارة المحادثات واستفسارات العملاء"
