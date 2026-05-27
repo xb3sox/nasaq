@@ -124,6 +124,34 @@ else
 fi
 
 echo ""
+echo "🔍 Checking auth/setup pages use CenteredPage..."
+
+for page in app/login/page.tsx app/setup/page.tsx; do
+  if [ -f "$page" ]; then
+    if ! grep -q "CenteredPage" "$page" 2>/dev/null; then
+      echo -e "${RED}✗ $page: missing CenteredPage wrapper${NC}"
+      EXIT=1
+    else
+      echo -e "${GREEN}✓ $page: uses CenteredPage${NC}"
+    fi
+  fi
+done
+
+echo ""
+echo "🔍 Checking landing page uses LandingSection..."
+
+if [ -f "app/page.tsx" ]; then
+  LANDING_SECTIONS=$(grep -c "<LandingSection" app/page.tsx 2>/dev/null || echo 0)
+  RAW_SECTIONS=$(grep -c '<section ' app/page.tsx 2>/dev/null || echo 0)
+  if [ "$LANDING_SECTIONS" -ge 5 ] 2>/dev/null; then
+    echo -e "${GREEN}✓ Landing page uses LandingSection (${LANDING_SECTIONS} sections)${NC}"
+  else
+    echo -e "${RED}✗ Landing page has only ${LANDING_SECTIONS} LandingSection usages (expected 5+) — may have regressed to raw sections${NC}"
+    EXIT=1
+  fi
+fi
+
+echo ""
 if [ $EXIT -eq 0 ]; then
   echo -e "${GREEN}✅ All design token checks passed${NC}"
 else
