@@ -20,8 +20,9 @@ import { DEMO_LEADS } from "@/lib/demo-data";
 import { BarChart, Bar, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import {
   Users, Phone, Tag, Search, Plus,
-  MessageCircle, TrendingUp, UserCheck, UserX, LayoutList, KanbanSquare, CalendarCheck, Clock
+  MessageCircle, TrendingUp, UserCheck, LayoutList, KanbanSquare, CalendarCheck, Clock
 } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 
 
 const STATUS_LABELS: Record<string, string> = {
@@ -219,16 +220,7 @@ export default function CrmPage() {
 
       {/* Lead Cards */}
       {filtered.length === 0 ? (
-        <Card className="p-16 flex flex-col items-center gap-4 text-muted-foreground bg-muted/20 border-dashed">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-2">
-            <UserX className="w-8 h-8 text-muted-foreground/60" />
-          </div>
-          <div className="text-center space-y-1">
-             <h3 className="font-medium text-foreground">لا يوجد عملاء مطابقون</h3>
-             <p className="text-sm">قم بإضافة عميل جديد أو غير كلمات البحث.</p>
-          </div>
-          <Button className="mt-2"><Plus className="w-4 h-4 me-2" /> أضف عميل جديد</Button>
-        </Card>
+        <EmptyState title="لا يوجد عملاء" description="لا يوجد عملاء يطابقون معايير البحث الحالية" />
       ) : view === "list" ? (
         <div className="grid gap-3">
           {filtered.map((lead) => {

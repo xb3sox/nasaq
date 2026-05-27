@@ -8,7 +8,8 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DEMO_REMINDERS } from "@/lib/demo-data";
-import { Bell, Clock, Send, RefreshCw, CheckCircle2, XCircle, Loader2, Calendar, ChevronDown, ChevronUp, User, Activity, BellOff, X } from "lucide-react";
+import { Clock, Send, RefreshCw, CheckCircle2, XCircle, Loader2, Calendar, ChevronDown, ChevronUp, User, Activity, BellOff, X } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 
 type ReminderStatus = "queued" | "pending" | "sent" | "failed";
@@ -304,10 +305,7 @@ export default function RemindersPage() {
           );
         })}
         {Object.keys(groupedReminders).length === 0 && (
-           <div className="text-center py-12 text-muted-foreground">
-             <Bell className="w-8 h-8 mx-auto mb-3 opacity-50" />
-             <p>لا توجد تذكيرات لعرضها.</p>
-           </div>
+           <EmptyState title="لا توجد تذكيرات" description="لا توجد تذكيرات تطابق معايير البحث الحالية" />
         )}
       </div>
     </PageShell>

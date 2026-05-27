@@ -10,6 +10,7 @@ import { StatusBadge } from "@/components/ui/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Send, Bot, User, CalendarCheck, Check, Hand, Search, X, Loader2, Paperclip, Smile } from "lucide-react";
 import { demoAiDecision, demoBooking } from "@/lib/demo-clinic";
+import { EmptyState } from "@/components/ui/empty-state";
 
 type Conversation = {
   id: string;
@@ -142,7 +143,11 @@ export default function InboxPage() {
           <Badge variant="secondary" className="bg-primary/10 text-primary">{DEMO_CONVERSATIONS.length}</Badge>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {DEMO_CONVERSATIONS.map((conv) => {
+          {DEMO_CONVERSATIONS.length === 0 ? (
+            <div className="p-4">
+              <EmptyState title="لا توجد محادثات" description="لا توجد محادثات تطابق معايير البحث الحالية" />
+            </div>
+          ) : DEMO_CONVERSATIONS.map((conv) => {
             const isUnread = conv.id === "conv-2";
             return (
             <div

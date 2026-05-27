@@ -20,8 +20,9 @@ import { DEMO_BOOKINGS, DEMO_DOCTORS, DEMO_SERVICES } from "@/lib/demo-data";
 import {
   Search, CalendarCheck, Bot, Plus,
   CheckCircle2, Clock, XCircle, Loader2, DollarSign,
-  CalendarX, CalendarCheck2, LayoutList, AlignJustify, MessageCircle, AlertCircle
+  CalendarCheck2, LayoutList, AlignJustify, MessageCircle, AlertCircle
 } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 
 type BookingStatus = "confirmed" | "pending" | "completed" | "cancelled";
 type PaymentStatus = "paid" | "unpaid" | "partial";
@@ -261,16 +262,7 @@ export default function BookingsPage() {
 
       {/* Booking Cards */}
       {filtered.length === 0 ? (
-        <Card className="p-16 flex flex-col items-center gap-4 text-muted-foreground bg-muted/20 border-dashed">
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-            <CalendarX className="w-8 h-8 text-muted-foreground/60" />
-          </div>
-          <div className="text-center space-y-1">
-            <h3 className="font-medium text-foreground">لا توجد حجوزات مطابقة</h3>
-            <p className="text-sm">جرب تغيير كلمات البحث أو الفلاتر للعثور على ما تبحث عنه.</p>
-          </div>
-          <Button variant="outline" onClick={() => { setSearch(""); setStatusFilter("all"); setSourceFilter("all"); }}>مسح الفلاتر</Button>
-        </Card>
+        <EmptyState title="لا توجد حجوزات" description="لا توجد حجوزات تطابق معايير البحث الحالية" />
       ) : (
         <div className="space-y-8">
           {Object.entries(

@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { DEMO_INVOICES } from "@/lib/demo-data";
 import { cn } from "@/lib/utils";
+import { EmptyState } from "@/components/ui/empty-state";
 
 
 type Invoice = typeof DEMO_INVOICES[number];
@@ -398,11 +399,8 @@ export default function InvoicesPage() {
             <tbody className="divide-y divide-border/30">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center py-16 text-muted-foreground">
-                    <div className="flex flex-col items-center gap-2">
-                      <FileText className="w-8 h-8 text-muted-foreground/50" />
-                      <span>لا توجد فواتير مطابقة</span>
-                    </div>
+                  <td colSpan={8} className="p-4">
+                    <EmptyState title="لا توجد فواتير" description="لا توجد فواتير تطابق معايير البحث الحالية" />
                   </td>
                 </tr>
               ) : (
