@@ -7,12 +7,19 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
 import { PageShell } from "@/components/ui/page-shell";
 import { Users, CalendarCheck, MessageCircle, TrendingUp, Play, CheckCircle2, Loader2, Bell, Settings } from "lucide-react";
-import { demoClinic, demoAiDecision, demoBooking, demoConversation, demoReportStats } from "@/lib/demo-clinic";
+import { DEMO_CLINICS, DEMO_AI_DECISION, DEMO_BOOKING, DEMO_CONVERSATIONS, DEMO_REPORT_STATS } from "@/lib/demo-data";
 import Link from "next/link";
 import { useSetupStore } from "@/lib/setup-store";
 import { RiyadhClock } from "./riyadh-clock";
 import { LiveDemoRunner } from "./live-demo-runner";
 import { OVERVIEW_LINKS } from "./content";
+
+// Convenience aliases for demo data — all data now from canonical demo-data.ts
+const demoClinic = DEMO_CLINICS[0];
+const demoConversation = DEMO_CONVERSATIONS[0];
+const demoAiDecision = DEMO_AI_DECISION;
+const demoBooking = DEMO_BOOKING;
+const demoReportStats = DEMO_REPORT_STATS;
 
 export function OverviewPage() {
   const { isSetupComplete } = useSetupStore();

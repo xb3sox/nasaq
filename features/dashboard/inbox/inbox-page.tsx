@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Loader2, Paperclip, Smile, Check } from "lucide-react";
-import { demoAiDecision, demoBooking } from "@/lib/demo-clinic";
+import { DEMO_AI_DECISION, DEMO_BOOKING } from "@/lib/demo-data";
 import { ConversationList } from "./conversation-list";
 import { ChatThread } from "./chat-thread";
 import { AiSuggestion } from "./ai-suggestion";
@@ -26,7 +26,7 @@ const DEMO_CONVERSATIONS: Conversation[] = [
       { id: "m1", sender: "customer", body: "السلام عليكم" },
       { id: "m2", sender: "bot", body: "وعليكم السلام! كيف أقدر أساعدك اليوم؟" },
       { id: "m3", sender: "customer", body: "بكم تنظيف الأسنان؟ متاح موعد اليوم؟" },
-      { id: "m4", sender: "bot", body: demoAiDecision.reply },
+      { id: "m4", sender: "bot", body: DEMO_AI_DECISION.reply },
     ],
   },
   {
@@ -86,8 +86,8 @@ export function InboxPage() {
     handleHumanHandoff,
   } = useInboxState(DEMO_CONVERSATIONS);
 
-  const ai = demoAiDecision;
-  const booking = demoBooking;
+  const ai = DEMO_AI_DECISION;
+  const booking = DEMO_BOOKING;
 
   return (
     <PageShell size="wide" height="viewport" className="flex flex-col">
