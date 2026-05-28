@@ -136,7 +136,7 @@ export default function RemindersPage() {
         subtitle="تذكيرات WhatsApp آلية للحجوزات"
         actions={
           counts.failed > 0 && (
-            <Button size="sm" variant="destructive" onClick={handleResendAllFailed} className="gap-2">
+            <Button size="touch" variant="destructive" onClick={handleResendAllFailed} className="gap-2">
               <RefreshCw className="w-4 h-4" />
               إعادة إرسال الكل ({counts.failed})
             </Button>
@@ -187,10 +187,10 @@ export default function RemindersPage() {
 
       {/* Quick Filters */}
       <div className="flex gap-2 border-b pb-4">
-        <Button size="sm" variant={filter === "all" ? "default" : "outline"} onClick={() => setFilter("all")} className="rounded-full">الكل</Button>
-        <Button size="sm" variant={filter === "sent" ? "default" : "outline"} onClick={() => setFilter("sent")} className="rounded-full">المرسلة</Button>
-        <Button size="sm" variant={filter === "pending" ? "default" : "outline"} onClick={() => setFilter("pending")} className="rounded-full">المعلقة</Button>
-        <Button size="sm" variant={filter === "failed" ? "default" : "outline"} onClick={() => setFilter("failed")} className="rounded-full">الفاشلة</Button>
+        <Button size="touch" variant={filter === "all" ? "default" : "outline"} onClick={() => setFilter("all")} className="rounded-full">الكل</Button>
+        <Button size="touch" variant={filter === "sent" ? "default" : "outline"} onClick={() => setFilter("sent")} className="rounded-full">المرسلة</Button>
+        <Button size="touch" variant={filter === "pending" ? "default" : "outline"} onClick={() => setFilter("pending")} className="rounded-full">المعلقة</Button>
+        <Button size="touch" variant={filter === "failed" ? "default" : "outline"} onClick={() => setFilter("failed")} className="rounded-full">الفاشلة</Button>
       </div>
 
       {/* List */}

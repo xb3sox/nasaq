@@ -97,7 +97,7 @@ export function SettingsPage() {
                     <div className="font-medium">{m.name}</div>
                     <div className="text-xs text-muted-foreground">{m.email} · {m.role}</div>
                   </div>
-                  <Button variant="ghost" size="sm">تعديل</Button>
+                  <Button variant="ghost" size="touch">تعديل</Button>
                 </div>
               ))}
               <Button variant="outline" className="w-full">دعوة عضو جديد</Button>
@@ -120,7 +120,7 @@ export function SettingsPage() {
                     <div className="font-medium">{s.name}</div>
                     <div className="text-xs text-muted-foreground">{s.duration} · {s.price}</div>
                   </div>
-                  <Button variant="ghost" size="sm">تعديل</Button>
+                  <Button variant="ghost" size="touch">تعديل</Button>
                 </div>
               ))}
               <Button variant="outline" className="w-full">إضافة خدمة</Button>

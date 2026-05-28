@@ -36,7 +36,7 @@ export function OverviewPage() {
             </div>
           </div>
           <Link href="/setup">
-            <Button size="sm" className="bg-warning hover:bg-warning/80 text-warning-foreground border-0">
+            <Button size="touch" className="bg-warning hover:bg-warning/80 text-warning-foreground border-0">
               الذهاب للإعدادات
             </Button>
           </Link>
