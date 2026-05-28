@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { Zap, Check, ArrowRight } from "lucide-react";
-import { FEATURES, HOW_IT_WORKS, PRICING, STATS } from "./content";
+import { FEATURES, HOW_IT_WORKS, PRICING, STATS, CLINICS, TESTIMONIAL } from "./content";
 import { LandingSection } from "@/components/landing";
 
 export function LandingPage() {
@@ -179,7 +179,7 @@ export function LandingPage() {
               {FEATURES.map((f, i) => (
                 <li
                   key={i}
-                  className="text-2xl sm:text-4xl font-medium tracking-tight text-foreground text-balance reveal"
+                  className="text-2xl sm:text-4xl font-medium tracking-tight text-foreground text-balance reveal transition-all duration-300 hover:[text-shadow:0_0_20px_rgba(129,140,248,0.5)]"
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
                   {f}
@@ -189,15 +189,27 @@ export function LandingPage() {
           </div>
         </LandingSection>
 
+        {/* Logo marquee */}
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent reveal">
+          <div className="py-24 border-y border-border/50">
+            <p className="text-sm text-muted-foreground text-center mb-12">موثوق من قبل العيادات الرائدة</p>
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60 grayscale">
+              {CLINICS.map((clinic, i) => (
+                <div key={i} className="text-2xl font-bold tracking-tighter">{clinic}</div>
+              ))}
+            </div>
+          </div>
+        </LandingSection>
+
         {/* Pricing */}
         <LandingSection id="pricing" maxWidth="6xl" background="transparent" className="section-accent">
           <div className="py-16 sm:py-24">
-            <h2 className="text-sm font-medium text-muted-foreground mb-12">الأسعار</h2>
+            <h2 className="text-sm font-medium text-muted-foreground mb-12 text-center">الأسعار</h2>
             <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
               {PRICING.map((p, i) => (
                 <div
                   key={p.name}
-                  className="space-y-8 bg-card border border-border/50 p-8 rounded-[2rem] hover:-translate-y-[2px] hover:shadow-2xl transition-all duration-300 reveal"
+                  className="space-y-8 bg-card border border-border/50 p-8 rounded-[2rem] hover:-translate-y-[2px] hover:shadow-2xl transition-all duration-300 reveal flex flex-col"
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
                   <div>
@@ -210,12 +222,12 @@ export function LandingPage() {
                   <ul className="space-y-3">
                     {p.features.map((feat) => (
                       <li key={feat} className="flex items-center gap-3 text-foreground">
-                        <Check className="w-4 h-4 text-muted-foreground" />
+                        <Check className="w-5 h-5 text-primary shrink-0" />
                         <span>{feat}</span>
                       </li>
                     ))}
                   </ul>
-                  <Button variant="outline" className="w-full rounded-full h-12 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
+                  <Button variant="outline" className="w-full rounded-full h-12 mt-auto hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
                     اختيار
                   </Button>
                 </div>
@@ -229,14 +241,14 @@ export function LandingPage() {
           <div className="py-20 sm:py-24 border-y border-border/10">
             <div className="max-w-4xl mx-auto text-center space-y-8">
                <p className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight leading-snug">
-                  "منذ استخدام {BRAND.nameAr}، زادت حجوزاتنا بنسبة ٤٠٪ وانخفضت نسبة عدم الحضور بشكل ملحوظ. النظام سهل جداً والعملاء يحبون الحجز عبر واتساب."
+                  "{TESTIMONIAL.quote}"
                </p>
                <div className="flex flex-col items-center gap-2">
                   <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
-                     د
+                     {TESTIMONIAL.author.charAt(0)}
                   </div>
-                  <div className="font-medium text-lg">د. محمد عبدالله</div>
-                  <div className="text-sm text-muted-foreground">مدير عيادات الابتسامة النقية</div>
+                  <div className="font-medium text-lg">{TESTIMONIAL.author}</div>
+                  <div className="text-sm text-muted-foreground">{TESTIMONIAL.clinic}</div>
                </div>
             </div>
           </div>
