@@ -76,7 +76,7 @@ export function analyzeClinicMessage(message: string): ClinicAiDecision {
   if (containsAny(text, ["تنظيف", "اسنان", "أسنان", "سعر", "بكم", "موعد", "حجز", "اليوم"])) {
     const wantsBooking = containsAny(text, ["موعد", "حجز", "اليوم", "متاح", "فاضي"]);
     const slots = wantsBooking
-      ? generateAvailableSlots(DEMO_DOCTOR_SCHEDULES, []).slice(0, 3)
+      ? generateAvailableSlots(DEMO_DOCTOR_SCHEDULES, [], 5).slice(0, 3)
       : [];
     const slotText =
       slots.length > 0
