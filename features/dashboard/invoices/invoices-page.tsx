@@ -49,11 +49,11 @@ export function InvoicesPage() {
         actions={
           <>
             <Button variant="outline" size="touch" className="gap-1.5 hidden sm:flex">
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-4 h-4" />
               تصدير
             </Button>
             <Button size="touch" className="gap-1.5">
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               فاتورة جديدة
             </Button>
           </>

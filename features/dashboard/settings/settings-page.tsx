@@ -37,7 +37,7 @@ export function SettingsPage() {
 
         <TabsContent role="tabpanel" id="clinic" aria-labelledby="tab-clinic" value="clinic">
           <Card>
-            <CardHeader><CardTitle>معلومات العيادة</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="tracking-tight">معلومات العيادة</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2"><Label htmlFor="clinic-name">اسم العيادة</Label><Input id="clinic-name" defaultValue="عيادة النور الطبية" /></div>
@@ -52,7 +52,7 @@ export function SettingsPage() {
 
         <TabsContent role="tabpanel" id="whatsapp" aria-labelledby="tab-whatsapp" value="whatsapp">
           <Card>
-            <CardHeader><CardTitle>إعدادات واتساب Cloud API</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="tracking-tight">إعدادات واتساب Cloud API</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2"><Label htmlFor="wa-token">WHATSAPP_ACCESS_TOKEN</Label><Input id="wa-token" type="password" placeholder="توكن الوصول" /></div>
               <div className="space-y-2"><Label htmlFor="wa-phone-id">WHATSAPP_PHONE_NUMBER_ID</Label><Input id="wa-phone-id" placeholder="معرف رقم الهاتف" /></div>
@@ -68,7 +68,7 @@ export function SettingsPage() {
 
         <TabsContent role="tabpanel" id="ai" aria-labelledby="tab-ai" value="ai">
           <Card>
-            <CardHeader><CardTitle>إعدادات الذكاء الاصطناعي</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="tracking-tight">إعدادات الذكاء الاصطناعي</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2"><Label htmlFor="ai-key">OPENAI_API_KEY</Label><Input id="ai-key" type="password" placeholder="مفتاح OpenAI" /></div>
               <div className="space-y-2"><Label htmlFor="ai-model">النموذج المستخدم</Label><Input id="ai-model" defaultValue="gpt-4o-mini" /></div>
@@ -84,7 +84,7 @@ export function SettingsPage() {
 
         <TabsContent role="tabpanel" id="team" aria-labelledby="tab-team" value="team">
           <Card>
-            <CardHeader><CardTitle>أعضاء الفريق</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="tracking-tight">أعضاء الفريق</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {[
                 { name: "د. نواف الحسين", role: "طبيب", email: "nawaf@alnoor.com" },
@@ -107,7 +107,7 @@ export function SettingsPage() {
 
         <TabsContent role="tabpanel" id="services" aria-labelledby="tab-services" value="services">
           <Card>
-            <CardHeader><CardTitle>الخدمات والأسعار</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="tracking-tight">الخدمات والأسعار</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {[
                 { name: "استشارة عامة", price: "150 ر.س", duration: "30 دقيقة" },
@@ -130,7 +130,7 @@ export function SettingsPage() {
 
         <TabsContent role="tabpanel" id="reminders" aria-labelledby="tab-reminders" value="reminders">
           <Card>
-            <CardHeader><CardTitle>قوالب التذكيرات</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="tracking-tight">قوالب التذكيرات</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {[
                 { key: "appointment_24h", label: "تذكير قبل 24 ساعة", message: "مرحباً {{customer_name}}، نذكرك بموعدك غداً الساعة {{time}} في {{clinic_name}}." },

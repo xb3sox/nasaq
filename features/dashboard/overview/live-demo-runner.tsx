@@ -47,7 +47,7 @@ export function LiveDemoRunner() {
       </div>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base">عرض تجريبي حي</CardTitle>
+          <CardTitle className="tracking-tight text-base">عرض تجريبي حي</CardTitle>
           <Button
             onClick={runDemo}
             disabled={running}

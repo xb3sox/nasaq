@@ -32,7 +32,7 @@ export function ConfigReadinessPanel() {
   if (error) {
     return (
       <Card className="border-destructive/30">
-        <CardContent className="flex items-center gap-3 p-4 text-sm text-destructive">
+        <CardContent className="flex items-center gap-3 p-5 text-sm text-destructive">
           <AlertTriangle className="h-4 w-4" />
           تعذر تحميل حالة الإعدادات.
         </CardContent>
@@ -70,13 +70,13 @@ export function ConfigReadinessPanel() {
     <Card className="border-brand/20 dark:border-brand/30 shadow-sm">
       <CardHeader className="pb-3 bg-brand-surface dark:bg-brand/10">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle className="text-base text-brand dark:text-brand">حالة الربط والجاهزية</CardTitle>
+          <CardTitle className="tracking-tight text-base text-brand dark:text-brand">حالة الربط والجاهزية</CardTitle>
           <StatusBadge variant={status?.environment === "production" ? "success" : "warning"} className="w-fit">
             {status ? (status.environment === "production" ? "إنتاج" : "تطوير") : "جاري التحميل..."}
           </StatusBadge>
         </div>
       </CardHeader>
-      <CardContent className="grid gap-3 sm:grid-cols-2 pt-4">
+      <CardContent className="grid gap-3 sm:grid-cols-2 pt-5">
         {status
           ? rows.map((row) => (
               <div key={row.label} className="flex min-h-20 items-start gap-3 rounded-lg border p-3 bg-card transition-colors hover:bg-muted/50">

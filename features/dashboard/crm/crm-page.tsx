@@ -74,7 +74,7 @@ export function CrmPage() {
         subtitle="عملاء من جميع القنوات"
         actions={
           <Button size="touch" className="gap-1.5">
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4" />
             عميل جديد
           </Button>
         }
@@ -116,7 +116,7 @@ export function CrmPage() {
             valueClassName="text-whatsapp"
           />
         </div>
-        <Card className="p-4 flex flex-col justify-between">
+        <Card className="p-5 flex flex-col justify-between">
           <span className="text-sm font-medium text-muted-foreground mb-4">مصادر العملاء</span>
           <div className="h-[72px] w-full">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
@@ -224,7 +224,7 @@ export function CrmPage() {
             const SourceIcon = SOURCE_ICON[lead.source] ?? Tag;
 
             return (
-              <Card key={lead.id} className="p-4 hover:shadow-md transition-shadow group relative overflow-hidden border-border/60 hover:border-border">
+              <Card key={lead.id} className="p-5 hover:shadow-md transition-shadow group relative overflow-hidden border-border/60 hover:border-border">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex gap-4 items-start sm:items-center min-w-0 w-full sm:w-auto">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center shrink-0 text-white font-bold text-lg shadow-inner">
