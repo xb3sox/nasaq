@@ -1,40 +1,35 @@
-# n8n Reminders Workflow for Nasaq
+# n8n Reminders Workflow
 
-This workflow periodically checks for due appointment reminders and sends them to customers via WhatsApp using the Nasaq API.
+Automatically sends queued WhatsApp reminders via the Nasaq API.
 
-## Requirements
+## Import
 
-1. **n8n Instance**: You need a running instance of n8n.
-2. **Nasaq Environment Variables**: Ensure your Nasaq instance has `ENABLE_UNAUTHENTICATED_DEMO_API=true` (for demo testing) or properly configured authentication.
+1. Open n8n → **Import from File** → select `reminders-sender.json`
+2. The workflow imports with all nodes and connections pre-configured
 
-## How to Import
+## Environment Variables
 
-1. Open your n8n dashboard.
-2. Click on **Workflows** in the left menu.
-3. Click the **Add Workflow** button.
-4. Click the options menu (three dots) in the top right corner and select **Import from File**.
-5. Select the `reminders-sender.json` file from this directory.
-6. Alternatively, you can copy the contents of `reminders-sender.json` and paste it directly into the n8n editor using the **Import from URL/JSON** option.
+Set these in your n8n instance (not in the workflow):
 
-## Configuration
+| Variable | Description |
+|---|---|
+| `APP_URL` | Nasaq production URL (e.g., `https://nasaq.app`) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (not anon key) |
 
-Once imported, you need to configure the following nodes:
+## How It Works
 
-### 1. Variables
+```
+Cron (every 15min) → Query pending reminders → Split per item → Send WhatsApp → Mark sent/failed
+```
 
-You will need to set up variables in your n8n environment or directly in the nodes:
+1. **Cron** triggers every 15 minutes
+2. **Query Reminders** fetches pending reminders from Supabase where `send_at <= now()`
+3. **Split** processes one reminder at a time
+4. **Send WhatsApp** calls `POST /api/messages/send` with the reminder's phone and template
+5. **Mark Sent** updates `status=sent` on success
+6. **Mark Failed** updates `status=failed` on error
 
-*   `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase API URL.
-*   `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase service role key (for authentication).
-*   `APP_URL`: The URL where your Nasaq instance is running (e.g., `https://your-nasaq-domain.com`).
+## Activation
 
-### 2. Schedule
-
-By default, the workflow is scheduled to run every 15 minutes. You can adjust this by double-clicking the **Cron** trigger node and changing the interval.
-
-## Error Handling
-
-The workflow includes error handling mechanisms.
-- Failed messages will be routed appropriately or marked as failed in the database.
-- *Add dead letter queue info here*
-
+Toggle the workflow **Active** in n8n after importing and setting env vars.

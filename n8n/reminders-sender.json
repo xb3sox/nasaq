@@ -133,26 +133,10 @@
       ]
     },
     "Mark Sent": {
-      "main": [
-        [
-          {
-            "node": "Split",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": []
     },
     "Mark Failed": {
-      "main": [
-        [
-          {
-            "node": "Split",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
+      "main": []
     }
   }
 }

@@ -68,10 +68,32 @@ export function SettingsPage() {
 
         <TabsContent role="tabpanel" id="ai" aria-labelledby="tab-ai" value="ai">
           <Card>
-            <CardHeader><CardTitle className="tracking-tight">إعدادات الذكاء الاصطناعي</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="tracking-tight">مزود الذكاء الاصطناعي</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2"><Label htmlFor="ai-key">OPENAI_API_KEY</Label><Input id="ai-key" type="password" placeholder="مفتاح OpenAI" /></div>
-              <div className="space-y-2"><Label htmlFor="ai-model">النموذج المستخدم</Label><Input id="ai-model" defaultValue="gpt-4o-mini" /></div>
+              <div className="space-y-2">
+                <Label htmlFor="ai-provider">المزود</Label>
+                <select
+                  id="ai-provider"
+                  defaultValue="deterministic"
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="deterministic">محاكاة (ديمو)</option>
+                  <option value="openai">OpenAI (GPT-4o-mini)</option>
+                  <option value="gemini">Gemini (2.0 Flash)</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ai-key">OPENAI_API_KEY</Label>
+                <Input id="ai-key" type="password" placeholder="مفتاح OpenAI" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="gemini-key">GEMINI_API_KEY</Label>
+                <Input id="gemini-key" type="password" placeholder="مفتاح Gemini" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ai-model">النموذج المستخدم</Label>
+                <Input id="ai-model" defaultValue="gpt-4o-mini" />
+              </div>
               <div className="space-y-4">
                 <div className="flex items-center gap-3"><Switch id="ai-enabled" defaultChecked /><Label htmlFor="ai-enabled">تفعيل الردود التلقائية</Label></div>
                 <div className="flex items-center gap-3"><Switch id="ai-booking" defaultChecked /><Label htmlFor="ai-booking">تفعيل اكتشاف نية الحجز</Label></div>
