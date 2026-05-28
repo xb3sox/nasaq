@@ -25,6 +25,7 @@ export function OverviewPage() {
   const { isSetupComplete } = useSetupStore();
 
   return (
+    // Intentional: dashboard landing deserves visual distinction
     <PageShell surface="gradient" size="wide">
       {!isSetupComplete && (
         <div className="bg-warning-surface border border-warning/20 text-warning dark:text-warning rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">

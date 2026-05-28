@@ -90,6 +90,7 @@ export function InboxPage() {
   const booking = DEMO_BOOKING;
 
   return (
+    // Intentional: chat layout needs viewport height
     <PageShell size="wide" height="viewport" className="flex flex-col">
       <PageHeader
         title={inboxContent.pageTitle}
