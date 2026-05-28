@@ -31,7 +31,7 @@ export function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={
         <Button size="touch" className="gap-1.5">
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-4 h-4" />
           حجز جديد
         </Button>
       } />

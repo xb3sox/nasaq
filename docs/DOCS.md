@@ -12,7 +12,7 @@
 | `CONTRIBUTING.md` | PR workflow, branch rules, quality gate | Maintainer | — |
 | `SECURITY.md` | Security policy and contacts | Maintainer | — |
 | `CHANGELOG.md` | Release history | Maintainer | — |
-| `DESIGN.md` | Token palette, typography, visual principles | Design/UI lead | — |
+| `app/globals.css` | CSS custom properties — design token source of truth | Lead dev | — |
 | `SPEC.md` | Current MVP state + active task queue | Maintainer | — |
 | `docs/DOCS.md` | This doc — ownership map | Maintainer | 120 |
 | `docs/ARCHITECTURE.md` | Folder boundaries, data flow, route thinness | Maintainer | 180 |

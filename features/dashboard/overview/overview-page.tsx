@@ -31,7 +31,7 @@ export function OverviewPage() {
           <div className="flex items-center gap-3">
             <Settings className="w-5 h-5 text-warning" />
             <div>
-              <h3 className="font-bold text-sm">أكمل إعداد حسابك</h3>
+              <h3 className="font-bold text-sm tracking-tight">أكمل إعداد حسابك</h3>
               <p className="text-xs opacity-80 mt-0.5">قم بإعداد بيانات العيادة والأطباء والخدمات للبدء.</p>
             </div>
           </div>
@@ -105,11 +105,11 @@ export function OverviewPage() {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start pt-2">
         <Card className="xl:col-span-2 shadow-sm">
           <CardHeader className="border-b border-border/50 pb-4">
-            <CardTitle className="text-base flex items-center gap-2">
+            <CardTitle className="tracking-tight text-base flex items-center gap-2">
               <MessageCircle className="w-5 h-5 text-primary" aria-hidden="true" /> آخر مسار حجز من واتساب
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6">
+          <CardContent className="p-5">
             <div className="relative space-y-6">
               {/* Vertical timeline line */}
               <div className="absolute top-2 bottom-2 start-3.5 w-0.5 bg-border -z-10" />

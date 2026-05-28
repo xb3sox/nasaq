@@ -175,7 +175,7 @@ export function BookingsFeaturePage() {
           .map(([dateKey, groupBookings]) => (
             <div key={dateKey} className="space-y-4">
               <div className="flex items-center gap-3">
-                <h3 className="font-semibold text-lg">{getFormattedDate(dateKey)}</h3>
+                <h3 className="font-semibold text-lg tracking-tight">{getFormattedDate(dateKey)}</h3>
                 <div className="h-px bg-border/60 flex-1"></div>
                 <Badge variant="count">{groupBookings.length}</Badge>
               </div>
@@ -232,7 +232,7 @@ export function BookingsFeaturePage() {
                   }
 
                   return (
-                    <Card key={booking.id} className="group p-4 hover:shadow-md transition-all relative overflow-hidden border-border/60 hover:border-border">
+                    <Card key={booking.id} className="group p-5 hover:shadow-md transition-all relative overflow-hidden border-border/60 hover:border-border">
                       {/* Timeline Dot */}
                       <div className={`absolute start-0 top-0 bottom-0 w-1 ${dotColor}`}></div>
 

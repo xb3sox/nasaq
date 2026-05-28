@@ -65,24 +65,24 @@ export default function ReportsPage() {
               {(["أسبوع", "شهر", "ربع سنة", "سنة"] as const).map(p => (
                 <Button
                   key={p}
-                  size="sm"
+                  size="touch"
                   variant={period === p ? "secondary" : "ghost"}
                   onClick={() => setPeriod(p)}
-                  className={`text-xs px-3 h-7 ${period === p ? "shadow-sm bg-background" : ""}`}
+                  className={`text-xs px-3  ${period === p ? "shadow-sm bg-background" : ""}`}
                 >
                   {p}
                 </Button>
               ))}
             </div>
-            <div className="flex items-center gap-2 border rounded-md px-3 h-9 bg-background">
+            <div className="flex items-center gap-2 border rounded-md px-3 h-[44px] sm:h-9 bg-background">
               <Calendar className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">01/05 - 07/05</span>
             </div>
-            <Button size="sm" variant="outline" className="gap-2 h-9" onClick={handleExportCSV}>
+            <Button size="touch" variant="outline" className="gap-2 " onClick={handleExportCSV}>
               <Download className="w-4 h-4" />
               تصدير CSV
             </Button>
-            <Button size="sm" className="gap-2 h-9">
+            <Button size="touch" className="gap-2 ">
               توليد تقرير
             </Button>
           </>
@@ -135,10 +135,10 @@ export default function ReportsPage() {
       {/* Charts Row 1 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Bookings Bar Chart */}
-        <Card className="p-6">
+        <Card className="p-5">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-base font-semibold">الحجوزات</h2>
+              <h2 className="text-base font-semibold tracking-tight">الحجوزات</h2>
               <p className="text-xs text-muted-foreground">خلال {period}</p>
             </div>
             <StatusBadge variant="default">
@@ -166,10 +166,10 @@ export default function ReportsPage() {
         </Card>
 
         {/* Leads Line Chart */}
-        <Card className="p-6">
+        <Card className="p-5">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-base font-semibold">العملاء المحتملين</h2>
+              <h2 className="text-base font-semibold tracking-tight">العملاء المحتملين</h2>
               <p className="text-xs text-muted-foreground">تفاعل العملاء الجدد</p>
             </div>
             <StatusBadge variant="default">
@@ -199,9 +199,9 @@ export default function ReportsPage() {
       {/* Charts Row 2 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Booking Sources Donut Chart */}
-        <Card className="p-6">
+        <Card className="p-5">
           <div className="mb-6">
-            <h2 className="text-base font-semibold">مصادر الحجوزات</h2>
+            <h2 className="text-base font-semibold tracking-tight">مصادر الحجوزات</h2>
             <p className="text-xs text-muted-foreground">توزيع القنوات التي يأتي منها العملاء</p>
           </div>
           <div className="h-64 w-full flex items-center min-w-0" dir="ltr" role="img" aria-label="رسم بياني دائري يوضح توزيع قنوات ومصادر الحجوزات">
@@ -233,9 +233,9 @@ export default function ReportsPage() {
         </Card>
 
         {/* Conversion Funnel Bar Chart */}
-        <Card className="p-6">
+        <Card className="p-5">
           <div className="mb-6">
-            <h2 className="text-base font-semibold">مراحل تحويل العملاء</h2>
+            <h2 className="text-base font-semibold tracking-tight">مراحل تحويل العملاء</h2>
             <p className="text-xs text-muted-foreground">تتبع العملاء من أول رسالة حتى إكمال الموعد</p>
           </div>
           <div className="h-64 w-full min-w-0" dir="ltr" role="img" aria-label="رسم بياني شريطي يوضح مراحل تحويل العملاء من أول رسالة حتى إكمال الموعد">
