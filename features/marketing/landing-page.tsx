@@ -14,7 +14,7 @@ export function LandingPage() {
 
   return (
     <div
-      className="min-h-screen bg-background font-sans selection:bg-primary/20 selection:text-primary"
+      className="min-h-screen font-sans landing-dark landing-mesh"
       dir="rtl"
     >
       {/* Nav */}
@@ -49,8 +49,8 @@ export function LandingPage() {
           background="transparent"
         >
           <div className="max-w-4xl space-y-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-medium tracking-tight text-foreground text-balance leading-none">
-              {BRAND.nameAr} ينظم العيادة.
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-medium tracking-tight text-balance leading-none">
+              <span className="text-glow">{BRAND.nameAr}</span> ينظم العيادة.
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed text-balance">
               نظام ذكي يدير العملاء، الحجوزات، التذكيرات، والتقارير عبر واتساب، لتركز على رعاية مرضاك.
@@ -68,7 +68,7 @@ export function LandingPage() {
         </LandingSection>
 
         {/* How it works */}
-        <LandingSection maxWidth="6xl" background="transparent" className="border-t border-border/50">
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent">
           <div className="py-12">
             <h2 className="text-sm font-medium text-muted-foreground mb-8">كيف يعمل؟</h2>
             <div className="flex flex-wrap gap-4 text-xl sm:text-2xl font-medium text-foreground">
@@ -88,7 +88,7 @@ export function LandingPage() {
         </LandingSection>
 
         {/* Features */}
-        <LandingSection maxWidth="6xl" background="transparent" className="border-t border-border/50">
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent">
           <div className="py-24">
             <h2 className="text-sm font-medium text-muted-foreground mb-12">المميزات</h2>
             <ul className="space-y-6 max-w-3xl">
@@ -102,7 +102,7 @@ export function LandingPage() {
         </LandingSection>
 
         {/* Pricing */}
-        <LandingSection id="pricing" maxWidth="6xl" background="transparent" className="border-t border-border/50">
+        <LandingSection id="pricing" maxWidth="6xl" background="transparent" className="section-accent">
           <div className="py-24">
             <h2 className="text-sm font-medium text-muted-foreground mb-12">الأسعار</h2>
             <div className="grid lg:grid-cols-3 gap-12 lg:gap-24">
@@ -133,7 +133,7 @@ export function LandingPage() {
         </LandingSection>
 
         {/* CTA */}
-        <LandingSection maxWidth="6xl" background="transparent" className="border-t border-border/50">
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent">
           <div className="py-32 flex flex-col items-start gap-8">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-foreground">
               جاهز للبدء؟
@@ -149,7 +149,7 @@ export function LandingPage() {
         </LandingSection>
 
         {/* Footer */}
-        <footer className="border-t border-border/50">
+        <footer className="section-accent">
           <LandingSection maxWidth="6xl" padded={false}>
             <div className="py-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
               <p>

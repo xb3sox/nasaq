@@ -5,6 +5,13 @@ export const FEATURES = [
   "سجل كامل لكل عميل: مواعيد، فواتير، محادثات"
 ];
 
+export const STATS = [
+  { value: "٥٠٠+", label: "حجز شهري" },
+  { value: "٩٨٪", label: "دقة الرد الآلي" },
+  { value: "٧ أيام", label: "وقت التجهيز" },
+  { value: "٢٤/٧", label: "دعم فني" },
+];
+
 export const HOW_IT_WORKS = [
   "واتساب",
   "ذكاء اصطناعي",
