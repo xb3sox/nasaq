@@ -59,7 +59,7 @@ export function BookingsFeaturePage() {
       />
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <StatCard
           title="مؤكدة"
           value={counts.confirmed + added}
@@ -163,7 +163,7 @@ export function BookingsFeaturePage() {
       {filtered.length === 0 ? (
         <EmptyState title="لا توجد حجوزات" description="لا توجد حجوزات تطابق معايير البحث الحالية" />
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-6">
           {Object.entries(
             filtered.reduce((acc, booking) => {
               const group = booking.date; // Group directly by YYYY-MM-DD
@@ -173,14 +173,14 @@ export function BookingsFeaturePage() {
             }, {} as Record<string, typeof filtered>)
           ).sort(([dateA], [dateB]) => new Date(dateA).getTime() - new Date(dateB).getTime())
           .map(([dateKey, groupBookings]) => (
-            <div key={dateKey} className="space-y-4">
+            <div key={dateKey} className="space-y-6">
               <div className="flex items-center gap-3">
                 <h3 className="font-semibold text-lg tracking-tight">{getFormattedDate(dateKey)}</h3>
                 <div className="h-px bg-border/60 flex-1"></div>
                 <Badge variant="count">{groupBookings.length}</Badge>
               </div>
 
-              <div className="space-y-3 relative">
+              <div className="space-y-4 relative">
                 {/* Timeline connector for default view */}
                 {!compactView && groupBookings.length > 1 && (
                   <div className="absolute top-6 bottom-6 start-[19px] w-0.5 bg-border/50 hidden sm:block"></div>

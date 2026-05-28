@@ -166,7 +166,7 @@ export default function RemindersPage() {
           </div>
         </Card>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
           {(["sent", "queued", "pending", "failed"] as ReminderStatus[]).map((s) => {
             const cfg = STATUS_CONFIG[s];
             const Icon = cfg.icon;
@@ -198,7 +198,7 @@ export default function RemindersPage() {
         {Object.entries(groupedReminders).map(([date, reminders]) => {
           const isExpanded = expandedDates[date] ?? true;
           return (
-            <div key={date} className="space-y-3">
+            <div key={date} className="space-y-6">
               <div
                 className="flex items-center justify-between cursor-pointer group"
                 onClick={() => toggleDate(date)}
@@ -212,7 +212,7 @@ export default function RemindersPage() {
               </div>
 
               {isExpanded && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {reminders.map((reminder) => {
                     const status = statuses[reminder.id] ?? reminder.status;
                     const cfg = STATUS_CONFIG[status];

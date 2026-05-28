@@ -81,8 +81,8 @@ export function CrmPage() {
       />
 
             {/* Stat Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-6">
           <StatCard
             title="عملاء جدد"
             value={newCount}
@@ -219,7 +219,7 @@ export function CrmPage() {
       {filtered.length === 0 ? (
         <EmptyState title="لا يوجد عملاء" description="لا يوجد عملاء يطابقون معايير البحث الحالية" />
       ) : view === "list" ? (
-        <div className="grid gap-3">
+        <div className="grid gap-4">
           {filtered.map((lead) => {
             const SourceIcon = SOURCE_ICON[lead.source] ?? Tag;
 

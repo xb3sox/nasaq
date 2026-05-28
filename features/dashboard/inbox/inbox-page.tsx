@@ -95,7 +95,7 @@ export function InboxPage() {
         title={inboxContent.pageTitle}
         subtitle={inboxContent.pageSubtitle}
       />
-      <div className="flex flex-col gap-4 min-h-0 flex-1 lg:flex-row">
+      <div className="flex flex-col gap-6 min-h-0 flex-1 lg:flex-row">
         {/* Sidebar */}
         <ConversationList
           conversations={DEMO_CONVERSATIONS}
