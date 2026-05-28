@@ -18,10 +18,10 @@ export function LandingPage() {
       dir="rtl"
     >
       {/* Nav */}
-      <nav className="border-b bg-background sticky top-0 z-50">
+      <nav className="border-b border-border/40 bg-[var(--landing-bg)]/80 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div
-            className="font-bold text-xl tracking-tight text-foreground flex items-center gap-2 cursor-pointer"
+            className="font-bold text-xl tracking-tight text-foreground flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={() => scrollToSection("hero")}
           >
             <Zap className="w-5 h-5 text-primary" />
@@ -30,7 +30,7 @@ export function LandingPage() {
           <div className="flex gap-4 items-center">
             <Button
               variant="default"
-              className="rounded-full px-6"
+              className="rounded-full px-6 hover:scale-[1.02] transition-transform btn-glow"
               onClick={() => scrollToSection("pricing")}
             >
               احجز ديمو
@@ -152,7 +152,7 @@ export function LandingPage() {
         </LandingSection>
 
         {/* How it works */}
-        <LandingSection maxWidth="6xl" background="transparent" className="section-accent">
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent reveal">
           <div className="py-12">
             <h2 className="text-sm font-medium text-muted-foreground mb-8">كيف يعمل؟</h2>
             <div className="flex flex-wrap gap-4 text-xl sm:text-2xl font-medium text-foreground">
@@ -172,12 +172,16 @@ export function LandingPage() {
         </LandingSection>
 
         {/* Features */}
-        <LandingSection maxWidth="6xl" background="transparent" className="section-accent">
-          <div className="py-24">
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent reveal">
+          <div className="py-16 sm:py-24">
             <h2 className="text-sm font-medium text-muted-foreground mb-12">المميزات</h2>
             <ul className="space-y-6 max-w-3xl">
               {FEATURES.map((f, i) => (
-                <li key={i} className="text-2xl sm:text-4xl font-medium tracking-tight text-foreground text-balance">
+                <li
+                  key={i}
+                  className="text-2xl sm:text-4xl font-medium tracking-tight text-foreground text-balance reveal"
+                  style={{ animationDelay: `${i * 100}ms` }}
+                >
                   {f}
                 </li>
               ))}
@@ -187,11 +191,15 @@ export function LandingPage() {
 
         {/* Pricing */}
         <LandingSection id="pricing" maxWidth="6xl" background="transparent" className="section-accent">
-          <div className="py-24">
+          <div className="py-16 sm:py-24">
             <h2 className="text-sm font-medium text-muted-foreground mb-12">الأسعار</h2>
-            <div className="grid lg:grid-cols-3 gap-12 lg:gap-24">
-              {PRICING.map((p) => (
-                <div key={p.name} className="space-y-8">
+            <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
+              {PRICING.map((p, i) => (
+                <div
+                  key={p.name}
+                  className="space-y-8 bg-card border border-border/50 p-8 rounded-[2rem] hover:-translate-y-[2px] hover:shadow-2xl transition-all duration-300 reveal"
+                  style={{ animationDelay: `${i * 100}ms` }}
+                >
                   <div>
                     <h3 className="text-2xl font-medium tracking-tight mb-2">{p.name}</h3>
                     <div className="text-muted-foreground">
@@ -207,7 +215,7 @@ export function LandingPage() {
                       </li>
                     ))}
                   </ul>
-                  <Button variant="outline" className="w-full rounded-full h-12">
+                  <Button variant="outline" className="w-full rounded-full h-12 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors">
                     اختيار
                   </Button>
                 </div>
@@ -216,15 +224,36 @@ export function LandingPage() {
           </div>
         </LandingSection>
 
+        {/* Testimonial */}
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent reveal">
+          <div className="py-20 sm:py-24 border-y border-border/10">
+            <div className="max-w-4xl mx-auto text-center space-y-8">
+               <p className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight leading-snug">
+                  "منذ استخدام {BRAND.nameAr}، زادت حجوزاتنا بنسبة ٤٠٪ وانخفضت نسبة عدم الحضور بشكل ملحوظ. النظام سهل جداً والعملاء يحبون الحجز عبر واتساب."
+               </p>
+               <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
+                     د
+                  </div>
+                  <div className="font-medium text-lg">د. محمد عبدالله</div>
+                  <div className="text-sm text-muted-foreground">مدير عيادات الابتسامة النقية</div>
+               </div>
+            </div>
+          </div>
+        </LandingSection>
+
         {/* CTA */}
-        <LandingSection maxWidth="6xl" background="transparent" className="section-accent">
-          <div className="py-32 flex flex-col items-start gap-8">
+        <LandingSection maxWidth="6xl" background="transparent" className="section-accent reveal">
+          <div className="py-20 sm:py-32 flex flex-col items-center text-center gap-8">
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-foreground">
               جاهز للبدء؟
             </h2>
+            <p className="text-xl text-muted-foreground max-w-xl">
+              انضم للعيادات الرائدة التي تستخدم {BRAND.nameAr} لتبسيط عملياتها وزيادة حجوزاتها.
+            </p>
             <Button
               size="lg"
-              className="rounded-full px-8 h-14 text-lg"
+              className="rounded-full px-8 h-14 text-lg btn-glow hover:scale-[1.02] transition-transform"
               onClick={() => scrollToSection("pricing")}
             >
               احجز ديمو
