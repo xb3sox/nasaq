@@ -23,43 +23,71 @@ Target: demoable, pilot-able with 1-2 clinics, sellable within 2 days.
 
 ### Files
 ```
-lib/
-  brand.ts              # Nasaq product identity and metadata copy
-  clinic-workflow.ts     # Intent detection, booking logic, reminders
-  clinic-persistence.ts  # Store interface (10 operations)
-  supabase-store.ts      # Supabase adapter implementing ClinicStore
-  supabase-admin.ts      # Service role client + isConfigured guard
-  runtime-config.ts      # Safe runtime readiness status without secret values
-  clinic-api.ts          # Webhook, booking, send — 3 handlers
-  whatsapp-send.ts        # Mock + Cloud API sender + factory
-  ai-provider.ts          # Deterministic + OpenAI + Gemini + factory
-  demo-data.ts           # Typed seed data (bookings, reminders, leads, invoices)
-  demo-clinic.ts         # Legacy demo (still used by overview page)
+lib/                        # Business logic — no UI, no framework coupling
+  brand.ts                  # Nasaq product identity and metadata copy
+  clinic-workflow.ts        # Barrel re-export from split modules
+  clinic-intent.ts          # Intent detection, WhatsApp parsing
+  clinic-scheduling.ts      # Slot generation, conflict detection
+  clinic-reminders.ts       # Booking confirmation, reminder drafts
+  clinic-persistence.ts     # Store interface (10 operations)
+  supabase-store.ts         # Supabase adapter implementing ClinicStore
+  supabase-admin.ts         # Service role client + isConfigured guard
+  runtime-config.ts         # Safe runtime readiness status without secret values
+  clinic-api.ts             # Webhook, booking, send — 3 handlers
+  whatsapp-send.ts          # Mock + Cloud API sender + factory
+  ai-provider.ts            # Deterministic + OpenAI + Gemini + factory
+  demo-data.ts              # Canonical typed seed data (bookings, reminders, leads, invoices)
+  demo-clinic.ts            # Compatibility shim → re-exports from demo-data (deprecated)
   utils.ts
 
+features/                   # Domain UI, hooks, view-models, content
+  dashboard/                # Dashboard page components
+    content.ts              # NAV_ITEMS, DEMO_ADMIN_USER
+    overview/               # Overview page (PageShell, StatCards, LiveDemoRunner, RiyadhClock)
+    inbox/                  # Inbox page (ChatThread, ConversationList, AiSuggestion, useInboxState)
+    bookings/               # Bookings page (useBookingsTable, NewBookingDialog)
+    crm/                    # CRM page
+    invoices/               # Invoices page (useInvoicesTable, InvoiceDetailModal)
+    reminders/              # Reminders page
+    reports/                # Reports page
+    settings/               # Settings page (ConfigReadinessPanel)
+  marketing/                # Landing page + content (FEATURES, PRICING, FAQS)
+  setup/                    # Setup wizard page + content
+
+app/                        # Next.js App Router — thin route shells (≤80 LOC) + API routes
+  page.tsx                  # Landing → features/marketing/
+  login/page.tsx            # Auth login
+  setup/page.tsx            # Setup wizard → features/setup/
+  dashboard/
+    page.tsx                # Overview → features/dashboard/overview/
+    inbox/page.tsx           # Inbox → features/dashboard/inbox/
+    bookings/page.tsx        # Bookings → features/dashboard/bookings/
+    crm/page.tsx             # CRM → features/dashboard/crm/
+    invoices/page.tsx        # Invoices → features/dashboard/invoices/
+    reminders/page.tsx       # Reminders → features/dashboard/reminders/
+    reports/page.tsx         # Reports → features/dashboard/reports/
+    settings/page.tsx        # Settings → features/dashboard/settings/
+
 app/api/
-  config/status/         # Safe config readiness endpoint for settings UI
-  webhooks/whatsapp/     # Meta webhook verification + inbound handler
-  messages/send/         # Outbound WhatsApp sender endpoint
-  bookings/              # Booking creation endpoint
-  ai/suggest-reply/      # AI suggestion endpoint
-  demo/flow/             # Full pipeline demo endpoint
+  config/status/            # Safe config readiness endpoint for settings UI
+  webhooks/whatsapp/        # Meta webhook verification + inbound handler
+  messages/send/            # Outbound WhatsApp sender endpoint
+  bookings/                 # Booking creation endpoint
+  ai/suggest-reply/         # AI suggestion endpoint
+  demo/flow/                # Full pipeline demo endpoint
 
-app/dashboard/
-  page.tsx               # Overview + golden flow visualization
-  inbox/page.tsx         # Interactive inbox — 3 conversations, send/confirm/handoff
-  bookings/page.tsx      # Booking list with status + filters
-  crm/page.tsx           # Lead list with source + status
-  setup/steps/           # Setup wizard steps
-  reminders/page.tsx     # Reminder queue with status + retry
-  invoices/page.tsx      # Invoice list
-  reports/page.tsx       # Reports
-  settings/page.tsx      # Readiness panel + WhatsApp, AI, clinic settings
+components/                 # shadcn/ui primitives (RTL-aware)
+  layout/Sidebar.tsx
 
-n8n/                     # External automation workflows
-  reminders-sender.json  # Workflow for triggering reminders
+n8n/                        # External automation workflows
+  reminders-sender.json     # Workflow for triggering reminders
 
-tests/                   # 93 passing Node.js test runner tests
+scripts/                    # Guardrails
+  check-design-tokens.sh    # Tailwind color, touch-target, PageShell, Badge audits
+  check-architecture.sh     # Route size, duplicate plans, .jules/, demo-clinic imports
+  check-docs.sh             # Doc line budgets, stale reference checks
+
+tests/                      # 96 passing Node.js test runner tests
   brand.test.ts
   runtime-config.test.ts
   clinic-workflow.test.ts
@@ -70,13 +98,20 @@ tests/                   # 93 passing Node.js test runner tests
   whatsapp-send.test.ts
   send-message.test.ts
   ai-provider.test.ts
+  sidebar.test.ts
+  setup-store.test.ts
+  demo-data.test.ts
+  marketing-content.test.ts
+  utils.test.ts
 ```
 
 ### Review Gate Results
-- ✅ 93/93 tests passing
+- ✅ 96/96 tests passing
 - ✅ Lint clean
 - ✅ Build clean (no type errors)
-- ✅ Smoke test: `POST /api/messages/send` returns `{ success: true, messageId: "mock-..." }`
+- ✅ `check-tokens` — all design token checks pass
+- ✅ `check-architecture` — all route shells ≤80 LOC, no duplicate plans, no root .jules/
+- ✅ `check-docs` — all doc line budgets within limits
 - ✅ No hardcoded secrets in lib/app
 - ✅ Service role not in client bundle
 

@@ -35,6 +35,18 @@ else
 fi
 
 echo ""
+echo "🔍 Checking for stale test count (93)..."
+BAD93=$(grep -rnF '93/93' "$ROOT/README.md" "$ROOT/SPEC.md" "$ROOT/CHANGELOG.md" "$ROOT/docs/" --include='*.md' 2>/dev/null || true)
+BAD93_GREP=$(grep -rnF '93 tests' "$ROOT/SPEC.md" "$ROOT/docs/" --include='*.md' 2>/dev/null || true)
+if [ -n "$BAD93" ] || [ -n "$BAD93_GREP" ]; then
+  echo -e "${RED}✗ Stale '93 tests' reference found:${NC}"
+  echo "${BAD93}${BAD93_GREP}"
+  EXIT=1
+else
+  echo -e "${GREEN}✓ No stale 93 test references${NC}"
+fi
+
+echo ""
 echo "🔍 Checking for stale localhost port (3001)..."
 BAD_PORT=$(grep -rnF 'localhost:3001' "$ROOT/README.md" "$ROOT/SPEC.md" "$ROOT/docs/" --include='*.md' 2>/dev/null || true)
 if [ -n "$BAD_PORT" ]; then
