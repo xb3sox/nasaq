@@ -1,6 +1,6 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -61,6 +61,7 @@ export function InvoiceDetailModal({ inv, onClose }: { inv: Invoice; onClose: ()
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-md" dir="rtl">
         <DialogTitle>فاتورة زكاتية — {inv.id.toUpperCase()}</DialogTitle>
+        <DialogDescription className="sr-only">تفاصيل الفاتورة الزكاتية للعميل.</DialogDescription>
         <div id="invoice-modal-content" className="space-y-4 text-sm bg-background p-4 rounded-xl">
           {/* Header */}
           <div className="p-4 rounded-xl bg-muted/50 border border-border/40 space-y-1">

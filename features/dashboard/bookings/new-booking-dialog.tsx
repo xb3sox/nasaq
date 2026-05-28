@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -37,6 +37,7 @@ export function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
       } />
       <DialogContent className="max-w-md" dir="rtl">
         <DialogTitle>إضافة حجز جديد</DialogTitle>
+        <DialogDescription className="sr-only">قم بتعبئة بيانات العميل والخدمة لإضافة حجز جديد.</DialogDescription>
         <div className="space-y-4 mt-2">
           <div className="space-y-1.5">
             <Label>اسم العميل</Label>
