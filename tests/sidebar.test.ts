@@ -14,8 +14,8 @@ describe("Sidebar component", () => {
   });
 
   it("contains expected routes in the file", () => {
-    // Read the file since `routes` is not exported
-    const filePath = path.join(__dirname, "../components/layout/Sidebar.tsx");
+    // We extracted the routes to features/dashboard/content.ts, so let's verify that file now
+    const filePath = path.join(__dirname, "../features/dashboard/content.ts");
     const fileContent = fs.readFileSync(filePath, "utf-8");
 
     const expectedRoutes = [

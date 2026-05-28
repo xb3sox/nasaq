@@ -1,0 +1,13 @@
+{
+  "app/dashboard/bookings/page.tsx": 410,
+  "app/dashboard/crm/page.tsx": 353,
+  "app/dashboard/inbox/page.tsx": 345,
+  "app/dashboard/invoices/page.tsx": 441,
+  "app/dashboard/page.tsx": 297,
+  "app/dashboard/reminders/page.tsx": 314,
+  "app/dashboard/reports/page.tsx": 304,
+  "app/dashboard/settings/page.tsx": 256,
+  "app/login/page.tsx": 47,
+  "app/page.tsx": 641,
+  "app/setup/page.tsx": 149
+}

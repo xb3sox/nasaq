@@ -59,7 +59,7 @@ app/dashboard/
 n8n/                     # External automation workflows
   reminders-sender.json  # Workflow for triggering reminders
 
-tests/                   # 88 passing Node.js test runner tests
+tests/                   # 93 passing Node.js test runner tests
   brand.test.ts
   runtime-config.test.ts
   clinic-workflow.test.ts
@@ -185,14 +185,4 @@ tests/                   # 88 passing Node.js test runner tests
 
 ---
 
-## Spec Change Log
-
-- v1.5: Auth fix — trustHost added to NextAuth config, AUTH_SECRET deployed to Vercel. SPEC test count updated to 93.
-- v1.4: Doctor calendar — dynamic slot generation, multi-doctor support, double-booking conflict detection.
-- v1.3: Jules sentinel session applied — invoices ZATCA label fix, PDF button label.
-- v1.2: RTL polish pass — import order fix, RTL/LTR components using logical CSS properties.
-- v1.1: Repo cleanup — Next.js 15.3.9 confirmed stable, auto-merge workflow added, SPEC task queue formalized.
-- v1.0: Demo data enrichment — 12 bookings, 10 leads, 8 invoices, 7 reminders; CRM rebuild, custom 404.
-- v0.1: Initial build — 6 modules, mock data, deterministic AI.
-
-> Note: Full build history with per-version details is in `CHANGELOG.md`. This section will be retired as the roadmap moves into `README.md`.
+> Version history owned by `CHANGELOG.md`.

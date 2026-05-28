@@ -20,10 +20,13 @@ Read `docs/ARCHITECTURE.md` before structural work. Route files stay thin; featu
 
 ```
 app/          → Next.js App Router (thin route shells + API routes)
-features/     → Domain UI, hooks, view-models, selectors
+features/     → Domain UI, hooks, view-models, content
 lib/          → Business logic (no UI, no framework coupling)
   brand.ts              → Product identity
-  clinic-workflow.ts    → Intent detection, booking logic
+  clinic-workflow.ts    → Barrel re-export from split modules
+  clinic-intent.ts      → Intent detection, WhatsApp parsing
+  clinic-scheduling.ts  → Slot generation, conflict detection
+  clinic-reminders.ts   → Booking confirmation, reminder drafts
   clinic-persistence.ts → Store interface (10 ops)
   clinic-api.ts         → Webhook + booking + send handlers
   supabase-store.ts     → Supabase adapter
@@ -32,9 +35,10 @@ lib/          → Business logic (no UI, no framework coupling)
   whatsapp-send.ts      → Mock + Cloud API sender
   api-guards.ts         → Webhook validation, demo API gates
   runtime-config.ts     → Safe readiness flags (never exposes secrets)
-  demo-data.ts          → Typed seed data
+  demo-data.ts          → Canonical typed seed data
+  demo-clinic.ts        → Compatibility shim (re-exports from demo-data)
 components/   → shadcn/ui (RTL-aware)
-tests/        → Node.js test runner (93+ tests), no framework
+tests/        → Node.js test runner (96+ tests), no framework
 supabase/     → Migrations + seed
 n8n/          → Workflow JSONs
 ```
@@ -42,12 +46,15 @@ n8n/          → Workflow JSONs
 ## Commands
 
 ```bash
-npm install        # install deps
-npm run dev        # start dev server (default port 3000; Next may choose another if busy)
-npm test           # run all tests
-npm run lint       # eslint
-npm run build      # production build
-npm run verify     # full local quality gate
+npm install           # install deps
+npm run dev           # start dev server (default port 3000)
+npm test              # run all tests
+npm run lint          # eslint
+npm run build         # production build
+npm run check-tokens  # design token guardrails
+npm run check-docs    # doc hygiene checks
+npm run check-architecture  # route size, duplicate plans, .jules/ checks
+npm run verify        # full local quality gate
 ```
 
 ## Conventions
@@ -58,6 +65,8 @@ npm run verify     # full local quality gate
 - **No medical advice:** AI routes symptoms to human. Compliant with Saudi regulations.
 - **RTL:** Use CSS logical properties (`padding-inline-start`, not `padding-left`). Test in Arabic.
 - **Store pattern:** `ClinicStore` interface → mock or Supabase adapter. Tests use mocks.
+- **Route thinness:** `app/**/page.tsx` ≤ 80 LOC. Enforced by `check-architecture`.
+- **Demo data:** Import from `@/lib/demo-data`. `demo-clinic` is a deprecated compatibility shim.
 - **Branch naming:** `sabi/*` for features, `jules/*` for fixes, prefix with agent name.
 
 ## Red Lines
@@ -73,6 +82,6 @@ npm run verify     # full local quality gate
 1. Read `SPEC.md` for task queue and current state.
 2. Create a named branch.
 3. Implement. Write tests.
-4. Run `npm test && npm run lint && npm run build`.
+4. Run `npm run verify`.
 5. Open PR. Auto-merge only for `jules/*` branches on green CI.
 6. Beso reviews all non-Jules PRs before merge.

@@ -16,7 +16,7 @@
 | `SPEC.md` | Current MVP state + active task queue | Maintainer | — |
 | `docs/DOCS.md` | This doc — ownership map | Maintainer | 120 |
 | `docs/ARCHITECTURE.md` | Folder boundaries, data flow, route thinness | Maintainer | 180 |
-| `docs/COMPONENTS.md` | Current UI primitives contract | UI lead | 180 |
+| `docs/COMPONENTS.md` | Current UI primitives contract | UI lead | 280 |
 | `docs/OPERATIONS.md` | Env, deploy, Supabase, WhatsApp, n8n runbook | Maintainer | 180 |
 
 ## Token-budget rules

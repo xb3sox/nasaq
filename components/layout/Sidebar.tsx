@@ -20,23 +20,24 @@ import {
 import { cn } from "@/lib/utils";
 import { BRAND } from "@/lib/brand";
 import { useSetupStore } from "@/lib/setup-store";
+import { NAV_ITEMS, DEMO_ADMIN_USER } from "@/features/dashboard/content";
+
+const iconMap: Record<string, React.ElementType> = {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  MessageCircle,
+  Bell,
+  BarChart,
+  Receipt,
+  Settings,
+};
 
 // Mock notification counts
 const notificationCounts: Record<string, number> = {
   "/dashboard/inbox": 3,
   "/dashboard/reminders": 5,
 };
-
-const routes = [
-  { name: "لوحة القيادة", href: "/dashboard", icon: LayoutDashboard },
-  { name: "العملاء والعلاقات", href: "/dashboard/crm", icon: Users },
-  { name: "الحجوزات", href: "/dashboard/bookings", icon: Calendar },
-  { name: "صندوق الواتساب", href: "/dashboard/inbox", icon: MessageCircle },
-  { name: "التذكيرات", href: "/dashboard/reminders", icon: Bell },
-  { name: "التقارير", href: "/dashboard/reports", icon: BarChart },
-  { name: "الفواتير", href: "/dashboard/invoices", icon: Receipt },
-  { name: "الإعدادات", href: "/dashboard/settings", icon: Settings },
-];
 
 function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
   const pathname = usePathname();
@@ -80,15 +81,16 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
             <div className="w-2 h-2 rounded-full bg-warning animate-pulse"></div>
           </Link>
         )}
-        {routes.map((route) => {
-          const isActive = pathname === route.href || (route.href !== "/dashboard" && pathname.startsWith(route.href));
-          const count = notificationCounts[route.href];
+        {NAV_ITEMS.map((item) => {
+          const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+          const count = notificationCounts[item.href];
+          const Icon = iconMap[item.iconKey];
           return (
             <Link
-              key={route.href}
-              href={route.href}
+              key={item.href}
+              href={item.href}
               onClick={onNavClick}
-              aria-label={route.name}
+              aria-label={item.label}
               aria-current={isActive ? "page" : undefined}
               className={cn(
                 "flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-150 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -98,8 +100,8 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
               )}
             >
               <div className="flex items-center gap-3">
-                <route.icon className={cn("w-4 h-4 shrink-0 transition-colors duration-150", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
-                <span>{route.name}</span>
+                <Icon className={cn("w-4 h-4 shrink-0 transition-colors duration-150", isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground")} />
+                <span>{item.label}</span>
               </div>
               {count > 0 && (
                 <div className={cn(
@@ -118,13 +120,13 @@ function SidebarContent({ onNavClick }: { onNavClick?: () => void }) {
         <div className="flex items-center gap-3 px-2 py-2 rounded-xl hover:bg-muted transition-colors cursor-pointer group">
           <div className="relative">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center text-primary-foreground text-sm font-bold shadow-sm">
-              م
+              {DEMO_ADMIN_USER.name.charAt(0)}
             </div>
             <div className="absolute -bottom-1 -start-1 w-3.5 h-3.5 bg-success border-2 border-card rounded-full"></div>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">المدير</p>
-            <p className="text-xs text-muted-foreground truncate">owner@clinic.com</p>
+            <p className="text-sm font-medium truncate group-hover:text-primary transition-colors">{DEMO_ADMIN_USER.name}</p>
+            <p className="text-xs text-muted-foreground truncate">{DEMO_ADMIN_USER.email}</p>
           </div>
         </div>
       </div>
