@@ -201,7 +201,7 @@ tests/                      # 96 passing Node.js test runner tests
 
 ### P2 — Revenue
 - [x] **ZATCA PDF** — generate VAT-compliant PDF invoice from modal, download button live
-- [ ] **Reminders sender** — n8n workflow fires queued reminders via `/api/messages/send`
+- [x] **Reminders sender** — n8n workflow fires queued reminders via `/api/messages/send`
 - [x] **Doctor calendar** — real slot availability, block double-booking
 
 ### P3 — Growth
