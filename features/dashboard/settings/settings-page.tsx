@@ -92,7 +92,7 @@ export function SettingsPage() {
                 { name: "د. علي الزهراني", role: "طبيب جلدية", email: "ali@alnoor.com" },
                 { name: "سارة الاستقبال", role: "موظفة استقبال", email: "sara@alnoor.com" },
               ].map(m => (
-                <div key={m.email} className="flex items-center justify-between p-3 rounded-lg border">
+                <div key={m.email} className="flex items-center justify-between p-5 rounded-lg border">
                   <div>
                     <div className="font-medium">{m.name}</div>
                     <div className="text-xs text-muted-foreground">{m.email} · {m.role}</div>
@@ -115,7 +115,7 @@ export function SettingsPage() {
                 { name: "قسطرة جلدية", price: "400 ر.س", duration: "60 دقيقة" },
                 { name: "فحص دوري", price: "100 ر.س", duration: "20 دقيقة" },
               ].map(s => (
-                <div key={s.name} className="flex items-center justify-between p-3 rounded-lg border">
+                <div key={s.name} className="flex items-center justify-between p-5 rounded-lg border">
                   <div>
                     <div className="font-medium">{s.name}</div>
                     <div className="text-xs text-muted-foreground">{s.duration} · {s.price}</div>

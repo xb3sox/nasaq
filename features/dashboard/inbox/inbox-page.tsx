@@ -126,7 +126,7 @@ export function InboxPage() {
           />
 
           {/* Action Panel */}
-          <div className="shrink-0 border-t bg-muted dark:bg-muted p-3 flex flex-col gap-2">
+          <div className="shrink-0 border-t bg-muted dark:bg-muted p-5 flex flex-col gap-2">
             <AiSuggestion
               ai={ai}
               dismissSuggestion={dismissSuggestion}

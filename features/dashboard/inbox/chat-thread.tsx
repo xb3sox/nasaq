@@ -33,7 +33,7 @@ export function ChatThread({
   return (
     <>
       {/* Header */}
-      <div className="flex shrink-0 flex-col gap-3 border-b p-3 sm:flex-row sm:items-center sm:justify-between bg-muted/20">
+      <div className="flex shrink-0 flex-col gap-3 border-b p-5 sm:flex-row sm:items-center sm:justify-between bg-muted/20">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center text-white font-bold shrink-0">
             {selected.customerName.charAt(0)}
