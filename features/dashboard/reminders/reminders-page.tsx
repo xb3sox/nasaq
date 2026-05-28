@@ -3,6 +3,7 @@ import { ChartWrapper } from "@/components/ChartWrapper";
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
+import { PageShell } from "@/components/ui/page-shell";
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { StatusBadge } from "@/components/ui/status-badge";
@@ -128,7 +129,7 @@ export default function RemindersPage() {
   ];
 
   return (
-    <>
+    <PageShell size="wide">
       {/* Header */}
       <PageHeader
         title="التذكيرات"
@@ -308,6 +309,6 @@ export default function RemindersPage() {
            <EmptyState title="لا توجد تذكيرات" description="لا توجد تذكيرات تطابق معايير البحث الحالية" />
         )}
       </div>
-    </>
+    </PageShell>
   );
 }
