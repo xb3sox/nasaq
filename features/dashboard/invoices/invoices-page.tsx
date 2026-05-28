@@ -61,7 +61,7 @@ export function InvoicesPage() {
       />
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="إجمالي الفواتير"
           value={DEMO_INVOICES.length}
@@ -125,11 +125,11 @@ export function InvoicesPage() {
         <div className="bg-primary/5 border border-primary/20 rounded-lg p-3 flex items-center justify-between animate-in fade-in slide-in-from-top-2">
           <span className="text-sm font-medium text-primary">{selectedIds.size} فاتورة محددة</span>
           <div className="flex items-center gap-2">
-            <Button size="sm" variant="outline" className="h-8 gap-1.5" onClick={() => handleBulkAction("remind")}>
-              <Send className="w-3.5 h-3.5" /> تذكير
+            <Button size="touch" variant="outline" className="gap-1.5" onClick={() => handleBulkAction("remind")}>
+              <Send className="w-4 h-4" /> تذكير
             </Button>
-            <Button size="sm" className="h-8 gap-1.5" onClick={() => handleBulkAction("pay")}>
-              <CheckCircle2 className="w-3.5 h-3.5" /> تعليم كمدفوعة
+            <Button size="touch" className="gap-1.5" onClick={() => handleBulkAction("pay")}>
+              <CheckCircle2 className="w-4 h-4" /> تعليم كمدفوعة
             </Button>
           </div>
         </div>

@@ -81,8 +81,8 @@ export function CrmPage() {
       />
 
             {/* Stat Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-6">
           <StatCard
             title="عملاء جدد"
             value={newCount}
@@ -198,16 +198,14 @@ export function CrmPage() {
         <div className="flex bg-muted rounded-lg p-0.5 border">
           <Button
             variant={view === "list" ? "secondary" : "ghost"}
-            size="sm"
-            className="h-8 px-2"
+            size="touch"
             onClick={() => setView("list")}
           >
             <LayoutList className="w-4 h-4" />
           </Button>
           <Button
             variant={view === "kanban" ? "secondary" : "ghost"}
-            size="sm"
-            className="h-8 px-2"
+            size="touch"
             onClick={() => setView("kanban")}
           >
             <KanbanSquare className="w-4 h-4" />
@@ -219,7 +217,7 @@ export function CrmPage() {
       {filtered.length === 0 ? (
         <EmptyState title="لا يوجد عملاء" description="لا يوجد عملاء يطابقون معايير البحث الحالية" />
       ) : view === "list" ? (
-        <div className="grid gap-3">
+        <div className="grid gap-4">
           {filtered.map((lead) => {
             const SourceIcon = SOURCE_ICON[lead.source] ?? Tag;
 
@@ -258,13 +256,13 @@ export function CrmPage() {
 
                     <div className="flex items-center gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity ms-2">
                        <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10 rounded-full" title="مراسلة عبر واتساب" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
-                         <MessageCircle className="w-4 h-4 sm:w-4 sm:h-4" />
+                         <MessageCircle className="w-4 h-4" />
                        </Button>
                        <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-brand hover:text-brand hover:bg-brand/10 rounded-full" title="اتصال" aria-label={`اتصال بـ ${lead.name}`}>
-                         <Phone className="w-4 h-4 sm:w-4 sm:h-4" />
+                         <Phone className="w-4 h-4" />
                        </Button>
                        <Button size="icon" variant="ghost" className="h-10 w-10 sm:h-8 sm:w-8 text-primary hover:text-primary hover:bg-primary/10 rounded-full" title="حجز موعد" aria-label={`حجز موعد لـ ${lead.name}`}>
-                         <CalendarCheck className="w-4 h-4 sm:w-4 sm:h-4" />
+                         <CalendarCheck className="w-4 h-4" />
                        </Button>
                     </div>
                   </div>
@@ -329,13 +327,13 @@ export function CrmPage() {
                                     </div>
                                   </div>
                                   <div className="flex gap-1 pt-2 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity justify-end border-t border-border/40">
-                                    <Button variant="ghost" size="touch-icon" className="text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10 rounded-full" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
+                                    <Button variant="ghost" size="icon" className="text-whatsapp hover:text-whatsapp-dark hover:bg-whatsapp/10 rounded-full" aria-label={`مراسلة ${lead.name} عبر واتساب`}>
                                       <MessageCircle className="w-3.5 h-3.5" />
                                     </Button>
-                                    <Button variant="ghost" size="touch-icon" className="text-brand hover:text-brand hover:bg-brand/10 rounded-full" aria-label={`اتصال بـ ${lead.name}`}>
+                                    <Button variant="ghost" size="icon" className="text-brand hover:text-brand hover:bg-brand/10 rounded-full" aria-label={`اتصال بـ ${lead.name}`}>
                                       <Phone className="w-3.5 h-3.5" />
                                     </Button>
-                                    <Button variant="ghost" size="touch-icon" className="text-primary hover:text-primary hover:bg-primary/10 rounded-full" aria-label={`حجز موعد لـ ${lead.name}`}>
+                                    <Button variant="ghost" size="icon" className="text-primary hover:text-primary hover:bg-primary/10 rounded-full" aria-label={`حجز موعد لـ ${lead.name}`}>
                                       <CalendarCheck className="w-3.5 h-3.5" />
                                     </Button>
                                   </div>

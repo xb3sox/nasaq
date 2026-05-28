@@ -25,6 +25,7 @@ export function OverviewPage() {
   const { isSetupComplete } = useSetupStore();
 
   return (
+    // Intentional: dashboard landing deserves visual distinction
     <PageShell surface="gradient" size="wide">
       {!isSetupComplete && (
         <div className="bg-warning-surface border border-warning/20 text-warning dark:text-warning rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -36,7 +37,7 @@ export function OverviewPage() {
             </div>
           </div>
           <Link href="/setup">
-            <Button size="sm" className="bg-warning hover:bg-warning/80 text-warning-foreground border-0">
+            <Button size="touch" className="bg-warning hover:bg-warning/80 text-warning-foreground border-0">
               الذهاب للإعدادات
             </Button>
           </Link>
@@ -55,7 +56,7 @@ export function OverviewPage() {
       />
 
       {/* Quick Actions */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-4">
         {OVERVIEW_LINKS.map(({ href, label, icon: Icon }) => (
           <Link key={href} href={href}>
             <Button variant="outline" size="touch" className="bg-background/80 backdrop-blur shadow-sm gap-2 rounded-lg hover:border-primary hover:text-primary transition-colors focus-visible:ring-2 focus-visible:ring-offset-1">
@@ -65,7 +66,7 @@ export function OverviewPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-2">
         <StatCard
           title="حجوزات اليوم"
           value={demoReportStats.todayBookings}

@@ -90,12 +90,13 @@ export function InboxPage() {
   const booking = DEMO_BOOKING;
 
   return (
+    // Intentional: chat layout needs viewport height
     <PageShell size="wide" height="viewport" className="flex flex-col">
       <PageHeader
         title={inboxContent.pageTitle}
         subtitle={inboxContent.pageSubtitle}
       />
-      <div className="flex flex-col gap-4 min-h-0 flex-1 lg:flex-row">
+      <div className="flex flex-col gap-6 min-h-0 flex-1 lg:flex-row">
         {/* Sidebar */}
         <ConversationList
           conversations={DEMO_CONVERSATIONS}

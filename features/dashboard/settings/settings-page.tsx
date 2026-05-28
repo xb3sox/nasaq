@@ -25,7 +25,7 @@ export function SettingsPage() {
 
       <ConfigReadinessPanel />
 
-      <Tabs defaultValue="clinic" className="space-y-4">
+      <Tabs defaultValue="clinic" className="space-y-6">
         <TabsList className="flex-nowrap overflow-x-auto gap-1 h-auto p-1.5 w-full justify-start sm:flex-wrap" role="tablist">
           <TabsTrigger role="tab" aria-selected={true} aria-controls="clinic" id="tab-clinic" value="clinic" className="gap-1.5 py-2.5 whitespace-nowrap"><Building2 className="w-3.5 h-3.5" />العيادة</TabsTrigger>
           <TabsTrigger role="tab" aria-selected={false} aria-controls="whatsapp" id="tab-whatsapp" value="whatsapp" className="gap-1.5 py-2.5 whitespace-nowrap"><MessageCircle className="w-3.5 h-3.5" />واتساب</TabsTrigger>
@@ -97,7 +97,7 @@ export function SettingsPage() {
                     <div className="font-medium">{m.name}</div>
                     <div className="text-xs text-muted-foreground">{m.email} · {m.role}</div>
                   </div>
-                  <Button variant="ghost" size="sm">تعديل</Button>
+                  <Button variant="ghost" size="touch">تعديل</Button>
                 </div>
               ))}
               <Button variant="outline" className="w-full">دعوة عضو جديد</Button>
@@ -120,7 +120,7 @@ export function SettingsPage() {
                     <div className="font-medium">{s.name}</div>
                     <div className="text-xs text-muted-foreground">{s.duration} · {s.price}</div>
                   </div>
-                  <Button variant="ghost" size="sm">تعديل</Button>
+                  <Button variant="ghost" size="touch">تعديل</Button>
                 </div>
               ))}
               <Button variant="outline" className="w-full">إضافة خدمة</Button>

@@ -90,7 +90,7 @@ export default function ReportsPage() {
       />
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="حجوزات اليوم"
           value={DEMO_REPORT_STATS.todayBookings}
@@ -259,7 +259,7 @@ export default function ReportsPage() {
       </div>
 
       {/* Bottom Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="p-5 flex items-center gap-4 min-w-0" title="إجمالي رسائل التذكير المرسلة بنجاح">
           <div className="w-10 h-10 rounded-xl bg-warning-surface text-warning flex items-center justify-center shrink-0" role="img" aria-label="تذكير مرسل">
             <RefreshCw className="w-5 h-5" aria-hidden="true" />
