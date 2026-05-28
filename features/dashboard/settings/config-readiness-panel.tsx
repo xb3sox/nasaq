@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import type { RuntimeConfigStatus } from "@/lib/runtime-config";
 
 export function ConfigReadinessPanel() {
@@ -72,7 +73,7 @@ export function ConfigReadinessPanel() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="tracking-tight text-base text-brand dark:text-brand">حالة الربط والجاهزية</CardTitle>
           <StatusBadge variant={status?.environment === "production" ? "success" : "warning"} className="w-fit">
-            {status ? (status.environment === "production" ? "إنتاج" : "تطوير") : "جاري التحميل..."}
+            {status ? (status.environment === "production" ? "إنتاج" : "تطوير") : "جاري التحميل"}
           </StatusBadge>
         </div>
       </CardHeader>
@@ -94,7 +95,7 @@ export function ConfigReadinessPanel() {
               </div>
             ))
           : Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-20 animate-pulse rounded-lg border bg-muted/40" />
+              <Skeleton key={index} className="h-20 rounded-lg border" />
             ))}
       </CardContent>
     </Card>
