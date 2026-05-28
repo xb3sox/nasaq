@@ -109,7 +109,7 @@ Route files stay thin. Feature UI belongs in `features/<domain>/`. Generic primi
 | [Quick start (full)](docs/OPERATIONS.md) | Env vars, Supabase setup, WhatsApp config, AI provider, deploy |
 | [Architecture](docs/ARCHITECTURE.md) | Folder ownership, data flow, route thinness |
 | [Components](docs/COMPONENTS.md) | UI primitives contract, which component to use when |
-| [Design](DESIGN.md) | Token palette, typography, visual principles |
+| [Design tokens](app/globals.css) | CSS custom properties (source of truth) |
 | [Contributing](CONTRIBUTING.md) | PR workflow, branch rules, quality gate |
 | [Security](SECURITY.md) | Security policy, reporting |
 | [Changelog](CHANGELOG.md) | Release history |
