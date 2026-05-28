@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { handleCreateBooking } from "@/lib/clinic-api";
-import { DEMO_CLINIC_ID } from "@/lib/demo-clinic";
+import { DEMO_CLINIC_ID } from "@/lib/demo-data";
 import { getSupabaseClinicStore } from "@/lib/supabase-admin";
 import { isUnauthenticatedDemoApiAllowed } from "@/lib/api-guards";
 import { rateLimit } from "@/lib/rate-limit";

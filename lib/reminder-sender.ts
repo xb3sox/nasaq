@@ -1,7 +1,7 @@
 import { getWhatsAppSender } from "./whatsapp-send.ts";
 import type { WhatsAppSender } from "./whatsapp-send.ts";
 import type { ClinicStore } from "./clinic-persistence.ts";
-import { demoReminderRows } from "./demo-clinic.ts";
+import { DEMO_REMINDER_ROWS } from "./demo-data.ts";
 
 export type ReminderRow = {
   id: string;
@@ -20,7 +20,7 @@ export type ReminderResult = {
 export async function getDueReminders(store?: ClinicStore | null): Promise<ReminderRow[]> {
   if (!store || !store.getDueReminders) {
     // Return demo reminders that are pending
-    return demoReminderRows
+    return DEMO_REMINDER_ROWS
       .filter((r) => r.status === "pending")
       .map((r) => ({
         id: r.id,

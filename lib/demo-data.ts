@@ -320,3 +320,34 @@ export const DEMO_METRICS = {
   bookings: [6, 9, 5, 11, 8, 13, 4],
   leads:    [7, 11, 6, 13, 9, 15, 5],
 };
+
+// Reminder sender demo rows — used by reminder-sender.ts when no store is configured
+export const DEMO_REMINDER_ROWS = [
+  {
+    id: "rem-sarah-24h",
+    customer: "سارة أحمد",
+    phone: "+966****4567",
+    template: "تذكير قبل 24 ساعة",
+    scheduled_for: "2026-05-21 16:00",
+    status: "pending",
+    type: "appointment_24h",
+  },
+  {
+    id: "rem-sarah-2h",
+    customer: "سارة أحمد",
+    phone: "+966****4567",
+    template: "تذكير قبل ساعتين",
+    scheduled_for: "2026-05-22 14:00",
+    status: "pending",
+    type: "appointment_2h",
+  },
+  {
+    id: "rem-followup",
+    customer: "فهد الحربي",
+    phone: "+966****1003",
+    template: "متابعة بعد الزيارة",
+    scheduled_for: "2026-05-23 10:00",
+    status: "sent",
+    type: "post_visit",
+  },
+] as const;
