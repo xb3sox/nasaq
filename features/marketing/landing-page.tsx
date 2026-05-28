@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { BRAND } from "@/lib/brand";
 import { Zap, Check, ArrowRight } from "lucide-react";
-import { FEATURES, HOW_IT_WORKS, PRICING } from "./content";
+import { FEATURES, HOW_IT_WORKS, PRICING, STATS } from "./content";
 import { LandingSection } from "@/components/landing";
 
 export function LandingPage() {
@@ -45,24 +45,108 @@ export function LandingPage() {
           id="hero"
           maxWidth="6xl"
           padded={false}
-          className="py-32 lg:py-48"
+          className="py-24 lg:py-40 relative"
           background="transparent"
         >
-          <div className="max-w-4xl space-y-8">
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-medium tracking-tight text-balance leading-none">
-              <span className="text-glow">{BRAND.nameAr}</span> ينظم العيادة.
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed text-balance">
-              نظام ذكي يدير العملاء، الحجوزات، التذكيرات، والتقارير عبر واتساب، لتركز على رعاية مرضاك.
-            </p>
-            <div className="pt-8">
-              <Button
-                size="lg"
-                className="rounded-full px-8 h-14 text-lg"
-                onClick={() => scrollToSection("pricing")}
-              >
-                ابدأ الآن
-              </Button>
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes hero-pulse {
+              0%, 100% { opacity: 0.05; transform: scale(1); }
+              50% { opacity: 0.15; transform: scale(1.05); }
+            }
+            .animate-hero-pulse {
+              animation: hero-pulse 8s ease-in-out infinite;
+            }
+          `}} />
+          
+          <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative z-10">
+            {/* Text & Stats Pane (Right in RTL) */}
+            <div className="flex-1 space-y-10 relative w-full">
+              {/* Subtle animated gradient pulse behind headline */}
+              <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-[var(--landing-accent-soft)] to-transparent blur-[100px] animate-hero-pulse pointer-events-none rounded-full" />
+              
+              <div className="space-y-8 relative">
+                <h1 className="text-5xl sm:text-6xl lg:text-8xl font-medium tracking-tight text-balance leading-none">
+                  <span className="text-glow">{BRAND.nameAr}</span> ينظم العيادة.
+                </h1>
+                <p className="text-xl text-[var(--landing-text-secondary)] max-w-2xl leading-relaxed text-balance">
+                  نظام ذكي يدير العملاء، الحجوزات، التذكيرات، والتقارير عبر واتساب، لتركز على رعاية مرضاك.
+                </p>
+                <div className="pt-4">
+                  <Button
+                    size="lg"
+                    className="rounded-full px-8 h-14 text-lg btn-glow transition-transform hover:scale-105 duration-300"
+                    onClick={() => scrollToSection("pricing")}
+                  >
+                    ابدأ الآن
+                  </Button>
+                </div>
+              </div>
+
+              {/* Stats Strip */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-8 pt-8 border-t border-[var(--landing-border)]">
+                {STATS.map((stat, i) => (
+                  <div 
+                    key={i} 
+                    className={`flex flex-col gap-1 px-4 sm:px-6 
+                      ${i % 2 === 1 ? "border-s border-[var(--landing-border)]" : ""} 
+                      ${i > 0 && i % 2 === 0 ? "lg:border-s lg:border-[var(--landing-border)]" : ""}
+                    `}
+                  >
+                    <span className="text-3xl font-bold tracking-tight text-[var(--landing-text-primary)]">{stat.value}</span>
+                    <span className="text-sm text-[var(--landing-text-muted)]">{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Product Mockup Pane (Left in RTL) */}
+            <div className="flex-1 w-full max-w-md lg:max-w-none relative">
+              <div className="bg-[var(--landing-surface)] border border-[var(--landing-border)] rounded-2xl overflow-hidden shadow-2xl reveal">
+                {/* WhatsApp Header */}
+                <div className="bg-[var(--landing-surface-raised)] border-b border-[var(--landing-border)] px-4 py-3 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[var(--whatsapp)]/10 flex items-center justify-center shrink-0">
+                    <Zap className="w-5 h-5 text-[var(--whatsapp)]" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-[var(--landing-text-primary)]">المساعد الذكي - نسق</div>
+                    <div className="text-xs text-[var(--landing-text-muted)]">متصل الآن</div>
+                  </div>
+                </div>
+                
+                {/* Chat Body */}
+                <div className="p-4 space-y-4 bg-gradient-to-b from-[var(--landing-bg)] to-[var(--landing-surface)] relative min-h-[300px]">
+                  <div className="flex justify-start w-full" dir="ltr">
+                    <div className="bg-[var(--landing-surface-raised)] border border-[var(--landing-border)] rounded-2xl rounded-tl-sm px-4 py-2 max-w-[85%] text-right ml-auto" dir="rtl">
+                      <p className="text-sm text-[var(--landing-text-primary)]">مرحباً! أود حجز موعد لتنظيف الأسنان.</p>
+                      <span className="text-[10px] text-[var(--landing-text-muted)] mt-1 block text-end">10:00 ص</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-end w-full" dir="ltr">
+                    <div className="bg-[var(--landing-accent-soft)] border border-[var(--landing-accent-glow)] rounded-2xl rounded-tr-sm px-4 py-2 max-w-[85%] text-right mr-auto" dir="rtl">
+                      <p className="text-sm text-[var(--landing-text-primary)]">أهلاً بك في عيادتنا! يسعدني مساعدتك. أقرب موعد متاح هو غداً الساعة 4:00 عصراً. هل يناسبك؟</p>
+                      <span className="text-[10px] text-[var(--landing-text-muted)] mt-1 block text-end">10:01 ص</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-start w-full" dir="ltr">
+                    <div className="bg-[var(--landing-surface-raised)] border border-[var(--landing-border)] rounded-2xl rounded-tl-sm px-4 py-2 max-w-[85%] text-right ml-auto" dir="rtl">
+                      <p className="text-sm text-[var(--landing-text-primary)]">نعم ممتاز، أرجو تأكيد الحجز.</p>
+                      <span className="text-[10px] text-[var(--landing-text-muted)] mt-1 block text-end">10:02 ص</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-end w-full" dir="ltr">
+                    <div className="bg-[var(--landing-accent-soft)] border border-[var(--landing-accent-glow)] rounded-2xl rounded-tr-sm px-4 py-2 max-w-[85%] text-right mr-auto" dir="rtl">
+                      <p className="text-sm text-[var(--landing-text-primary)]">تم تأكيد الموعد غداً الساعة 4:00 عصراً بنجاح! سيصلك تذكير قبل الموعد. نتمنى لك يوماً سعيداً.</p>
+                      <span className="text-[10px] text-[var(--landing-text-muted)] mt-1 block text-end">10:02 ص</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Decorative glow behind mockup */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[var(--landing-accent)] opacity-[0.03] blur-[100px] pointer-events-none -z-10" />
             </div>
           </div>
         </LandingSection>
