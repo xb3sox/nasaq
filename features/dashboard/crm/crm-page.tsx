@@ -1,7 +1,7 @@
 "use client";
 import { ChartWrapper } from "@/components/ChartWrapper";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { PageShell } from "@/components/ui/page-shell";
@@ -45,6 +45,13 @@ const SOURCE_ICON: Record<string, React.ElementType> = {
   referral: Users,
 };
 
+// ⚡ Bolt: Cache static count computations that rely purely on DEMO_LEADS
+// Impact: Prevents O(n) recalculations on every render for these 4 arrays
+const newCount = DEMO_LEADS.filter((l) => l.status === "new").length;
+const contactedCount = DEMO_LEADS.filter((l) => l.status === "contacted").length;
+const bookedCount = DEMO_LEADS.filter((l) => l.status === "booked").length;
+const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
+
 export function CrmPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -54,17 +61,25 @@ export function CrmPage() {
   // For Kanban we need a mutable copy of leads to allow dragging
   const [leads, setLeads] = useState([...DEMO_LEADS]);
 
-  const filtered = leads.filter((lead) => {
-    const matchSearch = lead.name.includes(search) || lead.phone.includes(search);
-    const matchStatus = statusFilter === "all" || lead.status === statusFilter;
-    const matchSource = sourceFilter === "all" || lead.source === sourceFilter;
-    return matchSearch && matchStatus && matchSource;
-  });
+  // ⚡ Bolt: Memoize filtered list to prevent unnecessary Recharts/UI re-renders
+  // Impact: O(n) filtering operation only runs when dependencies actually change
+  const filtered = useMemo(() => {
+    return leads.filter((lead) => {
+      const matchSearch = lead.name.includes(search) || lead.phone.includes(search);
+      const matchStatus = statusFilter === "all" || lead.status === statusFilter;
+      const matchSource = sourceFilter === "all" || lead.source === sourceFilter;
+      return matchSearch && matchStatus && matchSource;
+    });
+  }, [leads, search, statusFilter, sourceFilter]);
 
-  const newCount = DEMO_LEADS.filter((l) => l.status === "new").length;
-  const contactedCount = DEMO_LEADS.filter((l) => l.status === "contacted").length;
-  const bookedCount = DEMO_LEADS.filter((l) => l.status === "booked").length;
-  const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
+  // ⚡ Bolt: Extract inline chart data array to memoized value
+  // Impact: Prevents Recharts from completely unmounting and remounting the chart on every render
+  const chartData = useMemo(() => [
+    { name: 'واتساب', value: whatsappCount, color: 'var(--whatsapp)' },
+    { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
+    { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
+    { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
+  ], []);
 
   return (
     <PageShell size="wide">
@@ -120,12 +135,7 @@ export function CrmPage() {
           <span className="text-sm font-medium text-muted-foreground mb-4">مصادر العملاء</span>
           <div className="h-[72px] w-full">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
-              <BarChart data={[
-                { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
-                { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
-                { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
-                { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
-              ]}>
+              <BarChart data={chartData}>
                 <Tooltip
                    cursor={{fill: 'transparent'}}
                    content={({ active, payload }) => {
