@@ -80,7 +80,7 @@ export function ConfigReadinessPanel() {
       <CardContent className="grid gap-3 sm:grid-cols-2 pt-5">
         {status
           ? rows.map((row) => (
-              <div key={row.label} className="flex min-h-20 items-start gap-3 rounded-lg border p-3 bg-card transition-colors hover:bg-muted/50">
+              <div key={row.label} className="flex min-h-20 items-start gap-3 rounded-lg border p-5 bg-card transition-colors hover:bg-muted/50">
                 {row.ready ? (
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success dark:text-success" />
                 ) : row.caution ? (

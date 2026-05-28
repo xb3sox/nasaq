@@ -171,7 +171,7 @@ export default function RemindersPage() {
             const cfg = STATUS_CONFIG[s];
             const Icon = cfg.icon;
             return (
-              <Card key={s} className="p-4 hover:shadow-sm transition-shadow flex items-center justify-between cursor-pointer border-transparent hover:border-border" onClick={() => setFilter(filter === s ? "all" : s)}>
+              <Card key={s} className="p-5 hover:shadow-sm transition-shadow flex items-center justify-between cursor-pointer border-transparent hover:border-border" onClick={() => setFilter(filter === s ? "all" : s)}>
                 <div className="flex items-center gap-3">
                   <StatusBadge variant={cfg.variant} className="w-8 h-8 rounded-lg flex items-center justify-center p-0">
                     <Icon className="w-4 h-4" />

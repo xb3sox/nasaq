@@ -201,7 +201,7 @@ export function BookingsFeaturePage() {
 
                   if (compactView) {
                     return (
-                      <div key={booking.id} className="group relative flex items-center justify-between p-3 rounded-lg border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors overflow-x-auto">
+                      <div key={booking.id} className="group relative flex items-center justify-between p-5 rounded-lg border bg-card hover:border-primary/30 hover:bg-muted/30 transition-colors overflow-x-auto">
                         <div className="flex items-center gap-4 flex-1 min-w-max pr-2">
                           <div className={`w-2 h-2 rounded-full shrink-0 ${dotColor}`}></div>
                           <div className="w-[120px] shrink-0 font-medium truncate">{booking.customer}</div>

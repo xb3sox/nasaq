@@ -308,7 +308,7 @@ export function CrmPage() {
                                draggable
                                onDragStart={(e) => e.dataTransfer.setData("text/plain", lead.id)}
                             >
-                               <Card className="p-3 flex flex-col gap-2.5 group hover:shadow-sm cursor-grab active:cursor-grabbing border-border/60 hover:border-border transition-colors">
+                               <Card className="p-5 flex flex-col gap-2.5 group hover:shadow-sm cursor-grab active:cursor-grabbing border-border/60 hover:border-border transition-colors">
                                   <div className="flex items-start justify-between">
                                      <div className="flex gap-2 items-center min-w-0">
                                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center shrink-0 text-white font-bold text-[10px] shadow-inner">
