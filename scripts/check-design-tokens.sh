@@ -90,6 +90,49 @@ else
 fi
 
 echo ""
+echo "🔍 Checking route shells are thin (no PageShell in route files)..."
+ROUTE_SHELL=$(grep -rn '<PageShell' app/dashboard/*/page.tsx 2>/dev/null || true)
+
+if [ -n "$ROUTE_SHELL" ]; then
+  echo -e "${RED}✗ Route shells should not contain PageShell — move it into features/:${NC}"
+  echo "$ROUTE_SHELL"
+  EXIT=1
+else
+  echo -e "${GREEN}✓ Route shells are thin (no PageShell wrappers)${NC}"
+fi
+
+echo ""
+echo "🔍 Checking feature components own PageShell (no double-wrap, no missing)..."
+# Route shells are now thin — verify each feature has exactly one PageShell
+DOUBLE_SHELLS=""
+MISSING_FEAT_SHELL=""
+for route in app/dashboard/*/page.tsx app/dashboard/page.tsx; do
+  page_name=$(basename "$(dirname "$route")" 2>/dev/null || echo "overview")
+  [[ "$page_name" == "app" || "$page_name" == "dashboard" ]] && page_name="overview"
+  feat_dir="features/dashboard/${page_name}"
+  if [[ -d "$feat_dir" ]]; then
+    count=$(grep -rc '<PageShell' "$feat_dir" 2>/dev/null | awk -F: '{s+=$2} END {print s+0}')
+    if [[ "$count" -eq 0 ]]; then
+      MISSING_FEAT_SHELL="${MISSING_FEAT_SHELL}  ${page_name} (0 PageShell in $feat_dir)\\\\n"
+    elif [[ "$count" -gt 1 ]]; then
+      DOUBLE_SHELLS="${DOUBLE_SHELLS}  ${page_name} (${count} PageShell in $feat_dir — double-wrap)\\\\n"
+    fi
+  fi
+done
+
+if [ -n "$DOUBLE_SHELLS" ]; then
+  echo -e "${RED}✗ Double-wrapped features (PageShell appears >1 time):${NC}"
+  echo -e "$DOUBLE_SHELLS"
+  EXIT=1
+elif [ -n "$MISSING_FEAT_SHELL" ]; then
+  echo -e "${RED}✗ Features missing PageShell:${NC}"
+  echo -e "$MISSING_FEAT_SHELL"
+  EXIT=1
+else
+  echo -e "${GREEN}✓ All feature components have exactly one PageShell${NC}"
+fi
+
+echo ""
 echo "🔍 Checking dashboard pages use PageShell (route OR feature)..."
 MISSING_SHELL=""
 for route in app/dashboard/*/page.tsx app/dashboard/page.tsx; do
