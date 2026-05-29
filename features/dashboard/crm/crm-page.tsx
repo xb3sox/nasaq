@@ -1,7 +1,7 @@
 "use client";
 import { ChartWrapper } from "@/components/ChartWrapper";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { PageShell } from "@/components/ui/page-shell";
@@ -54,17 +54,33 @@ export function CrmPage() {
   // For Kanban we need a mutable copy of leads to allow dragging
   const [leads, setLeads] = useState([...DEMO_LEADS]);
 
-  const filtered = leads.filter((lead) => {
-    const matchSearch = lead.name.includes(search) || lead.phone.includes(search);
-    const matchStatus = statusFilter === "all" || lead.status === statusFilter;
-    const matchSource = sourceFilter === "all" || lead.source === sourceFilter;
-    return matchSearch && matchStatus && matchSource;
-  });
+  // ⚡ Bolt Optimization: Memoize filtered leads to prevent recalculation on every render
+  // Impact: Reduces CPU work when typing in search input or when unrelated state changes
+  const filtered = useMemo(() => {
+    return leads.filter((lead) => {
+      const matchSearch = lead.name.includes(search) || lead.phone.includes(search);
+      const matchStatus = statusFilter === "all" || lead.status === statusFilter;
+      const matchSource = sourceFilter === "all" || lead.source === sourceFilter;
+      return matchSearch && matchStatus && matchSource;
+    });
+  }, [leads, search, statusFilter, sourceFilter]);
 
-  const newCount = DEMO_LEADS.filter((l) => l.status === "new").length;
-  const contactedCount = DEMO_LEADS.filter((l) => l.status === "contacted").length;
-  const bookedCount = DEMO_LEADS.filter((l) => l.status === "booked").length;
-  const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
+  // ⚡ Bolt Optimization: Memoize static chart data and counts
+  // Impact: Prevents 8 redundant O(n) array filter operations and provides a stable array reference to Recharts, stopping unnecessary chart re-renders
+  const { newCount, contactedCount, bookedCount, whatsappCount, sourceData } = useMemo(() => {
+    return {
+      newCount: DEMO_LEADS.filter((l) => l.status === "new").length,
+      contactedCount: DEMO_LEADS.filter((l) => l.status === "contacted").length,
+      bookedCount: DEMO_LEADS.filter((l) => l.status === "booked").length,
+      whatsappCount: DEMO_LEADS.filter((l) => l.source === "whatsapp").length,
+      sourceData: [
+        { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
+        { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
+        { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
+        { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
+      ]
+    };
+  }, []);
 
   return (
     <PageShell size="wide">
@@ -120,12 +136,7 @@ export function CrmPage() {
           <span className="text-sm font-medium text-muted-foreground mb-4">مصادر العملاء</span>
           <div className="h-[72px] w-full">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
-              <BarChart data={[
-                { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
-                { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
-                { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
-                { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
-              ]}>
+              <BarChart data={sourceData}>
                 <Tooltip
                    cursor={{fill: 'transparent'}}
                    content={({ active, payload }) => {
@@ -142,12 +153,7 @@ export function CrmPage() {
                 />
                 <Bar dataKey="value" radius={[4, 4, 4, 4]}>
                   {
-                    [
-                      { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
-                      { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
-                      { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
-                      { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
-                    ].map((entry, index) => (
+                    sourceData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))
                   }
