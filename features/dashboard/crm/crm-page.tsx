@@ -198,17 +198,19 @@ export function CrmPage() {
         <div className="flex bg-muted rounded-lg p-0.5 border">
           <Button
             variant={view === "list" ? "secondary" : "ghost"}
-            size="touch"
+            size="touch-icon" className="sm:px-2"
             onClick={() => setView("list")}
+            aria-label="عرض كقائمة"
           >
-            <LayoutList className="w-4 h-4" />
+            <LayoutList className="w-4 h-4" aria-hidden="true" />
           </Button>
           <Button
             variant={view === "kanban" ? "secondary" : "ghost"}
-            size="touch"
+            size="touch-icon" className="sm:px-2"
             onClick={() => setView("kanban")}
+            aria-label="عرض كلوحة"
           >
-            <KanbanSquare className="w-4 h-4" />
+            <KanbanSquare className="w-4 h-4" aria-hidden="true" />
           </Button>
         </div>
       </div>
