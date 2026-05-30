@@ -1,7 +1,7 @@
 "use client";
 import { ChartWrapper } from "@/components/ChartWrapper";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { StatCard } from "@/components/ui/stat-card";
 import { PageShell } from "@/components/ui/page-shell";
@@ -61,10 +61,43 @@ export function CrmPage() {
     return matchSearch && matchStatus && matchSource;
   });
 
-  const newCount = DEMO_LEADS.filter((l) => l.status === "new").length;
-  const contactedCount = DEMO_LEADS.filter((l) => l.status === "contacted").length;
-  const bookedCount = DEMO_LEADS.filter((l) => l.status === "booked").length;
-  const whatsappCount = DEMO_LEADS.filter((l) => l.source === "whatsapp").length;
+  // ⚡ Bolt: Optimize lead stats calculation and chart data memoization
+  // Impact: Replaces 12 O(n) array filters with a single O(n) pass, and prevents Recharts from
+  // re-rendering the BarChart on every keystroke in the search input by memoizing the data array.
+  const { stats, sourceChartData } = React.useMemo(() => {
+    const counts = {
+      new: 0,
+      contacted: 0,
+      booked: 0,
+      whatsapp: 0,
+      instagram: 0,
+      google: 0,
+      referral: 0
+    };
+
+    for (const l of DEMO_LEADS) {
+      if (l.status === "new") counts.new++;
+      else if (l.status === "contacted") counts.contacted++;
+      else if (l.status === "booked") counts.booked++;
+
+      if (l.source === "whatsapp") counts.whatsapp++;
+      else if (l.source === "instagram") counts.instagram++;
+      else if (l.source === "google") counts.google++;
+      else if (l.source === "referral") counts.referral++;
+    }
+
+    return {
+      stats: counts,
+      sourceChartData: [
+        { name: 'واتساب', value: counts.whatsapp, color: 'var(--whatsapp)' },
+        { name: 'إنستغرام', value: counts.instagram, color: 'var(--chart-3)' },
+        { name: 'جوجل', value: counts.google, color: 'var(--chart-2)' },
+        { name: 'إحالة', value: counts.referral, color: 'var(--brand)' }
+      ]
+    };
+  }, []);
+
+  const { new: newCount, contacted: contactedCount, booked: bookedCount, whatsapp: whatsappCount } = stats;
 
   return (
     <PageShell size="wide">
@@ -120,12 +153,7 @@ export function CrmPage() {
           <span className="text-sm font-medium text-muted-foreground mb-4">مصادر العملاء</span>
           <div className="h-[72px] w-full">
             <ChartWrapper><ResponsiveContainer width="100%" height="100%">
-              <BarChart data={[
-                { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
-                { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
-                { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
-                { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
-              ]}>
+              <BarChart data={sourceChartData}>
                 <Tooltip
                    cursor={{fill: 'transparent'}}
                    content={({ active, payload }) => {
@@ -141,16 +169,9 @@ export function CrmPage() {
                    }}
                 />
                 <Bar dataKey="value" radius={[4, 4, 4, 4]}>
-                  {
-                    [
-                      { name: 'واتساب', value: DEMO_LEADS.filter(l => l.source === 'whatsapp').length, color: 'var(--whatsapp)' },
-                      { name: 'إنستغرام', value: DEMO_LEADS.filter(l => l.source === 'instagram').length, color: 'var(--chart-3)' },
-                      { name: 'جوجل', value: DEMO_LEADS.filter(l => l.source === 'google').length, color: 'var(--chart-2)' },
-                      { name: 'إحالة', value: DEMO_LEADS.filter(l => l.source === 'referral').length, color: 'var(--brand)' }
-                    ].map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))
-                  }
+                  {sourceChartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer></ChartWrapper>
