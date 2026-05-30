@@ -1,0 +1,3 @@
+## 2026-05-28 - Memoize Recharts Data and Derived Filtering State
+**Learning:** In Next.js/React applications, computing derived arrays inline or in the render body (e.g., `data={[...]}` in Recharts or `array.filter` without memoization) forces child components to unmount/remount completely or run expensive internal re-calculations on every render because the array reference changes every time, even if the underlying data hasn't. Recharts components are especially sensitive to this.
+**Action:** Use `useMemo` to wrap derived arrays or inline data props passed to charting libraries, and hoist static calculations outside the component entirely to guarantee referential stability and prevent O(n) rendering overhead.
