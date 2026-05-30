@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -37,14 +37,17 @@ export function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
       } />
       <DialogContent className="max-w-md" dir="rtl">
         <DialogTitle>إضافة حجز جديد</DialogTitle>
+        <DialogDescription className="sr-only">
+          نموذج لإضافة حجز جديد للعيادة.
+        </DialogDescription>
         <div className="space-y-4 mt-2">
           <div className="space-y-1.5">
-            <Label>اسم العميل</Label>
-            <Input placeholder="مثال: نورة المحمد" size="touch" />
+            <Label htmlFor="customer-name">اسم العميل</Label>
+            <Input id="customer-name" placeholder="مثال: نورة المحمد" size="touch" />
           </div>
           <div className="space-y-1.5">
-            <Label>رقم الجوال</Label>
-            <Input placeholder="+966 5XX XXX XXXX" dir="ltr" size="touch" />
+            <Label htmlFor="customer-phone">رقم الجوال</Label>
+            <Input id="customer-phone" placeholder="+966 5XX XXX XXXX" dir="ltr" size="touch" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
@@ -72,12 +75,12 @@ export function NewBookingDialog({ onAdd }: { onAdd: () => void }) {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label>التاريخ</Label>
-              <Input type="date" size="touch" />
+              <Label htmlFor="booking-date">التاريخ</Label>
+              <Input id="booking-date" type="date" size="touch" />
             </div>
             <div className="space-y-1.5">
-              <Label>الوقت</Label>
-              <Input type="time" size="touch" />
+              <Label htmlFor="booking-time">الوقت</Label>
+              <Input id="booking-time" type="time" size="touch" />
             </div>
           </div>
           <div className="flex gap-2 pt-2">
