@@ -90,12 +90,9 @@ export async function verifyMetaWebhookSignature(input: {
 
 function timingSafeEqual(a: string, b: string) {
   try {
-    const aBuf = Buffer.from(a);
-    const bBuf = Buffer.from(b);
-    if (aBuf.length !== bBuf.length) {
-      return false;
-    }
-    return cryptoNode.timingSafeEqual(aBuf, bBuf);
+    const aHash = cryptoNode.createHash("sha256").update(String(a)).digest();
+    const bHash = cryptoNode.createHash("sha256").update(String(b)).digest();
+    return cryptoNode.timingSafeEqual(aHash, bHash);
   } catch {
     return false;
   }
