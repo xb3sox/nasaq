@@ -241,7 +241,7 @@ export function LandingPage() {
           <div className="py-20 sm:py-24 border-y border-border/10">
             <div className="max-w-4xl mx-auto text-center space-y-8">
                <p className="text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight leading-snug">
-                  "{TESTIMONIAL.quote}"
+                  &quot;{TESTIMONIAL.quote}&quot;
                </p>
                <div className="flex flex-col items-center gap-2">
                   <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
